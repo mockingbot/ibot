@@ -2,6 +2,7 @@ import React from 'react';
 import { storiesOf, action, linkTo } from '@storybook/react';
 import Welcome from './Welcome';
 import ColorPicker from '../packages/color-picker/src';
+import Switch from '../packages/switch';
 
 storiesOf('Welcome', module).add('to Storybook', () => <Welcome showApp={linkTo('Color Picker')} />);
 
@@ -21,7 +22,19 @@ storiesOf('Color Picker', module)
         opacity={opacity}
         themes={themes}
         style={{left: 50, top: 30}}
-        onChange={null}
+        onChange={()=>{}}
       />
     )
   });
+
+storiesOf('Switch', module)
+  .add('on', () => {
+    return (
+      <Switch checked={true} onChange={()=>{}}></Switch>
+    )
+  })
+  .add('off', () => {
+    return (
+      <Switch checked={false} onChange={()=>{}}></Switch>
+    )
+  })

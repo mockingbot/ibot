@@ -6,9 +6,12 @@ const rollup = require('rollup')
 const commonjs = require('rollup-plugin-commonjs')
 const resolve = require('rollup-plugin-node-resolve')
 const babel = require('rollup-plugin-babel')
+const sass = require('node-sass')
 const postcss = require('rollup-plugin-postcss')
 const postcssModules = require('postcss-modules')
-const sass = require('node-sass')
+const cssvariables = require('postcss-css-variables')
+const colorFunction = require("postcss-color-function")
+const calc = require("postcss-calc")
 
 const preprocessor = (_, id) => new Promise((resolve, reject) => {
   const result = sass.renderSync({ file: id })
@@ -34,6 +37,24 @@ rollup.rollup({
   plugins: [
     resolve(),
     commonjs({ sourceMap: false }),
+    postcss({
+      sourceMap: true,
+      plugins: [
+        cssvariables(),
+        colorFunction(),
+        calc(),
+        postcssModules({
+          getJSON (id, exportTokens) {
+            cssExportMap[id] = exportTokens
+          }
+        })
+      ],
+      getExport (id) {
+        return cssExportMap[id]
+      },
+      extensions: ['.css'],
+      extract: true
+    }),
     postcss({
       sourceMap: true,
       preprocessor,
@@ -66,4 +87,7 @@ rollup.rollup({
       react: 'React'
     }
   })
+}).catch(function (e) {
+  console.log(e.message)
+  console.log(e.stack)
 })
