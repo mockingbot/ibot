@@ -5,7 +5,7 @@
   "license": "MIT",
   "devDependencies": {
     "@kadira/storybook-deployer": "^1.2.0",
-    "@storybook/react": "^2.21.0",
+    "@storybook/react": "^3.0.0",
     "babel-core": "^6.24.1",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-preset-es2015": "^6.24.1",
@@ -24,7 +24,7 @@
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-commonjs": "^8.0.2",
     "rollup-plugin-node-resolve": "^3.0.0",
-    "rollup-plugin-postcss": "^0.5.3",
+    "@plrthink/rollup-plugin-postcss": "^0.5.4",
     "sass-loader": "^6.0.5",
     "yargs": "^8.0.1"
   },
