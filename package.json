@@ -1,17 +1,42 @@
 {
   "name": "mb-ui",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "lib/index.js",
   "license": "MIT",
+  "files": [
+    "lib"
+  ],
+  "url": "https://github.com/mockingbot/mb-ui.git",
+  "scripts": {
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook",
+    "deploy-storybook": "storybook-to-ghpages",
+    "start": "npm run storybook",
+    "build:pkgs": "lerna run build",
+    "build:lib": "./build/build_lib.js",
+    "build": "npm run build:pkgs && npm run build:lib"
+  },
   "devDependencies": {
     "@kadira/storybook-deployer": "^1.2.0",
+    "@plrthink/rollup-plugin-postcss": "^0.5.4",
     "@storybook/react": "^3.0.0",
+    "babel-cli": "^6.24.1",
     "babel-core": "^6.24.1",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
+    "eslint": "^3.19.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.3.0",
+    "eslint-plugin-node": "^5.0.0",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "json-templater": "^1.1.0",
+    "junk": "^2.1.0",
     "lerna": "^2.0.0-rc.5",
+    "lodash": "^4.17.4",
+    "ncp": "^2.0.0",
     "node-sass": "^4.5.3",
     "postcss": "^6.0.1",
     "postcss-calc": "^6.0.0",
@@ -20,20 +45,17 @@
     "postcss-custom-properties": "^6.0.1",
     "postcss-loader": "^2.0.5",
     "postcss-modules": "^0.8.0",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4",
+    "rimraf": "^2.6.1",
     "rollup": "^0.41.6",
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-commonjs": "^8.0.2",
     "rollup-plugin-node-resolve": "^3.0.0",
-    "@plrthink/rollup-plugin-postcss": "^0.5.4",
     "sass-loader": "^6.0.5",
     "yargs": "^8.0.1"
   },
-  "scripts": {
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
-    "deploy-storybook": "storybook-to-ghpages"
-  },
-  "dependencies": {
+  "peerDependencies": {
     "react": "^15.5.4",
     "react-dom": "^15.5.4"
   }

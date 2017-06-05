@@ -10,8 +10,8 @@ const sass = require('node-sass')
 const postcss = require('@plrthink/rollup-plugin-postcss')
 const postcssModules = require('postcss-modules')
 const cssvariables = require('postcss-css-variables')
-const colorFunction = require("postcss-color-function")
-const calc = require("postcss-calc")
+const colorFunction = require('postcss-color-function')
+const calc = require('postcss-calc')
 
 const preprocessor = (_, id) => new Promise((resolve, reject) => {
   const result = sass.renderSync({ file: id })
@@ -32,13 +32,12 @@ rollup.rollup({
   // you can tell rollup use a previous bundle as its starting point.
   // This is entirely optional!
   cache: cache,
-  sourceMap: true,
   external: ['react'],
   plugins: [
     resolve(),
     commonjs({ sourceMap: false }),
     postcss({
-      sourceMap: true,
+      sourceMap: false,
       plugins: [
         cssvariables(),
         colorFunction(),
@@ -56,7 +55,7 @@ rollup.rollup({
       extract: true
     }),
     postcss({
-      sourceMap: true,
+      sourceMap: false,
       preprocessor,
       plugins: [
         postcssModules({
@@ -75,14 +74,14 @@ rollup.rollup({
       exclude: 'node_modules/**'
     })
   ]
-}).then( function ( bundle ) {
+}).then(function (bundle) {
   // Alternatively, let Rollup do it for you
   // (this returns a promise). This is much
   // easier if you're generating a sourcemap
   bundle.write({
     format: 'es',
     dest: argv.dest,
-    sourceMap: true,
+    sourceMap: false,
     globals: {
       react: 'React'
     }

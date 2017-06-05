@@ -2,7 +2,7 @@ import React from 'react';
 import { storiesOf, action, linkTo } from '@storybook/react';
 import Welcome from './Welcome';
 import ColorPicker from '../packages/color-picker/src';
-import Switch from '../packages/switch';
+import Switch from '../packages/switch/index.js';
 
 storiesOf('Welcome', module).add('to Storybook', () => <Welcome showApp={linkTo('Color Picker')} />);
 

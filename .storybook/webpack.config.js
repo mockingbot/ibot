@@ -1,3 +1,5 @@
+const path = require('path')
+
 module.exports = {
   module: {
     rules: [
@@ -34,7 +36,7 @@ module.exports = {
             loader: 'postcss-loader',
             options: {
               config: {
-                path: '.storybook/postcss.config.js'
+                path: `${path.resolve(__dirname, '..', '.storybook/postcss.config.js')}`
               }
             }
           }

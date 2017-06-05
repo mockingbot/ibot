@@ -2,9 +2,9 @@
   "name": "@mockingbot/switch",
   "version": "0.0.6",
   "description": "",
-  "main": "dest/main.js",
-  "module": "dest/main.js",
-  "style": "dest/main.css",
+  "main": "dest/index.js",
+  "module": "dest/index.js",
+  "style": "dest/index.css",
   "files": [
     "dest"
   ],
