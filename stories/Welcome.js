@@ -55,16 +55,6 @@ export default class Welcome extends React.Component {
           (Basically a story is like a visual test case.)
         </p>
         <p>
-          See these sample
-          {' '}
-          <a style={styles.link} href="#" onClick={this.showApp.bind(this)}>stories</a>
-          {' '}
-          for a component called
-          {' '}
-          <code style={styles.code}>Button</code>
-          .
-        </p>
-        <p>
           Just like that, you can add your own components as stories.
           <br />
           You can also edit those components and see changes right away.
