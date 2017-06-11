@@ -1,12 +1,13 @@
 import React from 'react'
-import style from './index.css'
+import styles from './index.css'
 
 class ContextMenu extends React.Component {
     constructor(props) {
         super(props)
 
         this.state = {
-            menus: props.menus
+            menus: props.menus,
+            style: props.style
         }
     }
 
@@ -19,14 +20,16 @@ class ContextMenu extends React.Component {
     }
 
     render() {
-        let menus = this.state.menus
-        const Menus = menus.map((item) => 
-            <li className={menu} onClick={item.handler}>{item.value}</li>
-        )
+        const menus = this.state.menus
+        const style = this.state.style
 
+        let Menus = menus.map((item, index) => 
+            <li className={styles.menu} onClick={item.handler} key={index}>{item.value}</li>
+        )
+  
         return (
-            <ul className={menubox}>
-                <Menus></Menus>            
+            <ul className={styles.menubox} style={{width: style.width}}>
+                {Menus}      
             </ul>
         )
     }

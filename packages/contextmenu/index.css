@@ -1,0 +1,24 @@
+
+* {
+    margin: 0;
+    padding: 0;
+}
+li {
+    list-style: none;
+}
+
+.menubox {
+    border-radius: 3px;
+    box-shadow: 0 2px 8px #dfe1db;
+    background: #fff;    
+}
+.menu {
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    font-size: 14px;
+}
+.menu:hover {
+    background: #dadada;
+    cursor: pointer;
+}
