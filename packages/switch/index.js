@@ -47,7 +47,7 @@ class Switch extends Component {
     const { children } = this.props
     const checked = this.state.checked
     let switchCls, innerCls
-    if (checked) {
+    if (checked) { 
       switchCls = styles.switchOn
       innerCls = styles.innerOn
     } else {

@@ -1,0 +1,20 @@
+{
+  "name": "contextmenu",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "./build.js"
+  },
+  "author": "mnichangxin@163.com",
+  "license": "MIT",
+  "peerDependencies": {
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2"
+  },
+  "keywords": [
+    "react",
+    "component",
+    "contextmenu"
+  ]
+}

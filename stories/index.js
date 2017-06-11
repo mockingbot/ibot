@@ -3,6 +3,7 @@ import { storiesOf, action, linkTo } from '@storybook/react';
 import Welcome from './Welcome';
 import ColorPicker from '../packages/color-picker/src';
 import Switch from '../packages/switch/index.js';
+import ContextMenu from '../packages/contextmenu/index.js'
 
 storiesOf('Welcome', module).add('to Storybook', () => <Welcome showApp={linkTo('Color Picker')} />);
 
@@ -36,5 +37,39 @@ storiesOf('Switch', module)
   .add('off', () => {
     return (
       <Switch checked={false} onChange={()=>{}}></Switch>
+    )
+  })
+
+storiesOf('ContextMenu', module)
+  .add('click menu', () => {
+    const menus = [
+      {
+        value: '查看',
+        handler: () => {}
+      },
+      {
+        value: '运行',
+        handler: () => {}
+      },
+      {
+        value: '返回',
+        handler: () => {}
+      },
+      {
+        value: '另存为',
+        handler: () => {}
+      },
+      {
+        value: '打印',
+        handler: () => {}
+      }
+    ]
+
+    const style = {
+      width: 200
+    }
+
+    return (
+      <ContextMenu menus={menus} style={style}></ContextMenu>
     )
   })
