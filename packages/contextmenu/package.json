@@ -4,8 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "./build.js"
   },
-  "author": "mnichangxin",
-  "license": "ISC"
+  "author": "mnichangxin@163.com",
+  "license": "MIT",
+  "peerDependencies": {
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2"
+  },
+  "keywords": [
+    "react",
+    "component",
+    "contextmenu"
+  ]
 }
