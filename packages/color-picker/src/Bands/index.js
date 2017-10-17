@@ -1,4 +1,6 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+
 import ColorBand from './ColorBand'
 
 import styles from './index.sass'
@@ -34,8 +36,8 @@ export default class Bands extends React.Component {
 }
 
 Bands.propTypes = {
-  color: React.PropTypes.string,
-  colorOffset: React.PropTypes.string,
-  opacityOffset: React.PropTypes.string,
-  handleChange: React.PropTypes.func
+  color: PropTypes.string,
+  colorOffset: PropTypes.string,
+  opacityOffset: PropTypes.string,
+  handleChange: PropTypes.func
 }

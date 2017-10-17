@@ -1,4 +1,6 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+
 import ColorInput from './ColorInput'
 import styles from './index.sass'
 
@@ -18,6 +20,6 @@ export default class DashBoard extends React.Component {
 }
 
 DashBoard.propTypes = {
-  rgb: React.PropTypes.object,
-  alpha: React.PropTypes.number
+  rgb: PropTypes.object,
+  alpha: PropTypes.number
 }

@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 export default class ColorInput extends React.Component {
   render () {
@@ -13,6 +14,6 @@ export default class ColorInput extends React.Component {
 }
 
 ColorInput.propTypes = {
-  'a': React.PropTypes.string
+  'a': PropTypes.string
 }
 

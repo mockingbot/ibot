@@ -1,4 +1,6 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+
 import Circle from './Circle'
 import styles from './index.sass'
 
@@ -55,8 +57,8 @@ export default class Canvas extends React.Component {
 }
 
 Canvas.propTypes = {
-  color: React.PropTypes.string,
-  left: React.PropTypes.string,
-  top: React.PropTypes.string,
-  handleChange: React.PropTypes.func
+  color: PropTypes.string,
+  left: PropTypes.string,
+  top: PropTypes.string,
+  handleChange: PropTypes.func
 }

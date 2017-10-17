@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import styles from './index.sass'
 
@@ -29,8 +30,8 @@ export default class Theme extends React.Component {
 }
 
 Theme.propTypes = {
-  themes: React.PropTypes.array,
-  handleTheme: React.PropTypes.func
+  themes: PropTypes.array,
+  handleTheme: PropTypes.func
 }
 
 /* 以前写的渐变corner, 样式可以收藏起来

@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import Theme from './Theme'
 import Canvas from './Canvas'
@@ -68,11 +69,11 @@ export default class ColorPicker extends React.Component {
 }
 
 ColorPicker.propTypes = {
-  color: React.PropTypes.string,
-  themes: React.PropTypes.array,
-  opacity: React.PropTypes.number,
-  onChange: React.PropTypes.func,
-  style: React.PropTypes.object
+  color: PropTypes.string,
+  themes: PropTypes.array,
+  opacity: PropTypes.number,
+  onChange: PropTypes.func,
+  style: PropTypes.object
 }
 ColorPicker.defaultProps = {
   color: '#F55D54',
