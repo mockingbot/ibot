@@ -1,40 +1,31 @@
-import React from 'react';
-import { storiesOf, action, linkTo } from '@storybook/react';
-import Welcome from './Welcome';
-import ColorPicker from '../packages/color-picker/src';
-import Switch from '../packages/switch/index.js';
+import React from 'react'
+import { storiesOf, action, linkTo } from '@storybook/react'
 
-storiesOf('Welcome', module).add('to Storybook', () => <Welcome showApp={linkTo('Color Picker')} />);
+import Welcome from './Welcome'
+import ColorPicker from '../packages/color-picker/src'
+import Switch from '../packages/switch'
+
+const getRandomColor = () => `#${(Math.random() * 0xFFFFFF >> 0).toString(16)}`
+
+storiesOf('Welcome', module)
+.add('to Storybook', () => <Welcome showApp={linkTo('Color Picker')} />)
 
 storiesOf('Color Picker', module)
-  .add('with color picker', () => {
-    const color = '#ff0000'
-    const opacity = 100
+.add('Default', () => {
+  const themes = Array(9).fill(null).map(getRandomColor)
 
-    const themes = []
-    for (let i = 0 ; i < 9 ; i ++) {
-      themes.push('#' + (Math.random() * 0xFFFFFF >> 0).toString(16))
-    }
-
-    return (
-      <ColorPicker
-        color={color}
-        opacity={opacity}
-        themes={themes}
-        style={{left: 50, top: 30}}
-        onChange={()=>{}}
-      />
-    )
-  });
+  return (
+    <ColorPicker
+      color="#ccaa55"
+      opacity={100}
+      themes={themes}
+      style={{left: 50, top: 30}}
+      onChange={() => null}
+    />
+  )
+})
 
 storiesOf('Switch', module)
-  .add('on', () => {
-    return (
-      <Switch checked={true} onChange={()=>{}}></Switch>
-    )
-  })
-  .add('off', () => {
-    return (
-      <Switch checked={false} onChange={()=>{}}></Switch>
-    )
-  })
+.add('On/off', () => (
+  <Switch onChange={action('checked')} />
+))

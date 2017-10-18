@@ -1,70 +1,48 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 
-import styles from './index.css'
+import './index.styl'
 
-class Switch extends Component {
+class Switch extends PureComponent {
+  constructor(props) {
+    super(props)
+    this.state = { isChecked: props.isChecked }
+  }
+
   static propTypes = {
-    checked: PropTypes.bool,
-    onChange: PropTypes.func
+    isChecked: PropTypes.bool,
+    onChange: PropTypes.func,
   }
 
   static defaultProps = {
-    checked: true
+    isChecked: true,
   }
 
-  constructor (props) {
-    super(props)
+  componentWillReceiveProps({ willBeChecked }) {
+    const { isChecked } = this.state
 
-    this.setChecked = this.setChecked.bind(this)
-    this.toggle = this.toggle.bind(this)
-
-    this.state = { checked: !!props.checked }
-  }
-
-  componentWillReceiveProps (nextProps) {
-    if ('checked' in nextProps) {
-      this.setState({
-        checked: !!nextProps.checked
-      })
+    if (willBeChecked !== isChecked) {
+      this.setState({ isChecked: willBeChecked })
     }
   }
 
-  setChecked (checked) {
-    if (!('checked' in this.props)) {
-      this.setState({
-        checked
-      })
-    }
-    this.props.onChange(checked)
-  }
-
-  toggle () {
-    const checked = !this.state.checked
-    this.setChecked(checked)
-  }
-
+  toggle = () => (
+    this.setState(
+      { isChecked: !this.state.isChecked },
+      () => this.props.onChange(this.state.isChecked)
+    )
+  )
 
   render () {
     const { children } = this.props
-    const checked = this.state.checked
-    let switchCls, innerCls
-    if (checked) {
-      switchCls = styles.switchOn
-      innerCls = styles.innerOn
-    } else {
-      switchCls = styles.switchOff
-      innerCls = styles.innerOff
-    }
+    const { isChecked } = this.state
 
     return (
       <span
-        className={switchCls}
+        className={`switch ${isChecked ? 'is-checked' : 'isnt-checked'}`}
         onClick={this.toggle}
-        >
-        <span className={innerCls}>
-          { children }
-        </span>
+      >
+        <span>{ children }</span>
       </span>
     )
   }

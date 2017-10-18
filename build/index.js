@@ -6,17 +6,26 @@ const rollup = require('rollup')
 const commonjs = require('rollup-plugin-commonjs')
 const resolve = require('rollup-plugin-node-resolve')
 const babel = require('rollup-plugin-babel')
+
 const sass = require('node-sass')
-const postcss = require('@plrthink/rollup-plugin-postcss')
+const stylus = require('stylus')
+const postcss = require('rollup-plugin-postcss')
+
 const postcssModules = require('postcss-modules')
 const cssvariables = require('postcss-css-variables')
 const colorFunction = require('postcss-color-function')
 const calc = require('postcss-calc')
 
-const preprocessor = (_, id) => new Promise((resolve, reject) => {
+const sassPreprocessor = (_, id) => new Promise((resolve, reject) => {
   const result = sass.renderSync({ file: id })
   resolve({ code: result.css.toString() })
 })
+
+const stylusPreprocessor = (content, filename) => new Promise((resolve, reject) => (
+  stylus(content)
+  .set('filename', filename)
+  .render((err, code) => err ? reject(err) : resolve({ code }))
+))
 
 const cssExportMap = {}
 
@@ -36,6 +45,8 @@ rollup.rollup({
   plugins: [
     resolve(),
     commonjs({ sourceMap: false }),
+
+    /* PostCSS */
     postcss({
       sourceMap: false,
       plugins: [
@@ -54,9 +65,11 @@ rollup.rollup({
       extensions: ['.css'],
       extract: true
     }),
+
+    /* Sass */
     postcss({
       sourceMap: false,
-      preprocessor,
+      preprocessor: sassPreprocessor,
       plugins: [
         postcssModules({
           getJSON (id, exportTokens) {
@@ -70,6 +83,18 @@ rollup.rollup({
       extensions: ['.sass'],
       extract: true
     }),
+
+    /* Stylus */
+    postcss({
+      sourceMap: false,
+      preprocessor: stylusPreprocessor,
+      getExport (id) {
+        return cssExportMap[id]
+      },
+      extensions: ['.styl', '.stylus'],
+      //extract: true
+    }),
+
     babel({
       exclude: 'node_modules/**'
     })

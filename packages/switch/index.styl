@@ -1,0 +1,43 @@
+.switch
+  $cl-core = #EB5648
+  $size = 26px
+
+  &
+    box-sizing border-box
+  &:before
+  &:after
+  *:before
+  *:after
+    box-sizing inherit
+
+  &
+    position relative
+    display inline-block
+    width $size * 2
+    height $size
+    vertical-align middle
+    background-color rgba(#27364e, .25)
+    border-radius ($size/2)
+    cursor pointer
+    transition all 0.2s
+  > span
+    position absolute
+    top 0
+    left 0
+    display flex
+    justify-content center
+    align-items center
+    margin 1px
+    width $size - 2px
+    height @width
+    font-size 1.4rem
+    border-radius 50%
+    background-color white
+    box-shadow 0 1px 2px 0 rgba(0, 0, 0, 0.1)
+    transition all 0.3s
+  &.is-checked
+    &
+      background-color $cl-core
+    > span
+      left s('calc(100% - %s)', $size)
+

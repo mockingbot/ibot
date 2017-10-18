@@ -3,6 +3,23 @@ const path = require('path')
 module.exports = {
   module: {
     rules: [
+      /* Stylus */
+      {
+        test: /\.styl$/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1,
+              modules: false,
+            },
+          },
+          { loader: 'stylus-loader' },
+        ],
+      },
+
+      /* Sass */
       {
         test: /\.sass$/,
         use: [
@@ -20,6 +37,8 @@ module.exports = {
           }
         ]
       },
+
+      /* CSS */
       {
         test: /\.css$/,
         use: [

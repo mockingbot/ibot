@@ -54,7 +54,11 @@
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-commonjs": "^8.0.2",
     "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-postcss": "^0.5.5",
+    "rollup-plugin-stylus-compiler": "^0.2.1",
     "sass-loader": "^6.0.5",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.1",
     "yargs": "^8.0.1"
   },
   "peerDependencies": {
