@@ -1,5 +1,7 @@
 import React from 'react'
-import { storiesOf, action, linkTo } from '@storybook/react'
+import { storiesOf } from '@storybook/react'
+import { action } from '@storybook/addon-actions';
+
 
 // for now, need to ref the src directly otherwise webpack would resolve to the build version on lib
 // TODO: only add module property of package.json in build time to avoid this issue
