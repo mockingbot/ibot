@@ -8,13 +8,7 @@ module.exports = {
         test: /\.styl$/,
         use: [
           'style-loader',
-          {
-            loader: 'css-loader',
-            options: {
-              importLoaders: 1,
-              modules: false,
-            },
-          },
+          'css-loader',
           { loader: 'stylus-loader' },
         ],
       },

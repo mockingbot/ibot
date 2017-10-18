@@ -1,18 +1,14 @@
 import React from 'react'
 import { storiesOf, action, linkTo } from '@storybook/react'
 
-import Welcome from './Welcome'
-import ColorPicker from '../packages/color-picker/src'
-import Switch from '../packages/switch'
-
-const getRandomColor = () => `#${(Math.random() * 0xFFFFFF >> 0).toString(16)}`
-
-storiesOf('Welcome', module)
-.add('to Storybook', () => <Welcome showApp={linkTo('Color Picker')} />)
+// for now, need to ref the src directly otherwise webpack would resolve to the build version on lib
+// TODO: only add module property of package.json in build time to avoid this issue
+import ColorPicker from '../packages/color-picker/src/index'
+import Switch from '../packages/switch/index'
 
 storiesOf('Color Picker', module)
 .add('Default', () => {
-  const themes = Array(9).fill(null).map(getRandomColor)
+  const themes = Array(9).fill(null).map(() => `#${(Math.random() * 0xFFFFFF >> 0).toString(16)}`)
 
   return (
     <ColorPicker

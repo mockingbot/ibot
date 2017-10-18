@@ -9,18 +9,16 @@
   ],
   "url": "https://github.com/mockingbot/mb-ui.git",
   "scripts": {
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
-    "deploy-storybook": "storybook-to-ghpages",
-    "start": "npm run storybook",
+    "build:storybook": "build-storybook",
+    "deploy": "storybook-to-ghpages",
+    "start": "start-storybook -p 6006",
     "build:pkgs": "lerna run build",
     "build:lib": "./build/build_lib.js",
-    "build": "npm run build:pkgs && npm run build:lib"
+    "build": "yarn run build:pkgs && yarn run build:lib"
   },
   "devDependencies": {
     "@kadira/storybook-deployer": "^1.2.0",
-    "@plrthink/rollup-plugin-postcss": "^0.5.4",
-    "@storybook/react": "^3.0.0",
+    "@storybook/react": "^3.2.12",
     "babel-cli": "^6.24.1",
     "babel-core": "^6.24.1",
     "babel-plugin-external-helpers": "^6.22.0",

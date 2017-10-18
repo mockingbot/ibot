@@ -59,6 +59,7 @@ rollup.rollup({
           }
         })
       ],
+      // used for css-modules
       getExport (id) {
         return cssExportMap[id]
       },
@@ -88,11 +89,8 @@ rollup.rollup({
     postcss({
       sourceMap: false,
       preprocessor: stylusPreprocessor,
-      getExport (id) {
-        return cssExportMap[id]
-      },
       extensions: ['.styl', '.stylus'],
-      //extract: true
+      extract: true
     }),
 
     babel({
