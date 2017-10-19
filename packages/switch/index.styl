@@ -1,22 +1,16 @@
-.switch
-  $cl-core = #EB5648
-  $size = 26px
+@import '../../constants'
 
-  &
-    box-sizing border-box
-  &:before
-  &:after
-  *:before
-  *:after
-    box-sizing inherit
+button.switch
+  $size = 26px
 
   &
     position relative
     display inline-block
+    margin 0 .125em
     width $size * 2
     height $size
-    vertical-align middle
-    background-color rgba(#27364e, .25)
+    vertical-align s('calc((1em - %s)/2)', $size)
+    background-color rgba($cl-core-black,.25)
     border-radius ($size/2)
     cursor pointer
     transition all 0.2s
@@ -30,14 +24,15 @@
     margin 1px
     width $size - 2px
     height @width
-    font-size 1.4rem
+    font-size 14px
     border-radius 50%
     background-color white
-    box-shadow 0 1px 2px 0 rgba(0, 0, 0, 0.1)
+    box-shadow 0 1px 2px 0 rgba(#000,.1)
     transition all 0.3s
   &.is-checked
     &
       background-color $cl-core
     > span
       left s('calc(100% - %s)', $size)
-
+  .icon
+    color $cl-core

@@ -5,6 +5,11 @@ const minimatch = require("minimatch")
 module.exports = {
   module: {
     rules: [
+      /* Asset */
+      {
+        test: /\.(png|jpg|gif|svg|ttf|woff2?|otf)$/,
+        use: 'file-loader?name=[name].[hash].[ext]',
+      },
       {
         test: /\.css$/,
         use: [

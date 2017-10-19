@@ -1,0 +1,195 @@
+@import '../../constants/'
+
+.mb-modal-portal
+  &
+    position absolute
+    top 0
+    left 0
+    z-index -10
+  &.is-open
+    z-index 1050
+    width 100%
+    height 100%
+    overflow-x hidden
+    overflow-y auto
+  &:not(.is-open)
+    &
+      overflow hidden
+    .modal-mask
+      background-color rgba(#000, .0)
+    .modal-mask > div
+      transform translateY(-50vh)
+      opacity 0
+
+.modal-mask
+  &
+    display flex
+    // **DO NOT** use these:
+    // justify-content center
+    // align-items center
+    padding 50px 0
+    width 100vw // Dealing with y-scrollbar
+    min-height 100vh // Use `vh` so that animation works smoother
+    background-color rgba(#000, .4)
+    transition all .5s ease
+  &.can-close
+    cursor pointer
+
+$modal
+  &
+    position relative
+    margin calc(20vh - 50px) auto auto
+    min-height 150px
+    transform translateY(0)
+    font-size 14px
+    background-color #fff
+    box-shadow 0 2px 8px 0 rgba(#000,.1)
+    border-radius 1px // To make modals less aggressive
+    color $cl-main-text
+    cursor initial
+    transition transform .2s, opacity .1s
+  &.is-v-centered
+    margin auto
+
+  // Header:
+  header
+    position relative
+    display flex
+    align-items center
+    padding 0 20px
+    height 55px
+    font-size 14px
+    line-height 1.5
+    border-bottom 1px solid #E5E5E5
+    color $cl-header-text
+
+  // Close button:
+  .close-btn
+    &
+      position absolute
+      top 50%
+      right 0
+      padding 0 20px
+      width 54px
+      height 100%
+      transform translateY(-50%)
+      font-size 14px
+      line-height 1
+      color $cl-tertiary-text
+    &:hover
+      color $cl-secondary-text
+
+  // Content:
+  .content
+    padding 30px 20px 35px
+
+  // Form:
+  [type='select']
+    > ul
+      top initial !important
+    > div
+      padding-left 0
+  .content > [type='select']
+    &
+      height 34px
+      border 0
+      border-bottom $cl-input-border
+      transition all .2s ease-out
+    li[value] // option
+    li > div // optgroup label
+      height auto
+      line-height 34px
+  input[type='text']
+    padding-left 0 !important
+  input[type='number']
+    text-align center
+    padding 0 0 0 1em !important
+  input::placeholder
+    color $cl-tertiary-text
+
+  a.important
+    color $cl-core
+
+  // Footer:
+  footer
+    display flex
+    justify-content flex-end
+    align-items center
+    padding 0 20px
+    height 55px
+    line-height 1
+    border-top 1px solid #E5E5E5
+  .confirm-btn
+  .done-btn
+  .cancel-btn
+    &
+      margin-left 1.5em
+      min-width 2em
+      height 34px
+      color $cl-tertiary-text
+      transition color ease-in-out .1s
+    &[disabled]
+      opacity .5
+      cursor not-allowed
+    &:not([disabled]):hover
+      color $cl-secondary-text
+  .confirm-btn
+  .done-btn
+    &
+      font-weight bold
+      color $cl-core
+    &:not([disabled]):hover
+      color darken($cl-core, 20%)
+
+.alert-modal
+.functional-modal
+.display-modal
+  @extends $modal
+
+.alert-modal
+  &
+    display flex
+    flex-direction column
+    width 380px
+    line-height 1.5
+  .form-entry
+    &:last-child
+      margin-bottom -.5em
+    > .key
+      flex-basis 7em
+    > .val
+      max-width calc(100% - 7em)
+  [type=select]
+    &
+      display block
+    > div
+      display flex
+    > div > .icon
+      margin-left auto
+  p.desc + p.desc
+    margin-top 1em
+  .quote
+    &
+      display inline-flex
+      align-items baseline
+    > *
+      max-width 5em !important
+      font-weight bold
+    &:lang(en):before
+      content '“'
+    &:lang(en):after
+      content '”'
+    &.question:lang(en):after
+      content '”?'
+    &.comma:lang(en):after
+      content '”,'
+    &:lang(zh):before
+      content '「'
+    &:lang(zh):after
+      content '」'
+
+.functional-modal
+  width 500px
+.display-modal
+  width 640px
+

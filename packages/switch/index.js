@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 
+import Icon from '../icon/index'
+
 import './index.styl'
 
 class Switch extends PureComponent {
@@ -12,13 +14,18 @@ class Switch extends PureComponent {
   static propTypes = {
     isChecked: PropTypes.bool,
     onChange: PropTypes.func,
+    className: PropTypes.string,
+    icon: PropTypes.string,
   }
 
   static defaultProps = {
-    isChecked: true,
+    isChecked: false,
+    className: '',
+    onChange: () => null,
+    icon: '',
   }
 
-  componentWillReceiveProps({ willBeChecked }) {
+  componentWillReceiveProps({ isChecked: willBeChecked }) {
     const { isChecked } = this.state
 
     if (willBeChecked !== isChecked) {
@@ -26,24 +33,24 @@ class Switch extends PureComponent {
     }
   }
 
-  toggle = () => {
-    this.setState(
-      { isChecked: !this.state.isChecked },
-      () => this.props.onChange(this.state.isChecked)
-    )
-  }
+  toggle = () => this.setState(
+    { isChecked: !this.state.isChecked },
+    () => this.props.onChange(this.state.isChecked),
+  )
 
   render () {
-    const { children } = this.props
+    const { icon, children } = this.props
     const { isChecked } = this.state
 
     return (
-      <span
+      <button
         className={`switch ${isChecked ? 'is-checked' : 'isnt-checked'}`}
         onClick={this.toggle}
       >
-        <span>{ children }</span>
-      </span>
+        <span>
+          { icon ? <Icon name={icon} /> : children }
+        </span>
+      </button>
     )
   }
 }

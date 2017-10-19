@@ -1,0 +1,28 @@
+{
+  "name": "@mockingbot/modal",
+  "version": "0.1.0",
+  "description": "",
+  "main": "dest/index.js",
+  "module": "dest/index.js",
+  "style": "dest/index.css",
+  "files": [
+    "dest"
+  ],
+  "scripts": {
+    "build": "./build.js"
+  },
+  "author": "yijun@mockingbot.com",
+  "license": "MIT",
+  "peerDependencies": {
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0"
+  },
+  "keywords": [
+    "react",
+    "component",
+    "modal"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}

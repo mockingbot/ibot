@@ -1,0 +1,44 @@
+input.regular:not([type="radio"]):not([type="checkbox"])
+  &
+    height 34px
+    font-size inherit
+    background-color #fff
+    border 0
+    border-bottom 1px solid $cl-divider
+    border-radius 0
+    color $cl-main-text
+    transition all .2s ease-out
+  &:not([disabled]):not([readonly])
+    &:hover
+    &:focus
+      border-color $cl-core
+  &[disabled]
+    opacity .5
+  &[readonly]
+    padding 0 .5em
+    background-color #f6f6f6
+    border 0
+    color rgba($cl-main-text, .4)
+
+textarea.regular
+  &
+    padding .5em
+    min-height 5em
+    max-height 10em
+    resize vertical
+    font-size inherit
+    border 1px solid $cl-divider
+  &:focus
+    outline 0
+  &[disabled]
+    resize none
+    opacity .5
+  &[readonly]
+    background-color #f6f6f6
+    border 0
+    color rgba($cl-main-text, .4)
+    resize none
+
+input.regular::placeholder
+textarea.regular::placeholder
+  color $cl-tertiary-text
