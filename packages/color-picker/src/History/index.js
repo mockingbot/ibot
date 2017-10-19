@@ -1,4 +1,6 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+
 import styles from './index.sass'
 
 export default class History extends React.Component {
@@ -12,5 +14,5 @@ export default class History extends React.Component {
 }
 
 History.propTypes = {
-  'a': React.PropTypes.string
+  'a': PropTypes.string
 }

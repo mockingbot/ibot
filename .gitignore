@@ -5,6 +5,7 @@
 npm-debug.log*
 *.tgz
 lerna-debug.log*
+package-lock.json
 dest/
 lib/
 storybook-static/
