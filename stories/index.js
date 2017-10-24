@@ -1,12 +1,12 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
-import { action } from '@storybook/addon-actions';
-
+import { action } from '@storybook/addon-actions'
 
 // for now, need to ref the src directly otherwise webpack would resolve to the build version on lib
 // TODO: only add module property of package.json in build time to avoid this issue
 import ColorPicker from '../packages/color-picker/src/index'
-import Switch from '../packages/switch/index'
+import Switch from '../packages/switch'
+import '../packages/switch/dest/index.css'
 
 storiesOf('Color Picker', module)
 .add('Default', () => {

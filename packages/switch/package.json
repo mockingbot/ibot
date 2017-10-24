@@ -13,7 +13,7 @@
   },
   "author": "plrthink@gmail.com",
   "license": "MIT",
-  "peerDependencies": {
+  "devDependencies": {
     "react": "^16.0.0",
     "react-dom": "^16.0.0"
   },

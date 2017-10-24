@@ -1,59 +1,33 @@
 const path = require('path')
+const rollupOptions = require('../build/rollup_options')
+const minimatch = require("minimatch")
 
 module.exports = {
   module: {
     rules: [
-      /* Stylus */
-      {
-        test: /\.styl$/,
-        use: [
-          'style-loader',
-          'css-loader',
-          { loader: 'stylus-loader' },
-        ],
-      },
-
-      /* Sass */
-      {
-        test: /\.sass$/,
-        use: [
-          'style-loader',
-          {
-            loader: 'css-loader',
-            options: {
-              importLoaders: 1,
-              modules: true,
-              localIdentName: '[local]---[hash:base64:5]'
-            }
-          },
-          {
-            loader: 'sass-loader'
-          }
-        ]
-      },
-
-      /* CSS */
       {
         test: /\.css$/,
         use: [
-          'style-loader',
+          {
+            loader: 'style-loader',
+          },
           {
             loader: 'css-loader',
             options: {
-              importLoaders: 1,
-              modules: true,
-              localIdentName: '[local]---[hash:base64:5]'
-            }
+              sourceMap: true,
+            },
           },
-          {
-            loader: 'postcss-loader',
-            options: {
-              config: {
-                path: `${path.resolve(__dirname, '..', '.storybook/postcss.config.js')}`
-              }
-            }
-          }
-        ]
+        ],
+      },
+      {
+        test: /\.(js|sass|styl|css)$/,
+        include: path.resolve(__dirname, '../packages'),
+        // exclude asset in dest folder
+        exclude: (asset) => {
+          return asset.split('/').includes('dest')
+        },
+        loader: 'rollup-loader',
+        options: rollupOptions()
       }
     ]
   }

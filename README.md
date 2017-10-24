@@ -3,7 +3,8 @@
 ### start
 ```js
 yarn
-npm start
+yarn run bootstrap
+yarn run start
 ```
 
 ### development experience

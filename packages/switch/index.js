@@ -26,12 +26,12 @@ class Switch extends PureComponent {
     }
   }
 
-  toggle = () => (
+  toggle = () => {
     this.setState(
       { isChecked: !this.state.isChecked },
       () => this.props.onChange(this.state.isChecked)
     )
-  )
+  }
 
   render () {
     const { children } = this.props

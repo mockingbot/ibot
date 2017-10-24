@@ -18,7 +18,7 @@
   "author": "qinchangxi@gmail.com",
   "license": "MIT",
   "homepage": "https://github.com/mockingbot/mb-color-picker",
-  "peerDependencies": {
+  "devDependencies": {
     "react": "^15.4.2",
     "react-dom": "^15.4.2"
   },
