@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import { createPortal } from 'react-dom'
+import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 
 import Icon from '../icon/index'
@@ -206,7 +206,7 @@ export default class Modal extends PureComponent {
   })
 
   render() {
-    return createPortal(this.renderModal(), this.portal)
+    return ReactDOM.createPortal(this.renderModal(), this.portal)
   }
 
   renderModal() {

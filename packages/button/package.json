@@ -1,5 +1,5 @@
 {
-  "name": "@mockingbot/modal",
+  "name": "@mockingbot/button",
   "version": "0.1.0",
   "description": "",
   "main": "dest/index.js",
@@ -21,7 +21,7 @@
   "keywords": [
     "react",
     "component",
-    "modal"
+    "button"
   ],
   "publishConfig": {
     "access": "public"

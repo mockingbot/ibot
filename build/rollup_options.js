@@ -38,7 +38,7 @@ const options = (entry) => {
     // you can tell rollup use a previous bundle as its starting point.
     // This is entirely optional!
     cache,
-    external: ['react'],
+    external: ['react', 'react-dom', 'prop-types'],
     plugins: [
       // the order is fucking important
       resolve(),
