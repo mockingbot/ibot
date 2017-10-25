@@ -5990,13 +5990,6 @@ rollup-plugin-postcss@^0.5.5:
     rollup-pluginutils "^2.0.1"
     style-inject "^0.1.0"
 
-rollup-plugin-stylus-compiler@^0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-stylus-compiler/-/rollup-plugin-stylus-compiler-0.2.1.tgz#e52dc4add80c3fe30c5e020ac7a99887c1e344d7"
-  dependencies:
-    rollup-pluginutils "^1.5.2"
-    stylus "^0.54.5"
-
 rollup-pluginutils@^1.5.0, rollup-pluginutils@^1.5.2:
   version "1.5.2"
   resolved "https://registry.yarnpkg.com/rollup-pluginutils/-/rollup-pluginutils-1.5.2.tgz#1e156e778f94b7255bfa1b3d0178be8f5c552408"
