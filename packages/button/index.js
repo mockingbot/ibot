@@ -7,9 +7,10 @@ import './index.styl'
 
 export default class Button extends PureComponent {
   static propTypes = {
-    type: PropTypes.oneOf(['primary', 'regular', 'text', 'icon']),
+    type: PropTypes.oneOf(['primary', 'regular', 'text']),
     icon: PropTypes.string,
     className: PropTypes.string,
+    isDisabled: PropTypes.bool,
     children: PropTypes.any,
   }
 
@@ -17,6 +18,7 @@ export default class Button extends PureComponent {
     type: 'regular',
     icon: '',
     className: '',
+    isDisabled: false,
   }
 
   render () {
@@ -25,12 +27,14 @@ export default class Button extends PureComponent {
       icon,
       className,
       children,
+      isDisabled,
       ...others,
     } = this.props
 
     return (
       <button
         className={`${type} ${className}`}
+        disabled={isDisabled}
         {...others}
       >
         { !!icon && <Icon name={icon} /> }

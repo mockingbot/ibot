@@ -21,7 +21,10 @@ button.regular
     border $cl-btn-border-hover
     color $cl-btn-text-hover
   &[disabled]
+    cursor not-allowed
     opacity .6
+  .icon
+    margin-right .125em
 
 button.primary
   &
@@ -34,11 +37,12 @@ button.primary
     color $cl-primary-btn-text-hover
 
 button.text
-button.icon
   &
     color $cl-core
-  &:hover
+  &[disabled]
+    @extends $btn[disabled]
+  &:not([disabled]):hover
     color lighten($cl-core, 10%)
     text-decoration underline
   .icon
-    margin-right .25em
+    @extends $btn .icon
