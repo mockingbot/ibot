@@ -1,6 +1,6 @@
 {
   "name": "@mockingbot/switch",
-  "version": "0.0.7",
+  "version": "0.1.0",
   "description": "",
   "main": "dest/index.js",
   "module": "dest/index.js",
@@ -14,6 +14,10 @@
   "author": "plrthink@gmail.com",
   "license": "MIT",
   "devDependencies": {
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0"
+  },
+  "peerDependencies": {
     "react": "^16.0.0",
     "react-dom": "^16.0.0"
   },

@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-
-import Icon from '../icon/index'
+import Icon from '@mockingbot/icon'
 
 import './index.styl'
 

@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import Button from '@mockingbot/button'
+import Switch from '@mockingbot/switch'
 
 import Modal from './index'
-import Button from '../button/index'
-import Switch from '../switch/index'
 
 export default class ModalAndOpener extends PureComponent {
   constructor(props) {
