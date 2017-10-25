@@ -14,6 +14,7 @@ export default class ModalAndOpener extends PureComponent {
   static propTypes = {
     opener: PropTypes.any,
     openerType: PropTypes.string,
+    buttonType: PropTypes.oneOf(['primary', 'regular', 'text']),
     isOpen: PropTypes.bool,
   }
 

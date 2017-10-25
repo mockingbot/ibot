@@ -41,7 +41,7 @@ export default class Modal extends PureComponent {
 
   static propTypes = {
     isOpen: PropTypes.bool,
-    type: PropTypes.oneOf(['alert', 'functional', 'display']),
+    type: PropTypes.oneOf(['alert', 'form', 'functional', 'display']),
     title: PropTypes.any,
     children: PropTypes.any,
 

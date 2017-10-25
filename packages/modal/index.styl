@@ -31,7 +31,7 @@
     width 100vw // Dealing with y-scrollbar
     min-height 100vh // Use `vh` so that animation works smoother
     background-color rgba(#000, .4)
-    transition all .5s ease
+    transition all .5s
   &.can-close
     cursor pointer
 
@@ -47,7 +47,7 @@ $modal
     border-radius 1px // To make modals less aggressive
     color $cl-main-text
     cursor initial
-    transition transform .2s, opacity .1s
+    transition transform .3s, opacity .2s
   &.is-v-centered
     margin auto
 
@@ -59,7 +59,6 @@ $modal
     padding 0 20px
     height 55px
     font-size 14px
-    line-height 1.5
     border-bottom 1px solid #E5E5E5
     color $cl-header-text
 
