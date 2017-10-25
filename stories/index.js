@@ -6,6 +6,7 @@ import { action } from '@storybook/addon-actions'
 // TODO: only add module property of package.json in build time to avoid this issue
 import Root from '../packages/root/index'
 import ColorPicker from '../packages/color-picker/src/index'
+import Button from '../packages/button/index'
 
 import {
   FormLabel, FormEntry,
