@@ -3,7 +3,7 @@
 ### start
 ```js
 yarn
-yarn run bootstrap
+lerna bootstrap
 yarn run start
 ```
 
