@@ -11,11 +11,13 @@
   "scripts": {
     "build:storybook": "build-storybook",
     "deploy": "storybook-to-ghpages",
-    "boostrap": "lerna boostrap",
-    "start": "start-storybook -p 6006",
+    "bootstrap": "lerna bootstrap",
+    "start": "start-storybook -s ./packages/icon -p 6006",
     "build:pkgs": "lerna run build",
     "build:lib": "./build/build_lib.js",
-    "build": "yarn run build:pkgs && yarn run build:lib"
+    "build:icon": "./build/icons.sh",
+    "build": "yarn run build:pkgs && yarn run build:lib",
+    "postinstall": "yarn run build:icon"
   },
   "devDependencies": {
     "@kadira/storybook-deployer": "^1.2.0",
