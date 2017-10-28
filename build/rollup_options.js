@@ -12,6 +12,7 @@ const postcssModules = require('postcss-modules')
 const cssvariables = require('postcss-css-variables')
 const colorFunction = require('postcss-color-function')
 const calc = require('postcss-calc')
+const url = require('postcss-url')
 
 const sassPreprocessor = (_, id) => new Promise((resolve, reject) => {
   const result = sass.renderSync({ file: id })
@@ -84,7 +85,18 @@ const options = (entry) => {
         sourceMap: !entry,
         preprocessor: stylusPreprocessor,
         extensions: ['.styl', '.stylus'],
-        extract: !!entry
+        extract: !!entry,
+        plugins: [
+          url(
+            !entry ? {
+              url: 'rebase'
+            }: {
+              url: "copy",
+              basePath: ["node_modules"],
+              assetsPath: "dest/assets"
+            }
+          )
+        ]
       }),
       babel({
         exclude: 'node_modules/**',
