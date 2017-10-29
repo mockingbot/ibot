@@ -54,7 +54,8 @@ const options = (entry) => {
             getJSON (id, exportTokens) {
               cssExportMap[id] = exportTokens
             }
-          })
+          }),
+          url(!entry ? { url: 'inline' }: { url: 'copy', assetsPath: 'dest/assets' })
         ],
         // used for css-modules
         getExport (id) {
@@ -72,7 +73,8 @@ const options = (entry) => {
             getJSON (id, exportTokens) {
               cssExportMap[id] = exportTokens
             }
-          })
+          }),
+          url(!entry ? { url: 'inline' }: { url: 'copy', assetsPath: 'dest/assets' })
         ],
         getExport (id) {
           return cssExportMap[id]
@@ -87,15 +89,7 @@ const options = (entry) => {
         extensions: ['.styl', '.stylus'],
         extract: !!entry,
         plugins: [
-          url(
-            !entry ? {
-              url: 'rebase'
-            }: {
-              url: "copy",
-              basePath: ["node_modules"],
-              assetsPath: "dest/assets"
-            }
-          )
+          url(!entry ? { url: 'inline' }: { url: 'copy', assetsPath: 'dest/assets' })
         ]
       }),
       babel({
