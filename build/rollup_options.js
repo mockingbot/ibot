@@ -46,7 +46,7 @@ const options = (entry) => {
       resolve(),
       /* PostCSS */
       postcss({
-        sourceMap: false,
+        sourceMap: !entry,
         plugins: [
           cssvariables(),
           colorFunction(),
@@ -56,14 +56,15 @@ const options = (entry) => {
               cssExportMap[id] = exportTokens
             }
           }),
-          url(!entry ? { url: 'inline' }: { url: 'copy', assetsPath: 'dest/assets' })
+          url(!entry ? { url: 'inline' }: { url: 'copy', assetsPath: 'assets' })
         ],
         // used for css-modules
         getExport (id) {
           return cssExportMap[id]
         },
         extensions: ['.css'],
-        extract: !!entry
+        extract: !!entry,
+        to: 'dest/*'
       }),
       /* Sass */
       postcss({
@@ -75,24 +76,25 @@ const options = (entry) => {
               cssExportMap[id] = exportTokens
             }
           }),
-          url(!entry ? { url: 'inline' }: { url: 'copy', assetsPath: 'dest/assets' })
+          url(!entry ? { url: 'inline' }: { url: 'copy', assetsPath: 'assets' })
         ],
         getExport (id) {
           return cssExportMap[id]
         },
         extensions: ['.sass'],
-        extract: !!entry
+        extract: !!entry,
+        to: 'dest/*'
       }),
       /* Stylus */
       postcss({
         sourceMap: !entry,
         preprocessor: stylusPreprocessor,
-        extensions: ['.styl', '.stylus'],
-        extract: !!entry,
-        to: 'dest/*',
         plugins: [
           url(!entry ? { url: 'inline' }: { url: 'copy', assetsPath: 'assets' })
-        ]
+        ],
+        extensions: ['.styl', '.stylus'],
+        extract: !!entry,
+        to: 'dest/*'
       }),
       babel({
         exclude: 'node_modules/**',
