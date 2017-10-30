@@ -221,7 +221,7 @@ storiesOf('Form Components', module)
 
     <h2>Form Labels/Entries</h2>
     <form>
-      <FormLabel name="Name">
+      <FormLabel name="Name" isRequired={true}>
         <Input placeholder="Tell us who you are…" />
       </FormLabel>
 
@@ -236,7 +236,7 @@ storiesOf('Form Components', module)
         />
       </FormEntry>
 
-      <FormLabel name="Email">
+      <FormLabel name="Email" isRequired={true}>
         <Input type="email" defaultValue="who@am.i" />
       </FormLabel>
 
@@ -351,5 +351,28 @@ storiesOf('Modal', module)
     >
       Modal opened with some text
     </ModalAndOpener>
+  </Root>
+))
+.add('Customization', () => (
+  <Root>
+    <Modal
+      opener="Alert"
+      openerType="text"
+
+      type="alert"
+      title="Warning"
+    >
+      Something serious just happened!
+    </Modal>
+
+    <Modal
+      openerType="switch"
+
+      isOpen={true}
+      type="alert"
+      title="Warning"
+    >
+      Something serious just happened!
+    </Modal>
   </Root>
 ))

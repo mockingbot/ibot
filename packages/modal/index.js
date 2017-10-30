@@ -2,6 +2,8 @@ import React, { PureComponent } from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 
+import Button from '@mockingbot/button'
+import Switch from '@mockingbot/switch'
 import Icon from '@mockingbot/icon'
 
 import './index.styl'
@@ -41,43 +43,55 @@ export default class Modal extends PureComponent {
 
   static propTypes = {
     isOpen: PropTypes.bool,
-    type: PropTypes.oneOf(['alert', 'form', 'functional', 'display']),
     title: PropTypes.any,
     children: PropTypes.any,
+
+    modal: PropTypes.node,
+    type: PropTypes.oneOf(['alert', 'form', 'functional', 'display']),
+
+    opener: PropTypes.any,
+    openerType: PropTypes.oneOf(['primary', 'regular', 'text', 'switch', 'none']),
 
     className: PropTypes.string,
     maskClassName: PropTypes.string,
     portalClassName: PropTypes.string,
 
+    onOpen: PropTypes.func,
     onClose: PropTypes.func,
+    onToggle: PropTypes.func,
     canClose: PropTypes.bool,
     canCloseOnClickMask: PropTypes.bool,
+    shouldCloseOnAction: PropTypes.bool,
 
     canCloseOnEsc: PropTypes.bool,
     canConfirmOnEnter: PropTypes.bool,
 
     onConfirm: PropTypes.func,
     confirmText: PropTypes.string,
-    isOnConfirmDisabled: PropTypes.bool,
+    isConfirmDisabled: PropTypes.bool,
 
     onCancel: PropTypes.func,
-    isOnCancelDisabled: PropTypes.bool,
+    isCancelDisabled: PropTypes.bool,
     cancelText: PropTypes.string,
   }
 
   static defaultProps = {
+    isOpen: false,
     type: 'functional',
-    title: '',
+    openerType: 'none',
 
     portalClassName: '',
     maskClassName: '',
     className: '',
 
+    onOpen: () => null,
     onClose: () => null,
+    onToggle: () => null,
 
     canClose: true,
     canCloseOnClickMask: true,
     canCloseOnEsc: true,
+    shouldCloseOnAction: true,
     canConfirmOnEnter: true,
 
     cancelText: I18N.cancel || 'Cancel',
@@ -89,20 +103,30 @@ export default class Modal extends PureComponent {
   }
 
   componentDidMount() {
-    const { isOpen } = this.props
-    if (isOpen) this.onOpen()
+    const { isOpen } = this.state
+    if (isOpen) this.didOpen()
 
     window.addEventListener('resize', this.positionY)
     document.addEventListener('keydown', this.onKeyDown)
   }
 
   componentWillReceiveProps({ isOpen: willBeOpen }) {
-    const { isOpen } = this.props
+    const { isOpen } = this.state
 
     if (!isOpen && willBeOpen) {
-      this.onOpen()
+      this.open()
     } else if (isOpen && !willBeOpen) {
-      this.onClose({ delay: 100 })
+      this.close()
+    }
+  }
+
+  componentDidUpdate(_, { isOpen: wasOpen }) {
+    const { isOpen } = this.state
+
+    if (!wasOpen && isOpen) {
+      this.didOpen()
+    } else if (wasOpen && !isOpen) {
+      this.didClose()
     }
   }
 
@@ -113,37 +137,72 @@ export default class Modal extends PureComponent {
     document.removeEventListener('keydown', this.onKeyDown)
   }
 
-  onOpen = () => {
+  open = () => this.setState({ isOpen: true })
+  close = () => this.portal.classList.remove('is-open')
+
+  toggle = (willBeOpen = !this.state.isOpen) => (
+    willBeOpen ? this.open() : this.close()
+  )
+
+  didOpen = () => {
     // Store in the modal stack to monitor:
     OPEN_MODAL_STACK.unshift(this)
-
-    // Transition:
-    this.setState({ isOpen: true })
-    setTimeout(() => this.portal.classList.add('is-open'))
 
     // Reassign Y position of the modal:
     this.positionY()
 
-    // Focus on confirm button:
-    this.focusOnConfirmBtn()
+    // Transition:
+    setTimeout(() => this.portal.classList.add('is-open'))
   }
 
-  onClose = ({ delay = null } = {}) => {
+  didClose = () => {
     // Remove from the stack in the next round:
     const idx = OPEN_MODAL_STACK.indexOf(this)
     setTimeout(() => OPEN_MODAL_STACK.splice(idx, 1))
-
-    // Transition:
-    this.portal.classList.remove('is-open')
-    setTimeout(() => this.setState({ isOpen: false }), delay)
   }
 
   onTransitionEnd = () => {
-    const { isOpen: props_isOpen } = this.props
-    const { isOpen: state_isOpen } = this.state
+    const isOpen = this.portal.classList.contains('is-open')
 
-    if (props_isOpen && !state_isOpen) {
+    if (isOpen) {
+      this.props.onOpen()
+      this.props.onToggle(true)
+    } else {
+      this.setState({ isOpen: false })
       this.props.onClose()
+      this.props.onToggle(false)
+    }
+  }
+
+  onConfirm = () => {
+    const {
+      onConfirm,
+      shouldCloseOnAction,
+      isConfirmDisabled,
+    } = this.props
+
+    if (typeof onConfirm === 'function' && !isConfirmDisabled) {
+      onConfirm()
+    }
+
+    if (shouldCloseOnAction) {
+      this.close()
+    }
+  }
+
+  onCancel = () => {
+    const {
+      onCancel,
+      shouldCloseOnAction,
+      isCancelDisabled,
+    } = this.props
+
+    if (typeof onCancel === 'function' && !isCancelDisabled) {
+       onCancel()
+    }
+
+    if (shouldCloseOnAction) {
+      this.close()
     }
   }
 
@@ -163,9 +222,8 @@ export default class Modal extends PureComponent {
   onKeyDown = ({ key, target: $elmt }) => {
     const {
       isOpen,
-      canCloseOnEsc,
-      canConfirmOnEnter, onConfirm,
-      isOnConfirmDisabled,
+      canClose, canCloseOnEsc,
+      canConfirmOnEnter,
     } = this.props
 
     if (
@@ -175,12 +233,12 @@ export default class Modal extends PureComponent {
       && !$elmt.matches('input, textarea, [type=select]')
 
       // Current modal is open and can close via esc:
-      && isOpen && canCloseOnEsc
+      && isOpen && canClose && canCloseOnEsc
 
       // Only work on the toppest modal:
       && this === OPEN_MODAL_STACK[0]
     ) {
-      this.onClose()
+      this.close()
     }
 
     if (
@@ -191,28 +249,48 @@ export default class Modal extends PureComponent {
 
       // Current modal is open and can confirm via enter:
       && isOpen && canConfirmOnEnter
-      && onConfirm && !isOnConfirmDisabled
 
       // Only work on the toppest modal:
       && this === OPEN_MODAL_STACK[0]
     ) {
-      onConfirm()
+      this.onConfirm()
     }
   }
 
-  focusOnConfirmBtn = () => setTimeout(() => {
-    const $confirm = this.portal.querySelector('footer .confirm-btn')
-    if ($confirm) $confirm.focus()
-  })
-
   render() {
-    return ReactDOM.createPortal(this.renderModal(), this.portal)
+    return this.renderOpener() || this.renderModal()
+  }
+
+  renderOpener() {
+    const { opener, openerType } = this.props
+    const { isOpen } = this.state
+
+    const modal = this.renderModal()
+
+    return openerType !== 'none' && (
+      openerType === 'switch'
+
+      ? <Switch isChecked={isOpen} onChange={this.toggle}>
+          { opener }
+          { modal }
+        </Switch>
+
+      : <Button type={openerType} onClick={this.open}>
+          { opener }
+          { modal }
+        </Button>
+    )
   }
 
   renderModal() {
-    const {
-      isOpen: props_isOpen,
+    return (
+      this.props.modal
+      || ReactDOM.createPortal(this.renderModalDOM(), this.portal)
+    )
+  }
 
+  renderModalDOM() {
+    const {
       type,
       title,
       children,
@@ -225,27 +303,27 @@ export default class Modal extends PureComponent {
 
       onCancel,
       cancelText,
-      isOnCancelDisabled,
+      isCancelDisabled,
 
       onConfirm,
       confirmText,
-      isOnConfirmDisabled,
+      isConfirmDisabled,
     } = this.props
 
-    const { isOpen: state_isOpen } = this.state
+    const { isOpen } = this.state
 
-    const shouldRenderAtAll = props_isOpen || state_isOpen
-    const shouldRenderFooter = type === 'alert' || onCancel || onConfirm
+    const shouldRenderFooter = onCancel || onConfirm
 
-    return shouldRenderAtAll && (
+    return isOpen && (
       <div
-        className={`modal-mask ${maskClassName} ${canCloseOnClickMask ? 'can-close' : 'cant-close'}`}
-        onClick={canCloseOnClickMask && this.onClose}
+        className={`modal-mask ${maskClassName} ${canClose && canCloseOnClickMask ? 'can-close' : 'cant-close'}`}
+        onClick={canCloseOnClickMask && this.close}
         onTransitionEnd={this.onTransitionEnd}
       >
         <div
           className={`${type}-modal ${className}`}
           onClick={stopPropagation}
+          onTransitionEnd={stopPropagation}
         >
           {/* Header */}
           <header>
@@ -253,7 +331,7 @@ export default class Modal extends PureComponent {
 
             {/* Close button */}
             { canClose && (
-              <button className="close-btn" onClick={this.onClose}>
+              <button className="close-btn" onClick={this.close}>
                 <Icon name="times" />
               </button>
             )}
@@ -267,8 +345,8 @@ export default class Modal extends PureComponent {
           {/* Footer */}
           { shouldRenderFooter && (
             <footer>
-              { onCancel && <button className="cancel-btn" onClick={onCancel} disabled={isOnCancelDisabled}>{cancelText}</button> }
-              { onConfirm && <button className="confirm-btn" onClick={onConfirm} disabled={isOnConfirmDisabled}>{confirmText}</button> }
+              { onCancel && <button className="cancel-btn" onClick={this.onCancel} disabled={isCancelDisabled}>{cancelText}</button> }
+              { onConfirm && <button className="confirm-btn" onClick={this.onConfirm} disabled={isConfirmDisabled}>{confirmText}</button> }
             </footer>
           )}
         </div>
