@@ -13,6 +13,7 @@ class Switch extends PureComponent {
 
   static propTypes = {
     isChecked: PropTypes.bool,
+    isDisabled: PropTypes.bool,
     onChange: PropTypes.func,
     className: PropTypes.string,
     icon: PropTypes.string,
@@ -20,6 +21,7 @@ class Switch extends PureComponent {
 
   static defaultProps = {
     isChecked: false,
+    isDisabled: false,
     className: '',
     onChange: () => null,
     icon: '',
@@ -33,24 +35,23 @@ class Switch extends PureComponent {
     }
   }
 
-  toggle = () => this.setState(
+  toggle = () => !this.props.isDisabled && this.setState(
     { isChecked: !this.state.isChecked },
     () => this.props.onChange(this.state.isChecked),
   )
 
   render () {
-    const { icon, children } = this.props
+    const { icon, isDisabled, children } = this.props
     const { isChecked } = this.state
 
     return (
-      <button
-        className={`switch ${isChecked ? 'is-checked' : 'isnt-checked'}`}
-        onClick={this.toggle}
+      <label
+        className={`switch ${isChecked ? 'is-checked' : 'isnt-checked'} ${isDisabled ? 'is-disabled' : ''}`}
       >
-        <span>
+        <button type="button" disabled={isDisabled} onClick={this.toggle}>
           { icon ? <Icon name={icon} /> : children }
-        </span>
-      </button>
+        </button>
+      </label>
     )
   }
 }

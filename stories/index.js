@@ -108,6 +108,14 @@ storiesOf('Switch', module)
       <Switch isChecked={true} onChange={action('checked')} icon="pencil" />
       <Switch isChecked={true} onChange={action('checked')} icon="single-comment" />
     </p>
+
+    <p>
+      Disabled:{' '}
+      <Switch isChecked={false} isDisabled={true} onChange={action('checked')} />
+      <Switch isChecked={true} isDisabled={true} onChange={action('checked')} />
+      <Switch isChecked={true} isDisabled={true} onChange={action('checked')} icon="pencil" />
+      <Switch isChecked={true} isDisabled={true} onChange={action('checked')} icon="single-comment" />
+    </p>
   </Root>
 ))
 
@@ -242,6 +250,10 @@ storiesOf('Form Components', module)
 
       <FormLabel name="ID">
         <Input readOnly defaultValue="@necolas" />
+      </FormLabel>
+
+      <FormLabel name="Data">
+        <Switch isChecked={true} />
       </FormLabel>
 
       <FormLabel name="Bio">

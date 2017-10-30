@@ -1,6 +1,6 @@
 @import '../../constants'
 
-button.switch
+label.switch
   $size = 26px
 
   &
@@ -14,7 +14,7 @@ button.switch
     border-radius ($size/2)
     cursor pointer
     transition all 0.2s
-  > span
+  > button
     position absolute
     top 0
     left 0
@@ -30,9 +30,14 @@ button.switch
     box-shadow 0 1px 2px 0 rgba(#000,.1)
     transition all 0.3s
   &.is-checked
-    &
+    &:not(.is-disabled)
       background-color $cl-core
-    > span
+    > button
       left s('calc(100% - %s)', $size)
-  .icon
+  &:not(.is-disabled) .icon
     color $cl-core
+  &.is-disabled
+    &
+      opacity .5
+    .icon
+      color #999
