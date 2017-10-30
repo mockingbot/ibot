@@ -30,7 +30,7 @@ const cssExportMap = {}
 // used to track the cache for subsequent bundles
 let cache
 
-const options = (entry) => {
+const options = (entry, dest = '') => {
   // TODO: no entry means running rollup for production build, need a better name
   const base = {
   // The bundle's starting point. This file will be
@@ -64,7 +64,7 @@ const options = (entry) => {
         },
         extensions: ['.css'],
         extract: !!entry,
-        to: 'dest/*'
+        to: `${path.basename(path.dirname(dest))}/*`
       }),
       /* Sass */
       postcss({
@@ -83,7 +83,7 @@ const options = (entry) => {
         },
         extensions: ['.sass'],
         extract: !!entry,
-        to: 'dest/*'
+        to: `${path.basename(path.dirname(dest))}/*`
       }),
       /* Stylus */
       postcss({
@@ -94,7 +94,7 @@ const options = (entry) => {
         ],
         extensions: ['.styl', '.stylus'],
         extract: !!entry,
-        to: 'dest/*'
+        to: `${path.basename(path.dirname(dest))}/*`
       }),
       babel({
         exclude: 'node_modules/**',

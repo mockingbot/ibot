@@ -14,7 +14,7 @@
     "bootstrap": "lerna bootstrap",
     "start": "yarn run clean && start-storybook -p 6006",
     "build:pkgs": "lerna run build",
-    "build:lib": "./build/build_lib.js",
+    "build:lib": "./build/build_lib.js --dest=dest",
     "build": "yarn run clean && yarn run build:pkgs && yarn run build:lib",
     "clean": "rm -rf lib packages/*/dest"
   },

@@ -4,7 +4,7 @@ const argv = require('yargs').argv
 const rollup = require('rollup')
 const options = require('./rollup_options')
 
-rollup.rollup(options(argv.entry)).then(function (bundle) {
+rollup.rollup(options(argv.entry, argv.dest)).then(function (bundle) {
   bundle.write({
     format: 'es',
     dest: argv.dest,

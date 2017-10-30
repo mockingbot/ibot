@@ -8,6 +8,7 @@ const ncp = require('ncp')
 const render = require('json-templater/string')
 const camelCase = require('lodash/camelCase')
 const endOfLine = require('os').EOL
+const argv = require('yargs').argv
 const { exec } = require('./utils')
 const libDir = path.resolve(__dirname, '..', 'lib')
 const pkgsDir = path.resolve(__dirname, '..', 'packages')
@@ -29,7 +30,7 @@ Promise.all(copyPkgQueue).then(function (pkgs) {
 })
 
 function copyPkg (pkg) {
-  const pkgSrcDir = `${pkgsDir}/${pkg}/dest/`
+  const pkgSrcDir = `${pkgsDir}/${pkg}/${argv.dest}/`
   const pkgDestDir = `${libDir}/${pkg}`
   fs.mkdirSync(pkgDestDir)
   return new Promise(function (resolve, reject) {
