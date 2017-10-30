@@ -8,10 +8,7 @@ rollup.rollup(options(argv.entry)).then(function (bundle) {
   bundle.write({
     format: 'es',
     dest: argv.dest,
-    sourceMap: false,
-    globals: {
-      react: 'React'
-    }
+    sourceMap: false
   })
 }).catch(function (e) {
   console.log(e.message)

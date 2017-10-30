@@ -31,6 +31,7 @@ const cssExportMap = {}
 let cache
 
 const options = (entry) => {
+  // TODO: no entry means running rollup for production build, need a better name
   const base = {
   // The bundle's starting point. This file will be
     // included, along with the minimum necessary code
@@ -54,7 +55,8 @@ const options = (entry) => {
             getJSON (id, exportTokens) {
               cssExportMap[id] = exportTokens
             }
-          })
+          }),
+          url(!entry ? { url: 'inline' }: { url: 'copy', assetsPath: 'dest/assets' })
         ],
         // used for css-modules
         getExport (id) {
@@ -72,7 +74,8 @@ const options = (entry) => {
             getJSON (id, exportTokens) {
               cssExportMap[id] = exportTokens
             }
-          })
+          }),
+          url(!entry ? { url: 'inline' }: { url: 'copy', assetsPath: 'dest/assets' })
         ],
         getExport (id) {
           return cssExportMap[id]
@@ -86,16 +89,9 @@ const options = (entry) => {
         preprocessor: stylusPreprocessor,
         extensions: ['.styl', '.stylus'],
         extract: !!entry,
+        to: 'dest/*',
         plugins: [
-          url(
-            !entry ? {
-              url: 'rebase'
-            }: {
-              url: "copy",
-              basePath: ["node_modules"],
-              assetsPath: "dest/assets"
-            }
-          )
+          url(!entry ? { url: 'inline' }: { url: 'copy', assetsPath: 'assets' })
         ]
       }),
       babel({

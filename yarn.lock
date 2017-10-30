@@ -3032,13 +3032,6 @@ file-loader@^0.11.2:
   dependencies:
     loader-utils "^1.0.2"
 
-file-loader@^1.1.5:
-  version "1.1.5"
-  resolved "https://registry.yarnpkg.com/file-loader/-/file-loader-1.1.5.tgz#91c25b6b6fbe56dae99f10a425fd64933b5c9daa"
-  dependencies:
-    loader-utils "^1.0.2"
-    schema-utils "^0.3.0"
-
 filename-regex@^2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/filename-regex/-/filename-regex-2.0.1.tgz#c1c4b9bee3e09725ddb106b75c1e301fe2f18b26"
@@ -6065,13 +6058,6 @@ rollup-plugin-stylus-compiler@^0.2.1:
   dependencies:
     rollup-pluginutils "^1.5.2"
     stylus "^0.54.5"
-
-rollup-plugin-url@^1.3.0:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-url/-/rollup-plugin-url-1.3.0.tgz#16d4ac79a685d01ab53dbd8dbd44da133870fde1"
-  dependencies:
-    mime "^1.3.4"
-    rollup-pluginutils "^2.0.1"
 
 rollup-pluginutils@^1.5.0, rollup-pluginutils@^1.5.2:
   version "1.5.2"
