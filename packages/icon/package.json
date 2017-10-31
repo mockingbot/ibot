@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "build": "./build.js",
-    "build:icon": "./icons.sh",
+    "build:icon": "./files.sh",
     "postinstall": "yarn run build:icon"
   },
   "author": "yijun@mockingbot.com",
