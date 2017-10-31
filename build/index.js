@@ -2,15 +2,18 @@
 
 const argv = require('yargs').argv
 const rollup = require('rollup')
-const options = require('./rollup_options')
+const getOptions = require('./rollup_options')
 
-rollup.rollup(options(argv.entry, argv.dest)).then(function (bundle) {
-  bundle.write({
-    format: 'es',
-    dest: argv.dest,
-    sourceMap: false
+getOptions(argv.entry, argv.dest)
+  .then(options => rollup.rollup(options))
+  .then(function (bundle) {
+    bundle.write({
+      format: 'es',
+      dest: argv.dest,
+      sourceMap: false
+    })
   })
-}).catch(function (e) {
-  console.log(e.message)
-  console.log(e.stack)
-})
+  .catch(function (e) {
+    console.log(e.message)
+    console.log(e.stack)
+  })

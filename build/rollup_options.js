@@ -1,4 +1,5 @@
 const path = require('path')
+const { exec } = require('child_process')
 
 const commonjs = require('rollup-plugin-commonjs')
 const resolve = require('rollup-plugin-node-resolve')
@@ -30,7 +31,20 @@ const cssExportMap = {}
 // used to track the cache for subsequent bundles
 let cache
 
-const options = (entry, dest = '') => {
+const getPkgs = () => new Promise((resolve, reject) => {
+  exec(
+    `${path.resolve(__dirname, '../node_modules/.bin/lerna')} ls --json`,
+    (error, stdout, stderr) => {
+      if (error) {
+        return reject(error)
+      }
+      return resolve(stdout)
+    })
+})
+
+async function getOptions (entry, dest = '') {
+  // TODO: should catch this result
+  const pkgs = JSON.parse(await getPkgs())
   // TODO: no entry means running rollup for production build, need a better name
   const base = {
   // The bundle's starting point. This file will be
@@ -40,7 +54,7 @@ const options = (entry, dest = '') => {
     // you can tell rollup use a previous bundle as its starting point.
     // This is entirely optional!
     cache,
-    external: ['react', 'react-dom', 'prop-types'],
+    external: ['react', 'react-dom', 'prop-types'].concat(pkgs.map(pkg => pkg.name)),
     plugins: [
       // the order is fucking important
       resolve(),
@@ -108,4 +122,4 @@ const options = (entry, dest = '') => {
   return entry ? { ...base, entry } : base
 }
 
-module.exports = options
+module.exports = getOptions
