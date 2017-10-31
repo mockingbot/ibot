@@ -12,6 +12,7 @@ const postcssModules = require('postcss-modules')
 const cssvariables = require('postcss-css-variables')
 const colorFunction = require('postcss-color-function')
 const calc = require('postcss-calc')
+const url = require('postcss-url')
 
 const sassPreprocessor = (_, id) => new Promise((resolve, reject) => {
   const result = sass.renderSync({ file: id })
@@ -29,7 +30,8 @@ const cssExportMap = {}
 // used to track the cache for subsequent bundles
 let cache
 
-const options = (entry) => {
+const options = (entry, dest = '') => {
+  // TODO: no entry means running rollup for production build, need a better name
   const base = {
   // The bundle's starting point. This file will be
     // included, along with the minimum necessary code
@@ -38,13 +40,13 @@ const options = (entry) => {
     // you can tell rollup use a previous bundle as its starting point.
     // This is entirely optional!
     cache,
-    external: ['react'],
+    external: ['react', 'react-dom', 'prop-types'],
     plugins: [
       // the order is fucking important
       resolve(),
       /* PostCSS */
       postcss({
-        sourceMap: false,
+        sourceMap: !entry,
         plugins: [
           cssvariables(),
           colorFunction(),
@@ -53,14 +55,16 @@ const options = (entry) => {
             getJSON (id, exportTokens) {
               cssExportMap[id] = exportTokens
             }
-          })
+          }),
+          url(!entry ? { url: 'inline' }: { url: 'copy', assetsPath: 'assets' })
         ],
         // used for css-modules
         getExport (id) {
           return cssExportMap[id]
         },
         extensions: ['.css'],
-        extract: !!entry
+        extract: !!entry,
+        to: `${path.basename(path.dirname(dest))}/*`
       }),
       /* Sass */
       postcss({
@@ -71,20 +75,26 @@ const options = (entry) => {
             getJSON (id, exportTokens) {
               cssExportMap[id] = exportTokens
             }
-          })
+          }),
+          url(!entry ? { url: 'inline' }: { url: 'copy', assetsPath: 'assets' })
         ],
         getExport (id) {
           return cssExportMap[id]
         },
         extensions: ['.sass'],
-        extract: !!entry
+        extract: !!entry,
+        to: `${path.basename(path.dirname(dest))}/*`
       }),
       /* Stylus */
       postcss({
         sourceMap: !entry,
         preprocessor: stylusPreprocessor,
+        plugins: [
+          url(!entry ? { url: 'inline' }: { url: 'copy', assetsPath: 'assets' })
+        ],
         extensions: ['.styl', '.stylus'],
-        extract: !!entry
+        extract: !!entry,
+        to: `${path.basename(path.dirname(dest))}/*`
       }),
       babel({
         exclude: 'node_modules/**',

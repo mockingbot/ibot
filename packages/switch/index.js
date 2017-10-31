@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 
+import Icon from '@mockingbot/icon'
+
 import './index.styl'
 
 class Switch extends PureComponent {
@@ -11,14 +13,21 @@ class Switch extends PureComponent {
 
   static propTypes = {
     isChecked: PropTypes.bool,
+    isDisabled: PropTypes.bool,
     onChange: PropTypes.func,
+    className: PropTypes.string,
+    icon: PropTypes.string,
   }
 
   static defaultProps = {
-    isChecked: true,
+    isChecked: false,
+    isDisabled: false,
+    className: '',
+    onChange: () => null,
+    icon: '',
   }
 
-  componentWillReceiveProps({ willBeChecked }) {
+  componentWillReceiveProps({ isChecked: willBeChecked }) {
     const { isChecked } = this.state
 
     if (willBeChecked !== isChecked) {
@@ -26,24 +35,32 @@ class Switch extends PureComponent {
     }
   }
 
-  toggle = () => {
-    this.setState(
-      { isChecked: !this.state.isChecked },
-      () => this.props.onChange(this.state.isChecked)
+  toggle = ({ target: $btn }) => {
+    const { isDisabled, onChange } = this.props
+    const { isChecked } = this.state
+
+    $btn.blur()
+
+    return (
+      !isDisabled && this.setState(
+        { isChecked: !isChecked },
+        () => onChange(this.state.isChecked),
+      )
     )
   }
 
   render () {
-    const { children } = this.props
+    const { icon, isDisabled, children } = this.props
     const { isChecked } = this.state
 
     return (
-      <span
-        className={`switch ${isChecked ? 'is-checked' : 'isnt-checked'}`}
-        onClick={this.toggle}
+      <label
+        className={`switch ${isChecked ? 'is-checked' : 'isnt-checked'} ${isDisabled ? 'is-disabled' : ''}`}
       >
-        <span>{ children }</span>
-      </span>
+        <button type="button" disabled={isDisabled} onClick={this.toggle}>
+          { icon ? <Icon name={icon} /> : children }
+        </button>
+      </label>
     )
   }
 }

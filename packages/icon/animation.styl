@@ -1,0 +1,18 @@
+.is-spinning
+.fa-spin
+  animation spinning 2s infinite linear
+.is-pulsing
+  animation spinning 1s infinite steps(8)
+
+@keyframes spinning
+  0%
+    transform rotate(0deg)
+  100%
+    transform rotate(359deg)
+
+@keyframes spinning-reverse
+  0%
+    transform rotate(359deg)
+  100%
+    transform rotate(0deg)
+

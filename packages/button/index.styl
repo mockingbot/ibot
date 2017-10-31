@@ -1,0 +1,48 @@
+@import '../../constants'
+
+$btn,
+button.regular
+  $height = 34px
+
+  &
+    padding .5em
+    height $height
+    border 1px solid $cl-core
+    border-radius 1px // To make buttons less aggressive
+    color $cl-core
+    cursor pointer
+    transition all .2s ease-out
+  &:not(button)
+    display inline-flex
+    justify-content center
+    align-items center
+  &:hover:not([disabled])
+    background-color $cl-btn-bg-hover
+    border $cl-btn-border-hover
+    color $cl-btn-text-hover
+  &[disabled]
+    cursor not-allowed
+    opacity .6
+  .icon
+    margin-right .125em
+
+button.primary
+  &
+    @extends $btn
+    background-color $cl-primary-btn-bg
+    color $cl-primary-btn-text
+  &:hover:not([disabled])
+    background-color $cl-primary-btn-bg-hover
+    border-color $cl-primary-btn-bg-hover
+    color $cl-primary-btn-text-hover
+
+button.text
+  &
+    color $cl-core
+  &[disabled]
+    @extends $btn[disabled]
+  &:not([disabled]):hover
+    color lighten($cl-core, 10%)
+    text-decoration underline
+  .icon
+    @extends $btn .icon

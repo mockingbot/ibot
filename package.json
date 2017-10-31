@@ -11,11 +11,12 @@
   "scripts": {
     "build:storybook": "build-storybook",
     "deploy": "storybook-to-ghpages",
-    "boostrap": "lerna boostrap",
-    "start": "start-storybook -p 6006",
+    "bootstrap": "lerna bootstrap",
+    "start": "yarn run clean && start-storybook -p 6006",
     "build:pkgs": "lerna run build",
-    "build:lib": "./build/build_lib.js",
-    "build": "yarn run build:pkgs && yarn run build:lib"
+    "build:lib": "./build/build_lib.js --dest=dest",
+    "build": "yarn run clean && yarn run build:pkgs && yarn run build:lib",
+    "clean": "rm -rf lib packages/*/dest"
   },
   "devDependencies": {
     "@kadira/storybook-deployer": "^1.2.0",
@@ -29,6 +30,7 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "babel-runtime": "^6.23.0",
+    "css-loader": "^0.28.7",
     "eslint": "^3.19.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-plugin-import": "^2.3.0",
@@ -47,7 +49,9 @@
     "postcss-color-function": "^4.0.0",
     "postcss-css-variables": "^0.7.0",
     "postcss-custom-properties": "^6.0.1",
+    "postcss-loader": "^2.0.8",
     "postcss-modules": "^0.8.0",
+    "postcss-url": "^7.1.2",
     "prop-types": "^15.6.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
@@ -59,7 +63,10 @@
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-postcss": "^0.5.5",
     "rollup-plugin-stylus-compiler": "^0.2.1",
+    "sass-loader": "^6.0.6",
+    "style-loader": "^0.19.0",
     "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.1",
     "yargs": "^8.0.1"
   }
 }

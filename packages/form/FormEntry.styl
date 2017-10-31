@@ -1,0 +1,36 @@
+.form-entry
+  &
+    display flex
+    align-items center
+    margin .5em 0
+    min-height $form-entry-min-height
+
+  > .key
+    align-self flex-start
+    display flex
+    align-items center
+    flex-basis $form-entry-key-width
+    height $form-entry-min-height
+
+  > .val
+    flex 1
+    margin-left auto
+    max-width s('calc(100% - %s)', $form-entry-key-width)
+
+  .required-sign
+    margin 0 .25em
+    color $cl-core
+
+  > .val >
+    label.radio-label
+    label.check-label
+    .radio-group
+    .check-group
+        margin-top s('calc((%s - %sem)/2)', $form-entry-min-height, $label-line-height)
+    input.regular:not([type="radio"]):not([type="checkbox"])
+      display block
+      width 100%
+      height $form-entry-min-height
+    textarea.regular
+      display block
+      width 100%

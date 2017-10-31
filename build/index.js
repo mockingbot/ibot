@@ -4,18 +4,11 @@ const argv = require('yargs').argv
 const rollup = require('rollup')
 const options = require('./rollup_options')
 
-rollup.rollup(options(argv.entry)).then(function (bundle) {
-  // Alternatively, let Rollup do it for you
-  // (this returns a promise). This is much
-  // easier if you're generating a sourcemap
-
+rollup.rollup(options(argv.entry, argv.dest)).then(function (bundle) {
   bundle.write({
     format: 'es',
     dest: argv.dest,
-    sourceMap: false,
-    globals: {
-      react: 'React'
-    }
+    sourceMap: false
   })
 }).catch(function (e) {
   console.log(e.message)
