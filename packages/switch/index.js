@@ -35,10 +35,19 @@ class Switch extends PureComponent {
     }
   }
 
-  toggle = () => !this.props.isDisabled && this.setState(
-    { isChecked: !this.state.isChecked },
-    () => this.props.onChange(this.state.isChecked),
-  )
+  toggle = ({ target: $btn }) => {
+    const { isDisabled, onChange } = this.props
+    const { isChecked } = this.state
+
+    $btn.blur()
+
+    return (
+      !isDisabled && this.setState(
+        { isChecked: !isChecked },
+        () => onChange(this.state.isChecked),
+      )
+    )
+  }
 
   render () {
     const { icon, isDisabled, children } = this.props

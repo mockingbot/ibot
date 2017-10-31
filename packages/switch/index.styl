@@ -29,15 +29,16 @@ label.switch
     background-color white
     box-shadow 0 1px 2px 0 rgba(#000,.1)
     transition all 0.3s
+  .icon
+    color $cl-core
   &.is-checked
-    &:not(.is-disabled)
+    &
       background-color $cl-core
     > button
       left s('calc(100% - %s)', $size)
-  &:not(.is-disabled) .icon
-    color $cl-core
   &.is-disabled
     &
       opacity .5
-    .icon
-      color #999
+      cursor not-allowed
+    & button
+      cursor not-allowed

@@ -13,7 +13,7 @@ export class Radio extends PureComponent {
   static propTypes = {
     isChecked: PropTypes.bool,
     onChange: PropTypes.func,
-    label: PropTypes.string,
+    label: PropTypes.any,
     name: PropTypes.string,
     value: PropTypes.any,
     className: PropTypes.string,
@@ -75,11 +75,14 @@ export class RadioGroup extends PureComponent {
     className: PropTypes.string,
     name: PropTypes.string,
     optionList: PropTypes.arrayOf(
-      PropTypes.shape({
-        label: PropTypes.string,
-        value: PropTypes.any,
-        isDisabled: PropTypes.bool,
-      }),
+      PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.shape({
+          label: PropTypes.any,
+          value: PropTypes.any,
+          isDisabled: PropTypes.bool,
+        }),
+      ])
     ).isRequired,
     currentOptionIdx: PropTypes.number,
     isDisabled: PropTypes.bool,
@@ -111,11 +114,11 @@ export class RadioGroup extends PureComponent {
           <Radio
             key={idx}
             name={name}
-            label={opt.label}
+            label={typeof opt === 'string' ? opt : opt.label}
             type="radio"
             isChecked={idx === currentOptionIdx}
             isDisabled={isDisabled || opt.isDisabled}
-            onClick={!(isDisabled || opt.isDisabled) && this.createOnChangeHandler(opt.value, idx)}
+            onClick={!(isDisabled || opt.isDisabled) && this.createOnChangeHandler(opt.value || opt, idx)}
           />
         ))
       }

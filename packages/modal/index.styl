@@ -5,7 +5,6 @@
     position absolute
     top 0
     left 0
-    z-index -10
   &.is-open
     z-index 1050
     width 100%
@@ -120,7 +119,6 @@ $modal
     line-height 1
     border-top 1px solid #E5E5E5
   .confirm-btn
-  .done-btn
   .cancel-btn
     &
       margin-left 1.5em
@@ -134,7 +132,6 @@ $modal
     &:not([disabled]):hover
       color $cl-secondary-text
   .confirm-btn
-  .done-btn
     &
       font-weight bold
       color $cl-core
@@ -142,11 +139,13 @@ $modal
       color darken($cl-core, 20%)
 
 .alert-modal
+.form-modal
 .functional-modal
 .display-modal
   @extends $modal
 
 .alert-modal
+.form-modal
   &
     display flex
     flex-direction column

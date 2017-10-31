@@ -13,7 +13,7 @@ export class Check extends PureComponent {
   static propTypes = {
     isChecked: PropTypes.bool,
     onChange: PropTypes.func,
-    label: PropTypes.string,
+    label: PropTypes.any,
     name: PropTypes.string,
     value: PropTypes.any,
     className: PropTypes.string,
@@ -74,11 +74,14 @@ export class CheckGroup extends PureComponent {
     className: PropTypes.string,
     onChange: PropTypes.func.isRequired,
     optionList: PropTypes.arrayOf(
-      PropTypes.shape({
-        label: PropTypes.string,
-        value: PropTypes.any,
-        isDisabled: PropTypes.bool,
-      }),
+      PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.shape({
+          label: PropTypes.any,
+          value: PropTypes.any,
+          isDisabled: PropTypes.bool,
+        }),
+      ])
     ).isRequired,
     currentOptionIdxList: PropTypes.oneOfType([
       PropTypes.instanceOf(Set),
@@ -122,7 +125,7 @@ export class CheckGroup extends PureComponent {
             onClick={this.createOnChangeHandler(idx)}
             isDisabled={isDisabled || opt.isDisabled}
             isChecked={currentOptionIdxSet.has(idx)}
-            label={opt.label}
+            label={typeof opt === 'string' ? opt : opt.label}
           />
         ))
       }

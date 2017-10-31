@@ -59,6 +59,7 @@ export default class Modal extends PureComponent {
     onOpen: PropTypes.func,
     onClose: PropTypes.func,
     onToggle: PropTypes.func,
+
     canClose: PropTypes.bool,
     canCloseOnClickMask: PropTypes.bool,
     shouldCloseOnAction: PropTypes.bool,
@@ -150,6 +151,7 @@ export default class Modal extends PureComponent {
 
     // Reassign Y position of the modal:
     this.positionY()
+    this.focusOnInput()
 
     // Transition:
     setTimeout(() => this.portal.classList.add('is-open'))
@@ -219,12 +221,18 @@ export default class Modal extends PureComponent {
     $modal.classList[action]('is-v-centered')
   })
 
+  focusOnInput = () => {
+    const $input = this.portal.querySelector('.content input')
+    if ($input) $input.focus()
+  }
+
   onKeyDown = ({ key, target: $elmt }) => {
     const {
-      isOpen,
       canClose, canCloseOnEsc,
       canConfirmOnEnter,
     } = this.props
+
+    const { isOpen } = this.state
 
     if (
       key === 'Escape'
@@ -312,12 +320,15 @@ export default class Modal extends PureComponent {
 
     const { isOpen } = this.state
 
-    const shouldRenderFooter = onCancel || onConfirm
+    const shouldRenderFooter = (
+      (type === 'alert' && canClose)
+      || onCancel || onConfirm
+    )
 
     return isOpen && (
       <div
         className={`modal-mask ${maskClassName} ${canClose && canCloseOnClickMask ? 'can-close' : 'cant-close'}`}
-        onClick={canCloseOnClickMask && this.close}
+        onClick={canClose && canCloseOnClickMask ? this.close : stopPropagation}
         onTransitionEnd={this.onTransitionEnd}
       >
         <div
@@ -345,8 +356,23 @@ export default class Modal extends PureComponent {
           {/* Footer */}
           { shouldRenderFooter && (
             <footer>
-              { onCancel && <button className="cancel-btn" onClick={this.onCancel} disabled={isCancelDisabled}>{cancelText}</button> }
-              { onConfirm && <button className="confirm-btn" onClick={this.onConfirm} disabled={isConfirmDisabled}>{confirmText}</button> }
+              { onCancel && (
+                <button
+                  className="cancel-btn"
+                  onClick={this.onCancel}
+                  disabled={isCancelDisabled}
+                  children={cancelText}
+                />
+              )}
+
+              { (type==="alert" || onConfirm) && (
+                <button
+                  className="confirm-btn"
+                  onClick={this.onConfirm}
+                  disabled={isConfirmDisabled}
+                  children={confirmText}
+                />
+              )}
             </footer>
           )}
         </div>
