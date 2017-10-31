@@ -625,7 +625,6 @@ storiesOf('Modal', module)
 
         type="form"
         title="Demo for Modals"
-        className="long-modal"
       >
         <p>
           Generally, modals will be positioned at 20vh vertically.
@@ -639,9 +638,9 @@ storiesOf('Modal', module)
 
         type="form"
         title="Demo for Slightly-longer Modals"
-        className="long-modal"
+        className="s-long-modal"
       >
-        <style>{`.long-modal { height: 500px; }`}</style>
+        <style>{`.s-long-modal { height: 500px; }`}</style>
         <p>
           Should the Y position of a slightly-longer modal (except alert)
           is smaller than 20vh while it’s positioned vertically-centered,
