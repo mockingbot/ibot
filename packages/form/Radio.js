@@ -84,7 +84,10 @@ export class RadioGroup extends PureComponent {
         }),
       ])
     ).isRequired,
-    currentOptionIdx: PropTypes.number,
+    currentOptionIdx: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.string,
+    ]),
     isDisabled: PropTypes.bool,
     onChange: PropTypes.func,
   }

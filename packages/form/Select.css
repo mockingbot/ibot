@@ -1,0 +1,83 @@
+@import 'styles/utils/variables.css';
+
+:root {
+  --select-height: 22px;
+  --option-height: 30px;
+  --select-padding: 0 9px;
+}
+
+.select {
+  position: relative;
+  width: 100%;
+  height: var(--select-height);
+  background: white;
+  border-bottom: 1px solid var(--grey);
+  &.show {
+    .default :global(.icon) {
+      transform: rotate(180deg);
+    }
+  }
+  ul {
+    list-style: none;
+  }
+}
+
+.default {
+  display: flex;
+  align-items: center;
+  padding: var(--select-padding);
+  height: 100%;
+  cursor: pointer;
+  :global(.icon) {
+    font-size: 12px;
+    margin-left: auto;
+    color: var(--arrow-color);
+    transition: all 0.2s ease-in-out;
+  }
+}
+
+.options {
+  position: fixed;
+  margin-top: 1px;
+  margin-left: -1px;
+  display: flex;
+  flex-direction: column;
+  pointer-events: none;
+  background: white;
+  box-shadow: 0px 2px 8px 0px rgba(0,0,0,0.10);
+  z-index: 1051;
+  overflow: auto;
+  max-height: 320px;
+
+  transition: all 0.2s ease-in-out;
+  transform-origin: 50% 0%;
+  transform: scale(0.8);
+  opacity: 0;
+  &.show {
+    pointer-events: auto;
+    transform: none;
+    opacity: 1;
+  }
+  .option {
+    height: var(--option-height);
+    line-height: var(--option-height);
+    padding: var(--select-padding);
+    cursor: pointer;
+    &:hover {
+      background: var(--item-hover-color);
+    }
+  }
+}
+
+.optgroup {
+  .group-title {
+    font-weight: bold;
+    height: var(--option-height);
+    line-height: var(--option-height);
+    padding: var(--select-padding);
+  }
+  .sub-option {
+    height: var(--option-height);
+    padding-left: 18px;
+  }
+}
