@@ -203,7 +203,8 @@ storiesOf('Form Components', module)
       <div>
         <InputNumber
           max={1000}
-          min={0}
+          min={-100}
+          value={1}
           onChange={value => console.log(value)}
         />
       </div>
