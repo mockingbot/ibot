@@ -22,11 +22,9 @@ label.Select
     transition all .3s ease-out
   &:not(.is-disabled):hover
   &.is-open
-    &
-      border-color $cl-core
-  &.is-open
-    .icon.Select-caret
-      transform rotate(180deg)
+    border-color $cl-core
+  &.is-open .icon.Select-caret
+    transform rotate(180deg)
   &.is-disabled
     opacity .6
     cursor not-allowed

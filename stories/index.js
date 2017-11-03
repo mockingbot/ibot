@@ -489,7 +489,7 @@ USA`
           optionList={[
             { label: 'Earth' },
             { label: 'The other 7' },
-            { label: 'Outer Solar Sys.' },
+            { label: 'Not in Solar System' },
           ]}
           currentOptionIdx={2}
         />
@@ -513,7 +513,7 @@ USA`
             { label: 'Go' },
             { label: 'Node.js' },
             { label: 'Perl' },
-            { label: 'PerlYuYan (Perl 語言)' },
+            { label: '珍珠語言（PerlYuYan）' },
           ]}
           currentOptionIdxList={[0,1,5]}
         />
