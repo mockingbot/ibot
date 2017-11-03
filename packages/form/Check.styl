@@ -26,17 +26,14 @@ label.radio-label
     &
       position relative
       flex 0 0 1em
-      display block
+      display flex
+      align-items center
       margin-right .25em
       width 1em
       height ($label-line-height)em
     &:before
       content ''
-      position absolute
-      top 50%
-      left 50%
-      transform translate(-50%, -50%)
-      display inline-block
+      display block
       margin-top -.05em
       width .9em
       height @width

@@ -482,9 +482,18 @@ USA`
             <span><Icon name="spa" type="md" /> Europe</span>,
             <span><Icon name="child_care" type="md" /> Oceania</span>,
           ]}
-          currentOptionIdx={6}
         />
       </FormLabel>
+      <FormEntry name="Planet">
+        <RadioGroup
+          optionList={[
+            { label: 'Earth' },
+            { label: 'The other 7' },
+            { label: 'Outer Solar Sys.' },
+          ]}
+          currentOptionIdx={2}
+        />
+      </FormEntry>
 
       <FormLabel name="Newsletter">
         <Check
@@ -503,6 +512,8 @@ USA`
             { label: 'C/C++/C♯/Objective C' },
             { label: 'Go' },
             { label: 'Node.js' },
+            { label: 'Perl' },
+            { label: 'PerlYuYan (Perl 語言)' },
           ]}
           currentOptionIdxList={[0,1,5]}
         />
