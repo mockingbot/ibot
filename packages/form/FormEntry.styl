@@ -22,11 +22,6 @@
     color $cl-core
 
   > .val >
-    label.radio-label
-    label.check-label
-    .radio-group
-    .check-group
-        margin-top s('calc((%s - %sem)/2)', $form-entry-min-height, $label-line-height)
     input.regular:not([type="radio"]):not([type="checkbox"])
       display block
       width 100%
@@ -34,3 +29,9 @@
     textarea.regular
       display block
       width 100%
+
+    label.Check
+    label.Radio
+    .CheckGroup
+    .RadioGroup
+        margin-top s('calc((%s - %sem)/2)', $form-entry-min-height, $label-line-height)

@@ -217,11 +217,20 @@ storiesOf('Form Components', module)
     {`p { width: 15em; }`}
     </style>
 
-    <h2>Radio</h2>
+    <h2>Native Radio</h2>
+    <p style={{ width: '100%' }}>
+      <label><input type="radio" name="nr" defaultChecked /> 汉语</label>
+      <label><input type="radio" name="nr" /> 日本語</label>
+      <label><input type="radio" name="nr" disabled /> English</label>
+      <label><input type="radio" name="nr" /> Klingon</label>
+    </p>
+
     <style>
     {`p.radio { display: flex; flex-wrap: wrap; width: 15em; }`}
     {`p.radio label { margin-right: .5em; }`}
     </style>
+
+    <h2>Radio</h2>
     <p className="radio">
       <Radio name="lang" value="zh" label="汉语" isChecked={true} />
       <Radio name="lang" value="ja" label="日本語" isDisabled={true} />
@@ -229,11 +238,12 @@ storiesOf('Form Components', module)
       <Radio name="lang" value="tlh" label="Klingon" isDisabled={true} />
     </p>
 
-    <h2>Radio Group</h2>
     <style>
     {`p.radio-group { display: flex; }`}
     {`p.radio-group label { flex: 100%; }`}
     </style>
+
+    <h2>Radio Group</h2>
     <p className="radio-group">
       <RadioGroup
         optionList={[
@@ -244,6 +254,29 @@ storiesOf('Form Components', module)
         ]}
         currentOptionIdx={1}
       />
+    </p>
+
+    <h3>Disabling the entire radio group</h3>
+    <p className="radio-group">
+      <RadioGroup
+        isDisabled
+        optionList={[
+          { label: 'Běijīng, China', value: 'beijing' },
+          { label: 'Tōkyō, Japan', value: 'tokyo' },
+          { label: 'Krung-dēvamahānagara amararatanakosindra mahindrayudhyā mahātilakabhava navaratanarājadhānī purīrāmasya utamarājanivēsana mahāsthāna amaravimāna avatārasthitya shakrasdattiya vishnukarmaprasiddhi, Thailand', value: 'bangkok' },
+          { label: 'New York, USA', value: 'newyork', isDisabled: true },
+        ]}
+        currentOptionIdx={1}
+      />
+
+    </p>
+
+    <h2>Native Check</h2>
+    <p style={{ width: '100%' }}>
+      <label><input type="checkbox" name="nc" /> 汉语</label>
+      <label><input type="checkbox" name="nc" /> 日本語</label>
+      <label><input type="checkbox" name="nc" defaultChecked /> English</label>
+      <label><input type="checkbox" name="nc" disabled /> Klingon</label>
     </p>
 
     <h2>Check</h2>
@@ -258,13 +291,28 @@ storiesOf('Form Components', module)
       <Check name="lang" label="Klingon" isDisabled={true} />
     </p>
 
-    <h2>Check Group</h2>
     <style>
     {`p.check-group { display: flex; }`}
     {`p.check-group label { flex: 100%; }`}
     </style>
+
+    <h2>Check Group</h2>
     <p className="check-group">
       <CheckGroup
+        optionList={[
+          { label: 'Běijīng, China', value: 'beijing', isDisabled: true },
+          { label: 'Tōkyō, Japan', value: 'tokyo' },
+          { label: 'Krung-dēvamahānagara amararatanakosindra mahindrayudhyā mahātilakabhava navaratanarājadhānī purīrāmasya utamarājanivēsana mahāsthāna amaravimāna avatārasthitya shakrasdattiya vishnukarmaprasiddhi, Thailand', value: 'bangkok', isDisabled: true },
+          { label: 'New York, USA', value: 'newyork' },
+        ]}
+        currentOptionIdxList={[0,3]}
+      />
+    </p>
+
+    <h3>Disabling the entire check group</h3>
+    <p className="check-group">
+      <CheckGroup
+        isDisabled={true}
         optionList={[
           { label: 'Běijīng, China', value: 'beijing', isDisabled: true },
           { label: 'Tōkyō, Japan', value: 'tokyo' },

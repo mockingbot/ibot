@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import compact from 'lodash/compact'
 
 /**
  * <Radio>
@@ -45,12 +46,14 @@ export class Radio extends PureComponent {
 
     return (
       <label
-        className={`
-          radio-label
-          ${isChecked ? 'is-checked' : ''}
-          ${isDisabled ? 'is-disabled' : ''}
-          ${className}
-        `}
+        className={
+          compact([
+            'Radio',
+            className,
+            isChecked ? 'is-checked' : '',
+            isDisabled ? 'is-disabled' : '',
+          ]).join(' ')
+        }
       >
         <input
           type="radio"
@@ -60,8 +63,8 @@ export class Radio extends PureComponent {
           onChange={this.onChange}
         />
 
-        <span className="checker" />
-        <span className="key">{ label }</span>
+        <span className="RadioState" />
+        <span className="RadioLabel">{ label }</span>
       </label>
     )
   }
@@ -109,8 +112,14 @@ export class RadioGroup extends PureComponent {
       isDisabled,
     } = this.props
 
+    const klass = compact([
+      'RadioGroup',
+      className,
+      isDisabled ? 'is-disabled' : '',
+    ]).join(' ')
+
     return (
-      <span className={`radio-group ${className} ${isDisabled ? 'is-disabled' : ''}`}>
+      <span className={klass}>
       {
         optionList
         .map((opt, idx) => opt && (
