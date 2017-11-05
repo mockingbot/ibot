@@ -299,14 +299,14 @@ class SelectMenu extends PureComponent {
     // Deciding point which separates menus going upward or downward:
     const decidingPoint = hOf$win * 2/3
 
-    // Set X position:
+    // Set X position, etc:
     this.set$menuStyle({ left: `${left}px`, minWidth: `${minW}px` })
 
     // Slide downward:
     if (decidingPoint >= midOf$select) {
       this.set$menuStyle({ top: `${bottom}px` })
 
-      // If the height of a menu is taller than that of space downward:
+      // If the height of the menu is taller than that of space downward:
       if (bottom + hOf$menu > maxY) {
         this.set$menuStyle({ maxHeight: `${maxY - bottom}px` })
       }
@@ -315,7 +315,7 @@ class SelectMenu extends PureComponent {
     } else {
       this.set$menuStyle({ top: '', bottom: `${hOf$win - top}px` })
 
-      // If the height of a menu is taller than that of space upward:
+      // If the height of the menu is taller than that of space upward:
       if (top - hOf$menu < minY) {
         this.set$menuStyle({ maxHeight: `${top - minY}px` })
       }
