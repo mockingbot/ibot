@@ -39,8 +39,6 @@ export class InputNumber extends PureComponent {
     }
   }
 
-  setElementRef = ref => this.$elem = ref
-
   handleChange = (e) => {
     const value = e.target.value.trim()
     this.handleValue(value)
@@ -133,7 +131,6 @@ export class InputNumber extends PureComponent {
       <input
         type="text"
         value={formatter(value)}
-        ref={this.setElementRef}
         className="input"
         disabled={disabled}
         onChange={this.handleChange}
