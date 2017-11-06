@@ -5,11 +5,10 @@
   position relative
   display flex
   align-items center
-  width 40px
   height 22px
   &.disabled
     input
-      color $cl-btn-disabled
+      opacity: .5
 
   &:hover
     input
@@ -32,8 +31,7 @@
     outline 0
     background transparent
     color $cl-secondary-text
-    border-top 1px solid transparent
-    border-bottom 1px solid $grey
+    border-bottom 1px solid $cl-divider
 
     &:focus
       border-bottom 1px solid $cl-core
@@ -45,14 +43,14 @@
     width 20px
     top 0
     right 0
-    bottom 1px
-    display: flex
+    bottom 5px
+    display flex
     flex-direction column
-
     span
       display flex
       flex 1
       justify-content center
       align-items center
+      color $cl-btn-active
       &:active
         color $cl-core

@@ -207,6 +207,45 @@ storiesOf('Form Components', module)
           value={1}
           onChange={value => console.log(value)}
         />
+        <InputNumber
+          max={1000}
+          min={-100}
+          value={0}
+          step={10}
+          precision={0}
+          onChange={value => console.log(value)}
+        />
+        <InputNumber
+          max={1000}
+          min={-100}
+          value={0}
+          step={10}
+          formatter={value => `${value}%`}
+          parser={value => value.replace("%", "")}
+          precision={0}
+          onChange={value => console.log(value)}
+        />
+        <InputNumber
+          max={1000}
+          min={0}
+          value={0}
+          step={10}
+          formatter={value => `$${value}`}
+          parser={value => value.replace("$", "")}
+          precision={0}
+          onChange={value => console.log(value)}
+        />
+        <InputNumber
+          disabled={true}
+          max={1000}
+          min={0}
+          value={0}
+          step={10}
+          formatter={value => `$${value}`}
+          parser={value => value.replace("$", "")}
+          precision={0}
+          onChange={value => console.log(value)}
+        />
       </div>
 
       <h2>Textarea</h2>

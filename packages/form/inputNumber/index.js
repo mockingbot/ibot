@@ -3,17 +3,17 @@ import PropTypes from 'prop-types'
 import Icon from '@mockingbot/icon'
 import './index.styl'
 
-function getRange (e) {
+// 根据按键来决定每次up/down时值是多少
+function getEventStep (e, step = 1) {
   if (e.shiftKey) return 10
   if (e.metaKey) return 100
-  return 1
+  return step
 }
 
 const threshold = 500
 const interval = 30
 const numberFix = (num, precision) => Number(Number(num).toFixed(precision))
 
-// todo: add step and maxLength
 export class InputNumber extends PureComponent {
   static propTypes = {
     // 数值精度
@@ -23,14 +23,13 @@ export class InputNumber extends PureComponent {
     // 指定从 formatter 里转换回数字的方式，和 formatter 搭配使用
     parser: PropTypes.func,
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    cycle: PropTypes.number,
     min: PropTypes.number,
     max: PropTypes.number,
-    maxLength: PropTypes.number,
     disabled: PropTypes.bool,
     step: PropTypes.number,
-    attr: PropTypes.string,
     onChange: PropTypes.func.isRequired,
+    onFocus: PropTypes.func,
+    onBlur: PropTypes.func,
   }
 
   constructor (props) {
@@ -54,25 +53,26 @@ export class InputNumber extends PureComponent {
   }
 
   handleValue = (value) => {
-    const { attr, parser, min, max, precision } = this.props
+    const { parser, min, max, precision } = this.props
     value = parser(value.toString())
-    // 避免 为空字符串时 Number("") = 0
-    if (value != "" && !isNaN(value)) {
+    if (!isNaN(value)) {
       if (value > max) {
         value = max
       }
       if (value < min) {
         value = min
       }
-      this.props.onChange(numberFix(value, precision), attr)
+      value = numberFix(value, precision)
+      value != this.prevValue && this.props.onChange(value)
+      this.prevValue = value
     }
     this.setState({ value })
   }
 
   handlePlus = (e) => {
-    const range = getRange(e)
+    const { precision, step } = this.props
+    const range = getEventStep(e, step)
     const { value: stateValue } = this.state
-    const { precision } = this.props
     const value = numberFix(Number(stateValue) + range, precision)
     this.handleValue(value)
     // 按下超过500毫秒以后, 进入长按模式
@@ -84,9 +84,9 @@ export class InputNumber extends PureComponent {
   }
 
   handleMinus = (e) => {
+    const { precision, step } = this.props
     const { value: stateValue } = this.state
-    const range = getRange(e)
-    const { precision } = this.props
+    const range = getEventStep(e, step)
     const value = numberFix(Number(stateValue) - range, precision)
     this.handleValue(value)
     this.timeout = setTimeout(() => {
@@ -104,10 +104,11 @@ export class InputNumber extends PureComponent {
   handleKeyDown = (e) => {
     const commandKeyDown = (e, bool) => {
       e.preventDefault()
-      const range = getRange(e)
+      const { precision, step } = this.props
+      const range = getEventStep(e, step)
       const { value: stateValue } = this.state
-      const { precision } = this.props
-      const value = bool ? numberFix(parseFloat(stateValue) - range, precision) : numberFix(parseFloat(stateValue) + range, precision)
+      // 避免空字符串 parseFloat("") NaN
+      const value = bool ? numberFix(parseFloat(Number(stateValue)) - range, precision) : numberFix(parseFloat(Number(stateValue)) + range, precision)
       this.handleValue(value)
     }
     if (e.key == 'ArrowUp') {
@@ -117,6 +118,13 @@ export class InputNumber extends PureComponent {
     }
   }
 
+  handleFocus = (e) => {
+    this.props.onFocus && this.props.onFocus(e)
+  }
+
+  handleBlur = (e) => {
+    this.props.onBlur && this.props.onBlur(e)
+  }
 
   render () {
     const { disabled, formatter } = this.props
@@ -127,11 +135,12 @@ export class InputNumber extends PureComponent {
         value={formatter(value)}
         ref={this.setElementRef}
         className="input"
+        disabled={disabled}
         onChange={this.handleChange}
         onKeyDown={this.handleKeyDown}
         onMouseDown={this.handleMouseDown}
-        onFocus={this.bindBlurListener}
-        onBlur={this.unbindBlurListener}
+        onFocus={this.handleFocus}
+        onBlur={this.handleBlur}
       />
       <div className="buttons">
         <Icon
@@ -157,10 +166,9 @@ export class InputNumber extends PureComponent {
 InputNumber.defaultProps = {
   step: 1,
   disable: false,
-  min: -1000,
+  min: 0,
   max: 1000,
   value: 1,
-  maxLength: 10,
   precision: 1,
   parser: v => v.replace(/[^\w\.-]+/g, ''),
   formatter: v => v,
