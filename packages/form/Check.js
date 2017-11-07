@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import compact from 'lodash/compact'
+import Icon from '@mockingbot/icon'
 
 /**
  * <Check>
@@ -45,12 +47,12 @@ export class Check extends PureComponent {
 
     return (
       <label
-        className={`
-          check-label
-          ${isChecked ? 'is-checked' : ''}
-          ${isDisabled ? 'is-disabled' : ''}
-          ${className}
-        `}
+        className={compact([
+          'Check',
+          className,
+          isChecked ? 'is-checked' : '',
+          isDisabled ? 'is-disabled' : '',
+        ]).join(' ')}
       >
         <input
           type="checkbox"
@@ -59,8 +61,8 @@ export class Check extends PureComponent {
           name={name}
           onChange={this.onToggle}
         />
-        <span className="checker" />
-        <span className="key">{ label }</span>
+        <span className="CheckState"><Icon type="md" name="check" /></span>
+        <span className="CheckLabel">{ label }</span>
       </label>
     )
   }
@@ -116,8 +118,14 @@ export class CheckGroup extends PureComponent {
 
     const currentOptionIdxSet = new Set(currentOptionIdxList)
 
+    const klass = compact([
+      'CheckGroup',
+      className,
+      isDisabled ? 'is-disabled' : '',
+    ]).join(' ')
+
     return (
-      <span className={`check-group ${className} ${isDisabled ? 'is-disabled' : ''}`}>
+      <span className={klass}>
       {
         optionList.map((opt, idx) => opt && (
           <Check

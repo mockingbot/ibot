@@ -60,7 +60,7 @@ $modal
     padding 0 20px
     height 55px
     font-size 14px
-    border-bottom 1px solid #E5E5E5
+    border-bottom 1px solid $cl-divider
     color $cl-header-text
 
   // Close button:
@@ -84,31 +84,9 @@ $modal
     padding 30px 20px 35px
 
   // Form:
-  [type='select']
-    > ul
-      top initial !important
-    > div
-      padding-left 0
-  .content > [type='select']
-    &
-      height 34px
-      border 0
-      border-bottom $cl-input-border
-      transition all .2s ease-out
-    li[value] // option
-    li > div // optgroup label
-      height auto
-      line-height 34px
-  input[type='text']
-    padding-left 0 !important
   input[type='number']
     text-align center
     padding 0 0 0 1em !important
-  input::placeholder
-    color $cl-tertiary-text
-
-  a.important
-    color $cl-core
 
   // Footer:
   footer
@@ -118,7 +96,7 @@ $modal
     padding 0 20px
     height 55px
     line-height 1
-    border-top 1px solid #E5E5E5
+    border-top 1px solid $cl-divider
   .confirm-btn
   .cancel-btn
     &
@@ -159,34 +137,6 @@ $modal
       flex-basis 7em
     > .val
       max-width calc(100% - 7em)
-  [type=select]
-    &
-      display block
-    > div
-      display flex
-    > div > .icon
-      margin-left auto
-  p.desc + p.desc
-    margin-top 1em
-  .quote
-    &
-      display inline-flex
-      align-items baseline
-    > *
-      max-width 5em !important
-      font-weight bold
-    &:lang(en):before
-      content '“'
-    &:lang(en):after
-      content '”'
-    &.question:lang(en):after
-      content '”?'
-    &.comma:lang(en):after
-      content '”,'
-    &:lang(zh):before
-      content '「'
-    &:lang(zh):after
-      content '」'
 
 .functional-modal
   width 500px

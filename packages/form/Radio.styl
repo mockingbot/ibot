@@ -1,2 +1,12 @@
+.Radio
+  @extends .Check
 
+  & &State
+    padding 1px
+    background-clip content-box
+    border-radius 50%
+  input:checked + .RadioState
+    background-color $cl-core
 
+.RadioGroup
+  @extends .CheckGroup

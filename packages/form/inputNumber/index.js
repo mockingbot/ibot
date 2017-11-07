@@ -14,7 +14,7 @@ const threshold = 500
 const interval = 30
 const numberFix = (num, precision) => Number(Number(num).toFixed(precision))
 
-export class InputNumber extends PureComponent {
+export default class InputNumber extends PureComponent {
   static propTypes = {
     // 数值精度
     precision: PropTypes.number,
@@ -157,7 +157,6 @@ export class InputNumber extends PureComponent {
       </div>
     </div>)
   }
-
 }
 
 InputNumber.defaultProps = {

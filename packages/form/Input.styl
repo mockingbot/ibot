@@ -28,8 +28,14 @@ textarea.regular
     resize vertical
     font-size inherit
     border 1px solid $cl-divider
+    color $cl-main-text
+    transition all .2s ease-out
   &:focus
     outline 0
+  &:not([disabled]):not([readonly])
+    &:hover
+    &:focus
+      border-color $cl-core
   &[disabled]
     resize none
     opacity .5
