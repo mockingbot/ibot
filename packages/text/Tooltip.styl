@@ -1,0 +1,75 @@
+div.Tooltip
+  width fit-content
+
+.Tip
+  $cl-bg = #000
+  $cl-text = #fff
+
+  &
+    position fixed
+    z-index 2000
+    padding .75em
+    font-size 12px
+    line-height 1.4
+    user-select none
+    speak none
+    pointer-events none
+    transition-property opacity, transform
+    transition-duration .15s
+  > .arrow
+      position absolute
+      z-index 0
+      display block
+      width .75em
+      height .75em
+      transform translate(-50%, -50%) rotate(45deg)
+      background-color $cl-bg
+  > .content
+    position relative
+    z-index 10
+    padding .5em
+    width max-content
+    min-width 5em
+    max-width 20em
+    background-color $cl-bg
+    border-radius 1px
+    color $cl-text
+
+  &.on-top .arrow
+    left 50%
+    bottom 0
+  &.on-bottom .arrow
+    top .75em
+    left 50%
+  &.on-right .arrow
+    top 50%
+    left .75em
+  &.on-left .arrow
+    top 50%
+    right 0
+
+  // Transition:
+  &:not(.is-open)
+    &
+      opacity 0
+    &.on-top
+      transform translate(-50%, -110%)
+    &.on-bottom
+      transform translate(-50%, 10%)
+    &.on-right
+      transform translate(10%, -50%)
+    &.on-left
+      transform translate(-110%, -50%)
+
+  &.is-open
+    &
+      opacity 1
+    &.on-top
+      transform translate(-50%, -100%)
+    &.on-bottom
+      transform translate(-50%, 0)
+    &.on-right
+      transform translate(0, -50%)
+    &.on-left
+      transform translate(-100%, -50%)
+
