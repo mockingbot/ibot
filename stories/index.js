@@ -15,6 +15,7 @@ import {
   Input, Textarea,
   Radio, Check,
   RadioGroup, CheckGroup,
+  Select,
 } from '../packages/form/index'
 
 import Switch from '../packages/switch/index'
@@ -216,11 +217,20 @@ storiesOf('Form Components', module)
     {`p { width: 15em; }`}
     </style>
 
-    <h2>Radio</h2>
+    <h2>Native Radio</h2>
+    <p style={{ width: '100%' }}>
+      <label><input type="radio" name="nr" defaultChecked /> 汉语</label>
+      <label><input type="radio" name="nr" /> 日本語</label>
+      <label><input type="radio" name="nr" disabled /> English</label>
+      <label><input type="radio" name="nr" /> Klingon</label>
+    </p>
+
     <style>
     {`p.radio { display: flex; flex-wrap: wrap; width: 15em; }`}
     {`p.radio label { margin-right: .5em; }`}
     </style>
+
+    <h2>Radio</h2>
     <p className="radio">
       <Radio name="lang" value="zh" label="汉语" isChecked={true} />
       <Radio name="lang" value="ja" label="日本語" isDisabled={true} />
@@ -228,11 +238,12 @@ storiesOf('Form Components', module)
       <Radio name="lang" value="tlh" label="Klingon" isDisabled={true} />
     </p>
 
-    <h2>Radio Group</h2>
     <style>
     {`p.radio-group { display: flex; }`}
     {`p.radio-group label { flex: 100%; }`}
     </style>
+
+    <h2>Radio Group</h2>
     <p className="radio-group">
       <RadioGroup
         optionList={[
@@ -243,6 +254,29 @@ storiesOf('Form Components', module)
         ]}
         currentOptionIdx={1}
       />
+    </p>
+
+    <h3>Disabling the entire radio group</h3>
+    <p className="radio-group">
+      <RadioGroup
+        isDisabled
+        optionList={[
+          { label: 'Běijīng, China', value: 'beijing' },
+          { label: 'Tōkyō, Japan', value: 'tokyo' },
+          { label: 'Krung-dēvamahānagara amararatanakosindra mahindrayudhyā mahātilakabhava navaratanarājadhānī purīrāmasya utamarājanivēsana mahāsthāna amaravimāna avatārasthitya shakrasdattiya vishnukarmaprasiddhi, Thailand', value: 'bangkok' },
+          { label: 'New York, USA', value: 'newyork', isDisabled: true },
+        ]}
+        currentOptionIdx={1}
+      />
+
+    </p>
+
+    <h2>Native Check</h2>
+    <p style={{ width: '100%' }}>
+      <label><input type="checkbox" name="nc" /> 汉语</label>
+      <label><input type="checkbox" name="nc" /> 日本語</label>
+      <label><input type="checkbox" name="nc" defaultChecked /> English</label>
+      <label><input type="checkbox" name="nc" disabled /> Klingon</label>
     </p>
 
     <h2>Check</h2>
@@ -257,11 +291,12 @@ storiesOf('Form Components', module)
       <Check name="lang" label="Klingon" isDisabled={true} />
     </p>
 
-    <h2>Check Group</h2>
     <style>
     {`p.check-group { display: flex; }`}
     {`p.check-group label { flex: 100%; }`}
     </style>
+
+    <h2>Check Group</h2>
     <p className="check-group">
       <CheckGroup
         optionList={[
@@ -273,13 +308,172 @@ storiesOf('Form Components', module)
         currentOptionIdxList={[0,3]}
       />
     </p>
+
+    <h3>Disabling the entire check group</h3>
+    <p className="check-group">
+      <CheckGroup
+        isDisabled={true}
+        optionList={[
+          { label: 'Běijīng, China', value: 'beijing', isDisabled: true },
+          { label: 'Tōkyō, Japan', value: 'tokyo' },
+          { label: 'Krung-dēvamahānagara amararatanakosindra mahindrayudhyā mahātilakabhava navaratanarājadhānī purīrāmasya utamarājanivēsana mahāsthāna amaravimāna avatārasthitya shakrasdattiya vishnukarmaprasiddhi, Thailand', value: 'bangkok', isDisabled: true },
+          { label: 'New York, USA', value: 'newyork' },
+        ]}
+        currentOptionIdxList={[0,3]}
+      />
+    </p>
+  </Root>
+))
+.add('Select', () => (
+  <Root>
+    <style>
+    {`
+      .Select > button .icon,
+      .select-menu-with-icons .icon {
+        margin-right: .25em;
+        font-size: 1.2em;
+        vertical-align: -.1em;
+      }
+
+      p .Select {
+        margin-right: 1em;
+      }
+    `}
+    </style>
+
+    <h2>Select with empty option list</h2>
+    <p>
+      <Select optionList={[]} />
+      <Select isDisabled={false} optionList={[]} />
+      <br />
+      <Select isDisabled={true} optionList={[]} />
+      <Select isDisabled optionList={[]} />
+    </p>
+
+    <h2>Regular node options</h2>
+    <p>
+      <Select optionList={['Apple', 'Pencil']} />
+      <br />
+      <Select optionList={['Apple', 'Pencil']} currentOptionIdx="0" />
+      <br />
+      <Select optionList={['Apple', 'Pencil']}  currentOptionIdx={0} />
+      <br />
+      <Select optionList={['Apple', 'Pencil']} currentOptionIdx={1} />
+      <br />
+      <Select optionList={['Apple', 'Pencil']} isDisabled={true} />
+    </p>
+
+    <p>
+      <Select
+        menuClassName="select-menu-with-icons"
+        optionList={[
+          <span><Icon name="apple" /> Apple</span>,
+          <span><Icon name="pencil" /> Pencil</span>,
+        ]}
+      />
+      <br />
+      <Select
+        menuClassName="select-menu-with-icons"
+        optionList={[
+          <span><Icon name="apple" /> Apple</span>,
+          <span><Icon name="pencil" /> Pencil</span>,
+        ]}
+        currentOptionIdx={0}
+      />
+      <br />
+      <Select
+        menuClassName="select-menu-with-icons"
+        optionList={[
+          <span><Icon name="apple" /> Apple</span>,
+          <span><Icon name="pencil" /> Pencil</span>,
+        ]}
+        currentOptionIdx="1"
+      />
+      <br />
+      <Select
+        menuClassName="select-menu-with-icons"
+        optionList={[
+          <span><Icon name="apple" /> Apple</span>,
+          <span><Icon name="pencil" /> Pencil</span>,
+        ]}
+        currentOptionIdx="1"
+        isDisabled={true}
+      />
+    </p>
+
+    <h2>Long lists (10+ options)</h2>
+    <p>
+      <Select optionList={['Yirgacheffe', 'Harrar', 'Kenya AA', 'Antiqua Flora', 'Huehuetenango', 'Tanzania AA', 'Cerrado', 'Bucaramanga Supremo', 'Tarrazu', 'Hawaii Kona', 'Blue Mountain', 'Mandheling']} />
+      <br />
+      <Select currentOptionIdx="5" optionList={['Yirgacheffe', 'Harrar', 'Kenya AA', 'Antiqua Flora', 'Huehuetenango', 'Tanzania AA', 'Cerrado', 'Bucaramanga Supremo', 'Tarrazu', 'Hawaii Kona', 'Blue Mountain', 'Mandheling']} />
+      <br />
+      <Select isDisabled={false} currentOptionIdx={10} optionList={['Yirgacheffe', 'Harrar', 'Kenya AA', 'Antiqua Flora', 'Huehuetenango', 'Tanzania AA', 'Cerrado', 'Bucaramanga Supremo', 'Tarrazu', 'Hawaii Kona', 'Blue Mountain', 'Mandheling']} />
+      <br />
+      <Select isDisabled optionList={['Yirgacheffe', 'Harrar', 'Kenya AA', 'Antiqua Flora', 'Huehuetenango', 'Tanzania AA', 'Cerrado', 'Bucaramanga Supremo', 'Tarrazu', 'Hawaii Kona', 'Blue Mountain', 'Mandheling']} />
+    </p>
+
+    <h2>Selects of grouped options</h2>
+    <p>
+      <Select
+        optionList={[
+          ['Fruit', 'Apples', 'Blackberries', 'Blueberries', 'Bananas', 'Pitayas', 'Mangos'],
+          ['Cheese', 'Blue Cheese', 'Parmesan', 'Ricotta', 'Benedictine', 'Brie', { label: 'Cheddar', value: 'cheddar' }, { label: 'Cream Cheese', isDisabled: true }],
+          'Rib eye Steak', 'Bacon Sandwich', 'Caesar Salad',
+        ]}
+      />
+      <br />
+      <Select
+        currentOptionIdx="0.2"
+        optionList={[
+          ['Fruit', 'Apples', 'Blackberries', 'Blueberries', 'Bananas', 'Pitayas', 'Mangos'],
+          ['Cheese', 'Blue Cheese', 'Parmesan', 'Ricotta', 'Benedictine', 'Brie', { label: 'Cheddar', value: 'cheddar' }, { label: 'Cream Cheese', isDisabled: true }],
+          'Rib eye Steak', 'Bacon Sandwich', 'Caesar Salad',
+        ]}
+      />
+      <br />
+      <Select
+        currentOptionIdx="1.5"
+        optionList={[
+          ['Fruit', 'Apples', 'Blackberries', 'Blueberries', 'Bananas', 'Pitayas', 'Mangos'],
+          ['Cheese', 'Blue Cheese', 'Parmesan', 'Ricotta', 'Benedictine', 'Brie', { label: 'Cheddar', value: 'cheddar' }, { label: 'Cream Cheese', isDisabled: true }],
+          'Rib eye Steak', 'Bacon Sandwich', 'Caesar Salad',
+        ]}
+      />
+      <br />
+      <Select
+        currentOptionIdx="2"
+        optionList={[
+          ['Fruit', 'Apples', 'Blackberries', 'Blueberries', 'Bananas', 'Pitayas', 'Mangos'],
+          ['Cheese', 'Blue Cheese', 'Parmesan', 'Ricotta', 'Benedictine', 'Brie', { label: 'Cheddar', value: 'cheddar' }, { label: 'Cream Cheese', isDisabled: true }],
+          'Rib eye Steak', 'Bacon Sandwich', 'Caesar Salad',
+        ]}
+      />
+      <br />
+      <Select
+        isDisabled
+        optionList={[
+          ['Fruit', 'Apples', 'Blackberries', 'Blueberries', 'Bananas', 'Pitayas', 'Mangos'],
+          ['Cheese', 'Blue Cheese', 'Parmesan', 'Ricotta', 'Benedictine', 'Brie', { label: 'Cheddar', value: 'cheddar' }, { label: 'Cream Cheese', isDisabled: true }],
+          'Rib eye Steak', 'Bacon Sandwich', 'Caesar Salad',
+        ]}
+      />
+    </p>
   </Root>
 ))
 .add('Form Entries', () => (
   <Root>
     <style scoped>
-    {`form { width: 25em; }`}
-    {`.language-list label { flex: 100%; }`}
+    {`
+      form { width: 25em; }
+      .language-list label { flex: 100%; }
+
+      .Select > button .icon,
+      .select-menu-with-icons .icon {
+        margin-right: .25em;
+        font-size: 1.2em;
+        vertical-align: -.1em;
+      }
+    `}
     </style>
 
     <h2>Form Labels/Entries</h2>
@@ -324,6 +518,31 @@ USA`
         </Textarea>
       </FormLabel>
 
+      <FormLabel name="Continent">
+        <Select
+          menuClassName="select-menu-with-icons"
+          optionList={[
+            <span><Icon name="room_service" type="md" /> Asia</span>,
+            <span><Icon name="golf_course" type="md" /> Africa</span>,
+            <span><Icon name="kitchen" type="md" /> North America</span>,
+            <span><Icon name="beach_access" type="md" /> South America</span>,
+            <span><Icon name="ac_unit" type="md" /> Antarctica</span>,
+            <span><Icon name="spa" type="md" /> Europe</span>,
+            <span><Icon name="child_care" type="md" /> Oceania</span>,
+          ]}
+        />
+      </FormLabel>
+      <FormEntry name="Planet">
+        <RadioGroup
+          optionList={[
+            { label: 'Earth' },
+            { label: 'The other 7' },
+            { label: 'Not in Solar System' },
+          ]}
+          currentOptionIdx={2}
+        />
+      </FormEntry>
+
       <FormLabel name="Newsletter">
         <Check
           isChecked={true}
@@ -341,6 +560,8 @@ USA`
             { label: 'C/C++/C♯/Objective C' },
             { label: 'Go' },
             { label: 'Node.js' },
+            { label: 'Perl' },
+            { label: '珍珠語言（PerlYuYan）' },
           ]}
           currentOptionIdxList={[0,1,5]}
         />
@@ -576,7 +797,7 @@ storiesOf('Modal', module)
         <p>All modals will try to focus on the first input element once opened.</p>
 
         <FormLabel name="Name">
-          <Input />
+          <Input placeholder="Name the new master" />
         </FormLabel>
 
         <FormEntry name="Access">
