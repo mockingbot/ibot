@@ -1,20 +1,36 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import Icon from '@mockingbot/icon'
-import './index.styl'
 
-// 根据按键来决定每次up/down时值是多少
-function getEventStep (e, step = 1) {
-  if (e.shiftKey) return 10
-  if (e.metaKey) return 100
-  return step
-}
+import Button from '@mockingbot/button'
+import { trimList, getOtherProps } from '@mockingbot/util'
 
-const threshold = 500
-const interval = 30
-const numberFix = (num, precision) => Number(Number(num).toFixed(precision))
+const LONG_PRESSED_THRESHOLD = 500
+const LONG_PRESSED_STEPPING_INTERVAL = 30
+const CORRECTION_AWAIT = 1000
+
+const toFixed = (num, precision) => Number(Number(num).toFixed(precision))
+
+/**
+ * 根据按键来决定step大小
+ *
+ * @param {Event}
+ * @param {Number} step
+ * @return {Number} final step
+ */
+const getStep = ({ shiftKey, metaKey }, step = 1) => (
+  shiftKey ? step*10 : metaKey ? step*100 : step
+)
 
 export default class InputNumber extends PureComponent {
+  constructor (props) {
+    super(props)
+
+    this.state = {
+      value: props.value || (!!props.placeholder ? '' : 1),
+      isValid: false,
+    }
+  }
+
   static propTypes = {
     // 数值精度
     precision: PropTypes.number,
@@ -23,149 +39,243 @@ export default class InputNumber extends PureComponent {
     // 指定从 formatter 里转换回数字的方式，和 formatter 搭配使用
     parser: PropTypes.func,
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    placeholder: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    prefix: PropTypes.node,
+    suffix: PropTypes.node,
     min: PropTypes.number,
     max: PropTypes.number,
+    isDisabled: PropTypes.bool,
     disabled: PropTypes.bool,
+    readOnly: PropTypes.bool,
     step: PropTypes.number,
     onChange: PropTypes.func.isRequired,
     onFocus: PropTypes.func,
-    onBlur: PropTypes.func,
   }
 
-  constructor (props) {
-    super(props)
-    this.state = {
-      value: props.value
+  static defaultProps = {
+    value: '',
+    placeholder: '',
+    step: 1,
+    isDisabled: false,
+    disabled: false,
+    readOnly: false,
+    min: 0,
+    max: Infinity,
+    precision: 1,
+    parser: v => v,
+    formatter: v => v,
+    onChange: () => null,
+    onFocus: ({ currentTarget: $input }) => $input.select(),
+  }
+
+  componentWillMount() {
+    const { value } = this.props
+    const isValid = this.checkValidity(value)
+    this.setState({ isValid })
+  }
+
+  componentWillReceiveProps({ value: newValue }) {
+    const { placeholder } = this.props
+    const { value } = this.state
+
+    if (newValue !== value) {
+      this.setState({
+        value: (
+          newValue === 0 || !!newValue
+          ? newValue
+          : !!placeholder
+          ? ''
+          : 1
+        ),
+      })
     }
   }
 
-  handleChange = (e) => {
-    const value = e.target.value.trim()
-    this.handleValue(value)
+  set$input = $input => Object.assign(this, { $input })
+
+  handleChange = ({ target: { value } }) => (
+    this.setValue(value.trim())
+  )
+
+  correctNumber = number => {
+    const { min, max, precision } = this.props
+    return toFixed(Math.min(Math.max(number, min), max), precision)
   }
 
-  componentWillReveiveProps ({ value }) {
-    if (value != this.state.value) {
-      this.setState({ value })
+  checkValidity = number => (
+    isFinite(number)
+    && this.correctNumber(number) === Number(number)
+  )
+
+  checkSettability = value => (
+    /^0?\-0*$/.test(value)      // Starting with a minus
+    || /^\-?\d*\.$/.test(value) // Ending with a dot
+  )
+
+  setValue = v => {
+    clearTimeout(this.correctionTimeout)
+
+    const {
+      value: originalValue,
+      parser,
+      min, max,
+      precision,
+      onChange,
+    } = this.props
+
+    const value = (
+      parser(v.toString())
+      .toString()
+      .replace(/^0(?!\.)/, '')
+      .replace(/^0{2,}(?!\.)/, '0')
+    )
+
+    const isValid = this.checkValidity(value)
+    const isNumber = isFinite(value)
+    const isSettable = this.checkSettability(value)
+
+    if (!isNumber && !isSettable) return
+
+    const correctedNumber = this.correctNumber(value)
+    const finalNumber = isNaN(correctedNumber) ? originalValue : correctedNumber
+    const settingNumber = isSettable || !isValid ? value : finalNumber
+
+    this.setState({ value: settingNumber, isValid })
+
+    if (isValid) {
+      onChange(settingNumber)
+    } else {
+      Object.assign(this, { correctionTimeout: (
+        setTimeout(() => (
+          this.state.value === settingNumber
+          && this.setState(
+            {
+              value: finalNumber,
+              isValid: true,
+            },
+            onChange(finalNumber),
+          )
+        ), CORRECTION_AWAIT)
+      )})
     }
   }
 
-  handleValue = (value) => {
-    const { parser, min, max, precision } = this.props
-    value = parser(value.toString())
-    if (!isNaN(value)) {
-      if (value > max) {
-        value = max
-      }
-      if (value < min) {
-        value = min
-      }
-      value = numberFix(value, precision)
-      value != this.prevValue && this.props.onChange(value)
-      this.prevValue = value
-    }
-    this.setState({ value })
-  }
+  handleStep = e => {
+    const { action } = e.currentTarget.dataset
 
-  handlePlus = (e) => {
-    const { precision, step } = this.props
-    const range = getEventStep(e, step)
-    const { value: stateValue } = this.state
-    const value = numberFix(Number(stateValue) + range, precision)
-    this.handleValue(value)
-    // 按下超过500毫秒以后, 进入长按模式
-    this.timeout = setTimeout(() => {
-      this.inerval = setInterval(() => {
-        this.handleValue(value)
-      }, interval)
-    }, threshold)
-  }
+    const step = getStep(e, this.props.step) * (action === 'up' ? 1 : -1)
 
-  handleMinus = (e) => {
-    const { precision, step } = this.props
-    const { value: stateValue } = this.state
-    const range = getEventStep(e, step)
-    const value = numberFix(Number(stateValue) - range, precision)
-    this.handleValue(value)
-    this.timeout = setTimeout(() => {
-      this.inerval = setInterval(() => {
-        this.handleValue(value)
-      }, interval)
-    }, threshold)
+    this.setValue(
+      this.correctNumber(Number(this.state.value) + step)
+    )
+
+    // 长按500毫秒后，进入递增/减模式
+    Object.assign(this, {
+      longPressedTimeout: setTimeout(
+        () => Object.assign(this, {
+          steppingInterval: setInterval(
+            () => this.setValue(
+              this.correctNumber(Number(this.state.value) + step)
+            ),
+            LONG_PRESSED_STEPPING_INTERVAL,
+          ),
+        }),
+        LONG_PRESSED_THRESHOLD,
+      )
+    })
   }
 
   handleRelease = () => {
-    clearTimeout(this.timeout)
-    clearInterval(this.inerval)
+    clearTimeout(this.longPressedTimeout)
+    clearInterval(this.steppingInterval)
   }
 
   handleKeyDown = (e) => {
-    const commandKeyDown = (e, bool) => {
-      e.preventDefault()
-      const { precision, step } = this.props
-      const range = getEventStep(e, step)
-      const { value: stateValue } = this.state
-      // 避免空字符串 parseFloat("") NaN
-      const value = bool ? numberFix(parseFloat(Number(stateValue)) - range, precision) : numberFix(parseFloat(Number(stateValue)) + range, precision)
-      this.handleValue(value)
-    }
-    if (e.key == 'ArrowUp') {
-      commandKeyDown(e, false)
-    } else if (e.key == 'ArrowDown') {
-      commandKeyDown(e, true)
-    }
-  }
+    const action = e.key === 'ArrowUp' ? 'up' : e.key === 'ArrowDown' ? 'down' : null
 
-  handleFocus = (e) => {
-    this.props.onFocus && this.props.onFocus(e)
-  }
+    if (!action) return
+    e.preventDefault()
 
-  handleBlur = (e) => {
-    this.props.onBlur && this.props.onBlur(e)
+    const step = getStep(e, this.props.step) * (action === 'up' ? 1 : -1)
+
+    this.setValue(
+      this.correctNumber(Number(this.state.value) + step)
+    )
   }
 
   render () {
-    const { disabled, formatter } = this.props
-    const { value } = this.state
-    return (<div type="number-input" className={`number-input ${disabled ? 'disabled' : ''}`}>
-      <input
-        type="text"
-        value={formatter(value)}
-        className="input"
-        disabled={disabled}
-        onChange={this.handleChange}
-        onKeyDown={this.handleKeyDown}
-        onMouseDown={this.handleMouseDown}
-        onFocus={this.handleFocus}
-        onBlur={this.handleBlur}
-      />
-      <div className="buttons">
-        <Icon
-          type="fa"
-          name="caret-up"
-          onMouseDown={this.handlePlus}
-          onMouseLeave={this.handleRelease}
-          onMouseUp={this.handleRelease}
+    const {
+      formatter, prefix, suffix, placeholder, readOnly,
+      onFocus,
+    } = this.props
+
+    const { value, isValid } = this.state
+    const isDisabled = this.props.isDisabled || this.props.disabled
+
+    return (
+      <label
+        className={trimList([
+          'InputNumber',
+          isDisabled && 'is-disabled',
+          readOnly && 'is-readonly',
+          isValid ? 'is-valid' : 'isnt-valid',
+          !!prefix && 'with-prefix',
+          !!suffix && 'with-suffix',
+        ])}
+      >
+        { prefix && <span className="prefix" children={prefix} /> }
+
+        <input
+          /**
+           * There are unsolved issues with [type=number] inputs,
+           * so we currently use regular text input instead.
+           */
+          type="text"
+          value={formatter(value)}
+          placeholder={placeholder}
+
+          disabled={isDisabled}
+          readOnly={readOnly}
+
+          onChange={this.handleChange}
+          onKeyDown={this.handleKeyDown}
+          onFocus={onFocus}
+          {...getOtherProps(this.constructor, this.props)}
         />
-        <Icon
-          type="fa"
-          name="caret-down"
-          onMouseDown={this.handleMinus}
-          onMouseLeave={this.handleRelease}
-          onMouseUp={this.handleRelease}
-        />
-      </div>
-    </div>)
+
+        { suffix && (
+          <span
+            className="suffix"
+            data-value={formatter(value)}
+            data-suffix={suffix}
+            children={suffix}
+          />
+        )}
+
+        <div className="action">
+          <Button
+            type="text"
+            icon="caret-up"
+            iconType="fa"
+            tabIndex="-1"
+            data-action="up"
+            onMouseDown={this.handleStep}
+            onMouseLeave={this.handleRelease}
+            onMouseUp={this.handleRelease}
+          />
+          <Button
+            type="text"
+            icon="caret-down"
+            iconType="fa"
+            tabIndex="-1"
+            data-action="down"
+            onMouseDown={this.handleStep}
+            onMouseLeave={this.handleRelease}
+            onMouseUp={this.handleRelease}
+          />
+        </div>
+      </label>
+    )
   }
 }
 
-InputNumber.defaultProps = {
-  step: 1,
-  disable: false,
-  min: 0,
-  max: 1000,
-  value: 1,
-  precision: 1,
-  parser: v => v.replace(/[^\w\.-]+/g, ''),
-  formatter: v => v,
-}

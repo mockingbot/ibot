@@ -7,6 +7,7 @@ import './index.styl'
 export default class Button extends PureComponent {
   static propTypes = {
     type: PropTypes.oneOf(['primary', 'regular', 'text']),
+    iconType: PropTypes.oneOf(['mb','icon', 'fa', 'md']),
     icon: PropTypes.string,
     className: PropTypes.string,
     isDisabled: PropTypes.bool,
@@ -24,6 +25,7 @@ export default class Button extends PureComponent {
     const {
       type,
       icon,
+      iconType,
       className,
       children,
       isDisabled,
@@ -36,7 +38,7 @@ export default class Button extends PureComponent {
         disabled={isDisabled}
         {...others}
       >
-        { !!icon && <Icon name={icon} /> }
+        { !!icon && <Icon type={iconType} name={icon} /> }
         { children }
       </button>
     )
