@@ -489,6 +489,16 @@ class INExample extends React.PureComponent {
     () => action('number changed')(value),
   )
 
+  getFormData = (name, defaultValue) => {
+    const value = this.state.formData[name]
+
+    return (
+      value === 0 || !!value
+      ? value
+      : defaultValue
+    )
+  }
+
   render() {
     const { formData } = this.state
 
@@ -504,7 +514,7 @@ class INExample extends React.PureComponent {
         <FormLabel name="Regular">
           <InputNumber
             precision={2}
-            value={formData.a || 1}
+            value={formData.a}
             onChange={this.onChange.bind(this, 'a')}
           />
         </FormLabel>
@@ -513,7 +523,7 @@ class INExample extends React.PureComponent {
           <InputNumber
             precision={2}
             placeholder="Height?"
-            value={formData.aaa || ''}
+            value={formData.aaa}
             onChange={this.onChange.bind(this, 'aaa')}
           />
         </FormLabel>
@@ -541,7 +551,7 @@ class INExample extends React.PureComponent {
         <FormLabel name="Prefix & suffix">
           <InputNumber
             precision={2}
-            value={formData.d || 0}
+            value={formData.d}
             prefix="+"
             suffix="kg"
             step={3}
@@ -552,7 +562,7 @@ class INExample extends React.PureComponent {
         <FormLabel name="Disabled">
           <InputNumber
             disabled
-            value={formData.d || 0}
+            value={formData.d}
             precision={2}
             prefix="+"
             suffix="kg"
@@ -564,7 +574,7 @@ class INExample extends React.PureComponent {
         <FormLabel name="Read-only">
           <InputNumber
             readOnly
-            value={formData.d || 0}
+            value={formData.d}
             precision={2}
             prefix="+"
             suffix="kg"
@@ -588,7 +598,7 @@ class INExample extends React.PureComponent {
         <FormLabel name="1">
           <InputNumber
             precision={1}
-            value={formData.g || 1.1}
+            value={this.getFormData('g', 1.1)}
             onChange={this.onChange.bind(this, 'g')}
           />
         </FormLabel>
@@ -596,7 +606,7 @@ class INExample extends React.PureComponent {
         <FormLabel name="2">
           <InputNumber
             precision={2}
-            value={formData.h || 2.33}
+            value={this.getFormData('h', 2.33)}
             onChange={this.onChange.bind(this, 'h')}
           />
         </FormLabel>
@@ -604,7 +614,7 @@ class INExample extends React.PureComponent {
         <h2>Step</h2>
         <FormLabel name="Regular">
           <InputNumber
-            value={formData.i || 58}
+            value={this.getFormData('i', 58)}
             min={-Infinity}
             onChange={this.onChange.bind(this, 'i')}
           />
@@ -615,7 +625,7 @@ class INExample extends React.PureComponent {
             precision={1}
             min={-Infinity}
             step={0.1}
-            value={formData.j || 5.8}
+            value={this.getFormData('j', 5.8)}
             onChange={this.onChange.bind(this, 'j')}
           />
         </FormLabel>
@@ -625,7 +635,7 @@ class INExample extends React.PureComponent {
             precision={2}
             min={-Infinity}
             step={0.01}
-            value={formData.k || 1.68}
+            value={this.getFormData('k', 1.68)}
             onChange={this.onChange.bind(this, 'k')}
           />
         </FormLabel>
@@ -635,7 +645,7 @@ class INExample extends React.PureComponent {
             precision={2}
             min={-Infinity}
             step={3}
-            value={formData.l || 230}
+            value={this.getFormData('l', 230)}
             onChange={this.onChange.bind(this, 'l')}
           />
         </FormLabel>
@@ -646,7 +656,7 @@ class INExample extends React.PureComponent {
             precision={3}
             min={-Infinity}
             step={2}
-            value={formData.m || 233.666}
+            value={this.getFormData('m', 233.666)}
             onChange={this.onChange.bind(this, 'm')}
           />
         </FormLabel>
@@ -656,7 +666,7 @@ class INExample extends React.PureComponent {
             precision={3}
             min={-Infinity}
             step={2}
-            value={formData.m || 233.666}
+            value={this.getFormData('m', 233.666)}
             onChange={this.onChange.bind(this, 'm')}
           />
         </FormLabel>
@@ -668,7 +678,7 @@ class INExample extends React.PureComponent {
             suffix="°"
             min={-Infinity}
             parser={v => v%360}
-            value={formData.n || 359}
+            value={this.getFormData('n', 359)}
             onChange={this.onChange.bind(this, 'n')}
           />
         </FormLabel>
@@ -682,7 +692,7 @@ class INExample extends React.PureComponent {
             step={100}
             formatter={v => v.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}
             parser={v => v.replace(/\,/g, '')}
-            value={formData.o || 2332330}
+            value={this.getFormData('o', 2332330)}
             onChange={this.onChange.bind(this, 'o')}
           />
         </FormLabel>
