@@ -4,12 +4,7 @@ import PropTypes from 'prop-types'
 import compact from 'lodash/compact'
 import remove from 'lodash/remove'
 
-import './Tooltip.styl'
-
-const TYPE_ELEMENT_MAP = {
-  inline: 'span',
-  block: 'div',
-}
+import { TYPE_ELEMENT_MAP } from './constants'
 
 const EVENT_NAME_LIST = ['hover', 'click']
 

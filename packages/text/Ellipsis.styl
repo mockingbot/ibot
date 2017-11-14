@@ -1,0 +1,26 @@
+@import './ellipsis-extends'
+
+.EllipsisSpan
+  &
+    @extends $Ellipsis
+    display inline-block
+    vertical-align bottom
+
+  // Styles for the pseudo element is a workaround to prevent
+  // Safari from showing browser’s native hover titles:
+  // https://stackoverflow.com/questions/20974276/prevent-safari-from-showing-tooltip-when-text-overflow-is-hidden-with-ellipsis
+  &:before
+    content ''
+    display block
+
+  &[data-type=user]
+  &[data-type=id]
+    max-width-ellipsis(10em)
+  &[data-type=email]
+    max-width-ellipsis(12em)
+  &[data-type=team]
+    max-width-ellipsis(10em)
+  &[data-type=app]
+    max-width-ellipsis(15em)
+  &[data-type=widget]
+    max-width-ellipsis(12em)
