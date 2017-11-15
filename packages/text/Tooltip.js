@@ -1,15 +1,9 @@
 import React, { PureComponent, isValidElement } from 'react'
 import { createPortal } from 'react-dom'
 import PropTypes from 'prop-types'
-import compact from 'lodash/compact'
-import remove from 'lodash/remove'
+import { trimList, getOtherProps } from '@mockingbot/util'
 
-import './Tooltip.styl'
-
-const TYPE_ELEMENT_MAP = {
-  inline: 'span',
-  block: 'div',
-}
+import { TYPE_ELEMENT_MAP } from './constants'
 
 const EVENT_NAME_LIST = ['hover', 'click']
 
@@ -109,12 +103,12 @@ export default class Tooltip extends PureComponent {
 
     const { isOpen, isClicked, $text } = this.state
 
-    const klass = compact([
+    const klass = trimList([
       'Tooltip',
       className,
       isOpen ? 'is-open' : '',
       isClicked ? 'is-clicked' : '',
-    ]).join(' ')
+    ])
 
     const eventName = isClicked ? 'click' : 'hover'
 
@@ -126,7 +120,7 @@ export default class Tooltip extends PureComponent {
         onMouseEnter: this.onMouseEnter,
         onClick: this.onClick,
         onMouseLeave: this.onMouseLeave,
-        ...getOtherProps(this.props),
+        ...getOtherProps(this.constructor, this.props),
       },
       [
         children,
@@ -144,19 +138,6 @@ export default class Tooltip extends PureComponent {
     )
   }
 }
-
-const tooltipPropTypeKeys = Object.keys(Tooltip.propTypes)
-
-const getOtherProps = props => (
-  Object.entries(props).reduce(
-    (result, [key, val]) => (
-      !tooltipPropTypeKeys.includes(key)
-      ? Object.assign(result, { [key]: val })
-      : result
-    ),
-    {},
-  )
-)
 
 class Tip extends PureComponent {
   constructor(props) {
@@ -250,7 +231,7 @@ class Tip extends PureComponent {
         midX_$text - w_$tip/2 < 10
         ? Math.min(w_$tip/2 - midX_$text - 6, most)
         // No enough space to the right:
-        : midX_$text + w_$tip > maxX
+        : midX_$text + w_$tip/2 > maxX
         ? Math.max(-(w_$tip/2 - (maxX + 10 - midX_$text)) + 6, -most)
         : 0
       )
@@ -289,7 +270,7 @@ class Tip extends PureComponent {
         midY_$text - 5 <= maxY/2 && midY_$text - h_$tip/2 < 10
         ? Math.min(h_$tip/2 - midY_$text - 6, most)
         // No enough space to the bottom:
-        : midY_$text - 5 > maxY/2 && midY_$text + h_$tip > maxY
+        : midY_$text - 5 > maxY/2 && midY_$text + h_$tip/2 > maxY
         ? Math.max(-(h_$tip/2 - (maxY + 10 - midY_$text)), -most)
         : 0
       )
@@ -322,12 +303,12 @@ class Tip extends PureComponent {
     const { className, inflexible, children } = this.props
     const { isOpen, position } = this.state
 
-    const klass = compact([
+    const klass = trimList([
       'Tip',
       className,
       `on-${position}`,
       inflexible && 'inflexible',
-    ]).join(' ')
+    ])
 
     return isOpen && (
       <div

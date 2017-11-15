@@ -14,10 +14,10 @@
   "author": "yijun@mockingbot.com",
   "license": "MIT",
   "devDependencies": {
-    "@mockingbot/button": "^0.1.0"
+    "@mockingbot/util": "^0.1.0"
   },
   "peerDependencies": {
-    "@mockingbot/button": "^0.1.0",
+    "@mockingbot/util": "^0.1.0",
     "prop-types": "^15.6.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0"
