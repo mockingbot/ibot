@@ -231,7 +231,7 @@ class Tip extends PureComponent {
         midX_$text - w_$tip/2 < 10
         ? Math.min(w_$tip/2 - midX_$text - 6, most)
         // No enough space to the right:
-        : midX_$text + w_$tip > maxX
+        : midX_$text + w_$tip/2 > maxX
         ? Math.max(-(w_$tip/2 - (maxX + 10 - midX_$text)) + 6, -most)
         : 0
       )
