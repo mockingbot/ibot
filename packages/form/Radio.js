@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import compact from 'lodash/compact'
+import { trimList } from '@mockingbot/util'
 
 /**
  * <Radio>
@@ -47,12 +47,12 @@ export class Radio extends PureComponent {
     return (
       <label
         className={
-          compact([
+          trimList([
             'Radio',
             className,
             isChecked ? 'is-checked' : '',
             isDisabled ? 'is-disabled' : '',
-          ]).join(' ')
+          ])
         }
       >
         <input
@@ -112,11 +112,11 @@ export class RadioGroup extends PureComponent {
       isDisabled,
     } = this.props
 
-    const klass = compact([
+    const klass = trimList([
       'RadioGroup',
       className,
       isDisabled ? 'is-disabled' : '',
-    ]).join(' ')
+    ])
 
     return (
       <span className={klass}>

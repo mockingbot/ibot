@@ -3,7 +3,6 @@ import { createPortal } from 'react-dom'
 import PropTypes from 'prop-types'
 import DocumentEvents from 'react-document-events'
 import get from 'lodash/get'
-import compact from 'lodash/compact'
 
 import Icon from '@mockingbot/icon'
 
@@ -177,12 +176,12 @@ export default class Select extends PureComponent {
     const option = get(optionList, currentOptionIdx, placeholder)
     const displayText = option.label || option
 
-    const klass = compact([
+    const klass = trimList([
       'Select',
       className,
       isOpen ? 'is-open' : '',
       isDisabled ? 'is-disabled' : '',
-    ]).join(' ')
+    ])
 
     return (
       <label
@@ -349,13 +348,13 @@ class SelectMenu extends PureComponent {
 
     const isEmpty = optionList.length === 0
 
-    const klass = compact([
+    const klass = trimList([
       'SelectMenu',
       menuClassName,
       isOpen ? 'is-open' : '',
       isDisabled ? 'is-disabled' : '',
       isEmpty ? 'is-empty' : '',
-    ]).join(' ')
+    ])
 
     return (
       <ul
@@ -444,11 +443,11 @@ function Option({
   currentOptionIdx,
 }) {
 
-  const className = compact([
+  const className = trimList([
     'SelectOption',
     isDisabled ? 'is-disabled' : '',
     String(currentOptionIdx) === String(idx) ? 'is-active' : '',
-  ]).join(' ')
+  ])
 
   return (
     <li

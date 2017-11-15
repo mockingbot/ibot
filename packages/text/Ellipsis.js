@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import compact from 'lodash/compact'
 import isEqual from 'lodash/isEqual'
+import { trimList } from '@mockingbot/util'
 
 import Tooltip from './Tooltip'
 
@@ -17,7 +17,7 @@ export class EllipsisSpan extends PureComponent {
     className: PropTypes.string,
     to: PropTypes.string,
     type: PropTypes.oneOf(['user', 'id', 'email', 'team', 'app', 'widget']),
-    max: PropTypes.oneOf([PropTypes.string, PropTypes.number]),
+    max: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     display: PropTypes.oneOf(['inline-block', 'block']),
     children: PropTypes.node,
     noTooltip: PropTypes.bool,
@@ -26,25 +26,22 @@ export class EllipsisSpan extends PureComponent {
   componentDidMount() {
     const { noTooltip } = this.props
 
-    if (!noTooltip && this.detectTruncation()) {
+    if (this.detectTruncation()) {
       this.setState({ isTruncated: true })
     }
   }
 
-  componentDidUpdate({ children: prevChildren, noTooltip: prevNoTooltip }) {
+  componentDidUpdate({ children: prevChildren }) {
     const { children, noTooltip } = this.props
 
-    if (
-      !isEqual(prevChildren, children)
-      || prevNoTooltip && !noTooltip
-    ) {
+    if (!isEqual(prevChildren, children)) {
       this.setState({
         isTruncated: this.detectTruncation(),
       })
     }
   }
 
-  set$ellipsis = $ellipsis => console.log($ellipsis) || Object.assign(this, { $ellipsis })
+  set$ellipsis = $ellipsis => Object.assign(this, { $ellipsis })
   detectTruncation = ($e = this.$ellipsis) => $e.offsetWidth < $e.scrollWidth
 
   render() {
@@ -61,11 +58,11 @@ export class EllipsisSpan extends PureComponent {
     const attr = {
       ref: this.set$ellipsis,
 
-      className: compact([
+      className: trimList([
         'EllipsisSpan',
         className,
         isTruncated && 'is-truncated',
-      ]).join(' '),
+      ]),
 
       href: to,
       'data-type': type,

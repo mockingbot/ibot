@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import compact from 'lodash/compact'
 import Icon from '@mockingbot/icon'
+import { trimList } from '@mockingbot/util'
 
 /**
  * <Check>
@@ -47,12 +47,12 @@ export class Check extends PureComponent {
 
     return (
       <label
-        className={compact([
+        className={trimList([
           'Check',
           className,
           isChecked ? 'is-checked' : '',
           isDisabled ? 'is-disabled' : '',
-        ]).join(' ')}
+        ])}
       >
         <input
           type="checkbox"
@@ -118,11 +118,11 @@ export class CheckGroup extends PureComponent {
 
     const currentOptionIdxSet = new Set(currentOptionIdxList)
 
-    const klass = compact([
+    const klass = trimList([
       'CheckGroup',
       className,
       isDisabled ? 'is-disabled' : '',
-    ]).join(' ')
+    ])
 
     return (
       <span className={klass}>
