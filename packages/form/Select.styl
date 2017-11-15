@@ -12,6 +12,7 @@ label.Select
     transition all .2s
   button
     flex 1
+    width calc(100% - 2em)
     height 100%
     text-align start
     color $cl-secondary-text
@@ -32,9 +33,11 @@ label.Select
 ul.SelectMenu
   &
     position fixed
+    z-index $z-SelectMenu
     margin 0
     padding 0
     display block
+    max-width 20em
     min-height $select-option-height
     max-height (10 * $select-option-height)
     overflow-x hidden

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import DocumentEvents from 'react-document-events'
 import get from 'lodash/get'
 
+import { EllipsisSpan } from '@mockingbot/text'
 import Icon from '@mockingbot/icon'
 import { trimList } from '@mockingbot/util'
 
@@ -191,7 +192,7 @@ export default class Select extends PureComponent {
         ref={this.set$select}
       >
         <button type="button" onClick={this.toggle} disabled={isDisabled}>
-          { displayText }
+          <EllipsisSpan>{ displayText }</EllipsisSpan>
         </button>
 
         <Icon type="fa" name="caret-down" className="Select-caret" />
@@ -457,7 +458,7 @@ function Option({
       className={className}
       onClick={onChange}
     >
-      { label }
+      <EllipsisSpan>{ label }</EllipsisSpan>
     </li>
   )
 }
