@@ -5,6 +5,7 @@ import DocumentEvents from 'react-document-events'
 import get from 'lodash/get'
 
 import Icon from '@mockingbot/icon'
+import { trimList } from '@mockingbot/util'
 
 import './index.styl'
 
