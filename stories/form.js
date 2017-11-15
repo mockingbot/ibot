@@ -114,6 +114,11 @@ storiesOf('Form Components', module)
     </p>
   </Root>
 ))
+.add('Input Number', () => (
+  <Root>
+    <INExample />
+  </Root>
+))
 .add('Radio/Check', () => (
   <Root>
     <style scoped>
@@ -470,11 +475,6 @@ USA`
         />
       </FormEntry>
     </form>
-  </Root>
-))
-.add('Input Number', () => (
-  <Root>
-    <INExample />
   </Root>
 ))
 
