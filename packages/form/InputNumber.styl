@@ -1,0 +1,113 @@
+@import '../../constants'
+
+label.InputNumber
+  &
+    position relative
+    display inline-block
+    min-width 2em
+    height $form-entry-min-height
+    overflow hidden
+    // Can’t use San Francisco for suffix position reason:
+    font-family 'Helvetica Neue', Helvetica, Arial, sans-serif
+    font-size 12px
+    color $cl-secondary-text
+  &.is-disabled
+    &
+      opacity .5
+      cursor not-allowed
+  &.is-disabled
+  &.is-readonly
+    &:after
+      content ''
+      position absolute
+      left 0
+      top 0
+      width 100%
+      height 100%
+
+  input
+    &
+      padding 0 20px 0 0
+      width 100%
+      height 100%
+      font-family inherit
+      font-size inherit
+      text-indent 4px
+      border-bottom 1px solid $cl-divider
+      color inherit
+      transition all .3s ease-in-out
+      -moz-appearance textfield
+    &::-webkit-inner-spin-button
+    &::-webkit-outer-spin-button
+      -webkit-appearance none
+      margin 0
+    &::placeholder
+      color $cl-tertiary-text
+    &[readonly]
+      background-color #f6f6f6
+      border-bottom-color transparent
+
+  &:not(.is-disabled):hover input:not([readonly])
+  input:not([readonly]):focus
+    &
+      border-color $cl-core
+    ~ .action
+      opacity 1
+      transition all .2s ease-in-out
+
+  &.with-prefix input
+    padding-left 1em
+    text-indent 0
+  &.with-suffix input
+    padding-right 32px
+
+  .action
+    &
+      position absolute
+      top 0
+      right 0
+      display flex
+      flex-direction column
+      justify-content space-between
+      padding .5em 0
+      width 20px
+      height 100%
+      text-align center
+      opacity .5
+    button
+    button:hover
+      margin 0
+      padding 0
+      line-height 1
+      color $cl-tertiary-text
+    button:active
+      color $cl-core
+
+  .prefix
+  .suffix
+    position absolute
+    top 0
+    left 0
+    display flex
+    align-items center
+    height 100%
+    border-bottom 1px solid transparent
+    pointer-events none
+  .prefix
+    min-width .75em
+    margin-right .125em
+    justify-content flex-end
+  .suffix
+    &
+      margin 0 32px 0 4px
+      width 100%
+    &:before
+      content attr(data-value)
+      display inline-block
+      margin-right .125em
+      width fit-content
+      max-width calc(100% - 32px)
+      overflow hidden
+      opacity 0
+  /.InputNumber.with-prefix .suffix
+    margin 0 32px 0 12px
