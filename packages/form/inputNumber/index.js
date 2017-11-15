@@ -65,7 +65,9 @@ export default class InputNumber extends PureComponent {
     parser: v => v,
     formatter: v => v,
     onChange: () => null,
-    onFocus: ({ currentTarget: $input }) => $input.select(),
+    onFocus: ({ currentTarget: $input }) => (
+      setTimeout(() => $input.select(), 50)
+    ),
   }
 
   componentWillMount() {
@@ -120,6 +122,7 @@ export default class InputNumber extends PureComponent {
       parser,
       min, max,
       precision,
+      placeholder,
       onChange,
     } = this.props
 
@@ -130,6 +133,7 @@ export default class InputNumber extends PureComponent {
       .replace(/^0{2,}(?!\.)/, '0')
     )
 
+    const isNull = value !== 0 && !value && !!placeholder
     const isValid = this.checkValidity(value)
     const isNumber = isFinite(value)
     const isSettable = this.checkSettability(value)
@@ -138,7 +142,7 @@ export default class InputNumber extends PureComponent {
 
     const correctedNumber = this.correctNumber(value)
     const finalNumber = isNaN(correctedNumber) ? originalValue : correctedNumber
-    const settingNumber = isSettable || !isValid ? value : finalNumber
+    const settingNumber = isNull ? null : isSettable || !isValid ? value : finalNumber
 
     this.setState({ value: settingNumber, isValid })
 
