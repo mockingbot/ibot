@@ -15,6 +15,8 @@ import {
   Select,
 } from '../packages/form/index'
 
+import { WidgetName } from '../packages/text/index'
+
 storiesOf('Modal', module)
 .add('Default', () => (
   <Root>
@@ -77,6 +79,21 @@ storiesOf('Modal', module)
         title="Modal’s Title"
       >
         Modal opened with a button
+      </Modal>
+    </p>
+
+    <p>
+      Opening a modal in a modal:{' '}
+      <Modal
+        openerType="switch"
+
+        isOpen={false}
+        title="Modal’s Title"
+      >
+        Give me an alert:{' '}
+        <Modal openerType="switch" type="alert" title="Yay!">
+          Modal in a modal is open!
+        </Modal>
       </Modal>
     </p>
   </Root>
@@ -279,8 +296,19 @@ storiesOf('Modal', module)
 
         type="form"
         title="Transfer Screen(s)"
+        onConfirm={() => null}
       >
-        <FormLabel>
+        <p style={{ margin: '0 0 1.5em' }}>转移页面「<WidgetName name="2017年末重要促销页面，禁止外流！！" />」到其他位置。</p>
+        <FormLabel name="目标项目">
+          <Select
+            placeholder="选择一个项目"
+            optionList={[
+              ['我的项目', '私ノ友達', '双十一的特价活动超强報价页面，十月底最终版'],
+              ['洋基队', 'InstaYankies', 'New York New York', 'Manhattan Project'],
+              ['巨人队', 'Taller Men', 'Shorter Giants'],
+              ['红襪队', '一个很長很長又臭又長很長很長又臭又長很長很長又臭又長又長又臭又長又臭又臭又長的项目名字'],
+            ]}
+          />
         </FormLabel>
       </Modal>
     </FormLabel>
