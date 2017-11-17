@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { trimList } from '@mockingbot/util'
 
 import './index.styl'
 
@@ -17,7 +18,7 @@ export default function Icon({ name = '', type, className, ...others }) {
 
   return (
     <span
-      className={`icon ${type} ${prefix}-${name} ${className}`}
+      className={trimList(['Icon', type, `${prefix}-${name}`, className])}
       {...others}
     >
       { type === 'md' && name }

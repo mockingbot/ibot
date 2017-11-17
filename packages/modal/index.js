@@ -5,13 +5,14 @@ import PropTypes from 'prop-types'
 import Button from '@mockingbot/button'
 import Switch from '@mockingbot/switch'
 import Icon from '@mockingbot/icon'
+import { trimList } from '@mockingbot/util'
 
 import './index.styl'
 
 const OPEN_MODAL_STACK = []
 const { I18N = {} } = window
 const MODAL_ROOT_ID = 'MB_MODAL_ROOT'
-const MODAL_PORTAL_CLASS = 'mb-modal-portal'
+const MODAL_PORTAL_CLASS = 'ModalPortal'
 const stopPropagation = e => e.stopPropagation()
 
 const $body = document.body
@@ -25,6 +26,13 @@ if (!$body.contains($modalRoot)) {
   $body.appendChild($modalRoot)
 }
 
+const TYPE_CLASS_MAP = {
+  alert: 'AlertModal',
+  form: 'FormModal',
+  functional: 'FunctionalModal',
+  display: 'DisplayModal',
+}
+
 export default class Modal extends PureComponent {
   constructor(props) {
     super(props)
@@ -36,7 +44,7 @@ export default class Modal extends PureComponent {
 
       portal: Object.assign(
         document.createElement('div'),
-        { className: `${MODAL_PORTAL_CLASS} ${portalClassName}` },
+        { className: trimList([MODAL_PORTAL_CLASS, portalClassName]) },
       ),
     })
   }
@@ -327,12 +335,16 @@ export default class Modal extends PureComponent {
 
     return isOpen && (
       <div
-        className={`modal-mask ${maskClassName} ${canClose && canCloseOnClickMask ? 'can-close' : 'cant-close'}`}
+        className={trimList([
+          'ModalMask',
+          maskClassName,
+          canClose && canCloseOnClickMask ? 'can-close' : 'cant-close',
+        ])}
         onClick={canClose && canCloseOnClickMask ? this.close : stopPropagation}
         onTransitionEnd={this.onTransitionEnd}
       >
         <div
-          className={`${type}-modal ${className}`}
+          className={trimList(['Modal', TYPE_CLASS_MAP[type], className])}
           onClick={stopPropagation}
           onTransitionEnd={stopPropagation}
         >
@@ -365,7 +377,7 @@ export default class Modal extends PureComponent {
                 />
               )}
 
-              { (type==="alert" || onConfirm) && (
+              { (type === "alert" || onConfirm) && (
                 <button
                   className="confirm-btn"
                   onClick={this.onConfirm}

@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 
 import Icon from '@mockingbot/icon'
+import { trimList } from '@mockingbot/util'
 
 import './index.styl'
 
@@ -55,7 +56,11 @@ class Switch extends PureComponent {
 
     return (
       <label
-        className={`switch ${isChecked ? 'is-checked' : 'isnt-checked'} ${isDisabled ? 'is-disabled' : ''}`}
+        className={trimList([
+          'Switch',
+          isChecked ? 'is-checked' : 'isnt-checked',
+          isDisabled && 'is-disabled',
+        ])}
       >
         <button type="button" disabled={isDisabled} onClick={this.toggle}>
           { icon ? <Icon name={icon} /> : children }

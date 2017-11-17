@@ -1,6 +1,6 @@
 @import '../../constants/'
 
-.mb-modal-portal
+.ModalPortal
   &
     position absolute
     top 0
@@ -16,13 +16,13 @@
     &
       overflow hidden
       pointer-events none
-    .modal-mask
-      background-color rgba(#000, .0)
-    .modal-mask > div
+    .ModalMask
+      background-color rgba(#000, 0)
+    .Modal
       transform translateY(-50vh)
       opacity 0
 
-.modal-mask
+.ModalMask
   &
     display flex
     // **DO NOT** use these:
@@ -36,7 +36,7 @@
   &.can-close
     cursor pointer
 
-$modal
+.Modal
   &
     position relative
     margin calc(20vh - 50px) auto auto
@@ -83,11 +83,6 @@ $modal
   .content
     padding 30px 20px 35px
 
-  // Form:
-  input[type='number']
-    text-align center
-    padding 0 0 0 1em !important
-
   // Footer:
   footer
     display flex
@@ -117,20 +112,14 @@ $modal
     &:not([disabled]):hover
       color darken($cl-core, 20%)
 
-.alert-modal
-.form-modal
-.functional-modal
-.display-modal
-  @extends $modal
-
-.alert-modal
-.form-modal
+.AlertModal
+.FormModal
   &
     display flex
     flex-direction column
     width 380px
     line-height 1.5
-  .form-entry
+  .FormEntry
     &:last-child
       margin-bottom -.5em
     > .key
@@ -138,8 +127,8 @@ $modal
     > .val
       max-width calc(100% - 7em)
 
-.functional-modal
+.FunctionalModal
   width 500px
-.display-modal
-  width 640px
 
+.DisplayModal
+  width 640px

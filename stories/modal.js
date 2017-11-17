@@ -101,9 +101,9 @@ storiesOf('Modal', module)
 .add('Advanced', () => (
   <Root>
     <style>
-    {`h2 + .form-entry { margin-top: -1em; }`}
-    {`.alert-modal p, .form-modal p { margin: .5em 0; }`}
-    {`.form-entry > .key { flex-basis: 15em; }`}
+    {`h2 + .FormEntry { margin-top: -1em; }`}
+    {`.AlertModal p, .FormModal p { margin: .5em 0; }`}
+    {`.FormEntry > .key { flex-basis: 15em; }`}
     {`button.text .icon { margin-right: .25em; font-size: 1.1em; vertical-align: -.1em; }`}
     </style>
 
@@ -275,7 +275,7 @@ storiesOf('Modal', module)
         <FormLabel name="Size">
           <style>
           {`
-            .master-modal .form-entry > .val > input.regular[type=number] {
+            .master-modal .FormEntry > .val > input.regular[type=number] {
               display: inline-block;
               width: 6em;
             }
@@ -369,8 +369,8 @@ storiesOf('Modal', module)
         className="share-modal"
       >
         <style>
-        {`.share-modal .form-entry > .key { flex-basis: 10em; }`}
-        {`.share-modal .form-entry > .val label { width: 100%; }`}
+        {`.share-modal .FormEntry > .key { flex-basis: 10em; }`}
+        {`.share-modal .FormEntry > .val label { width: 100%; }`}
         </style>
 
         <p>Embed the app in a website or blog by the code below:</p>

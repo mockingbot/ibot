@@ -1,7 +1,7 @@
 @import '../../constants'
 
 $btn,
-button.regular
+Button.regular
   $height = 34px
 
   &
@@ -26,7 +26,7 @@ button.regular
   .icon
     margin-right .125em
 
-button.primary
+Button.primary
   &
     @extends $btn
     background-color $cl-primary-btn-bg
@@ -36,7 +36,7 @@ button.primary
     border-color $cl-primary-btn-bg-hover
     color $cl-primary-btn-text-hover
 
-button.text
+Button.text
   &
     color $cl-core
   &[disabled]

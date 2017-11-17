@@ -506,7 +506,7 @@ class INExample extends React.PureComponent {
       <div>
         <style>
         {`
-          .form-entry { width: 12rem; }
+          .FormEntry { width: 12rem; }
           .InputNumber { width: 100%; }
          `}
         </style>

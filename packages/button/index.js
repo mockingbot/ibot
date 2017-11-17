@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+
 import Icon from '@mockingbot/icon'
+import { trimList } from '@mockingbot/util'
 
 import './index.styl'
 
@@ -34,7 +36,7 @@ export default class Button extends PureComponent {
 
     return (
       <button
-        className={`${type} ${className}`}
+        className={trimList([type, className])}
         disabled={isDisabled}
         {...others}
       >

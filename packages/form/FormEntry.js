@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { trimList } from '@mockingbot/util'
 
 /**
  * <FormEntry>
@@ -13,7 +14,7 @@ export function FormEntry({
 }) {
   return React.createElement(
     isLabel ? 'label' : 'div',
-    { className: `form-entry ${className}`, type },
+    { className: trimList(['FormEntry', className]), type },
     key && (
       <span className="key">
         {key}
