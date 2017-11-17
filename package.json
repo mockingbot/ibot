@@ -1,13 +1,13 @@
 {
-  "name": "mb-ui",
-  "version": "0.0.7",
+  "name": "ibot",
+  "version": "0.1.0",
   "main": "lib/index.js",
   "module": "lib/index.js",
   "license": "MIT",
   "files": [
     "lib"
   ],
-  "url": "https://github.com/mockingbot/mb-ui.git",
+  "url": "https://github.com/mockingbot/ibot.git",
   "scripts": {
     "build:storybook": "build-storybook",
     "deploy": "storybook-to-ghpages",

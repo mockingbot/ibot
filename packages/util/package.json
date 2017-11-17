@@ -1,5 +1,5 @@
 {
-  "name": "@mockingbot/util",
+  "name": "@ibot/util",
   "version": "0.1.0",
   "description": "",
   "main": "dest/index.js",

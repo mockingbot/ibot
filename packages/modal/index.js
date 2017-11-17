@@ -2,10 +2,10 @@ import React, { PureComponent } from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 
-import Button from '@mockingbot/button'
-import Switch from '@mockingbot/switch'
-import Icon from '@mockingbot/icon'
-import { trimList } from '@mockingbot/util'
+import Button from '@ibot/button'
+import Switch from '@ibot/switch'
+import Icon from '@ibot/icon'
+import { trimList } from '@ibot/util'
 
 import './index.styl'
 

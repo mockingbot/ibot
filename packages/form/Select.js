@@ -4,9 +4,9 @@ import PropTypes from 'prop-types'
 import DocumentEvents from 'react-document-events'
 import get from 'lodash/get'
 
-import { EllipsisSpan } from '@mockingbot/text'
-import Icon from '@mockingbot/icon'
-import { trimList } from '@mockingbot/util'
+import { EllipsisSpan } from '@ibot/text'
+import Icon from '@ibot/icon'
+import { trimList } from '@ibot/util'
 
 import './index.styl'
 

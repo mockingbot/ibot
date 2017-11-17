@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { trimList } from '@mockingbot/util'
+import { trimList } from '@ibot/util'
 
 /**
  * <Radio>

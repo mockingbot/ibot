@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { trimList } from '@mockingbot/util'
+import { trimList } from '@ibot/util'
 
 import './index.styl'
 

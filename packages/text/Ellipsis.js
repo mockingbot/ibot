@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import isEqual from 'lodash/isEqual'
-import { trimList } from '@mockingbot/util'
+import { trimList } from '@ibot/util'
 
 import Tooltip from './Tooltip'
 

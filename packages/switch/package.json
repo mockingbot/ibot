@@ -1,5 +1,5 @@
 {
-  "name": "@mockingbot/switch",
+  "name": "@ibot/switch",
   "version": "0.1.0",
   "description": "",
   "main": "dest/index.js",
@@ -14,14 +14,14 @@
   "author": "plrthink@gmail.com",
   "license": "MIT",
   "peerDependencies": {
-    "@mockingbot/icon": "^0.1.0",
-    "@mockingbot/util": "^0.1.0",
+    "@ibot/icon": "^0.1.0",
+    "@ibot/util": "^0.1.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0"
   },
   "devDependencies": {
-    "@mockingbot/icon": "^0.1.0",
-    "@mockingbot/util": "^0.1.0"
+    "@ibot/icon": "^0.1.0",
+    "@ibot/util": "^0.1.0"
   },
   "keywords": [
     "react",

@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import Icon from '@mockingbot/icon'
-import { trimList } from '@mockingbot/util'
+import Icon from '@ibot/icon'
+import { trimList } from '@ibot/util'
 
 /**
  * <Check>

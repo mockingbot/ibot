@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 
-import Button from '@mockingbot/button'
-import { trimList, getOtherProps } from '@mockingbot/util'
+import Button from '@ibot/button'
+import { trimList, getOtherProps } from '@ibot/util'
 
 const LONG_PRESSED_THRESHOLD = 500
 const LONG_PRESSED_STEPPING_INTERVAL = 30

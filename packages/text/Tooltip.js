@@ -1,7 +1,7 @@
 import React, { PureComponent, isValidElement } from 'react'
 import { createPortal } from 'react-dom'
 import PropTypes from 'prop-types'
-import { trimList, getOtherProps } from '@mockingbot/util'
+import { trimList, getOtherProps } from '@ibot/util'
 
 import { TYPE_ELEMENT_MAP } from './constants'
 

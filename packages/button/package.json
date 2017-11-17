@@ -1,5 +1,5 @@
 {
-  "name": "@mockingbot/button",
+  "name": "@ibot/button",
   "version": "0.1.0",
   "description": "",
   "main": "dest/index.js",
@@ -14,12 +14,12 @@
   "author": "yijun@mockingbot.com",
   "license": "MIT",
   "devDependencies": {
-    "@mockingbot/icon": "^0.1.0",
-    "@mockingbot/util": "^0.1.0"
+    "@ibot/icon": "^0.1.0",
+    "@ibot/util": "^0.1.0"
   },
   "peerDependencies": {
-    "@mockingbot/icon": "^0.1.0",
-    "@mockingbot/util": "^0.1.0",
+    "@ibot/icon": "^0.1.0",
+    "@ibot/util": "^0.1.0",
     "prop-types": "^15.6.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0"

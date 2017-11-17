@@ -1,5 +1,5 @@
 {
-  "name": "@mockingbot/color-picker",
+  "name": "@ibot/color-picker",
   "version": "0.0.7",
   "description": "A color picker react component",
   "main": "dest/index.js",
