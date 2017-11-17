@@ -22,7 +22,7 @@ storiesOf('Text', module)
 
       p.button { display: flex; align-items: center; }
       p.button .Tooltip { margin-right: .5em; }
-      button .icon { margin-right: .5em; font-size: 1.1em; vertical-align: -.05em; }
+      button .Icon { margin-right: .5em; font-size: 1.1em; vertical-align: -.05em; }
     `}
     </style>
 

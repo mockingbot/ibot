@@ -236,8 +236,8 @@ storiesOf('Form Components', module)
   <Root>
     <style>
     {`
-      .Select > button .icon,
-      .select-menu-with-icons .icon {
+      .Select > button .Icon,
+      .select-menu-with-icons .Icon {
         margin-right: .25em;
         font-size: 1.2em;
         vertical-align: -.1em;
@@ -375,8 +375,8 @@ storiesOf('Form Components', module)
       form { width: 25em; }
       .language-list label { flex: 100%; }
 
-      .Select > button .icon,
-      .select-menu-with-icons .icon {
+      .Select > button .Icon,
+      .select-menu-with-icons .Icon {
         margin-right: .25em;
         font-size: 1.2em;
         vertical-align: -.1em;
