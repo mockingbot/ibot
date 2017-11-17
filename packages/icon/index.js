@@ -12,16 +12,22 @@ import './index.styl'
  *  @prop {String} [type=icon]
  *  @prop {String} [className]
  */
-export default function Icon({ name = '', type, className, ...others }) {
+export default function Icon({
+  name: propName = '',
+  type,
+  className,
+  ...others,
+}) {
   const prefix = type === 'mb' ? 'icon' : type
-  name = name.replace(/^(icon|fa|md|ci|mb)\-/gi, '')
+  const name = propName.replace(/^(dora|icon|fa|md|ci|mb)\-/gi, '')
+  const isLiga = type === 'dora' || type === 'md'
 
   return (
     <span
       className={trimList(['Icon', type, `${prefix}-${name}`, className])}
       {...others}
     >
-      { type === 'md' && name }
+      { isLiga && name }
     </span>
   )
 }
@@ -35,5 +41,4 @@ Icon.propTypes = {
 Icon.defaultProps = {
   name: '',
   type: 'icon',
-  className: '',
 }
