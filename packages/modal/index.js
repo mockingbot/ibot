@@ -236,20 +236,23 @@ export default class Modal extends PureComponent {
 
   onKeyDown = ({ key, target: $elmt }) => {
     const {
+      type,
       canClose, canCloseOnEsc,
       canConfirmOnEnter,
+      onConfirm,
     } = this.props
 
     const { isOpen } = this.state
+    const isSelectMenuOpen = !!document.querySelector('.SelectMenu.is-open')
 
     if (
       key === 'Escape'
 
       // Not focus on form elements:
-      && !$elmt.matches('input, textarea, [type=select]')
+      && !$elmt.matches('input, textarea, select') && !isSelectMenuOpen
 
       // Current modal is open and can close via esc:
-      && isOpen && canClose && canCloseOnEsc
+      && isOpen && canClose && canCloseOnEsc && !isSelectMenuOpen
 
       // Only work on the toppest modal:
       && this === OPEN_MODAL_STACK[0]
@@ -261,13 +264,16 @@ export default class Modal extends PureComponent {
       key === 'Enter'
 
       // Not focus on form elements:
-      && !$elmt.matches('textarea')
+      && !$elmt.matches('textarea') && !isSelectMenuOpen
 
       // Current modal is open and can confirm via enter:
       && isOpen && canConfirmOnEnter
 
       // Only work on the toppest modal:
       && this === OPEN_MODAL_STACK[0]
+
+      // Only work whilst `onConfirm` callback is provided:
+      && (!!onConfirm || type === 'alert')
     ) {
       this.onConfirm()
     }
