@@ -218,7 +218,7 @@ export default class Modal extends PureComponent {
 
   positionY = () => setTimeout(() => {
     const { type } = this.props
-    const $modal = this.portal.querySelector('.modal-mask > div')
+    const $modal = this.portal.querySelector('.Modal')
 
     if (!$modal || type === 'alert') return
 
@@ -243,7 +243,7 @@ export default class Modal extends PureComponent {
     } = this.props
 
     const { isOpen } = this.state
-    const isSelectMenuOpen = !!document.querySelector('.SelectMenu.is-open')
+    const isSelectMenuOpen = !!document.querySelector('#MB_SELECT_MENU_ROOT .SelectMenu.is-open')
 
     if (
       key === 'Escape'
