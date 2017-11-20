@@ -15,6 +15,8 @@ import {
   Select,
 } from '../packages/form/index'
 
+const onTypingChange = ({ target: { value } }) => action('Changed').call(null, value)
+
 storiesOf('Form Components', module)
 .add('Input', () => (
   <Root>
@@ -25,18 +27,18 @@ storiesOf('Form Components', module)
 
     <h2>Text input</h2>
     <p>
-      <Input placeholder="Type something here…" />
+      <Input placeholder="Type something here…" onChange={onTypingChange} />
       <br />
-      <Input defaultValue="A text input with initial value." />
+      <Input defaultValue="A text input with initial value." onChange={onTypingChange} />
       <br />
-      <Input disabled placeholder="A disabled text input" />
+      <Input disabled placeholder="A disabled text input" onChange={onTypingChange} />
       <br />
-      <Input readOnly placeholder="A read-only text input" />
+      <Input readOnly placeholder="A read-only text input" onChange={onTypingChange} />
     </p>
 
     <h2>Email input</h2>
     <p>
-      <Input type="email" placeholder="Input email here…" />
+      <Input type="email" placeholder="Input email here…" onChange={onTypingChange} />
     </p>
 
     <style>
@@ -50,13 +52,13 @@ storiesOf('Form Components', module)
         value={1}
         min={-1000}
         suffix="°"
-        onChange={action('number changed')}
+        onChange={action('Number changed')}
       />
       <InputNumber
         value={0}
         step={10}
         precision={0}
-        onChange={action('number changed')}
+        onChange={action('Number changed')}
       />
 
       <InputNumber
@@ -67,7 +69,7 @@ storiesOf('Form Components', module)
         prefix="+"
         suffix="℃"
         precision={0}
-        onChange={action('number changed')}
+        onChange={action('Number changed')}
       />
 
       <InputNumber
@@ -77,7 +79,7 @@ storiesOf('Form Components', module)
         step={10}
         suffix="%"
         precision={0}
-        onChange={action('number changed')}
+        onChange={action('Number changed')}
       />
 
       <InputNumber
@@ -87,7 +89,7 @@ storiesOf('Form Components', module)
         step={10}
         prefix="$"
         precision={0}
-        onChange={action('number changed')}
+        onChange={action('Number changed')}
       />
       <InputNumber
         isDisabled={true}
@@ -98,27 +100,25 @@ storiesOf('Form Components', module)
         formatter={value => `$${value}`}
         parser={value => value.replace("$", "")}
         precision={0}
-        onChange={action('number changed')}
+        onChange={action('Number changed')}
       />
     </div>
 
     <h2>Textarea</h2>
     <p>
-      <Textarea placeholder="Type some paragraphs of text here…" />
+      <Textarea placeholder="Type some paragraphs of text here…" onChange={onTypingChange} />
       <br />
-      <Textarea defaultValue="A textarea with initial value." />
+      <Textarea defaultValue="A textarea with initial value." onChange={onTypingChange} />
       <br />
-      <Textarea disabled placeholder="A disabled textarea" />
+      <Textarea disabled placeholder="A disabled textarea" onChange={onTypingChange} />
       <br />
-      <Textarea readOnly placeholder="A read-only textarea" />
+      <Textarea readOnly placeholder="A read-only textarea" onChange={onTypingChange} />
     </p>
   </Root>
 ))
-.add('Input Number', () => (
-  <Root>
-    <INExample />
-  </Root>
-))
+
+.add('Input Number', () => <InputNumberExample />)
+
 .add('Radio/Check', () => (
   <Root>
     <style scoped>
@@ -140,10 +140,10 @@ storiesOf('Form Components', module)
 
     <h2>Radio</h2>
     <p className="radio">
-      <Radio name="lang" value="zh" label="汉语" isChecked={true} />
-      <Radio name="lang" value="ja" label="日本語" isDisabled={true} />
-      <Radio name="lang" value="en" label="English" />
-      <Radio name="lang" value="tlh" label="Klingon" isDisabled={true} />
+      <Radio name="lang" value="zh" label="汉语" isChecked={true} onChange={action('Radio changed')} />
+      <Radio name="lang" value="ja" label="日本語" isDisabled={true} onChange={action('Radio changed')} />
+      <Radio name="lang" value="en" label="English" onChange={action('Radio changed')} />
+      <Radio name="lang" value="tlh" label="Klingon" isDisabled={true} onChange={action('Radio changed')} />
     </p>
 
     <style>
@@ -161,13 +161,13 @@ storiesOf('Form Components', module)
           { label: 'New York, USA', value: 'newyork', isDisabled: true },
         ]}
         currentOptionIdx={1}
+        onChange={action('Radio changed')}
       />
     </p>
 
     <h3>Disabling the entire radio group</h3>
     <p className="radio-group">
       <RadioGroup
-        isDisabled
         optionList={[
           { label: 'Běijīng, China', value: 'beijing' },
           { label: 'Tōkyō, Japan', value: 'tokyo' },
@@ -175,6 +175,7 @@ storiesOf('Form Components', module)
           { label: 'New York, USA', value: 'newyork', isDisabled: true },
         ]}
         currentOptionIdx={1}
+        onChange={action('Radio changed')}
       />
 
     </p>
@@ -193,10 +194,10 @@ storiesOf('Form Components', module)
     {`p.check label { margin-right: .5em; }`}
     </style>
     <p className="check">
-      <Check name="lang" label="汉语" isChecked={true} />
-      <Check name="lang" label="日本語" isChecked={true} />
-      <Check name="lang" label="English" />
-      <Check name="lang" label="Klingon" isDisabled={true} />
+      <Check name="lang" label="汉语" isChecked={true} onChange={action('Check changed')} />
+      <Check name="lang" label="日本語" isChecked={true} onChange={action('Check changed')} />
+      <Check name="lang" label="English" onChange={action('Check changed')} />
+      <Check name="lang" label="Klingon" isDisabled={true} onChange={action('Check changed')} />
     </p>
 
     <style>
@@ -214,6 +215,7 @@ storiesOf('Form Components', module)
           { label: 'New York, USA', value: 'newyork' },
         ]}
         currentOptionIdxList={[0,3]}
+        onChange={({ name, idxList, valueList }) => action('CheckGroup changed').call(null, name, ...idxList, valueList)}
       />
     </p>
 
@@ -228,6 +230,7 @@ storiesOf('Form Components', module)
           { label: 'New York, USA', value: 'newyork' },
         ]}
         currentOptionIdxList={[0,3]}
+        onChange={({ name, idxList, valueList }) => action('CheckGroup changed').call(null, name, ...idxList, valueList)}
       />
     </p>
   </Root>
@@ -260,15 +263,15 @@ storiesOf('Form Components', module)
 
     <h2>Regular node options</h2>
     <p>
-      <Select optionList={['Apple', 'Pencil']} />
+      <Select optionList={['Apple', 'Pencil']} onChange={action('Select changed')} />
       <br />
-      <Select optionList={['Apple', 'Pencil']} currentOptionIdx="0" />
+      <Select optionList={['Apple', 'Pencil']} currentOptionIdx="0" onChange={action('Select changed')} />
       <br />
-      <Select optionList={['Apple', 'Pencil']}  currentOptionIdx={0} />
+      <Select optionList={['Apple', 'Pencil']}  currentOptionIdx={0} onChange={action('Select changed')} />
       <br />
-      <Select optionList={['Apple', 'Pencil']} currentOptionIdx={1} />
+      <Select optionList={['Apple', 'Pencil']} currentOptionIdx={1} onChange={action('Select changed')} />
       <br />
-      <Select optionList={['Apple', 'Pencil']} isDisabled={true} />
+      <Select optionList={['Apple', 'Pencil']} isDisabled={true} onChange={action('Select changed')} />
     </p>
 
     <p>
@@ -278,6 +281,7 @@ storiesOf('Form Components', module)
           <span><Icon name="apple" /> Apple</span>,
           <span><Icon name="pencil" /> Pencil</span>,
         ]}
+        onChange={action('Select changed')}
       />
       <br />
       <Select
@@ -287,6 +291,7 @@ storiesOf('Form Components', module)
           <span><Icon name="pencil" /> Pencil</span>,
         ]}
         currentOptionIdx={0}
+        onChange={action('Select changed')}
       />
       <br />
       <Select
@@ -296,6 +301,7 @@ storiesOf('Form Components', module)
           <span><Icon name="pencil" /> Pencil</span>,
         ]}
         currentOptionIdx="1"
+        onChange={action('Select changed')}
       />
       <br />
       <Select
@@ -306,18 +312,35 @@ storiesOf('Form Components', module)
         ]}
         currentOptionIdx="1"
         isDisabled={true}
+        onChange={action('Select changed')}
       />
     </p>
 
     <h2>Long lists (10+ options)</h2>
     <p>
-      <Select optionList={['Yirgacheffe', 'Harrar', 'Kenya AA', 'Antiqua Flora', 'Huehuetenango', 'Tanzania AA', 'Cerrado', 'Bucaramanga Supremo', 'Tarrazu', 'Hawaii Kona', 'Blue Mountain', 'Mandheling']} />
+      <Select
+        optionList={['Yirgacheffe', 'Harrar', 'Kenya AA', 'Antiqua Flora', 'Huehuetenango', 'Tanzania AA', 'Cerrado', 'Bucaramanga Supremo', 'Tarrazu', 'Hawaii Kona', 'Blue Mountain', 'Mandheling']}
+        onChange={action('Select changed')}
+      />
       <br />
-      <Select currentOptionIdx="5" optionList={['Yirgacheffe', 'Harrar', 'Kenya AA', 'Antiqua Flora', 'Huehuetenango', 'Tanzania AA', 'Cerrado', 'Bucaramanga Supremo', 'Tarrazu', 'Hawaii Kona', 'Blue Mountain', 'Mandheling']} />
+      <Select
+        currentOptionIdx="5"
+        optionList={['Yirgacheffe', 'Harrar', 'Kenya AA', 'Antiqua Flora', 'Huehuetenango', 'Tanzania AA', 'Cerrado', 'Bucaramanga Supremo', 'Tarrazu', 'Hawaii Kona', 'Blue Mountain', 'Mandheling']}
+        onChange={action('Select changed')}
+      />
       <br />
-      <Select isDisabled={false} currentOptionIdx={10} optionList={['Yirgacheffe', 'Harrar', 'Kenya AA', 'Antiqua Flora', 'Huehuetenango', 'Tanzania AA', 'Cerrado', 'Bucaramanga Supremo', 'Tarrazu', 'Hawaii Kona', 'Blue Mountain', 'Mandheling']} />
+      <Select
+        isDisabled={false}
+        currentOptionIdx={10}
+        optionList={['Yirgacheffe', 'Harrar', 'Kenya AA', 'Antiqua Flora', 'Huehuetenango', 'Tanzania AA', 'Cerrado', 'Bucaramanga Supremo', 'Tarrazu', 'Hawaii Kona', 'Blue Mountain', 'Mandheling']}
+        onChange={action('Select changed')}
+      />
       <br />
-      <Select isDisabled optionList={['Yirgacheffe', 'Harrar', 'Kenya AA', 'Antiqua Flora', 'Huehuetenango', 'Tanzania AA', 'Cerrado', 'Bucaramanga Supremo', 'Tarrazu', 'Hawaii Kona', 'Blue Mountain', 'Mandheling']} />
+      <Select
+        isDisabled
+        optionList={['Yirgacheffe', 'Harrar', 'Kenya AA', 'Antiqua Flora', 'Huehuetenango', 'Tanzania AA', 'Cerrado', 'Bucaramanga Supremo', 'Tarrazu', 'Hawaii Kona', 'Blue Mountain', 'Mandheling']}
+        onChange={action('Select changed')}
+      />
     </p>
 
     <h2>Selects of grouped options</h2>
@@ -328,6 +351,7 @@ storiesOf('Form Components', module)
           ['Cheese', 'Blue Cheese', 'Parmesan', 'Ricotta', 'Benedictine', 'Brie', { label: 'Cheddar', value: 'cheddar' }, { label: 'Cream Cheese', isDisabled: true }],
           'Rib eye Steak', 'Bacon Sandwich', 'Caesar Salad',
         ]}
+        onChange={action('Select changed')}
       />
       <br />
       <Select
@@ -337,6 +361,7 @@ storiesOf('Form Components', module)
           ['Cheese', 'Blue Cheese', 'Parmesan', 'Ricotta', 'Benedictine', 'Brie', { label: 'Cheddar', value: 'cheddar' }, { label: 'Cream Cheese', isDisabled: true }],
           'Rib eye Steak', 'Bacon Sandwich', 'Caesar Salad',
         ]}
+        onChange={action('Select changed')}
       />
       <br />
       <Select
@@ -346,6 +371,7 @@ storiesOf('Form Components', module)
           ['Cheese', 'Blue Cheese', 'Parmesan', 'Ricotta', 'Benedictine', 'Brie', { label: 'Cheddar', value: 'cheddar' }, { label: 'Cream Cheese', isDisabled: true }],
           'Rib eye Steak', 'Bacon Sandwich', 'Caesar Salad',
         ]}
+        onChange={action('Select changed')}
       />
       <br />
       <Select
@@ -355,6 +381,7 @@ storiesOf('Form Components', module)
           ['Cheese', 'Blue Cheese', 'Parmesan', 'Ricotta', 'Benedictine', 'Brie', { label: 'Cheddar', value: 'cheddar' }, { label: 'Cream Cheese', isDisabled: true }],
           'Rib eye Steak', 'Bacon Sandwich', 'Caesar Salad',
         ]}
+        onChange={action('Select changed')}
       />
       <br />
       <Select
@@ -364,6 +391,7 @@ storiesOf('Form Components', module)
           ['Cheese', 'Blue Cheese', 'Parmesan', 'Ricotta', 'Benedictine', 'Brie', { label: 'Cheddar', value: 'cheddar' }, { label: 'Cream Cheese', isDisabled: true }],
           'Rib eye Steak', 'Bacon Sandwich', 'Caesar Salad',
         ]}
+        onChange={action('Select changed')}
       />
     </p>
   </Root>
@@ -478,7 +506,7 @@ USA`
   </Root>
 ))
 
-class INExample extends React.PureComponent {
+class InputNumberExample extends React.PureComponent {
   constructor(props) {
     super(props)
     this.state = { formData: {} }
@@ -486,7 +514,7 @@ class INExample extends React.PureComponent {
 
   onChange = (name, value) => this.setState(
     ({ formData }) => ({ formData: { ...formData, [name]: value }}),
-    () => action('number changed')(value),
+    () => action('Number changed')(value),
   )
 
   getFormData = (name, defaultValue) => {
@@ -503,7 +531,7 @@ class INExample extends React.PureComponent {
     const { formData } = this.state
 
     return (
-      <div>
+      <Root>
         <style>
         {`
           .FormEntry { width: 12rem; }
@@ -726,7 +754,7 @@ class INExample extends React.PureComponent {
             step={2}
           />
         </FormLabel>
-      </div>
+      </Root>
     )
   }
 }

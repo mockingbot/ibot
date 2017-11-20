@@ -154,9 +154,10 @@ export default class Select extends PureComponent {
     { currentOptionIdx: idx },
     () => {
       const { optionList, onChange } = this.props
+      const opt = getOptionEntry(optionList, idx)
 
       this.close()
-      onChange(optionList[idx], idx)
+      onChange(idx, opt.value || opt.label || opt)
     },
   )
 
@@ -181,8 +182,8 @@ export default class Select extends PureComponent {
     const klass = trimList([
       'Select',
       className,
-      isOpen ? 'is-open' : '',
-      isDisabled ? 'is-disabled' : '',
+      isOpen && 'is-open',
+      isDisabled && 'is-disabled',
     ])
 
     return (

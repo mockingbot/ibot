@@ -35,10 +35,14 @@ export class Radio extends PureComponent {
     }
   }
 
-  onChange = () => this.setState(
-    { isChecked: true },
-    this.props.onChange,
-  )
+  onChange = () => {
+    const { name, value, label } = this.props
+
+    this.setState(
+      { isChecked: true },
+      () => this.props.onChange(name, value || label, true),
+    )
+  }
 
   render() {
     const { className, label, name, isDisabled } = this.props
@@ -60,7 +64,7 @@ export class Radio extends PureComponent {
           defaultChecked={isChecked}
           disabled={isDisabled}
           name={name}
-          onChange={this.onChange}
+          onClick={this.onChange}
         />
 
         <span className="RadioState" />
@@ -74,6 +78,11 @@ export class Radio extends PureComponent {
  * <RadioGroup>
  */
 export class RadioGroup extends PureComponent {
+  constructor(props) {
+    super(props)
+    this.name = props.name || Math.random().toString(36).substring(2, 15)
+  }
+
   static propTypes = {
     className: PropTypes.string,
     name: PropTypes.string,
@@ -96,18 +105,21 @@ export class RadioGroup extends PureComponent {
   }
 
   static defaultProps = {
-    name: Math.random().toString(36).substring(2, 15),
     className: '',
     optionList: [],
     isDisabled: false,
     onChange: () => null,
   }
 
-  createOnChangeHandler = (val, idx) => () => this.props.onChange(val, idx)
+  createOnChangeHandler = (name, val, idx) => () => (
+    this.props.onChange({ name, val, idx })
+  )
 
   render() {
+    const { name } = this
+
     const {
-      className, name,
+      className,
       optionList, currentOptionIdx,
       isDisabled,
     } = this.props
@@ -115,7 +127,7 @@ export class RadioGroup extends PureComponent {
     const klass = trimList([
       'RadioGroup',
       className,
-      isDisabled ? 'is-disabled' : '',
+      isDisabled && 'is-disabled',
     ])
 
     return (
@@ -130,7 +142,11 @@ export class RadioGroup extends PureComponent {
             type="radio"
             isChecked={idx === currentOptionIdx}
             isDisabled={isDisabled || opt.isDisabled}
-            onClick={!(isDisabled || opt.isDisabled) && this.createOnChangeHandler(opt.value || opt, idx)}
+            onChange={
+              !(isDisabled || opt.isDisabled)
+              ? this.createOnChangeHandler(name, opt.value || opt, idx)
+              : undefined
+            }
           />
         ))
       }

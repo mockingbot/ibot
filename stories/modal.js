@@ -20,7 +20,7 @@ import { WidgetName } from '../packages/text/index'
 storiesOf('Modal', module)
 .add('Default', () => (
   <Root>
-    <Modal isOpen={true} />
+    <Modal isOpen={true} onClose={action('Modal closed')} />
   </Root>
 ))
 .add('Openers', () => (
@@ -31,6 +31,8 @@ storiesOf('Modal', module)
 
         isOpen={true}
         title="Modal’s Title"
+
+        onToggle={action('Modal toggled, `isOpen`')}
       >
         Modal opened with <Switch />
       </Modal>
@@ -48,6 +50,8 @@ storiesOf('Modal', module)
 
         isOpen={false}
         title="Modal’s Title"
+
+        onToggle={action('Modal toggled, `isOpen`')}
       >
         Modal opened with a button
       </Modal>
@@ -58,6 +62,8 @@ storiesOf('Modal', module)
 
         isOpen={false}
         title="Modal’s Title"
+
+        onToggle={action('Modal toggled, `isOpen`')}
       >
         Modal opened with a button
       </Modal>
@@ -68,6 +74,8 @@ storiesOf('Modal', module)
 
         isOpen={false}
         title="Modal’s Title"
+
+        onToggle={action('Modal toggled, `isOpen`')}
       >
         Modal opened with a button
       </Modal>
@@ -77,6 +85,8 @@ storiesOf('Modal', module)
         opener={[<Icon key="icon" name="share" />, 'Open a Modal']}
         openerType="text"
         title="Modal’s Title"
+
+        onToggle={action('Modal toggled, `isOpen`')}
       >
         Modal opened with a button
       </Modal>
@@ -89,9 +99,14 @@ storiesOf('Modal', module)
 
         isOpen={false}
         title="Modal’s Title"
+
+        onToggle={action('Modal toggled, `isOpen`')}
       >
         Give me an alert:{' '}
-        <Modal openerType="switch" type="alert" title="Yay!">
+        <Modal
+          openerType="switch" type="alert" title="Yay!"
+          onToggle={action('MiM toggled, `isOpen`')}
+        >
           Modal in a modal is open!
         </Modal>
       </Modal>
@@ -115,6 +130,7 @@ storiesOf('Modal', module)
 
         type="alert"
         title="Warning"
+        onToggle={action('Modal toggled, `isOpen`')}
       >
         <p>
           An alert automatically comes with a confirm button,
@@ -131,11 +147,12 @@ storiesOf('Modal', module)
         type="alert"
         title="Warning"
 
-        onConfirm={() => alert('You confirmed!')}
+        onConfirm={action('Confirmed')}
         confirmText="Try Me!"
 
-        onCancel={() => alert('You cancelled!')}
+        onCancel={action('Cancelled')}
         cancelText="Nope!"
+        onToggle={action('Modal toggled, `isOpen`')}
       >
         <p>Something serious just happened!</p>
         <p>P.S. Try the cancel and confirm buttons below.</p>
@@ -149,9 +166,10 @@ storiesOf('Modal', module)
         type="alert"
         title="Warning"
 
-        onConfirm={() => alert('You confirmed!')}
-        onCancel={() => alert('You cancelled!')}
+        onConfirm={action('Confirmed')}
+        onCancel={action('Cancelled')}
         shouldCloseOnAction={false}
+        onToggle={action('Modal toggled, `isOpen`')}
       >
         <p>Try the cancel and confirm buttons below.</p>
         <p>You get to decide whether to close the modal after actions or not.</p>
@@ -182,7 +200,7 @@ storiesOf('Modal', module)
                 clearInterval(window.ccm_interval)
 
                 /**
-                 * **NOTE** Removing the `is-open` class is not a good way to
+                 * **NOTE** Removing the `is-open` class is an anti-pattern to
                  * close a modal, you should instead alter the `isOpen` property
                  * of the component in its stateful parent for such purpose.
                  */
@@ -193,6 +211,9 @@ storiesOf('Modal', module)
             }
           }, 1000)
         })}
+
+        onToggle={action('Modal toggled, `isOpen`')}
+        onClose={action('Successfully closed an inclosable modal')}
       >
         <p>This modal cannot be closed manually.</p>
         <p>
@@ -216,6 +237,7 @@ storiesOf('Modal', module)
         title="Warning"
 
         canCloseOnClickMask={false}
+        onToggle={action('Modal toggle, `isOpen`')}
       >
         <p>
           This modal cannot be closed through clicking mask.
@@ -234,6 +256,8 @@ storiesOf('Modal', module)
 
         canCloseOnEsc={false}
         canConfirmOnEnter={false}
+
+        onToggle={action('Modal toggled, `isOpen`')}
       >
         <p>
           This modal cannot be closed via pressing <kbd>Esc</kbd> key
@@ -254,7 +278,9 @@ storiesOf('Modal', module)
 
         type="form"
         title="New Master"
-        onConfirm={action('submit form')}
+        onConfirm={action('Confirmed')}
+        onCancel={action('Cancelled')}
+        onToggle={action('Modal toggled, `isOpen`')}
       >
         <p>All modals will try to focus on the first input element once opened.</p>
 
@@ -296,7 +322,9 @@ storiesOf('Modal', module)
 
         type="form"
         title="Transfer Screen(s)"
-        onConfirm={() => null}
+        onConfirm={action('Confirmed')}
+        onCancel={action('Cancelled')}
+        onToggle={action('Modal toggled, `isOpen`')}
       >
         <p style={{ margin: '0 0 1.5em' }}>转移页面「<WidgetName name="2017年末重要促销页面，禁止外流！！" />」到其他位置。</p>
         <FormLabel name="目标项目">
@@ -319,6 +347,7 @@ storiesOf('Modal', module)
 
         type="form"
         title="Demo for Modals"
+        onToggle={action('Modal toggled, `isOpen`')}
       >
         <p>
           Generally, modals will be positioned at 20vh vertically.
@@ -333,6 +362,7 @@ storiesOf('Modal', module)
         type="form"
         title="Demo for Slightly-longer Modals"
         className="s-long-modal"
+        onToggle={action('Modal toggled, `isOpen`')}
       >
         <style>{`.s-long-modal { height: 500px; }`}</style>
         <p>
@@ -350,6 +380,7 @@ storiesOf('Modal', module)
         type="form"
         title="Demo for Long Modals"
         className="long-modal"
+        onToggle={action('Modal toggled, `isOpen`')}
       >
         <style>{`.long-modal { height: 1200px; }`}</style>
         <p>
@@ -367,6 +398,8 @@ storiesOf('Modal', module)
 
         title="Share"
         className="share-modal"
+
+        onToggle={action('Modal toggled, `isOpen`')}
       >
         <style>
         {`.share-modal .FormEntry > .key { flex-basis: 10em; }`}
@@ -415,6 +448,7 @@ storiesOf('Modal', module)
 
         type="display"
         title="Shortcuts"
+        onToggle={action('Modal toggled, `isOpen`')}
       >
         <p>
           Display modals are designed to display information that

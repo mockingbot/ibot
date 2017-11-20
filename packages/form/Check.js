@@ -36,10 +36,14 @@ export class Check extends PureComponent {
     }
   }
 
-  onToggle = () => this.setState(
-    { isChecked: !this.state.isChecked },
-    () => this.props.onChange(this.state.isChecked),
-  )
+  onToggle = () => {
+    const { name, value, label } = this.props
+
+    this.setState(
+      { isChecked: !this.state.isChecked },
+      () => this.props.onChange(name, value || label, this.state.isChecked),
+    )
+  }
 
   render() {
     const { className, label, name, isDisabled } = this.props
@@ -72,6 +76,16 @@ export class Check extends PureComponent {
  * <CheckGroup>
  */
 export class CheckGroup extends PureComponent {
+  constructor(props) {
+    super(props)
+
+    this.name = props.name || Math.random().toString(36).substring(2, 15)
+
+    this.state = {
+      currentOptionIdxList: new Set(props.currentOptionIdxList),
+    }
+  }
+
   static propTypes = {
     className: PropTypes.string,
     onChange: PropTypes.func.isRequired,
@@ -100,28 +114,38 @@ export class CheckGroup extends PureComponent {
     isDisabled: false,
   }
 
-  createOnChangeHandler = idx => () => {
-    const { onChange, currentOptionIdxList } = this.props
+  createOnChangeHandler = (name, idx) => () => {
+    const { optionList, onChange } = this.props
+    const { currentOptionIdxList } = this.state
+
     const result = new Set(currentOptionIdxList)
     const action = result.has(idx) ? 'delete' : 'add'
-
     result[action](idx)
-    onChange(result)
+
+    const idxList = Array.from(result)
+    const valueList = idxList.map(idx => optionList[idx])
+
+    this.setState(
+      { currentOptionIdxList: result },
+      () => onChange({ name, idxList, valueList }),
+    )
   }
 
   render() {
+    const { name } = this
+
     const {
       className,
-      optionList, currentOptionIdxList,
+      optionList,
       isDisabled,
     } = this.props
 
-    const currentOptionIdxSet = new Set(currentOptionIdxList)
+    const { currentOptionIdxList } = this.state
 
     const klass = trimList([
       'CheckGroup',
       className,
-      isDisabled ? 'is-disabled' : '',
+      isDisabled && 'is-disabled',
     ])
 
     return (
@@ -130,10 +154,15 @@ export class CheckGroup extends PureComponent {
         optionList.map((opt, idx) => opt && (
           <Check
             key={idx}
-            onClick={this.createOnChangeHandler(idx)}
+            name={name}
             isDisabled={isDisabled || opt.isDisabled}
-            isChecked={currentOptionIdxSet.has(idx)}
+            isChecked={currentOptionIdxList.has(idx)}
             label={typeof opt === 'string' ? opt : opt.label}
+            onChange={
+              !(isDisabled || opt.isDisabled)
+              ? this.createOnChangeHandler(name, idx)
+              : undefined
+            }
           />
         ))
       }
