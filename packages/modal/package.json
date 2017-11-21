@@ -1,6 +1,6 @@
 {
   "name": "@ibot/modal",
-  "version": "0.1.0-alpha.1",
+  "version": "0.1.0-alpha.2",
   "description": "",
   "main": "dest/index.js",
   "module": "dest/index.js",
@@ -14,16 +14,16 @@
   "author": "yijun@mockingbot.com",
   "license": "MIT",
   "devDependencies": {
-    "@ibot/button": "^0.1.0-alpha.1",
-    "@ibot/icon": "^0.1.0-alpha.1",
-    "@ibot/switch": "^0.1.0-alpha.1",
-    "@ibot/util": "^0.1.0-alpha.1"
+    "@ibot/button": "^0.1.0-alpha.2",
+    "@ibot/icon": "^0.1.0-alpha.2",
+    "@ibot/switch": "^0.1.0-alpha.2",
+    "@ibot/util": "^0.1.0-alpha.2"
   },
   "peerDependencies": {
-    "@ibot/button": "^0.1.0-alpha.1",
-    "@ibot/icon": "^0.1.0-alpha.1",
-    "@ibot/switch": "^0.1.0-alpha.1",
-    "@ibot/util": "^0.1.0-alpha.1",
+    "@ibot/button": "^0.1.0-alpha.2",
+    "@ibot/icon": "^0.1.0-alpha.2",
+    "@ibot/switch": "^0.1.0-alpha.2",
+    "@ibot/util": "^0.1.0-alpha.2",
     "prop-types": "^15.6.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0"

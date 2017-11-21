@@ -1,6 +1,6 @@
 {
   "name": "@ibot/root",
-  "version": "0.1.0-alpha.1",
+  "version": "0.1.0-alpha.2",
   "description": "",
   "main": "dest/index.js",
   "module": "dest/index.js",
