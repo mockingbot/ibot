@@ -10,8 +10,7 @@
   ],
   "scripts": {
     "build": "./build.js",
-    "build:icon": "./files.sh",
-    "postinstall": "yarn run build:icon"
+    "build:icon": "./files.sh"
   },
   "author": "yijun@mockingbot.com",
   "license": "MIT",
