@@ -1,6 +1,6 @@
 {
   "name": "@ibot/form",
-  "version": "0.1.0",
+  "version": "0.1.0-alpha.1",
   "description": "",
   "main": "dest/index.js",
   "module": "dest/index.js",
@@ -14,16 +14,16 @@
   "author": "yijun@mockingbot.com",
   "license": "MIT",
   "devDependencies": {
-    "@ibot/button": "^0.1.0",
-    "@ibot/icon": "^0.1.0",
-    "@ibot/text": "^0.1.0",
-    "@ibot/util": "^0.1.0"
+    "@ibot/button": "^0.1.0-alpha.1",
+    "@ibot/icon": "^0.1.0-alpha.1",
+    "@ibot/text": "^0.1.0-alpha.1",
+    "@ibot/util": "^0.1.0-alpha.1"
   },
   "peerDependencies": {
-    "@ibot/button": "^0.1.0",
-    "@ibot/icon": "^0.1.0",
-    "@ibot/text": "^0.1.0",
-    "@ibot/util": "^0.1.0",
+    "@ibot/button": "^0.1.0-alpha.1",
+    "@ibot/icon": "^0.1.0-alpha.1",
+    "@ibot/text": "^0.1.0-alpha.1",
+    "@ibot/util": "^0.1.0-alpha.1",
     "prop-types": "^15.6.0",
     "react": "^16.0.0",
     "react-document-events": "^1.3.2",
