@@ -4,11 +4,11 @@ import { action } from '@storybook/addon-actions'
 import shuffle from 'lodash/shuffle'
 
 import Root from '../packages/root/index'
-import Icon from '../packages/icon/index'
+import Icon, { DuoIcon } from '../packages/icon/index'
 import Button from '../packages/button/index'
 
 storiesOf('Icon', module)
-.add('MockingBot', () => <IconPreview />)
+.add('Dora & MockingBot', () => <IconPreview />)
 
 class IconPreview extends PureComponent {
   constructor(props) {
@@ -57,10 +57,16 @@ class IconPreview extends PureComponent {
             color: #999;
           }
 
-          .Icon {
+          .icon, .duo-icon {
             margin-right: .25em;
             font-size: 2em;
             color: rgba(235, 86, 72, .5);
+          }
+          .duo-icon {
+            color: inherit;
+          }
+          .duo-icon .layer:first-child {
+            color: rgba(235, 86, 72, .85);
           }
         `}
         </style>
@@ -87,6 +93,21 @@ class IconPreview extends PureComponent {
             { icon.id }
           </div>
         ))}
+        </div>
+
+        <h2>Duo-colour icons</h2>
+        <div className="duo">
+        {
+          'play inspect evenly_distribute_h evenly_distribute_v widget_align_bottom widget_align_center widget_align_left widget_align_right widget_align_top widget_align_v_center'
+          .split(' ')
+          .concat(Array(2).fill(''))
+          .map((name, idx) => (
+            <div key={name || idx} className="label">
+              <DuoIcon name={name} />
+              { name }
+            </div>
+          ))
+        }
         </div>
       </Root>
     )
