@@ -1,6 +1,8 @@
 #!/bin/bash
 
 cp ./node_modules/mb-icons/dora/icon-list.min.json ../../stories/json/dora.json
+cp ./node_modules/mb-icons/dora/duo-list.min.json ../../stories/json/duo.json
+cp ./node_modules/mb-icons/dora/duo-list.min.json ./duo.json
 cp ./node_modules/mb-icons/mb/icon-list.min.json ../../stories/json/mb.json
 
 cp ./node_modules/mb-icons/dora/fonts/* ./fonts

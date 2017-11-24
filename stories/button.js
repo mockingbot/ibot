@@ -11,7 +11,7 @@ storiesOf('Button', module)
   <Root>
     <style scoped>
     {`p.button button { margin-right: 1em; }`}
-    {`p.button .Icon { font-size: 1.1em; vertical-align: -.1em }`}
+    {`p.button .icon { font-size: 1.1em; vertical-align: -.1em }`}
     {`p.button.same-width button:not(.text) { min-width: 5em; }`}
     </style>
 

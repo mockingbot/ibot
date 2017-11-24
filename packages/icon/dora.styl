@@ -1,3 +1,5 @@
+@import '../../constants'
+
 @font-face
   font-family Dora
   src url(./fonts/dora.woff) format('woff'),
@@ -6,7 +8,16 @@
   font-weight normal
   font-style normal
 
+@font-face
+  font-family DuoDora
+  src url(./fonts/duo-dora.woff) format('woff'),
+    url(./fonts/duo-dora.ttf) format('truetype'),
+    url(./fonts/duo-dora.svg) format('svg')
+  font-weight normal
+  font-style normal
+
 .dora
+.duodora
   display inline-block
   font normal normal normal 1em/1 Dora
   font-size inherit
@@ -30,3 +41,13 @@
   text-rendering optimizeLegibility
   -webkit-font-variant-ligatures discretionary-ligatures
   font-variant-ligatures discretionary-ligatures
+
+.duodora
+  &
+    position relative
+    display inline-block
+    font-family DuoDora
+  > .layer:not(:first-child)
+    position absolute
+    left 0
+    top 0

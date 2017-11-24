@@ -41,7 +41,7 @@ storiesOf('Modal', module)
     <p>
       <style scoped>
       {`p button { margin-right: 1em; }`}
-      {`p button .Icon { font-size: 1.2em; vertical-align: -.1em }`}
+      {`p button .icon { font-size: 1.2em; vertical-align: -.1em }`}
       </style>
 
       <Modal
@@ -119,7 +119,7 @@ storiesOf('Modal', module)
     {`h2 + .FormEntry { margin-top: -1em; }`}
     {`.AlertModal p, .FormModal p { margin: .5em 0; }`}
     {`.FormEntry > .key { flex-basis: 15em; }`}
-    {`button.text .Icon { margin-right: .25em; font-size: 1.1em; vertical-align: -.1em; }`}
+    {`button.text .icon { margin-right: .25em; font-size: 1.1em; vertical-align: -.1em; }`}
     </style>
 
     <h2>Alert</h2>
