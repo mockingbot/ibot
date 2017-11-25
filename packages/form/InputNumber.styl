@@ -1,20 +1,25 @@
-@import '../../constants'
+$InputNumber-font-size = 12px
+$InputNumber-action-width = 1.5em
+$InputNumber-regular-action-width = 2em
 
 label.InputNumber
   &
     position relative
     display inline-block
     min-width 2em
-    height $form-entry-min-height
     overflow hidden
     // Can’t use San Francisco for suffix position reason:
     font-family 'Helvetica Neue', Helvetica, Arial, sans-serif
-    font-size 12px
-    color $cl-secondary-text
+    font-size $InputNumber-font-size
+  &.is-active input
+    background-color $cl-input-hover-bg
+    border-color $cl-input-hover-border
+    box-shadow $cl-input-active-shadow
+  &.isnt-valid input
+    border-color $cl-input-invalid-border !important
+    box-shadow $cl-input-invalid-shadow !important
   &.is-disabled
-    &
-      opacity .5
-      cursor not-allowed
+    cursor not-allowed
   &.is-disabled
   &.is-readonly
     &:after
@@ -26,38 +31,16 @@ label.InputNumber
       height 100%
 
   input
-    &
-      padding 0 20px 0 0
-      width 100%
-      height 100%
-      font-family inherit
-      font-size inherit
-      text-indent 4px
-      border-bottom 1px solid $cl-divider
-      color inherit
-      transition all .3s ease-in-out
-      -moz-appearance textfield
-    &::-webkit-inner-spin-button
-    &::-webkit-outer-spin-button
-      -webkit-appearance none
-      margin 0
-    &::placeholder
-      color $cl-tertiary-text
-    &[readonly]
-      background-color #f6f6f6
-      border-bottom-color transparent
+    padding 0 $InputNumber-action-width 0 .5em
 
   &:not(.is-disabled):hover input:not([readonly])
   input:not([readonly]):focus
-    &
-      border-color $cl-core
-    ~ .action
+    & ~ .action
       opacity 1
-      transition all .2s ease-in-out
+      transition all .2s ease-out
 
   &.with-prefix input
-    padding-left 1em
-    text-indent 0
+    padding-left 1.25em
   &.with-suffix input
     padding-right 32px
 
@@ -66,22 +49,36 @@ label.InputNumber
       position absolute
       top 0
       right 0
-      display flex
-      flex-direction column
-      justify-content space-between
-      padding .5em 0
-      width 20px
+      width $InputNumber-action-width
       height 100%
       text-align center
-      opacity .5
+      opacity 0
     button
     button:hover
+      display block
       margin 0
       padding 0
-      line-height 1
-      color $cl-tertiary-text
+      width 100%
+      height 50%
+      line-height 0
+      color $cl-InputNumber-action
     button:active
-      color $cl-core
+      color $cl-InputNumber-action-active
+    button svg
+      height 4px
+      fill currentColor
+    button:first-child
+      padding 5px 0 2px
+    button:last-child
+      &
+        padding 2px 0 5px
+      svg
+        transform rotate(180deg)
+  &.regular .action
+    top 50%
+    transform translateY(-50%)
+    width $InputNumber-regular-action-width
+    height 28px
 
   .prefix
   .suffix
@@ -89,26 +86,27 @@ label.InputNumber
     top 0
     left 0
     display flex
+    display none
     align-items center
     height 100%
-    border-bottom 1px solid transparent
     pointer-events none
+    user-select none
   .prefix
-    min-width .75em
-    margin-right .125em
+    min-width 1.5em
+    padding-right .25em
     justify-content flex-end
   .suffix
     &
-      margin 0 32px 0 4px
+      margin 0 32px 0 .8333em
       width 100%
     &:before
       content attr(data-value)
       display inline-block
-      margin-right .125em
+      padding-right .25em
       width -moz-fit-content
       width fit-content
       max-width calc(100% - 32px)
       overflow hidden
       opacity 0
   /.InputNumber.with-prefix .suffix
-    margin 0 32px 0 12px
+    margin 0 26px 0 1.333em

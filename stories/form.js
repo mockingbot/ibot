@@ -8,7 +8,8 @@ import Switch from '../packages/switch/index'
 
 import {
   FormLabel, FormEntry,
-  Input, Textarea,
+  Input, PanelInput,
+  Textarea,
   InputNumber,
   Radio, Check,
   RadioGroup, CheckGroup,
@@ -22,7 +23,8 @@ storiesOf('Form Components', module)
   <Root>
     <style scoped>
     {`p { width: 15em; }`}
-    {`input, textarea { margin-bottom: .5em; width: 100%; }`}
+    {`.Input, textarea { margin-bottom: .5em; width: 100%; }`}
+    {`.PanelInput { max-width: 6em; width: auto; }`}
     </style>
 
     <h2>Text input</h2>
@@ -33,13 +35,19 @@ storiesOf('Form Components', module)
       <br />
       <Input disabled placeholder="A disabled text input" onChange={onTypingChange} />
       <br />
-      <Input readOnly placeholder="A read-only text input" onChange={onTypingChange} />
+      <Input readOnly value="A read-only text input" onChange={onTypingChange} />
     </p>
 
     <h2>Email input</h2>
     <p>
       <Input type="email" placeholder="Input email here…" onChange={onTypingChange} />
     </p>
+
+    <h2>Panel input</h2>
+    <p>
+      <PanelInput placeholder="Helvetica?" onChange={onTypingChange} />
+    </p>
+
 
     <style>
     {`
@@ -539,8 +547,17 @@ class InputNumberExample extends React.PureComponent {
          `}
         </style>
 
+        <FormLabel name="Small (default)">
+          <InputNumber
+            precision={2}
+            value={formData.a}
+            onChange={this.onChange.bind(this, 'a')}
+          />
+        </FormLabel>
+
         <FormLabel name="Regular">
           <InputNumber
+            size="regular"
             precision={2}
             value={formData.a}
             onChange={this.onChange.bind(this, 'a')}
@@ -731,8 +748,9 @@ class InputNumberExample extends React.PureComponent {
             precision={2}
             max={10}
             min={-Infinity}
-            value={8}
             step={.75}
+            value={this.getFormData('mm0', 8)}
+            onChange={this.onChange.bind(this, 'mm0')}
           />
         </FormLabel>
 
@@ -740,8 +758,9 @@ class InputNumberExample extends React.PureComponent {
           <InputNumber
             precision={2}
             min={10}
-            value={12}
             step={.75}
+            value={this.getFormData('mm1', 12)}
+            onChange={this.onChange.bind(this, 'mm1')}
           />
         </FormLabel>
 
@@ -750,8 +769,9 @@ class InputNumberExample extends React.PureComponent {
             precision={0}
             min={10}
             max={20}
-            value={15}
             step={2}
+            value={this.getFormData('mm2', 15)}
+            onChange={this.onChange.bind(this, 'mm2')}
           />
         </FormLabel>
       </Root>

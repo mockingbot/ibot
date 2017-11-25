@@ -14,6 +14,7 @@ export default class Button extends PureComponent {
     className: PropTypes.string,
     isDisabled: PropTypes.bool,
     children: PropTypes.any,
+    html: PropTypes.string,
   }
 
   static defaultProps = {
@@ -31,18 +32,23 @@ export default class Button extends PureComponent {
       className,
       children,
       isDisabled,
+      html,
       ...others,
     } = this.props
+
+    const contentProp = (
+      !!html
+      ? { dangerouslySetInnerHTML: { __html: html } }
+      : { children: [!!icon && <Icon type={iconType} name={icon} />, children] }
+    )
 
     return (
       <button
         className={trimList([type, className])}
         disabled={isDisabled}
         {...others}
-      >
-        { !!icon && <Icon type={iconType} name={icon} /> }
-        { children }
-      </button>
+        {...contentProp}
+      />
     )
   }
 }

@@ -8,6 +8,9 @@ const LONG_PRESSED_THRESHOLD = 500
 const LONG_PRESSED_STEPPING_INTERVAL = 30
 const CORRECTION_AWAIT = 1000
 
+// **NOTE:** Use SVG here instead of font icons to solve pixel alignment issue.
+const ARROW_SVG = `<svg width="6" height="4" viewBox="0 0 6 4"><path d="M3 0l3 4H0" fill-rule="evenodd"></path></svg>`
+
 const toFixed = (num, precision) => Number(Number(num).toFixed(precision))
 
 /**
@@ -32,6 +35,7 @@ export default class InputNumber extends PureComponent {
   }
 
   static propTypes = {
+    size: PropTypes.oneOf(['regular', 'small']),
     // 数值精度
     precision: PropTypes.number,
     // 指定输入框展示值的格式
@@ -53,6 +57,7 @@ export default class InputNumber extends PureComponent {
   }
 
   static defaultProps = {
+    size: 'small',
     value: '',
     placeholder: '',
     step: 1,
@@ -133,7 +138,7 @@ export default class InputNumber extends PureComponent {
       .replace(/^0{2,}(?!\.)/, '0')
     )
 
-    const isNull = value !== 0 && !value && !!placeholder
+    const isNull = v !== '0' && !value && !!placeholder
     const isValid = this.checkValidity(value)
     const isNumber = isFinite(value)
     const isSettable = this.checkSettability(value)
@@ -142,7 +147,7 @@ export default class InputNumber extends PureComponent {
 
     const correctedNumber = this.correctNumber(value)
     const finalNumber = isNaN(correctedNumber) ? originalValue : correctedNumber
-    const settingNumber = isNull ? null : isSettable || !isValid ? value : finalNumber
+    const settingNumber = isNull ? '' : isSettable || !isValid ? value : finalNumber
 
     this.setState({ value: settingNumber, isValid })
 
@@ -164,6 +169,13 @@ export default class InputNumber extends PureComponent {
     }
   }
 
+  focusOnInput = e => {
+    try {
+      const $input = e.currentTarget.closest('label').querySelector('input')
+      setTimeout(() => $input.focus())
+    } catch (e) {}
+  }
+
   handleStep = e => {
     const { action } = e.currentTarget.dataset
 
@@ -172,6 +184,8 @@ export default class InputNumber extends PureComponent {
     this.setValue(
       this.correctNumber(Number(this.state.value) + step)
     )
+
+    this.focusOnInput(e)
 
     // 长按500毫秒后，进入递增/减模式
     Object.assign(this, {
@@ -194,7 +208,7 @@ export default class InputNumber extends PureComponent {
     clearInterval(this.steppingInterval)
   }
 
-  handleKeyDown = (e) => {
+  handleKeyDown = e => {
     const action = e.key === 'ArrowUp' ? 'up' : e.key === 'ArrowDown' ? 'down' : null
 
     if (!action) return
@@ -207,25 +221,34 @@ export default class InputNumber extends PureComponent {
     )
   }
 
+  setActive = () => this.setState({ isActive: true })
+  setNotActive = () => this.setState({ isActive: false })
+
   render () {
     const {
+      size,
       formatter, prefix, suffix, placeholder, readOnly,
       onFocus,
     } = this.props
 
-    const { value, isValid } = this.state
+    const { value, isActive, isValid } = this.state
     const isDisabled = this.props.isDisabled || this.props.disabled
 
     return (
       <label
         className={trimList([
-          'InputNumber',
+          'Input InputNumber',
+          size,
+          isActive && !isDisabled && !readOnly && 'is-active',
           isDisabled && 'is-disabled',
           readOnly && 'is-readonly',
           isValid ? 'is-valid' : 'isnt-valid',
           !!prefix && 'with-prefix',
           !!suffix && 'with-suffix',
         ])}
+
+        onMouseDown={this.setActive}
+        onMouseLeave={this.setNotActive}
       >
         { prefix && <span className="prefix" children={prefix} /> }
 
@@ -259,23 +282,21 @@ export default class InputNumber extends PureComponent {
         <div className="action">
           <Button
             type="text"
-            icon="caret-up"
-            iconType="fa"
             tabIndex="-1"
             data-action="up"
             onMouseDown={this.handleStep}
             onMouseLeave={this.handleRelease}
             onMouseUp={this.handleRelease}
+            html={ARROW_SVG}
           />
           <Button
             type="text"
-            icon="caret-down"
-            iconType="fa"
             tabIndex="-1"
             data-action="down"
             onMouseDown={this.handleStep}
             onMouseLeave={this.handleRelease}
             onMouseUp={this.handleRelease}
+            html={ARROW_SVG}
           />
         </div>
       </label>
