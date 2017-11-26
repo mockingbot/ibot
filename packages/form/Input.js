@@ -63,3 +63,5 @@ Textarea.PropTypes = {
   className: PropTypes.string,
   value: PropTypes.string,
 }
+
+export InputNumber from './InputNumber'

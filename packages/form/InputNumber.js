@@ -36,39 +36,50 @@ export default class InputNumber extends PureComponent {
 
   static propTypes = {
     size: PropTypes.oneOf(['regular', 'small']),
-    // 数值精度
-    precision: PropTypes.number,
-    // 指定输入框展示值的格式
-    formatter: PropTypes.func,
-    // 指定从 formatter 里转换回数字的方式，和 formatter 搭配使用
-    parser: PropTypes.func,
+
+    step: PropTypes.number,
+    precision: PropTypes.number, // 数值精度
+    formatter: PropTypes.func, // 输入框展示值的格式
+    parser: PropTypes.func, // 从formatter里转换回数字的方式
+
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     placeholder: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+
+    title: PropTypes.node,
+    desc: PropTypes.node,
+
     prefix: PropTypes.node,
     suffix: PropTypes.node,
+
     min: PropTypes.number,
     max: PropTypes.number,
+
     isDisabled: PropTypes.bool,
     disabled: PropTypes.bool,
     readOnly: PropTypes.bool,
-    step: PropTypes.number,
+
     onChange: PropTypes.func.isRequired,
     onFocus: PropTypes.func,
   }
 
   static defaultProps = {
     size: 'small',
+
     value: '',
     placeholder: '',
+
     step: 1,
-    isDisabled: false,
-    disabled: false,
-    readOnly: false,
-    min: 0,
-    max: Infinity,
     precision: 1,
     parser: v => v,
     formatter: v => v,
+
+    min: 0,
+    max: Infinity,
+
+    isDisabled: false,
+    disabled: false,
+    readOnly: false,
+
     onChange: () => null,
     onFocus: ({ currentTarget: $input }) => (
       setTimeout(() => $input.select(), 50)
@@ -98,7 +109,45 @@ export default class InputNumber extends PureComponent {
     }
   }
 
-  set$input = $input => Object.assign(this, { $input })
+  componentDidMount() {
+    const { $label } = this
+
+    const { title, prefix, suffix } = this.props
+
+    if (!title && !prefix && !suffix) return
+
+    const $input = $label.querySelector('input')
+    const $action = $label.querySelector('.action')
+
+    const $title = $label.querySelector('.title')
+    const $prefix = $label.querySelector('.prefix')
+    const $suffix = $label.querySelector('.suffix span')
+
+    const originalPaddingLeft = parseInt(getComputedStyle($input).getPropertyValue('padding-left'))
+
+    if (title || prefix) {
+      const space = ($title ? $title.clientWidth+6 : 0) + ($prefix ? $prefix.clientWidth : 0)
+      const style = { paddingLeft: `${space + originalPaddingLeft}px` }
+
+      Object.assign($input.style, style)
+
+      if (title && prefix) {
+        Object.assign($prefix.style, { left: `${$title.clientWidth + 6}px` })
+      }
+
+      if (suffix) {
+        Object.assign($suffix.parentNode.style, style)
+      }
+    }
+
+    if (suffix) {
+      const space = $action.clientWidth + $suffix.clientWidth
+      Object.assign($input.style, { paddingRight: `${space}px` })
+    }
+  }
+
+  componentDidUpdate() {
+  }
 
   handleChange = ({ target: { value } }) => (
     this.setValue(value.trim())
@@ -135,7 +184,6 @@ export default class InputNumber extends PureComponent {
       parser(v.toString())
       .toString()
       .replace(/^0(?!\.)/, '')
-      .replace(/^0{2,}(?!\.)/, '0')
     )
 
     const isNull = v !== '0' && !value && !!placeholder
@@ -177,6 +225,7 @@ export default class InputNumber extends PureComponent {
   }
 
   handleStep = e => {
+    e.stopPropagation()
     const { action } = e.currentTarget.dataset
 
     const step = getStep(e, this.props.step) * (action === 'up' ? 1 : -1)
@@ -221,35 +270,49 @@ export default class InputNumber extends PureComponent {
     )
   }
 
+  set$label = $label => Object.assign(this, { $label })
+
   setActive = () => this.setState({ isActive: true })
   setNotActive = () => this.setState({ isActive: false })
 
   render () {
     const {
-      size,
-      formatter, prefix, suffix, placeholder, readOnly,
+      size, readOnly,
+      prefix, suffix, placeholder,
+      title, desc,
+      formatter,
       onFocus,
     } = this.props
 
     const { value, isActive, isValid } = this.state
     const isDisabled = this.props.isDisabled || this.props.disabled
 
+    const klass = trimList([
+      'Input InputNumber',
+      size,
+
+      isActive && !isDisabled && !readOnly && 'is-active',
+      isDisabled && 'is-disabled',
+      readOnly && 'is-readonly',
+      isValid ? 'is-valid' : 'isnt-valid',
+
+      !!title && 'with-title',
+      !!desc && 'with-desc',
+      !!prefix && 'with-prefix',
+      !!suffix && 'with-suffix',
+    ])
+
     return (
       <label
-        className={trimList([
-          'Input InputNumber',
-          size,
-          isActive && !isDisabled && !readOnly && 'is-active',
-          isDisabled && 'is-disabled',
-          readOnly && 'is-readonly',
-          isValid ? 'is-valid' : 'isnt-valid',
-          !!prefix && 'with-prefix',
-          !!suffix && 'with-suffix',
-        ])}
+        className={klass}
+        ref={this.set$label}
 
         onMouseDown={this.setActive}
         onMouseLeave={this.setNotActive}
       >
+        { title && <span className="title" children={title} /> }
+        { desc && <span className="desc" children={desc} /> }
+
         { prefix && <span className="prefix" children={prefix} /> }
 
         <input
@@ -275,7 +338,7 @@ export default class InputNumber extends PureComponent {
             className="suffix"
             data-value={formatter(value)}
             data-suffix={suffix}
-            children={suffix}
+            children={<span>{suffix}</span>}
           />
         )}
 
@@ -303,4 +366,3 @@ export default class InputNumber extends PureComponent {
     )
   }
 }
-

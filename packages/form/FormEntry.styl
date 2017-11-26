@@ -22,11 +22,13 @@
     color $cl-core
 
   > .val >
-    input.regular:not([type="radio"]):not([type="checkbox"])
-      display block
-      width 100%
-      height $form-entry-min-height
-    textarea.regular
+    .Input
+      &
+        display block
+        width 100%
+      &.small
+        margin-top (($form-entry-min-height - $input-small-height)/2)
+    .Textarea
       display block
       width 100%
 

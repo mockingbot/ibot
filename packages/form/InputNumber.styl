@@ -1,13 +1,10 @@
-$InputNumber-font-size = 12px
-$InputNumber-action-width = 1.5em
-$InputNumber-regular-action-width = 2em
-
 label.InputNumber
+  $padding-left = .5em
+
   &
     position relative
     display inline-block
     min-width 2em
-    overflow hidden
     // Can’t use San Francisco for suffix position reason:
     font-family 'Helvetica Neue', Helvetica, Arial, sans-serif
     font-size $InputNumber-font-size
@@ -22,27 +19,22 @@ label.InputNumber
     cursor not-allowed
   &.is-disabled
   &.is-readonly
-    &:after
-      content ''
-      position absolute
-      left 0
-      top 0
-      width 100%
-      height 100%
+    .action
+      visibility hidden
 
   input
-    padding 0 $InputNumber-action-width 0 .5em
+    padding-right $InputNumber-action-width
+    padding-left $padding-left
+    font-family inherit
+  &.regular input
+    padding-right $InputNumber-regular-action-width
+
 
   &:not(.is-disabled):hover input:not([readonly])
   input:not([readonly]):focus
     & ~ .action
       opacity 1
       transition all .2s ease-out
-
-  &.with-prefix input
-    padding-left 1.25em
-  &.with-suffix input
-    padding-right 32px
 
   .action
     &
@@ -80,33 +72,49 @@ label.InputNumber
     width $InputNumber-regular-action-width
     height 28px
 
+  &.with-desc
+    margin-top 6px
+    margin-bottom 1.5em
+
+  .title
+  .desc
   .prefix
   .suffix
     position absolute
     top 0
     left 0
     display flex
-    display none
     align-items center
     height 100%
     pointer-events none
     user-select none
+    border 1px solid transparent
+
+  .title
+    margin-left $padding-left
+    color $cl-InputNumber-desc
+
+  .desc
+    top 100%
+    width 100%
+    height 1.5em
+    line-height 1.5
+    justify-content center
+    color $cl-InputNumber-desc
+
   .prefix
-    min-width 1.5em
-    padding-right .25em
-    justify-content flex-end
+    margin-left $padding-left
+
   .suffix
     &
-      margin 0 32px 0 .8333em
+      padding-left $padding-left
+      padding-right ($InputNumber-action-width + .125em)
       width 100%
     &:before
       content attr(data-value)
       display inline-block
-      padding-right .25em
+      margin-right .125em
       width -moz-fit-content
       width fit-content
-      max-width calc(100% - 32px)
       overflow hidden
       opacity 0
-  /.InputNumber.with-prefix .suffix
-    margin 0 26px 0 1.333em
