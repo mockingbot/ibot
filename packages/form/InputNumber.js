@@ -4,12 +4,11 @@ import PropTypes from 'prop-types'
 import Button from '@ibot/button'
 import { trimList, getOtherProps } from '@ibot/util'
 
+import { ARROW_SVG } from './ARROW'
+
 const LONG_PRESSED_THRESHOLD = 500
 const LONG_PRESSED_STEPPING_INTERVAL = 30
 const CORRECTION_AWAIT = 1000
-
-// **NOTE:** Use SVG here instead of font icons to solve pixel alignment issue.
-const ARROW_SVG = `<svg width="6" height="4" viewBox="0 0 6 4"><path d="M3 0l3 4H0" fill-rule="evenodd"></path></svg>`
 
 const toFixed = (num, precision) => Number(Number(num).toFixed(precision))
 

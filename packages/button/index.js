@@ -39,7 +39,7 @@ export default class Button extends PureComponent {
     const contentProp = (
       !!html
       ? { dangerouslySetInnerHTML: { __html: html } }
-      : { children: [!!icon && <Icon type={iconType} name={icon} />, children] }
+      : { children: [!!icon && <Icon key="icon" type={iconType} name={icon} />, children] }
     )
 
     return (

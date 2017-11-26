@@ -45,6 +45,10 @@ export function PanelInput({ className, ...others }) {
   )
 }
 
+PanelInput.PropTypes = {
+  className: PropTypes.string,
+}
+
 /**
  * <Textarea>
  */

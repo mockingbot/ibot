@@ -8,6 +8,8 @@ import { EllipsisSpan } from '@ibot/text'
 import Icon from '@ibot/icon'
 import { trimList } from '@ibot/util'
 
+import { ARROW_SVG } from './ARROW'
+
 import './index.styl'
 
 const MENU_ROOT_ID = 'MB_SELECT_MENU_ROOT'
@@ -39,6 +41,7 @@ export default class Select extends PureComponent {
   }
 
   static propTypes = {
+    size: PropTypes.oneOf(['regular', 'small']),
     className: PropTypes.string,
     menuClassName: PropTypes.string,
     placeholder: PropTypes.string,
@@ -99,6 +102,7 @@ export default class Select extends PureComponent {
   }
 
   static defaultProps = {
+    size: 'regular',
     className: '',
     menuClassName: '',
     placeholder: I18N.select_placeholder || 'Choose one…',
@@ -157,7 +161,11 @@ export default class Select extends PureComponent {
       const opt = getOptionEntry(optionList, idx)
 
       this.close()
-      onChange(idx, opt.value || opt.label || opt)
+
+      onChange(
+        idx,
+        typeof opt === 'string' ? opt : (opt.value || opt.label),
+      )
     },
   )
 
@@ -167,6 +175,7 @@ export default class Select extends PureComponent {
 
   render() {
     const {
+      size,
       className,
       menuClassName,
       isDisabled,
@@ -181,6 +190,7 @@ export default class Select extends PureComponent {
 
     const klass = trimList([
       'Select',
+      size,
       className,
       isOpen && 'is-open',
       isDisabled && 'is-disabled',
@@ -196,7 +206,7 @@ export default class Select extends PureComponent {
           <EllipsisSpan>{ displayText }</EllipsisSpan>
         </button>
 
-        <Icon type="fa" name="caret-down" className="Select-caret" />
+        <span className="caret" dangerouslySetInnerHTML={{ __html: ARROW_SVG }} />
 
         <SelectMenu
           isOpen={isOpen}
@@ -471,4 +481,18 @@ Option.propTypes = {
   isDisabled: PropTypes.bool,
   onChange: PropTypes.func,
   currentOptionIdx: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+}
+
+export function PanelSelect({ className, ...others }) {
+  return (
+    <Input
+      size="small"
+      className={trimList(['PanelSelect', className])}
+      {...others}
+    />
+  )
+}
+
+PanelSelect.PropTypes = {
+  className: PropTypes.string,
 }
