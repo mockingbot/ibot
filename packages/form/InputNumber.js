@@ -126,6 +126,7 @@ export default class InputNumber extends PureComponent {
 
     if (title || prefix) {
       const space = ($title ? $title.clientWidth+6 : 0) + ($prefix ? $prefix.clientWidth : 0)
+
       const style = { paddingLeft: `${space + originalPaddingLeft}px` }
 
       Object.assign($input.style, style)
@@ -276,6 +277,7 @@ export default class InputNumber extends PureComponent {
 
   render () {
     const {
+      className,
       size, readOnly,
       prefix, suffix, placeholder,
       title, desc,
@@ -289,6 +291,7 @@ export default class InputNumber extends PureComponent {
     const klass = trimList([
       'Input InputNumber',
       size,
+      className,
 
       isActive && !isDisabled && !readOnly && 'is-active',
       isDisabled && 'is-disabled',

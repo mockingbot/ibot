@@ -16,7 +16,10 @@ label.InputNumber
     border-color $cl-input-invalid-border !important
     box-shadow $cl-input-invalid-shadow !important
   &.is-disabled
-    cursor not-allowed
+    &
+      cursor not-allowed
+    > *
+      opacity .5
   &.is-disabled
   &.is-readonly
     .action
