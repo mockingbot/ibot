@@ -9,7 +9,7 @@ label.Select
     align-items center
     padding-left $padding-left
     max-width 100%
-    height $select-height
+    height $Select-height
     background-color $cl-input-bg
     border 1px solid $cl-input-border
     border-radius 2px
@@ -35,7 +35,7 @@ label.Select
 
   &.small
     &
-      height $select-small-height
+      height $Select-small-height
       font-size 12px
     .caret
       margin-right .5em
@@ -61,8 +61,8 @@ ul.SelectMenu
     padding 0
     display block
     max-width 20em
-    min-height $select-option-height
-    max-height (10 * $select-option-height)
+    min-height $Select-option-height
+    max-height (10 * $Select-option-height)
     overflow-x hidden
     overflow-y auto
     font-size 12px
@@ -83,7 +83,7 @@ ul.SelectMenu
   &::-webkit-scrollbar-track
     background-color rgba(#fff, .5)
   &.is-empty
-    min-height $select-option-height
+    min-height $Select-option-height
   &:not(.is-open)
     pointer-events none
     opacity 0
@@ -98,7 +98,7 @@ ul.SelectMenu
       display flex
       align-items center
       padding 0 .75em
-      height $select-option-height
+      height $Select-option-height
       font-weight bold
     > ul
       margin 0
@@ -111,7 +111,7 @@ ul.SelectMenu
       display flex
       align-items center
       padding 0 .75em
-      height $select-option-height
+      height $Select-option-height
       cursor pointer
     &:not(.empty-msg):hover
     &.is-active

@@ -3,19 +3,19 @@
     display flex
     align-items center
     margin .5em 0
-    min-height $form-entry-min-height
+    min-height $FormEntry-min-height
 
   > .key
     align-self flex-start
     display flex
     align-items center
-    flex-basis $form-entry-key-width
-    height $form-entry-min-height
+    flex-basis $FormEntry-key-width
+    height $FormEntry-min-height
 
   > .val
     flex 1
     margin-left auto
-    max-width s('calc(100% - %s)', $form-entry-key-width)
+    max-width s('calc(100% - %s)', $FormEntry-key-width)
 
   .required-sign
     margin 0 .25em
@@ -27,7 +27,8 @@
         display block
         width 100%
       &.small
-        margin-top (($form-entry-min-height - $input-small-height)/2)
+        margin-top (($FormEntry-min-height - $Input-small-height)/2)
+        margin-bottom @margin-top
     .Textarea
       display block
       width 100%
@@ -36,4 +37,4 @@
     label.Radio
     .CheckGroup
     .RadioGroup
-        margin-top s('calc((%s - %sem)/2)', $form-entry-min-height, $label-line-height)
+        margin-top s('calc((%s - %sem)/2)', $FormEntry-min-height, $FormEntry-line-height)
