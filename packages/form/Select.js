@@ -234,6 +234,8 @@ class SelectMenu extends PureComponent {
     super(props)
 
     Object.assign(this, {
+      state: { isDownward: true },
+
       portal: Object.assign(
         document.createElement('div'),
         { className: 'SelectMenuPortal' },
@@ -316,6 +318,8 @@ class SelectMenu extends PureComponent {
 
     // Slide downward:
     if (decidingPoint >= midOf$select) {
+      this.setState({ isDownward: true })
+
       this.set$menuStyle({ top: `${bottom}px` })
 
       // If the height of the menu is taller than that of space downward:
@@ -325,6 +329,8 @@ class SelectMenu extends PureComponent {
 
     // Slide upward:
     } else {
+      this.setState({ isDownward: false })
+
       this.set$menuStyle({ top: '', bottom: `${hOf$win - top}px` })
 
       // If the height of the menu is taller than that of space upward:
@@ -333,6 +339,7 @@ class SelectMenu extends PureComponent {
       }
     }
 
+    // Scroll to the active item:
     const $current = this.$menu.querySelector('li[role=option].is-active')
     if ($current) {
       $current.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -359,12 +366,15 @@ class SelectMenu extends PureComponent {
       currentOptionIdx,
     } = this.props
 
+    const { isDownward } = this.state
+
     const isEmpty = optionList.length === 0
 
     const klass = trimList([
       'SelectMenu',
       menuClassName,
       isOpen ? 'is-open' : '',
+      isDownward ? 'is-downward' : 'is-upward',
       isDisabled ? 'is-disabled' : '',
       isEmpty ? 'is-empty' : '',
     ])
