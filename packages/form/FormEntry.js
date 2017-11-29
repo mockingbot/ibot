@@ -25,7 +25,7 @@ export function FormEntry({
   )
 }
 
-FormEntry.PropTypes = {
+FormEntry.propTypes = {
   className: PropTypes.string,
   children: PropTypes.any,
   name: PropTypes.any,

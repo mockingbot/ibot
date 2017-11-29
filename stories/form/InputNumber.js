@@ -12,6 +12,7 @@ import {
   Input, PanelInput,
   Textarea,
   InputNumber, PanelInputNumber,
+  SelectNumber, PanelSelectNumber,
   Radio, Check,
   RadioGroup, CheckGroup,
   Select,
@@ -83,6 +84,24 @@ export default class InputNumberExample extends React.PureComponent {
           />
         </FormLabel>
 
+        <FormLabel name="With options">
+          <PanelSelectNumber
+            precision={2}
+            value={formData.a}
+            onChange={this.onChange.bind(this, 'a')}
+          />
+        </FormLabel>
+
+        <FormLabel name="With options">
+          <SelectNumber
+            optionList={[8, 9, 10, 11, 12, 14, 16, 18, 20, 24, 28, 32, 64, 128, 256]}
+            precision={2}
+            value={formData.a}
+            onChange={this.onChange.bind(this, 'a')}
+          />
+        </FormLabel>
+
+        <h2>Information</h2>
         <FormLabel name="Placeholder">
           <InputNumber
             size={size}

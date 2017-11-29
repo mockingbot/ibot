@@ -14,7 +14,7 @@ import './index.styl'
 const MENU_ROOT_ID = 'MB_SELECT_MENU_ROOT'
 const { I18N = {} } = window
 
-const $menuRoot = (
+export const $menuRoot = (
   document.getElementById(MENU_ROOT_ID)
   || Object.assign(document.createElement('div'), { id: MENU_ROOT_ID })
 )
@@ -149,7 +149,7 @@ export default class Select extends PureComponent {
 
   checkCursorPoint = ({ clientX, clientY }) => (
     Object.assign(this, {
-      canCloseOnScrollOutside: !document.elementFromPoint(clientX, clientY).matches('.SelectMenu.is-open *')
+      canCloseOnScrollOutside: !document.elementFromPoint(clientX, clientY).closest('.SelectMenu.is-open')
     })
   )
 
@@ -228,7 +228,7 @@ export default class Select extends PureComponent {
   }
 }
 
-class SelectMenu extends PureComponent {
+export class SelectMenu extends PureComponent {
   constructor(props) {
     super(props)
 
@@ -299,6 +299,7 @@ class SelectMenu extends PureComponent {
     const maxY = window.innerHeight - 10
 
     Object.assign($select.style, { minWidth: `${minW}px` })
+    Object.assign($menu.style, { minWidth: `${minW}px` })
   }
 
   scrollIntoActive = () => {
@@ -465,6 +466,6 @@ export function PanelSelect({ className, ...others }) {
   )
 }
 
-PanelSelect.PropTypes = {
+PanelSelect.propTypes = {
   className: PropTypes.string,
 }

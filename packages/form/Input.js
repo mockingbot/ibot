@@ -23,7 +23,7 @@ export function Input({
   )
 }
 
-Input.PropTypes = {
+Input.propTypes = {
   type: PropTypes.string,
   size: PropTypes.oneOf(['regular', 'small']),
   className: PropTypes.string,
@@ -45,7 +45,7 @@ export function PanelInput({ className, ...others }) {
   )
 }
 
-PanelInput.PropTypes = {
+PanelInput.propTypes = {
   className: PropTypes.string,
 }
 
@@ -63,9 +63,9 @@ export function Textarea({ className, value, ...others }) {
   )
 }
 
-Textarea.PropTypes = {
+Textarea.propTypes = {
   className: PropTypes.string,
   value: PropTypes.string,
 }
 
-export InputNumber, { PanelInputNumber } from './InputNumber'
+export * from './InputNumber'

@@ -1,8 +1,11 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import DocumentEvents from 'react-document-events'
 
 import Button from '@ibot/button'
 import { trimList, getOtherProps, INPUT_ARROW } from '@ibot/util'
+
+import { SelectMenu, $menuRoot } from './Select'
 
 const LONG_PRESSED_THRESHOLD = 500
 const LONG_PRESSED_STEPPING_INTERVAL = 30
@@ -21,13 +24,15 @@ const getStep = ({ shiftKey, metaKey }, step = 1) => (
   shiftKey ? step*10 : metaKey ? step*100 : step
 )
 
-export default class InputNumber extends PureComponent {
+export class InputNumber extends PureComponent {
   constructor (props) {
     super(props)
 
     this.state = {
       value: props.value || (!!props.placeholder ? '' : 1),
+      isActive: false,
       isValid: false,
+      isMenuOpen: false,
     }
   }
 
@@ -41,7 +46,7 @@ export default class InputNumber extends PureComponent {
 
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     placeholder: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    optionList: PropTypes.arrayOf([PropTypes.string, PropTypes.number]),
+    optionList: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
 
     title: PropTypes.node,
     desc: PropTypes.node,
@@ -90,23 +95,6 @@ export default class InputNumber extends PureComponent {
     this.setState({ isValid })
   }
 
-  componentWillReceiveProps({ value: newValue }) {
-    const { placeholder } = this.props
-    const { value } = this.state
-
-    if (newValue !== value) {
-      this.setState({
-        value: (
-          newValue === 0 || !!newValue
-          ? newValue
-          : !!placeholder
-          ? ''
-          : 1
-        ),
-      })
-    }
-  }
-
   componentDidMount() {
     const { $label } = this
 
@@ -145,7 +133,21 @@ export default class InputNumber extends PureComponent {
     }
   }
 
-  componentDidUpdate() {
+  componentWillReceiveProps({ value: newValue }) {
+    const { placeholder } = this.props
+    const { value } = this.state
+
+    if (newValue !== value) {
+      this.setState({
+        value: (
+          newValue === 0 || !!newValue
+          ? newValue
+          : !!placeholder
+          ? ''
+          : 1
+        ),
+      })
+    }
   }
 
   handleChange = ({ target: { value } }) => (
@@ -168,6 +170,7 @@ export default class InputNumber extends PureComponent {
   )
 
   setValue = v => {
+    console.log('sv',v)
     clearTimeout(this.correctionTimeout)
 
     const {
@@ -270,21 +273,50 @@ export default class InputNumber extends PureComponent {
   }
 
   set$label = $label => Object.assign(this, { $label })
-
   setActive = () => this.setState({ isActive: true })
-  setNotActive = () => this.setState({ isActive: false })
+  setInactive = () => this.setState({ isActive: false })
+  toggleMenu = () => this.setState({ isMenuOpen: !this.state.isMenuOpen })
+  closeMenu = () => this.setState({ isMenuOpen: false })
+
+  onSelect = ({ currentTarget: $opt }) => {
+    this.setValue(this.props.optionList[$opt.dataset.idx])
+    this.closeMenu()
+  }
+
+  onClickOutside = ({ target }) => {
+    if (!(target.closest('label') && this.$label.contains(target))) {
+      this.setInactive()
+
+      if (!$menuRoot.contains(target)) {
+        this.closeMenu()
+      }
+    }
+  }
+
+  onScrollOutside = () => (
+    this.state.isMenuOpen
+    && this.canCloseOnScrollOutside
+    && this.closeMenu()
+  )
+
+  checkCursorPoint = ({ clientX, clientY }) => (
+    Object.assign(this, {
+      canCloseOnScrollOutside: !document.elementFromPoint(clientX, clientY).closest('.SelectMenu.is-open')
+    })
+  )
 
   render () {
     const {
       className,
       size, readOnly,
+      optionList,
       prefix, suffix, placeholder,
       title, desc,
       formatter,
       onFocus,
     } = this.props
 
-    const { value, isActive, isValid } = this.state
+    const { value, isActive, isValid, isMenuOpen } = this.state
     const isDisabled = this.props.isDisabled || this.props.disabled
 
     const klass = trimList([
@@ -293,6 +325,8 @@ export default class InputNumber extends PureComponent {
       className,
 
       isActive && !isDisabled && !readOnly && 'is-active',
+      isMenuOpen && 'is-menu-open',
+
       isDisabled && 'is-disabled',
       readOnly && 'is-readonly',
       isValid ? 'is-valid' : 'isnt-valid',
@@ -303,13 +337,13 @@ export default class InputNumber extends PureComponent {
       !!suffix && 'with-suffix',
     ])
 
+    const hasMenu = optionList && optionList.length > 0
+
     return (
       <label
         className={klass}
         ref={this.set$label}
-
         onMouseDown={this.setActive}
-        onMouseLeave={this.setNotActive}
       >
         { title && <span className="title" children={title} /> }
         { desc && <span className="desc" children={desc} /> }
@@ -343,29 +377,77 @@ export default class InputNumber extends PureComponent {
           />
         )}
 
-        <div className="action">
-          <Button
-            type="text"
-            tabIndex="-1"
-            data-action="up"
-            onMouseDown={this.handleStep}
-            onMouseLeave={this.handleRelease}
-            onMouseUp={this.handleRelease}
-            html={INPUT_ARROW}
+        {
+          hasMenu
+          ? <div className="action caret">
+              <Button
+                type="text"
+                tabIndex="-1"
+                onClick={this.toggleMenu}
+                html={INPUT_ARROW}
+              />
+            </div>
+
+          : <div className="action">
+              <Button
+                type="text"
+                tabIndex="-1"
+                data-action="up"
+                onMouseDown={this.handleStep}
+                onMouseLeave={this.handleRelease}
+                onMouseUp={this.handleRelease}
+                html={INPUT_ARROW}
+              />
+              <Button
+                type="text"
+                tabIndex="-1"
+                data-action="down"
+                onMouseDown={this.handleStep}
+                onMouseLeave={this.handleRelease}
+                onMouseUp={this.handleRelease}
+                html={INPUT_ARROW}
+              />
+            </div>
+        }
+
+        { hasMenu && (
+          <SelectMenu
+            isOpen={isMenuOpen}
+            menuClassName="SelectNumberMenu"
+            $select={this.$label}
+            optionList={optionList}
+            onChange={this.onSelect}
+            currentOptionIdx={optionList.indexOf(value)}
           />
-          <Button
-            type="text"
-            tabIndex="-1"
-            data-action="down"
-            onMouseDown={this.handleStep}
-            onMouseLeave={this.handleRelease}
-            onMouseUp={this.handleRelease}
-            html={INPUT_ARROW}
+        )}
+
+        { (isActive || isMenuOpen) && (
+          <DocumentEvents
+            onMouseDown={this.onClickOutside}
+            onMouseOver={this.checkCursorPoint}
+            onScroll={this.onScrollOutside}
           />
-        </div>
+        )}
       </label>
     )
   }
+}
+
+export function SelectNumber({ className, ...others }) {
+  return (
+    <InputNumber
+      className={trimList(['SelectNumber', className])}
+      {...others}
+    />
+  )
+}
+
+SelectNumber.propTypes = {
+  className: PropTypes.string,
+}
+
+SelectNumber.defaultProps = {
+  optionList: [1, 2, 3],
 }
 
 export function PanelInputNumber({ className, ...others }) {
@@ -378,6 +460,17 @@ export function PanelInputNumber({ className, ...others }) {
   )
 }
 
-PanelInputNumber.PropTypes = {
-  className: PropTypes.string,
+PanelInputNumber.propTypes = SelectNumber.propTypes
+
+export function PanelSelectNumber({ className, ...others }) {
+  return (
+    <InputNumber
+      size="small"
+      className={trimList(['PanelInputNumber', className])}
+      {...others}
+    />
+  )
 }
+
+PanelSelectNumber.propTypes = SelectNumber.propTypes
+PanelSelectNumber.defaultProps = SelectNumber.defaultProps
