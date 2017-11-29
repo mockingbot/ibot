@@ -2,9 +2,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 
 import Button from '@ibot/button'
-import { trimList, getOtherProps } from '@ibot/util'
-
-import { ARROW } from './SVG'
+import { trimList, getOtherProps, INPUT_ARROW } from '@ibot/util'
 
 const LONG_PRESSED_THRESHOLD = 500
 const LONG_PRESSED_STEPPING_INTERVAL = 30
@@ -43,6 +41,7 @@ export default class InputNumber extends PureComponent {
 
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     placeholder: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    optionList: PropTypes.arrayOf([PropTypes.string, PropTypes.number]),
 
     title: PropTypes.node,
     desc: PropTypes.node,
@@ -62,7 +61,7 @@ export default class InputNumber extends PureComponent {
   }
 
   static defaultProps = {
-    size: 'small',
+    size: 'regular',
 
     value: '',
     placeholder: '',
@@ -352,7 +351,7 @@ export default class InputNumber extends PureComponent {
             onMouseDown={this.handleStep}
             onMouseLeave={this.handleRelease}
             onMouseUp={this.handleRelease}
-            html={ARROW}
+            html={INPUT_ARROW}
           />
           <Button
             type="text"
@@ -361,10 +360,24 @@ export default class InputNumber extends PureComponent {
             onMouseDown={this.handleStep}
             onMouseLeave={this.handleRelease}
             onMouseUp={this.handleRelease}
-            html={ARROW}
+            html={INPUT_ARROW}
           />
         </div>
       </label>
     )
   }
+}
+
+export function PanelInputNumber({ className, ...others }) {
+  return (
+    <InputNumber
+      size="small"
+      className={trimList(['PanelInputNumber', className])}
+      {...others}
+    />
+  )
+}
+
+PanelInputNumber.PropTypes = {
+  className: PropTypes.string,
 }

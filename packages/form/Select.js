@@ -6,10 +6,8 @@ import get from 'lodash/get'
 
 import { EllipsisSpan } from '@ibot/text'
 import Icon from '@ibot/icon'
-import { trimList } from '@ibot/util'
+import { trimList, INPUT_ARROW } from '@ibot/util'
 import { positionDropdown } from '@ibot/dropdown'
-
-import { ARROW } from './SVG'
 
 import './index.styl'
 
@@ -207,7 +205,7 @@ export default class Select extends PureComponent {
           <EllipsisSpan>{ displayText }</EllipsisSpan>
         </button>
 
-        <span className="caret" dangerouslySetInnerHTML={{ __html: ARROW }} />
+        <span className="caret" dangerouslySetInnerHTML={{ __html: INPUT_ARROW }} />
 
         <SelectMenu
           isOpen={isOpen}
@@ -290,8 +288,9 @@ class SelectMenu extends PureComponent {
 
     if (!$select || !$menu) return
 
+    // Clean up previously-set min-width:
     $select.removeAttribute('style')
-    $menu.removeAttribute('style')
+    Object.assign($menu.style, { minWidth: 0 })
 
     const { offsetWidth: wOf$menu, offsetHeight: hOf$menu } = $menu
     const { offsetWidth: wOf$select, offsetHeight: hOf$select } = $select

@@ -68,4 +68,4 @@ Textarea.PropTypes = {
   value: PropTypes.string,
 }
 
-export InputNumber from './InputNumber'
+export InputNumber, { PanelInputNumber } from './InputNumber'

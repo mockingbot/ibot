@@ -16,3 +16,5 @@ export function getOtherProps({ propTypes = {} }, props) {
     {},
   )
 }
+
+export * from './svg'

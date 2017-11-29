@@ -3,9 +3,8 @@ import { createPortal } from 'react-dom'
 import PropTypes from 'prop-types'
 import DocumentEvents from 'react-document-events'
 
-import { trimList } from '@ibot/util'
+import { trimList, DROPDOWN_ARROW } from '@ibot/util'
 
-import { ARROW } from './SVG'
 import './index.styl'
 
 const MENU_ROOT_ID = 'MB_DROPDOWN_MENU_ROOT'
@@ -235,7 +234,7 @@ class DropdownMenu extends PureComponent {
     return (
       <div ref={this.set$menu} className={klass}>
         { arrowed && (
-          <span className="arrow" dangerouslySetInnerHTML={{ __html: ARROW }} />
+          <span className="arrow" dangerouslySetInnerHTML={{ __html: DROPDOWN_ARROW }} />
         )}
 
         <div className="content">

@@ -11,7 +11,7 @@ import {
   FormLabel, FormEntry,
   Input, PanelInput,
   Textarea,
-  InputNumber,
+  InputNumber, PanelInputNumber,
   Radio, Check,
   RadioGroup, CheckGroup,
   Select,
@@ -20,7 +20,7 @@ import {
 export default class InputNumberExample extends React.PureComponent {
   constructor(props) {
     super(props)
-    this.state = { formData: {}, isSmall: true }
+    this.state = { formData: {}, isSmall: false }
   }
 
   onChange = (name, value) => this.setState(
@@ -58,18 +58,25 @@ export default class InputNumberExample extends React.PureComponent {
           Toggle Size
         </Button>
 
-        <FormLabel name="Small (default)">
+        <FormLabel name="Regular">
           <InputNumber
-            size={size}
             precision={2}
             value={formData.a}
             onChange={this.onChange.bind(this, 'a')}
           />
         </FormLabel>
 
-        <FormLabel name="Regular">
+        <FormLabel name="Small">
           <InputNumber
-            size="regular"
+            size="small"
+            precision={2}
+            value={formData.a}
+            onChange={this.onChange.bind(this, 'a')}
+          />
+        </FormLabel>
+
+        <FormLabel name="Panel Input">
+          <PanelInputNumber
             precision={2}
             value={formData.a}
             onChange={this.onChange.bind(this, 'a')}
