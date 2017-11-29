@@ -7,12 +7,8 @@ label.Select
     display inline-flex
     justify-content space-between
     align-items center
-    padding-left $padding-left
     max-width 100%
     height $Select-height
-    background-color $cl-input-bg
-    border 1px solid $cl-input-border
-    border-radius 2px
     color inherit
     cursor pointer
     transition all .2s ease-out
@@ -32,6 +28,11 @@ label.Select
       fill currentColor
       transform rotate(180deg)
       transition all .3s ease-out
+  &:not(.unstyled)
+    padding-left $padding-left
+    background-color $cl-input-bg
+    border 1px solid $cl-input-border
+    border-radius 2px
 
   &.small
     &
@@ -40,18 +41,20 @@ label.Select
     .caret
       margin-right .5em
 
-  &:not(.is-disabled):hover
-  &.is-open
+  &:not(.is-disabled):not(.unstyled):hover
+  &:not(.unstyled).is-open
     border-color $cl-active
+
   &.is-open
-    &
+    &:not(.unstyled)
       background-color #fff
       box-shadow $cl-input-active-shadow
     .caret svg
       transform rotate(0deg)
+
   &.is-disabled
-    opacity .6
     cursor not-allowed
+    opacity .6
 
 ul.SelectMenu
   &
@@ -113,9 +116,14 @@ ul.SelectMenu
       padding 0 .75em
       height $Select-option-height
       cursor pointer
-    &:not(.empty-msg):hover
+    &.is-disabled
+      cursor not-allowed
+      opacity .5
     &.is-active
-      background-color rgba(#000, .04)
+      color $cl-active
+    &:not(.empty-msg):not(.is-disabled):hover
+    &.is-active
+      background-color $cl-lightest-grey
     &.empty-msg
-      color $cl-tertiary-text
+      color $cl-tertiary-grey
       cursor not-allowed

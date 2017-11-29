@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import Button from '@ibot/button'
 import { trimList, getOtherProps } from '@ibot/util'
 
-import { ARROW_SVG } from './ARROW'
+import { ARROW } from './SVG'
 
 const LONG_PRESSED_THRESHOLD = 500
 const LONG_PRESSED_STEPPING_INTERVAL = 30
@@ -352,7 +352,7 @@ export default class InputNumber extends PureComponent {
             onMouseDown={this.handleStep}
             onMouseLeave={this.handleRelease}
             onMouseUp={this.handleRelease}
-            html={ARROW_SVG}
+            html={ARROW}
           />
           <Button
             type="text"
@@ -361,7 +361,7 @@ export default class InputNumber extends PureComponent {
             onMouseDown={this.handleStep}
             onMouseLeave={this.handleRelease}
             onMouseUp={this.handleRelease}
-            html={ARROW_SVG}
+            html={ARROW}
           />
         </div>
       </label>

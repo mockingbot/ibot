@@ -57,11 +57,15 @@ label.InputNumber
       height 50%
       line-height 0
       color $cl-InputNumber-action
+      transition all .1s ease-out
+    button:hover
+      color $cl-InputNumber-action-hover
     button:active
       color $cl-InputNumber-action-active
     button svg
       height 4px
       fill currentColor
+      fill-rule evenodd
     button:first-child
       padding 5px 0 2px
     button:last-child

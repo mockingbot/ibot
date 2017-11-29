@@ -1,5 +1,5 @@
 {
-  "name": "@ibot/form",
+  "name": "@ibot/dropdown",
   "version": "0.1.0-alpha.2",
   "description": "",
   "main": "dest/index.js",
@@ -15,14 +15,12 @@
   "license": "MIT",
   "devDependencies": {
     "@ibot/button": "^0.1.0-alpha.2",
-    "@ibot/dropdown": "^0.1.0-alpha.2",
     "@ibot/icon": "^0.1.0-alpha.2",
     "@ibot/text": "^0.1.0-alpha.2",
     "@ibot/util": "^0.1.0-alpha.2"
   },
   "peerDependencies": {
     "@ibot/button": "^0.1.0-alpha.2",
-    "@ibot/dropdown": "^0.1.0-alpha.2",
     "@ibot/icon": "^0.1.0-alpha.2",
     "@ibot/text": "^0.1.0-alpha.2",
     "@ibot/util": "^0.1.0-alpha.2",
@@ -34,12 +32,7 @@
   "keywords": [
     "react",
     "component",
-    "form components",
-    "label",
-    "input",
-    "textarea",
-    "radio",
-    "checkbox"
+    "downdown"
   ],
   "publishConfig": {
     "access": "public"

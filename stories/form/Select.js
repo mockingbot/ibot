@@ -124,6 +124,11 @@ export default class SelectExample extends React.PureComponent {
           />
         </p>
 
+        <h3>Disabled option</h3>
+        <p>
+          <Select size={size} optionList={[{ label: 'Apple', value: 'apple', isDisabled: true }, 'Pencil']} onChange={action('Select changed')} />
+        </p>
+
         <h2>Long lists (10+ options)</h2>
         <p>
           <Select

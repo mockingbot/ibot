@@ -7,8 +7,9 @@ import get from 'lodash/get'
 import { EllipsisSpan } from '@ibot/text'
 import Icon from '@ibot/icon'
 import { trimList } from '@ibot/util'
+import { positionDropdown } from '@ibot/dropdown'
 
-import { ARROW_SVG } from './ARROW'
+import { ARROW } from './SVG'
 
 import './index.styl'
 
@@ -41,7 +42,7 @@ export default class Select extends PureComponent {
   }
 
   static propTypes = {
-    size: PropTypes.oneOf(['regular', 'small']),
+    size: PropTypes.oneOf(['regular', 'small', 'unstyled']),
     className: PropTypes.string,
     menuClassName: PropTypes.string,
     placeholder: PropTypes.string,
@@ -206,7 +207,7 @@ export default class Select extends PureComponent {
           <EllipsisSpan>{ displayText }</EllipsisSpan>
         </button>
 
-        <span className="caret" dangerouslySetInnerHTML={{ __html: ARROW_SVG }} />
+        <span className="caret" dangerouslySetInnerHTML={{ __html: ARROW }} />
 
         <SelectMenu
           isOpen={isOpen}
@@ -267,7 +268,14 @@ class SelectMenu extends PureComponent {
 
     // Set up the position of the <SelectMenu> once opened:
     if (!isOpen && willBeOpen) {
-      this.position$menu()
+      const result = positionDropdown({
+        $menu,
+        $opener: $select,
+        shouldSetMinWidth: true,
+      })
+
+      this.setState({ isDownward: result.direction === 'DOWN' })
+      this.scrollIntoActive()
     }
   }
 
@@ -276,12 +284,14 @@ class SelectMenu extends PureComponent {
   }
 
   set$menu = $menu => Object.assign(this, { $menu })
-  set$menuStyle = style => Object.assign(this.$menu.style, style)
 
   size$select = ($select = this.props.$select) => {
     const { $menu } = this
 
     if (!$select || !$menu) return
+
+    $select.removeAttribute('style')
+    $menu.removeAttribute('style')
 
     const { offsetWidth: wOf$menu, offsetHeight: hOf$menu } = $menu
     const { offsetWidth: wOf$select, offsetHeight: hOf$select } = $select
@@ -292,54 +302,7 @@ class SelectMenu extends PureComponent {
     Object.assign($select.style, { minWidth: `${minW}px` })
   }
 
-  position$menu = () => {
-    const { $select } = this.props
-    const { $menu } = this
-
-    if (!$select || !$menu) return
-
-    const { offsetWidth: wOf$menu, offsetHeight: hOf$menu } = $menu
-    const { offsetWidth: wOf$select, offsetHeight: hOf$select } = $select
-    const { top, bottom, left } = $select.getBoundingClientRect()
-    const { innerHeight: hOf$win } = window
-
-    const minW = Math.max(wOf$select, wOf$menu)
-    const minY = 10
-    const maxY = hOf$win - 10
-
-    // Y middle line of the <Select>:
-    const midOf$select = top + hOf$select/2
-
-    // Deciding point which separates menus going upward or downward:
-    const decidingPoint = hOf$win * 2/3
-
-    // Set X position, etc:
-    this.set$menuStyle({ left: `${left}px`, minWidth: `${minW}px` })
-
-    // Slide downward:
-    if (decidingPoint >= midOf$select) {
-      this.setState({ isDownward: true })
-
-      this.set$menuStyle({ top: `${bottom}px` })
-
-      // If the height of the menu is taller than that of space downward:
-      if (bottom + hOf$menu > maxY) {
-        this.set$menuStyle({ maxHeight: `${maxY - bottom}px` })
-      }
-
-    // Slide upward:
-    } else {
-      this.setState({ isDownward: false })
-
-      this.set$menuStyle({ top: '', bottom: `${hOf$win - top}px` })
-
-      // If the height of the menu is taller than that of space upward:
-      if (top - hOf$menu < minY) {
-        this.set$menuStyle({ maxHeight: `${top - minY}px` })
-      }
-    }
-
-    // Scroll to the active item:
+  scrollIntoActive = () => {
     const $current = this.$menu.querySelector('li[role=option].is-active')
     if ($current) {
       $current.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -477,7 +440,7 @@ function Option({
       role="option"
       data-idx={idx}
       className={className}
-      onClick={onChange}
+      onClick={isDisabled ? undefined : onChange}
     >
       <EllipsisSpan>{ label }</EllipsisSpan>
     </li>
