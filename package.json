@@ -61,6 +61,7 @@
     "rollup-loader": "^0.3.0",
     "rollup-plugin-babel": "^3.0.2",
     "rollup-plugin-commonjs": "^8.0.2",
+    "rollup-plugin-json": "^2.3.0",
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-postcss": "^0.5.5",
     "rollup-plugin-stylus-compiler": "^0.2.1",

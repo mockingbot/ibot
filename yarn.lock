@@ -6031,6 +6031,12 @@ rollup-plugin-commonjs@^8.0.2:
     resolve "^1.4.0"
     rollup-pluginutils "^2.0.1"
 
+rollup-plugin-json@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-json/-/rollup-plugin-json-2.3.0.tgz#3c07a452c1b5391be28006fbfff3644056ce0add"
+  dependencies:
+    rollup-pluginutils "^2.0.1"
+
 rollup-plugin-memory@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/rollup-plugin-memory/-/rollup-plugin-memory-2.0.0.tgz#0a8ac6b57fa0e714f89a15c3ac82bc93f89c47c5"
