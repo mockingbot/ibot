@@ -56,11 +56,10 @@ label.InputNumber
     &.caret
       &
         display flex
-        width auto
-        margin 0 .5em
         align-items center
       button
-        padding 0
+        padding 0 .5em
+        height 100%
       svg
         color $cl-tertiary-grey
         transform rotate(180deg)
@@ -89,13 +88,10 @@ label.InputNumber
       svg
         transform rotate(180deg)
   &.regular .action
-    &
-      top 50%
-      transform translateY(-50%)
-      width $InputNumber-regular-action-width
-      height 28px
-    &.caret
-      width ($InputNumber-regular-action-width - 1em)
+    top 50%
+    transform translateY(-50%)
+    width $InputNumber-regular-action-width
+    height 28px
 
   &.with-desc
     margin-top 6px

@@ -129,7 +129,7 @@ storiesOf('Form Components', module)
   </Root>
 ))
 
-.add('Input Number', () => <InputNumberExample />)
+.add('Number', () => <InputNumberExample />)
 
 .add('Radio/Check', () => (
   <Root>
