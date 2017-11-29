@@ -17,3 +17,6 @@ yarn run publish # for entire lib
 ### development experience
  - implement components in packages folder
  - write live showcase in stories directory
+
+### note:
+ - remember to run `yarn run link` everytime added a package
