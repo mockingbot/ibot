@@ -45,7 +45,7 @@ storiesOf('Dropdown', module)
     `}
     </style>
 
-    <h2>Default</h2>
+    <h2 style={{ marginTop: '70vh' }}>Default</h2>
     <p className="dropdown">
       <Dropdown
         opener={<Icon type="dora" name="cog" />}
@@ -138,5 +138,7 @@ storiesOf('Dropdown', module)
         menuClassName="custom-dropdown-menu"
       />
     </p>
+
+    <div style={{ marginBottom: '70vh' }} />
   </Root>
 ))

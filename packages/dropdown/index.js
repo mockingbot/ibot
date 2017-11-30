@@ -83,12 +83,6 @@ export default class Dropdown extends PureComponent {
   set$opener = $opener => this.setState({ $opener })
   onResizeWindow = () => this.state.isOpen && this.close()
 
-  onClickOutside = ({ target }) => (
-    !$menuRoot.contains(target)
-    && !(target.closest('label') && this.state.$opener.contains(target))
-    && this.close()
-  )
-
   onSelect = ({ currentTarget }) => {
     const { menuList, onSelect, shouldCloseOnSelect } = this.props
 
@@ -130,15 +124,9 @@ export default class Dropdown extends PureComponent {
           isOpen={isOpen}
           $opener={$opener}
           onSelect={this.onSelect}
+          onClose={this.close}
           currentMenuListItemIdx={currentMenuListItemIdx}
         />
-
-        { isOpen && (
-          <DocumentEvents
-            onMouseDown={this.onClickOutside}
-            onScroll={this.onScrollOutside}
-          />
-        )}
       </label>
     )
   }
@@ -163,6 +151,7 @@ class DropdownMenu extends PureComponent {
     isOpen: PropTypes.bool,
     $opener: PropTypes.instanceOf(Element),
     onSelect: PropTypes.func,
+    onClose: PropTypes.func,
   }
 
   componentWillMount() {
@@ -173,7 +162,7 @@ class DropdownMenu extends PureComponent {
     const { isOpen } = this.props
     const { $menu } = this
 
-    // Set up the position of the <SelectMenu> once opened:
+    // Set up the position of the <DropdownMenu> once opened:
     if (!isOpen && willBeOpen) {
       const result = positionDropdown({ $menu, $opener })
       this.setState({ isDownward: result.direction === 'DOWN' })
@@ -185,6 +174,26 @@ class DropdownMenu extends PureComponent {
   }
 
   set$menu = $menu => Object.assign(this, { $menu })
+
+  onClickOutside = ({ target }) => {
+    const { $opener, onClose } = this.props
+
+    const isOutsideMenu = !$menuRoot.contains(target)
+
+    const closestLabel = target.closest('label')
+    const isOwnLabel = closestLabel && closestLabel.contains($opener)
+
+    if (isOutsideMenu && !isOwnLabel) {
+      onClose()
+    }
+  }
+
+  onScrollOutside = ({ target }) => {
+    const { $menu } = this
+    const { $opener } = this.props
+    const result = positionDropdown({ $menu, $opener })
+    this.setState({ isDownward: result.direction === 'DOWN' })
+  }
 
   render() {
     return createPortal(this.renderMenu(), this.portal)
@@ -208,29 +217,6 @@ class DropdownMenu extends PureComponent {
       menuClassName,
     ])
 
-    const content = (
-      menuList
-      ? (
-        <ul className="MenuList">
-        { menuList.map((it, idx) => (
-          <li
-            key={idx}
-            role="option"
-            data-idx={idx}
-            className={trimList([
-              it.isDisabled && 'is-disabled',
-              idx === Number(currentMenuListItemIdx) && 'is-active',
-            ])}
-            onClick={it.isDisabled ? undefined : onSelect}
-          >
-          { it.label || it }
-          </li>
-        ))}
-        </ul>
-      )
-      : menu
-    )
-
     return (
       <div ref={this.set$menu} className={klass}>
         { arrowed && (
@@ -238,8 +224,40 @@ class DropdownMenu extends PureComponent {
         )}
 
         <div className="content">
-          { content }
+        {
+          menuList
+          ? (
+            <ul className="MenuList">
+            { menuList.map((it, idx) => (
+              <li
+                key={idx}
+                role="option"
+                data-idx={idx}
+                className={trimList([
+                  it.isDisabled && 'is-disabled',
+                  idx === Number(currentMenuListItemIdx) && 'is-active',
+                ])}
+                onClick={it.isDisabled ? undefined : onSelect}
+              >
+              { it.label || it }
+              </li>
+            ))}
+            </ul>
+          )
+          : menu
+        }
         </div>
+
+        <DocumentEvents
+          enabled={isOpen}
+          onMouseDown={this.onClickOutside}
+        />
+
+        <DocumentEvents
+          enabled={isOpen}
+          capture={true}
+          onScroll={this.onScrollOutside}
+        />
       </div>
     )
   }
