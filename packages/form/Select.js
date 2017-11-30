@@ -12,6 +12,8 @@ import { positionDropdown } from '@ibot/dropdown'
 import './index.styl'
 
 const MENU_ROOT_ID = 'MB_SELECT_MENU_ROOT'
+const CANT_SCROLL_CLASS = 'mb-cant-scroll'
+
 const { I18N = {} } = window
 
 export const $menuRoot = (
@@ -27,6 +29,12 @@ if (!$body.contains($menuRoot)) {
 
 function getOptionEntry(optionList, idx, def) {
   return get(optionList, idx, def)
+}
+
+function controlScrolling({ target, canScroll = false }) {
+  const classList = target.classList || document.body.classList
+  const action = canScroll ? 'remove' : 'add'
+  return classList[action](CANT_SCROLL_CLASS)
 }
 
 export default class Select extends PureComponent {
@@ -123,10 +131,6 @@ export default class Select extends PureComponent {
     }
   }
 
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.onResizeWindow)
-  }
-
   set$select = $select => this.setState({ $select })
 
   open = () => this.setState({ isOpen: true })
@@ -134,24 +138,6 @@ export default class Select extends PureComponent {
   toggle = () => this.setState({ isOpen: !this.state.isOpen })
 
   onResizeWindow = () => this.state.isOpen && this.close()
-
-  onClickOutside = ({ target }) => (
-    !$menuRoot.contains(target)
-    && !(target.closest('label') && this.state.$select.contains(target))
-    && this.close()
-  )
-
-  onScrollOutside = () => (
-    this.state.isOpen
-    && this.canCloseOnScrollOutside
-    && this.close()
-  )
-
-  checkCursorPoint = ({ clientX, clientY }) => (
-    Object.assign(this, {
-      canCloseOnScrollOutside: !document.elementFromPoint(clientX, clientY).closest('.SelectMenu.is-open')
-    })
-  )
 
   onChange = idx => this.setState(
     { currentOptionIdx: idx },
@@ -212,17 +198,9 @@ export default class Select extends PureComponent {
           {...this.props}
           $select={$select}
           onChange={this.onSelect}
+          onClose={this.close}
           currentOptionIdx={currentOptionIdx}
         />
-
-        {/* 点击下拉菜单以外的地方时, 收起下拉菜单 */}
-        { isOpen && (
-          <DocumentEvents
-            onMouseDown={this.onClickOutside}
-            onMouseOver={this.checkCursorPoint}
-            onScroll={this.onScrollOutside}
-          />
-        )}
       </label>
     )
   }
@@ -246,6 +224,7 @@ export class SelectMenu extends PureComponent {
     ...Select.propTypes,
     isOpen: PropTypes.bool,
     onChange: PropTypes.func,
+    onClose: PropTypes.func,
     $select: PropTypes.instanceOf(Element),
   }
 
@@ -281,6 +260,13 @@ export class SelectMenu extends PureComponent {
     if (this.portal) this.portal.remove()
   }
 
+  onClose = () => {
+    const { onClose } = this.props
+
+    onClose()
+    this.enableScrolling()
+  }
+
   set$menu = $menu => Object.assign(this, { $menu })
 
   size$select = ($select = this.props.$select) => {
@@ -312,6 +298,44 @@ export class SelectMenu extends PureComponent {
   onTransitionEnd = () => (
     // Clean up inline styles for <SelectMenu> once closed:
     !this.props.isOpen && this.$menu.removeAttribute('style')
+  )
+
+  onClickOutside = ({ target }) => {
+    const { $select } = this.props
+
+    const isOutsideMenu = !$menuRoot.contains(target)
+
+    const closestLabel = target.closest('label')
+    const isOwnLabel = closestLabel && closestLabel.contains($select)
+
+    if (isOutsideMenu && !isOwnLabel) {
+      this.onClose()
+    }
+  }
+
+  onScrollWhileOpen = ({ target }) => {
+    const { $menu } = this
+    const { $select } = this.props
+    if (!$menu) return
+
+    const isScrollingMenu = $menu.contains(target)
+    const isCursorOnMenu = $menu.matches(':hover')
+    const isCursorOnOpener = $select.matches(':hover')
+
+    if (!isScrollingMenu && isCursorOnMenu) {
+      controlScrolling({ target, canScroll: false })
+
+    } else if (!isScrollingMenu && !isCursorOnMenu && !isCursorOnOpener) {
+      this.onClose()
+      controlScrolling({ target, canScroll: true })
+    }
+  }
+
+  onMouseLeave = () => setTimeout(this.enableScrolling, 500)
+
+  enableScrolling = () => (
+    Array.from(document.querySelectorAll(`.${CANT_SCROLL_CLASS}`))
+    .forEach($elmt => $elmt.classList.remove(CANT_SCROLL_CLASS))
   )
 
   render() {
@@ -347,37 +371,50 @@ export class SelectMenu extends PureComponent {
         className={klass}
         ref={this.set$menu}
         onTransitionEnd={this.onTransitionEnd}
+        onMouseLeave={this.onMouseLeave}
       >
-      {
-        isEmpty
-        ? <li className="SelectOption empty-msg">{ emptyMsg }</li>
-        : (
-          optionList
-          .map((opt, idx) => (
-            Array.isArray(opt)
-            ? (
-              <Group
-                key={idx}
-                idx={idx}
-                optionList={opt}
-                onChange={onChange}
-                currentOptionIdx={currentOptionIdx}
-              />
-            )
-            : (
-              <Option
-                key={idx}
-                idx={idx}
-                label={opt.label || opt}
-                value={opt.value}
-                isDisabled={opt.isDisabled}
-                onChange={onChange}
-                currentOptionIdx={currentOptionIdx}
-              />
-            )
-          ))
-        )
-      }
+        {
+          isEmpty
+          ? <li className="SelectOption empty-msg">{ emptyMsg }</li>
+          : (
+            optionList
+            .map((opt, idx) => (
+              Array.isArray(opt)
+              ? (
+                <Group
+                  key={idx}
+                  idx={idx}
+                  optionList={opt}
+                  onChange={onChange}
+                  currentOptionIdx={currentOptionIdx}
+                />
+              )
+              : (
+                <Option
+                  key={idx}
+                  idx={idx}
+                  label={opt.label || opt}
+                  value={opt.value}
+                  isDisabled={opt.isDisabled}
+                  onChange={onChange}
+                  currentOptionIdx={currentOptionIdx}
+                />
+              )
+            ))
+          )
+        }
+
+        <DocumentEvents
+          enabled={isOpen}
+          capture={false}
+          onMouseDown={this.onClickOutside}
+        />
+
+        <DocumentEvents
+          enabled={isOpen}
+          capture={true}
+          onScroll={this.onScrollWhileOpen}
+        />
       </ul>
     )
   }

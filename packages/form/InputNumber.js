@@ -170,7 +170,6 @@ export class InputNumber extends PureComponent {
   )
 
   setValue = v => {
-    console.log('sv',v)
     clearTimeout(this.correctionTimeout)
 
     const {
@@ -286,24 +285,8 @@ export class InputNumber extends PureComponent {
   onClickOutside = ({ target }) => {
     if (!(target.closest('label') && this.$label.contains(target))) {
       this.setInactive()
-
-      if (!$menuRoot.contains(target)) {
-        this.closeMenu()
-      }
     }
   }
-
-  onScrollOutside = () => (
-    this.state.isMenuOpen
-    && this.canCloseOnScrollOutside
-    && this.closeMenu()
-  )
-
-  checkCursorPoint = ({ clientX, clientY }) => (
-    Object.assign(this, {
-      canCloseOnScrollOutside: !document.elementFromPoint(clientX, clientY).closest('.SelectMenu.is-open')
-    })
-  )
 
   render () {
     const {
@@ -417,17 +400,15 @@ export class InputNumber extends PureComponent {
             $select={this.$label}
             optionList={optionList}
             onChange={this.onSelect}
+            onClose={this.closeMenu}
             currentOptionIdx={optionList.indexOf(value)}
           />
         )}
 
-        { (isActive || isMenuOpen) && (
-          <DocumentEvents
-            onMouseDown={this.onClickOutside}
-            onMouseOver={this.checkCursorPoint}
-            onScroll={this.onScrollOutside}
-          />
-        )}
+        <DocumentEvents
+          enabled={isActive || isMenuOpen}
+          onMouseDown={this.onClickOutside}
+        />
       </label>
     )
   }
