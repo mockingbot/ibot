@@ -3,13 +3,13 @@ div.Tooltip
   width fit-content
 
 .Tip
-  $cl-bg = #000
+  $cl-bg = $cl-primary-grey
   $cl-text = #fff
 
   &
     position fixed
     z-index $z-Tip
-    padding .75em
+    padding .33em .5em
     font-size 12px
     line-height 1.4
     user-select none
@@ -17,38 +17,48 @@ div.Tooltip
     pointer-events none
     transition-property opacity, transform
     transition-duration .15s
+  &.arrowed
+    padding .33em .75em
   > .arrow
+    &
       position absolute
-      z-index 0
       display block
-      width .75em
-      height .75em
-      transform translate(-50%, -50%) rotate(45deg)
-      background-color $cl-bg
-  > .content
-    position relative
-    z-index 10
-    padding .5em
-    width -moz-max-content
-    width max-content
-    min-width 5em
-    max-width 20em
-    background-color $cl-bg
-    border-radius 1px
-    color $cl-text
+      font-size 14px
+      line-height 0
+    svg
+      width 1em
+      height .375em
+      fill $cl-bg
 
-  &.on-top .arrow
-    left 50%
-    bottom 0
-  &.on-bottom .arrow
-    top .75em
-    left 50%
-  &.on-right .arrow
-    top 50%
-    left .75em
-  &.on-left .arrow
-    top 50%
-    right 0
+  &.on-top > .arrow
+    &
+      left 50%
+      bottom 0
+      transform translateX(-50%)
+    svg
+      transform rotate(180deg)
+  &.on-bottom > .arrow
+    &
+      top 0
+      left 50%
+      transform translateX(-50%)
+
+  &.on-right > .arrow
+    &
+      top 50%
+      left 0
+      font-size 16px
+      transform translateY(-50%)
+    svg
+      transform rotate(-90deg)
+  &.on-left > .arrow
+    &
+      top 50%
+      right 0
+      font-size 16px
+      transform translateY(-50%)
+    svg
+      transform rotate(90deg)
 
   // Transition:
   &:not(.is-open)
@@ -75,3 +85,14 @@ div.Tooltip
     &.on-left
       transform translate(-100%, -50%)
 
+  > .content
+    position relative
+    padding .5em
+    width -moz-max-content
+    width max-content
+    min-width 5em
+    max-width 20em
+    min-height 2em
+    background-color $cl-bg
+    border-radius 2px
+    color $cl-text
