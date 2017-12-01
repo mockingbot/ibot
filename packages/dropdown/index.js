@@ -78,7 +78,7 @@ export default class Dropdown extends PureComponent {
     shouldCloseOnSelect: true,
 
     shouldOpenOnHover: false,
-    hoverDelay: 300,
+    hoverDelay: 200,
     position: 'bottom',
     unfold: 'center',
   }
@@ -142,7 +142,7 @@ export default class Dropdown extends PureComponent {
 
     if (isOutsideOpener && isOutsideMenu) {
       this.leaveTimeoutList.push(
-        setTimeout(this.close, hoverDelay)
+        setTimeout(this.close, Math.max(hoverDelay, 300))
       )
     }
   }

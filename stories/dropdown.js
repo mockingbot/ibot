@@ -24,10 +24,6 @@ storiesOf('Dropdown', module)
         margin-right: .5em;
       }
 
-      .dropdown.palette {
-        //text-align: start;
-      }
-
       .palette .color {
         position: relative;
         display: inline-block;
@@ -201,7 +197,7 @@ storiesOf('Dropdown', module)
         menuClassName="color-control"
         menu={
           <div>
-            <span style={{ color: '#4A90E2' }}>#4A90E2</span>
+            <span>#4A90E2</span>
             <Icon name="trash" type="dora" />
           </div>
         }
@@ -218,7 +214,7 @@ storiesOf('Dropdown', module)
         menuClassName="color-control"
         menu={
           <div>
-            <span style={{ color: '#e84030' }}>#e84030</span>
+            <span>#e84030</span>
             <Icon name="trash" type="dora" />
           </div>
         }
@@ -235,7 +231,7 @@ storiesOf('Dropdown', module)
         menuClassName="color-control"
         menu={
           <div>
-            <span style={{ color: '#1e292e' }}>#1e292e</span>
+            <span>#1e292e</span>
             <Icon name="trash" type="dora" />
           </div>
         }
@@ -252,7 +248,7 @@ storiesOf('Dropdown', module)
         menuClassName="color-control"
         menu={
           <div>
-            <span style={{ color: '#415058' }}>#415058</span>
+            <span>#415058</span>
             <Icon name="trash" type="dora" />
           </div>
         }
@@ -268,7 +264,7 @@ storiesOf('Dropdown', module)
         menuClassName="color-control"
         menu={
           <div>
-            <span style={{ color: '#FFB63D' }}>#FFB63D</span>
+            <span>#FFB63D</span>
             <Icon name="trash" type="dora" />
           </div>
         }
@@ -285,7 +281,7 @@ storiesOf('Dropdown', module)
         menuClassName="color-control"
         menu={
           <div>
-            <span style={{ color: '#009999' }}>#009999</span>
+            <span>#009999</span>
             <Icon name="trash" type="dora" />
           </div>
         }
