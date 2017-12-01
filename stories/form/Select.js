@@ -216,6 +216,19 @@ export default class SelectExample extends React.PureComponent {
             onChange={action('Select changed')}
           />
         </p>
+
+        <h2>Longer options</h2>
+        <p style={{ maxWidth: '20em' }}>
+          <Select
+            placeholder="选择一个项目"
+            optionList={[
+              ['我的项目', '私ノ友達', '双十一的特价活动超强報价页面，十月底最终版'],
+              ['洋基队', 'InstaYankies', 'New York New York', 'Manhattan Project'],
+              ['巨人队', 'Taller Men', 'Shorter Giants'],
+              ['红襪队', '一个很長很長又臭又長很長很長又臭又長很長很長又臭又長又長又臭又長又臭又臭又長的项目名字'],
+            ]}
+          />
+        </p>
       </Root>
     )
   }
