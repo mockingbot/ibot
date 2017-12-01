@@ -14,13 +14,51 @@ storiesOf('Dropdown', module)
     <style>
     {`
       .dropdown {
+        display: flex;
+        justify-content: space-between;
         width: 15em;
         font-size: 1rem;
-        text-align: end;
         color: #8D9EA7;
       }
       .dropdown .Dropdown:not(:last-child) {
         margin-right: .5em;
+      }
+
+      .dropdown.palette {
+        //text-align: start;
+      }
+
+      .palette .color {
+        position: relative;
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+      }
+
+      .palette .color span {
+        position: absolute;
+        left: 0;
+        top: 0;
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+
+      .DropdownMenu.color-control .content {
+        width: 7.5em;
+      }
+
+      .DropdownMenu.color-control .content div {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        width: 100%;
+        text-transform: uppercase;
+      }
+
+      .DropdownMenu.color-control .content div .icon {
+        color: #C8CDD0;
+        cursor: pointer;
       }
 
       .DropdownMenu.preview-option {
@@ -57,6 +95,7 @@ storiesOf('Dropdown', module)
             <Check label="高亮链接区域" />
           </div>
         }
+        unfold="right"
       />
 
       <Dropdown
@@ -70,6 +109,19 @@ storiesOf('Dropdown', module)
           </div>
         }
       />
+
+      <Dropdown
+        opener={<Icon type="dora" name="cog" />}
+        menuClassName="preview-option"
+        menu={
+          <div>
+            <Select optionList={['真实设备边框', '墨刀黑', '无边框']} currentOptionIdx="1" size="unstyled" />
+            <hr />
+            <Check label="高亮链接区域" />
+          </div>
+        }
+        unfold="left"
+      />
     </p>
 
     <h2>Arrowed</h2>
@@ -77,6 +129,8 @@ storiesOf('Dropdown', module)
       <Dropdown
         opener={<Icon type="dora" name="cog" />}
         arrowed
+        unfold="right"
+
         menuList={['编辑', '标记完成']}
         onSelect={action('Dropdown item selected')}
       />
@@ -84,6 +138,8 @@ storiesOf('Dropdown', module)
       <Dropdown
         opener={<Icon type="dora" name="cog" />}
         arrowed
+        unfold="center"
+
         menuList={['编辑', '已完成']}
         currentMenuListItemIdx={1}
         onSelect={action('Dropdown item selected')}
@@ -92,9 +148,147 @@ storiesOf('Dropdown', module)
       <Dropdown
         opener={<Icon type="dora" name="cog" />}
         arrowed
+        unfold="left"
+
         menuList={[{ isDisabled: true, label: '编辑' }, '已完成']}
         currentMenuListItemIdx={1}
         onSelect={action('Dropdown item selected')}
+      />
+    </p>
+
+    <h2>Preferred-top & arrowed</h2>
+    <p className="dropdown">
+      <Dropdown
+        position="top"
+        opener={<Icon type="dora" name="cog" />}
+        arrowed
+        unfold="right"
+        menuList={['编辑', '标记完成']}
+        onSelect={action('Dropdown item selected')}
+      />
+
+      <Dropdown
+        position="top"
+        opener={<Icon type="dora" name="cog" />}
+        arrowed
+        menuList={['编辑', '已完成']}
+        currentMenuListItemIdx={1}
+        onSelect={action('Dropdown item selected')}
+      />
+
+      <Dropdown
+        position="top"
+        opener={<Icon type="dora" name="cog" />}
+        arrowed
+        unfold="left"
+        menuList={[{ isDisabled: true, label: '编辑' }, '已完成']}
+        currentMenuListItemIdx={1}
+        onSelect={action('Dropdown item selected')}
+      />
+    </p>
+
+    <h3>Hover to open</h3>
+    <p className="dropdown palette">
+      <Dropdown
+        position="top"
+        unfold="right"
+        arrowed
+        shouldOpenOnHover={true}
+
+        className="color"
+        opener={<span style={{ background: '#4A90E2' }} />}
+
+        menuClassName="color-control"
+        menu={
+          <div>
+            <span style={{ color: '#4A90E2' }}>#4A90E2</span>
+            <Icon name="trash" type="dora" />
+          </div>
+        }
+      />
+      <Dropdown
+        position="top"
+        unfold="right"
+        arrowed
+        shouldOpenOnHover={true}
+
+        className="color"
+        opener={<span style={{ background: '#e84030' }} />}
+
+        menuClassName="color-control"
+        menu={
+          <div>
+            <span style={{ color: '#e84030' }}>#e84030</span>
+            <Icon name="trash" type="dora" />
+          </div>
+        }
+      />
+      <Dropdown
+        position="top"
+        unfold="right"
+        arrowed
+        shouldOpenOnHover={true}
+
+        className="color"
+        opener={<span style={{ background: '#1e292e' }} />}
+
+        menuClassName="color-control"
+        menu={
+          <div>
+            <span style={{ color: '#1e292e' }}>#1e292e</span>
+            <Icon name="trash" type="dora" />
+          </div>
+        }
+      />
+      <Dropdown
+        position="top"
+        unfold="right"
+        arrowed
+        shouldOpenOnHover={true}
+
+        className="color"
+        opener={<span style={{ background: '#415058' }} />}
+
+        menuClassName="color-control"
+        menu={
+          <div>
+            <span style={{ color: '#415058' }}>#415058</span>
+            <Icon name="trash" type="dora" />
+          </div>
+        }
+      />
+      <Dropdown
+        position="top"
+        arrowed
+        shouldOpenOnHover={true}
+
+        className="color"
+        opener={<span style={{ background: '#FFB63D' }} />}
+
+        menuClassName="color-control"
+        menu={
+          <div>
+            <span style={{ color: '#FFB63D' }}>#FFB63D</span>
+            <Icon name="trash" type="dora" />
+          </div>
+        }
+      />
+      <Dropdown
+        position="top"
+        unfold="left"
+        arrowed
+        shouldOpenOnHover={true}
+
+        className="color"
+        opener={<span style={{ background: '#009999' }} />}
+
+        menuClassName="color-control"
+        menu={
+          <div>
+            <span style={{ color: '#009999' }}>#009999</span>
+            <Icon name="trash" type="dora" />
+          </div>
+        }
       />
     </p>
 
@@ -109,6 +303,7 @@ storiesOf('Dropdown', module)
       <Dropdown
         opener={<Icon type="dora" name="cog" />}
         arrowed
+        unfold="right"
         menuList={['编辑', '标记完成']}
         onSelect={action('Dropdown item selected')}
         shouldCloseOnSelect={false}
@@ -117,6 +312,16 @@ storiesOf('Dropdown', module)
       <Dropdown
         opener={<Icon type="dora" name="cog" />}
         arrowed
+        unfold="center"
+        menuList={['编辑', '标记完成']}
+        onSelect={action('Dropdown item selected')}
+        shouldCloseOnSelect={false}
+      />
+
+      <Dropdown
+        opener={<Icon type="dora" name="cog" />}
+        arrowed
+        unfold="left"
         menuList={['编辑', '已完成']}
         currentMenuListItemIdx={1}
         onSelect={action('Dropdown item selected')}
@@ -127,11 +332,19 @@ storiesOf('Dropdown', module)
     <h2>Custom content</h2>
     <p className="dropdown">
       <Dropdown
+        unfold="right"
         opener={<Icon type="dora" name="cube" />}
         menu={<div>Your own content, whatever you like.</div>}
         menuClassName="custom-dropdown-menu"
       />
       <Dropdown
+        unfold="center"
+        opener={<Icon type="dora" name="comment" />}
+        menu={<div>Your own content, whatever you like.</div>}
+        menuClassName="custom-dropdown-menu"
+      />
+      <Dropdown
+        unfold="left"
         opener={<Icon type="dora" name="arrow_down" />}
         arrowed
         menu={<div>Your own content, with arrow.</div>}

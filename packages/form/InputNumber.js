@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import DocumentEvents from 'react-document-events'
 
 import Button from '@ibot/button'
-import { trimList, getOtherProps, INPUT_ARROW } from '@ibot/util'
+import { trimList, getOtherProps, SVG } from '@ibot/util'
 
 import { SelectMenu, $menuRoot } from './Select'
 
@@ -367,7 +367,7 @@ export class InputNumber extends PureComponent {
                 type="text"
                 tabIndex="-1"
                 onClick={this.toggleMenu}
-                html={INPUT_ARROW}
+                html={SVG.INPUT_ARROW}
               />
             </div>
 
@@ -379,7 +379,7 @@ export class InputNumber extends PureComponent {
                 onMouseDown={this.handleStep}
                 onMouseLeave={this.handleRelease}
                 onMouseUp={this.handleRelease}
-                html={INPUT_ARROW}
+                html={SVG.INPUT_ARROW}
               />
               <Button
                 type="text"
@@ -388,7 +388,7 @@ export class InputNumber extends PureComponent {
                 onMouseDown={this.handleStep}
                 onMouseLeave={this.handleRelease}
                 onMouseUp={this.handleRelease}
-                html={INPUT_ARROW}
+                html={SVG.INPUT_ARROW}
               />
             </div>
         }

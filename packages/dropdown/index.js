@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom'
 import PropTypes from 'prop-types'
 import DocumentEvents from 'react-document-events'
 
-import { trimList, DROPDOWN_ARROW } from '@ibot/util'
+import { trimList, $, SVG } from '@ibot/util'
 
 import './index.styl'
 
@@ -25,11 +25,15 @@ export default class Dropdown extends PureComponent {
   constructor(props) {
     super(props)
 
-    this.state = {
-      isOpen: false,
-      $opener: null,
-      currentMenuListItemIdx: props.currentMenuListItemIdx,
-    }
+    Object.assign(this, {
+      state: {
+        isOpen: false,
+        $opener: null,
+        currentMenuListItemIdx: props.currentMenuListItemIdx,
+      },
+
+      leaveTimeoutList: [],
+    })
   }
 
   static propTypes = {
@@ -55,7 +59,13 @@ export default class Dropdown extends PureComponent {
       PropTypes.string,
     ]),
 
+    shouldOpenOnHover: PropTypes.bool,
+    hoverDelay: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+
     arrowed: PropTypes.bool,
+    position: PropTypes.oneOf(['top', 'bottom']),
+    unfold: PropTypes.oneOf(['left', 'center', 'right']),
+
     isDisabled: PropTypes.bool,
     disabled: PropTypes.bool,
 
@@ -66,6 +76,11 @@ export default class Dropdown extends PureComponent {
   static defaultProps = {
     arrowed: false,
     shouldCloseOnSelect: true,
+
+    shouldOpenOnHover: false,
+    hoverDelay: 300,
+    position: 'bottom',
+    unfold: 'center',
   }
 
   componentWillMount() {
@@ -76,9 +91,61 @@ export default class Dropdown extends PureComponent {
     window.removeEventListener('resize', this.onResizeWindow)
   }
 
-  toggle = () => this.setState({ isOpen: !this.state.isOpen })
+  toggle = () => {
+    const { shouldOpenOnHover } = this.props
+    if (shouldOpenOnHover) return
+
+    this.setState({ isOpen: !this.state.isOpen })
+  }
+
   open = () => this.setState({ isOpen: true })
   close = () => this.setState({ isOpen: false })
+
+  onMouseEnter = () => {
+    const { shouldOpenOnHover, hoverDelay } = this.props
+
+    if (!shouldOpenOnHover) return
+    clearTimeout(this.closeTimeout)
+
+    Object.assign(this, {
+      hoverTimeout: setTimeout(
+        this.open,
+        this.props.hoverDelay,
+      ),
+    })
+  }
+
+  onMouseLeave = () => {
+    const { shouldOpenOnHover, hoverDelay } = this.props
+
+    if (shouldOpenOnHover) {
+      clearTimeout(this.hoverTimeout)
+    }
+  }
+
+  onMouseMove = ({ clientX, clientY }) => {
+    const { shouldOpenOnHover, hoverDelay } = this.props
+    const { $opener } = this.state
+
+    if (!shouldOpenOnHover) return
+
+    clearTimeout(this.hoverTimeout)
+
+    const $on = document.elementFromPoint(clientX, clientY)
+    const isOutsideOpener = $on.contains($opener)
+    const isOutsideMenu = !$on.closest('.DropdownMenu')
+
+    if (!isOutsideMenu) {
+      this.leaveTimeoutList.map(clearTimeout)
+      Object.assign(this, { leaveTimeoutList: [] })
+    }
+
+    if (isOutsideOpener && isOutsideMenu) {
+      this.leaveTimeoutList.push(
+        setTimeout(this.close, hoverDelay)
+      )
+    }
+  }
 
   set$opener = $opener => this.setState({ $opener })
   onResizeWindow = () => this.state.isOpen && this.close()
@@ -101,7 +168,7 @@ export default class Dropdown extends PureComponent {
   }
 
   render() {
-    const { className, opener } = this.props
+    const { className, opener, unfold } = this.props
     const { isOpen, $opener, currentMenuListItemIdx } = this.state
     const isDisabled = this.props.isDisabled || this.props.disabled
 
@@ -114,7 +181,13 @@ export default class Dropdown extends PureComponent {
 
     return (
       <label ref={this.set$opener} className={klass}>
-        <button type="button" onClick={this.toggle} disabled={isDisabled}>
+        <button
+          type="button"
+          onClick={this.toggle}
+          onMouseEnter={this.onMouseEnter}
+          onMouseLeave={this.onMouseLeave}
+          disabled={isDisabled}
+        >
         { opener }
         </button>
 
@@ -127,6 +200,11 @@ export default class Dropdown extends PureComponent {
           onClose={this.close}
           currentMenuListItemIdx={currentMenuListItemIdx}
         />
+
+        <DocumentEvents
+          enabled={isOpen}
+          onMouseMove={this.onMouseMove}
+        />
       </label>
     )
   }
@@ -137,7 +215,7 @@ class DropdownMenu extends PureComponent {
     super(props)
 
     Object.assign(this, {
-      state: { isDownward: true },
+      state: { isDownward: props.position === 'bottom' },
 
       portal: Object.assign(
         document.createElement('div'),
@@ -159,13 +237,13 @@ class DropdownMenu extends PureComponent {
   }
 
   componentWillReceiveProps({ isOpen: willBeOpen, $opener }) {
-    const { isOpen } = this.props
     const { $menu } = this
+    const { isOpen, position } = this.props
 
     // Set up the position of the <DropdownMenu> once opened:
     if (!isOpen && willBeOpen) {
-      const result = positionDropdown({ $menu, $opener })
-      this.setState({ isDownward: result.direction === 'DOWN' })
+      const result = positionDropdown({ $menu, $opener, position })
+      this.setState({ isDownward: result.finalPosition === 'bottom' })
     }
   }
 
@@ -190,9 +268,10 @@ class DropdownMenu extends PureComponent {
 
   onScrollOutside = ({ target }) => {
     const { $menu } = this
-    const { $opener } = this.props
-    const result = positionDropdown({ $menu, $opener })
-    this.setState({ isDownward: result.direction === 'DOWN' })
+    const { $opener, position } = this.props
+
+    const result = positionDropdown({ $menu, $opener, position })
+    this.setState({ isDownward: result.finalPosition === 'bottom' })
   }
 
   render() {
@@ -201,7 +280,8 @@ class DropdownMenu extends PureComponent {
 
   renderMenu() {
     const {
-      isOpen, menuClassName, arrowed,
+      isOpen, menuClassName,
+      arrowed, unfold,
       menu, menuList,
       currentMenuListItemIdx,
       onSelect,
@@ -214,13 +294,14 @@ class DropdownMenu extends PureComponent {
       isOpen && 'is-open',
       isDownward ? 'is-downward' : 'is-upward',
       arrowed && 'arrowed',
+      `unfold-${unfold}`,
       menuClassName,
     ])
 
     return (
       <div ref={this.set$menu} className={klass}>
         { arrowed && (
-          <span className="arrow" dangerouslySetInnerHTML={{ __html: DROPDOWN_ARROW }} />
+          <span className="arrow" dangerouslySetInnerHTML={{ __html: SVG.DROPDOWN_ARROW }} />
         )}
 
         <div className="content">
@@ -270,34 +351,43 @@ class DropdownMenu extends PureComponent {
  * @param {Object} option
  *  @prop {Element} $opener
  *  @prop {Element} $menu
+ *  @prop {String} [position=bottom]
+ *  @prop {String} [unfold=center] indicate a direction to unfold (left/center/right)
  *  @prop {Boolean} [shouldSetMinWidth=false]
  *@return {Object}
  *  @prop {Object} style
- *  @prop {String} direction
+ *  @prop {String} finalPosition
  */
-export function positionDropdown({ $opener, $menu, shouldSetMinWidth = false }) {
+export function positionDropdown({
+  $opener, $menu,
+
+  position = 'bottom',
+  unfold = 'center',
+
+  shouldSetMinWidth = false,
+} = {}) {
   if (!$opener || !$menu) return
 
   const { offsetWidth: wOf$menu, offsetHeight: hOf$menu } = $menu
   const { offsetWidth: wOf$opener, offsetHeight: hOf$opener } = $opener
-  const { top, bottom, left } = $opener.getBoundingClientRect()
+  const { top, bottom, left, right } = $opener.getBoundingClientRect()
   const { innerHeight: hOf$win } = window
 
   const minW = Math.max(wOf$opener, wOf$menu)
   const minY = 10
   const maxY = hOf$win - 10
 
-  const result = { style: {}, direction: 'DOWN' }
+  const result = { style: {}, finalPosition: position }
   const setStyle = style => Object.assign(result.style, style)
 
   // Y middle line of the $opener:
   const midOf$opener = top + hOf$opener/2
 
-  // Deciding point which separates menus going upward or downward:
-  const decidingPoint = hOf$win * 2/3
+  // Point deciding the position for the menu:
+  const decidingPoint = hOf$win * (position === 'top' ? 1/3 : 2/3)
 
   // Set X position, etc:
-  setStyle({ left: `${left}px` })
+  setStyle({ left: `${left + wOf$opener/2}px` })
 
   if (shouldSetMinWidth) {
     setStyle({ minWidth: `${minW}px` })
@@ -305,6 +395,8 @@ export function positionDropdown({ $opener, $menu, shouldSetMinWidth = false }) 
 
   // Slide downward:
   if (decidingPoint >= midOf$opener) {
+    Object.assign(result, { finalPosition: 'bottom' })
+
     setStyle({ top: `${bottom}px` })
 
     // If the height of the menu is taller than that of space downward:
@@ -314,7 +406,7 @@ export function positionDropdown({ $opener, $menu, shouldSetMinWidth = false }) 
 
   // Slide upward:
   } else {
-    Object.assign(result, { direction: 'UP' })
+    Object.assign(result, { finalPosition: 'top' })
 
     setStyle({ top: '', bottom: `${hOf$win - top}px` })
 

@@ -6,8 +6,8 @@ import get from 'lodash/get'
 
 import { EllipsisSpan } from '@ibot/text'
 import Icon from '@ibot/icon'
-import { trimList, INPUT_ARROW } from '@ibot/util'
 import { positionDropdown } from '@ibot/dropdown'
+import { trimList, $, $$, SVG } from '@ibot/util'
 
 import './index.styl'
 
@@ -35,6 +35,13 @@ function controlScrolling({ target, canScroll = false }) {
   const classList = target.classList || document.body.classList
   const action = canScroll ? 'remove' : 'add'
   return classList[action](CANT_SCROLL_CLASS)
+}
+
+function enableScrolling() {
+  $$(`.${CANT_SCROLL_CLASS}`)
+  .forEach($elmt => (
+    $elmt.classList.remove(CANT_SCROLL_CLASS)
+  ))
 }
 
 export default class Select extends PureComponent {
@@ -191,7 +198,7 @@ export default class Select extends PureComponent {
           <EllipsisSpan>{ displayText }</EllipsisSpan>
         </button>
 
-        <span className="caret" dangerouslySetInnerHTML={{ __html: INPUT_ARROW }} />
+        <span className="caret" dangerouslySetInnerHTML={{ __html: SVG.INPUT_ARROW }} />
 
         <SelectMenu
           isOpen={isOpen}
@@ -249,6 +256,8 @@ export class SelectMenu extends PureComponent {
         $menu,
         $opener: $select,
         shouldSetMinWidth: true,
+        position: 'bottom',
+        unfold: 'left',
       })
 
       this.setState({ isDownward: result.direction === 'DOWN' })
@@ -264,7 +273,7 @@ export class SelectMenu extends PureComponent {
     const { onClose } = this.props
 
     onClose()
-    this.enableScrolling()
+    enableScrolling()
   }
 
   set$menu = $menu => Object.assign(this, { $menu })
@@ -289,7 +298,8 @@ export class SelectMenu extends PureComponent {
   }
 
   scrollIntoActive = () => {
-    const $current = this.$menu.querySelector('li[role=option].is-active')
+    const $current = $('li[role=option].is-active', this.$menu)
+
     if ($current) {
       $current.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
@@ -331,12 +341,7 @@ export class SelectMenu extends PureComponent {
     }
   }
 
-  onMouseLeave = () => setTimeout(this.enableScrolling, 500)
-
-  enableScrolling = () => (
-    Array.from(document.querySelectorAll(`.${CANT_SCROLL_CLASS}`))
-    .forEach($elmt => $elmt.classList.remove(CANT_SCROLL_CLASS))
-  )
+  onMouseLeave = () => setTimeout(enableScrolling, 300)
 
   render() {
     return createPortal(this.renderMenu(), this.portal)
@@ -360,10 +365,10 @@ export class SelectMenu extends PureComponent {
     const klass = trimList([
       'SelectMenu',
       menuClassName,
-      isOpen ? 'is-open' : '',
+      isOpen && 'is-open',
       isDownward ? 'is-downward' : 'is-upward',
-      isDisabled ? 'is-disabled' : '',
-      isEmpty ? 'is-empty' : '',
+      isDisabled && 'is-disabled',
+      isEmpty && 'is-empty',
     ])
 
     return (

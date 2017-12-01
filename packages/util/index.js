@@ -17,4 +17,12 @@ export function getOtherProps({ propTypes = {} }, props) {
   )
 }
 
-export * from './svg'
+export function $(selector, context = document) {
+  return context.querySelector(selector)
+}
+
+export function $$(selector, context = document) {
+  return Array.from(context.querySelectorAll(selector))
+}
+
+export * as SVG from './svg'
