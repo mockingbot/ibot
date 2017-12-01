@@ -87,7 +87,7 @@ class IconPreview extends PureComponent {
 
         <h2>21 randomly-picked Dora icons</h2>
         <div>
-        { shuffle(dora.slice(0, 21)).map(icon => (
+        { shuffle(dora).slice(0, 21).map(icon => (
           <div key={icon.id} className="label">
             <Icon type="dora" name={icon.id} />
             { icon.id }
