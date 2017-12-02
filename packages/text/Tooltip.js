@@ -64,6 +64,7 @@ export default class Tooltip extends PureComponent {
     onMouseEnter: PropTypes.func,
     onClick: PropTypes.func,
     onMouseLeave: PropTypes.func,
+    delay: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
     children: PropTypes.node,
   }
@@ -74,6 +75,8 @@ export default class Tooltip extends PureComponent {
     position: 'right',
     arrowed: true,
     inflexible: false,
+
+    delay: 200,
 
     className: '',
     tipClassName: '',
@@ -86,15 +89,24 @@ export default class Tooltip extends PureComponent {
     this.props.onClick,
   )
 
-  onMouseEnter = () => this.setState(
-    { isOpen: true },
-    this.props.onMouseEnter,
-  )
+  onMouseEnter = () => Object.assign(this, {
+    hoverTimeout: setTimeout(
+      () => this.setState(
+        { isOpen: true },
+        this.props.onMouseEnter,
+      ),
+      this.props.delay,
+    ),
+  })
 
-  onMouseLeave = () => this.setState(
-    { isOpen: false, isClicked: false },
-    this.props.onMouseLeave,
-  )
+  onMouseLeave = () => {
+    clearTimeout(this.hoverTimeout)
+
+    this.setState(
+      { isOpen: false, isClicked: false },
+      this.props.onMouseLeave,
+    )
+  }
 
   render() {
     const {
