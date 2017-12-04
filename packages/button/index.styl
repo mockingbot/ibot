@@ -1,15 +1,35 @@
-@import '../util'
+@import '~@ibot/util/index'
 
-$btn,
+$Button-font-size = 14px
+$Button-height = 34px
+
+$Button-small-font-size = 12px
+$Button-small-height = 2em
+
+$cl-Button-text = $cl-tertiary-grey
+$cl-Button-border = $cl-tertiary-grey
+
+$cl-Button-hover-text = $cl-secondary-grey
+$cl-Button-hover-border = $cl-secondary-grey
+
+$cl-PrimaryButton-text = #fff
+$cl-PrimaryButton-bg = $cl-tertiary-grey
+
+$cl-PrimaryButton-active-text = rgba(#fff, .6)
+$cl-PrimaryButton-hover-bg = $cl-secondary-grey
+
+$cl-TextButton-text = $cl-secondary-grey
+$cl-TextButton-hover-text = $cl-primary-grey
+
+$Button,
 Button.regular
-  $height = 34px
-
   &
-    padding .5em
-    height $height
-    border 1px solid $cl-core
-    border-radius 1px // To make buttons less aggressive
-    color $cl-core
+    padding 0 .5em
+    height $Button-height
+    font-size $Button-font-size
+    border 1px solid
+    border-radius 2px
+    color $cl-Button-text
     cursor pointer
     transition all .2s ease-out
   &:not(button)
@@ -17,32 +37,41 @@ Button.regular
     justify-content center
     align-items center
   &:hover:not([disabled])
-    background-color $cl-btn-bg-hover
-    border $cl-btn-border-hover
-    color $cl-btn-text-hover
+    color $cl-Button-hover-text
   &[disabled]
     cursor not-allowed
     opacity .6
   .icon
     margin-right .125em
 
+  &.small
+    height $Button-small-height
+    font-size $Button-small-font-size
+
 Button.primary
   &
-    @extends $btn
-    background-color $cl-primary-btn-bg
-    color $cl-primary-btn-text
+    @extends $Button
+    background-color $cl-PrimaryButton-bg
+    border-color transparent
+    color $cl-PrimaryButton-text
   &:hover:not([disabled])
-    background-color $cl-primary-btn-bg-hover
-    border-color $cl-primary-btn-bg-hover
-    color $cl-primary-btn-text-hover
+    background-color $cl-PrimaryButton-hover-bg
+    color $cl-PrimaryButton-text
+  &:active:not([disabled])
+    color $cl-PrimaryButton-active-text
 
 Button.text
   &
-    color $cl-core
+    color $cl-TextButton-text
+    transition all .1s ease-out
   &[disabled]
-    @extends $btn[disabled]
+    @extends $Button[disabled]
   &:not([disabled]):hover
-    color lighten($cl-core, 10%)
+    color $cl-TextButton-hover-text
     text-decoration underline
   .icon
-    @extends $btn .icon
+    @extends $Button .icon
+
+  &.small
+    height $Button-small-height
+    font-size $Button-small-font-size
