@@ -260,7 +260,7 @@ export class SelectMenu extends PureComponent {
         unfold: 'left',
       })
 
-      this.setState({ isDownward: result.direction === 'DOWN' })
+      this.setState({ isDownward: result.finalPosition === 'bottom' })
       this.scrollIntoActive()
     }
   }

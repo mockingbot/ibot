@@ -23,10 +23,14 @@ label.Select
   .caret
     &
       margin 0 .75em 0 1em
+      line-height 0
       color $cl-tertiary-grey
     svg
       display block
+      width 6px
+      height 4px
       fill currentColor
+      fill-rule evenodd
       transform rotate(180deg)
       transition all .3s ease-out
   &:not(.unstyled)
@@ -75,7 +79,7 @@ ul.SelectMenu
     border-radius 3px
     box-shadow 0 2px 10px 0 rgba(39,54,78,0.08), 4px 12px 40px 0 rgba(39,54,78,0.10)
     color $cl-secondary-text
-    transition .2s ease-in-out
+    transition .2s ease-out
     transition-property transform, opacity
   &::-webkit-scrollbar
     display block
@@ -93,6 +97,8 @@ ul.SelectMenu
     opacity 0
     transform-origin 50% 0
     transform scale(.8) translateX(-50%)
+  &.is-upward
+    transform-origin 50% 100%
   &.is-open
     opacity 1
     transform translateX(-50%)
