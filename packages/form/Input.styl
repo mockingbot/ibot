@@ -1,13 +1,13 @@
 $Input
   &
     display inline-block
-    color $cl-input-text
+    color $cl-Input-text
   input
   textarea
     &
       font-size inherit
-      background-color $cl-input-bg
-      border 1px solid $cl-input-border
+      background-color $cl-Input-bg
+      border 1px solid $cl-Input-border
       border-radius 2px
       color inherit
       transition .2s ease-out
@@ -17,24 +17,24 @@ $Input
     &::-moz-selection
       background-color rgba($cl-warning, .3)
     &:not([disabled]):not([readonly]):focus
-      background-color $cl-input-hover-bg
-      border-color $cl-input-hover-border
-      box-shadow $cl-input-active-shadow
+      background-color $cl-Input-hover-bg
+      border-color $cl-Input-hover-border
+      box-shadow $cl-Input-active-shadow
     &[disabled]
       opacity .5
       cursor not-allowed
     &:focus
       outline 0
     &:invalid
-      border-color $cl-input-invalid-border !important
-      box-shadow $cl-input-invalid-shadow !important
+      border-color $cl-Input-invalid-border !important
+      box-shadow $cl-Input-invalid-shadow !important
     &::placeholder
-      color $cl-input-placeholder-text
+      color $cl-Input-placeholder-text
   &:hover
     input
     textarea
       &:not([disabled]):not([readonly])
-        border-color $cl-input-hover-border
+        border-color $cl-Input-hover-border
 
 label.Input
   &

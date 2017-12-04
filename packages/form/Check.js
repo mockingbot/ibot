@@ -65,7 +65,7 @@ export class Check extends PureComponent {
           name={name}
           onChange={this.onToggle}
         />
-        <span className="CheckState"><Icon type="md" name="check" /></span>
+        <span className="CheckState"><Icon type="dora" name="check" /></span>
         <span className="CheckLabel">{ label }</span>
       </label>
     )
