@@ -81,6 +81,7 @@ ul.SelectMenu
     color $cl-secondary-text
     transition .2s ease-out
     transition-property transform, opacity
+    transform-origin 50% 0
   &::-webkit-scrollbar
     display block
     width 2px
@@ -95,13 +96,11 @@ ul.SelectMenu
   &:not(.is-open)
     pointer-events none
     opacity 0
-    transform-origin 50% 0
-    transform scale(.8) translateX(-50%)
+    transform scale(.8)
   &.is-upward
     transform-origin 50% 100%
   &.is-open
     opacity 1
-    transform translateX(-50%)
 
   li.SelectGroup
     > .title

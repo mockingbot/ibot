@@ -353,7 +353,6 @@ class DropdownMenu extends PureComponent {
  *  @prop {Element} $opener
  *  @prop {Element} $menu
  *  @prop {String} [position=bottom]
- *  @prop {String} [unfold=center] indicate a direction to unfold (left/center/right)
  *  @prop {Boolean} [shouldSetMinWidth=false]
  *@return {Object}
  *  @prop {Object} style
@@ -363,9 +362,9 @@ export function positionDropdown({
   $opener, $menu,
 
   position = 'bottom',
-  unfold = 'center',
 
   shouldSetMinWidth = false,
+  shouldAlignLeft = false,
 } = {}) {
   if (!$opener || !$menu) return
 
@@ -388,7 +387,7 @@ export function positionDropdown({
   const decidingPoint = hOf$win * (position === 'top' ? 1/3 : 2/3)
 
   // Set X position, etc:
-  setStyle({ left: `${left + wOf$opener/2}px` })
+  setStyle({ left: `${ shouldAlignLeft ? left : left + wOf$opener/2}px` })
 
   if (shouldSetMinWidth) {
     setStyle({ minWidth: `${minW}px` })

@@ -256,8 +256,8 @@ export class SelectMenu extends PureComponent {
         $menu,
         $opener: $select,
         shouldSetMinWidth: true,
+        shouldAlignLeft: true,
         position: 'bottom',
-        unfold: 'left',
       })
 
       this.setState({ isDownward: result.finalPosition === 'bottom' })
@@ -284,7 +284,7 @@ export class SelectMenu extends PureComponent {
     if (!$select || !$menu) return
 
     // Clean up previously-set min-width:
-    $select.removeAttribute('style')
+    //$select.removeAttribute('style')
     Object.assign($menu.style, { minWidth: 0 })
 
     const { offsetWidth: wOf$menu, offsetHeight: hOf$menu } = $menu
@@ -307,7 +307,8 @@ export class SelectMenu extends PureComponent {
 
   onTransitionEnd = () => (
     // Clean up inline styles for <SelectMenu> once closed:
-    !this.props.isOpen && this.$menu.removeAttribute('style')
+    //!this.props.isOpen && this.$menu.removeAttribute('style')
+    null
   )
 
   onClickOutside = ({ target }) => {
