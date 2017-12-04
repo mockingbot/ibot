@@ -260,8 +260,9 @@ class DropdownMenu extends PureComponent {
 
     const closestLabel = target.closest('label')
     const isOwnLabel = closestLabel && closestLabel.contains($opener)
+    const hasSelectMenuOpen = !!$('.SelectMenu.is-open')
 
-    if (isOutsideMenu && !isOwnLabel) {
+    if (isOutsideMenu && !isOwnLabel && !hasSelectMenuOpen) {
       onClose()
     }
   }
