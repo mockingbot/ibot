@@ -16,7 +16,7 @@ const colorFunction = require('postcss-color-function')
 const calc = require('postcss-calc')
 const url = require('postcss-url')
 
-const EnhancedEvaluator = require('./stylus-enhanced-evaltor')
+const EnhancedEvaluator = require('./stylus-enhanced-evaluator')
 
 const sassPreprocessor = (_, filename) => new Promise((resolve, reject) => {
   const result = sass.renderSync({ file: filename })
