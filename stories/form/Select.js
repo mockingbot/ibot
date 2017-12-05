@@ -220,6 +220,7 @@ export default class SelectExample extends React.PureComponent {
         <h2>Longer options</h2>
         <p style={{ maxWidth: '20em' }}>
           <Select
+            size={size}
             placeholder="选择一个项目"
             optionList={[
               ['我的项目', '私ノ友達', '双十一的特价活动超强報价页面，十月底最终版'],
