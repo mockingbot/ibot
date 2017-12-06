@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { trimList } from '@ibot/util'
 
-import duoList from './duo.json'
+import duoList from 'mb-icons/dora/duo-list.json'
 import './index.styl'
 
 const ICON_SET_LIST = ['dora', 'mb', 'icon', 'fa', 'md', 'ci']

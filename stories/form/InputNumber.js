@@ -122,14 +122,6 @@ export default class InputNumberExample extends React.PureComponent {
         </FormLabel>
 
         <FormLabel name="Icon title">
-          <style>
-          {`
-            .degree-input-number .title .icon {
-              transform: scale(1.5);
-            }
-          `}
-          </style>
-
           <InputNumber
             size={size}
             className="degree-input-number"
