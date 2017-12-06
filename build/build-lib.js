@@ -20,7 +20,7 @@ const pkgs = fs.readdirSync(pkgsDir).filter(junk.not)
 
 const copyPkgQueue = []
 
-for (let i = 0; i < pkgs.length; i++) { 
+for (let i = 0; i < pkgs.length; i++) {
   const pkg = pkgs[i]
   copyPkgQueue.push(
     copyPkg(pkg).then(transformImport)

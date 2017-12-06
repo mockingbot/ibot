@@ -2,7 +2,7 @@ const path = require('path')
 const { exec } = require('child_process')
 
 const commonjs = require('rollup-plugin-commonjs')
-const resolve = require('rollup-plugin-node-resolve')
+const nodeResolvePlugin = require('rollup-plugin-node-resolve')
 const babel = require('rollup-plugin-babel')
 const json = require('rollup-plugin-json')
 
@@ -16,16 +16,18 @@ const colorFunction = require('postcss-color-function')
 const calc = require('postcss-calc')
 const url = require('postcss-url')
 
-const sassPreprocessor = (_, id) => new Promise((resolve, reject) => {
-  const result = sass.renderSync({ file: id })
+const EnhancedEvaluator = require('./stylus-enhanced-evaluator')
+
+const sassPreprocessor = (_, filename) => new Promise((resolve, reject) => {
+  const result = sass.renderSync({ file: filename })
   resolve({ code: result.css.toString() })
 })
 
-const stylusPreprocessor = (content, filename) => new Promise((resolve, reject) => (
-  stylus(content)
+const stylusPreprocessor = (content, filename) => new Promise((resolve, reject) => {
+  stylus(content, { Evaluator: EnhancedEvaluator })
   .set('filename', filename)
   .render((err, code) => err ? reject(err) : resolve({ code }))
-))
+})
 
 const cssExportMap = {}
 
@@ -58,7 +60,7 @@ async function getOptions (entry, dest = '') {
     external: ['react', 'react-dom', 'prop-types'].concat(pkgs.map(pkg => pkg.name)),
     plugins: [
       // the order is fucking important
-      resolve(),
+      nodeResolvePlugin(),
       /* PostCSS */
       postcss({
         sourceMap: !entry,

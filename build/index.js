@@ -2,7 +2,7 @@
 
 const argv = require('yargs').argv
 const rollup = require('rollup')
-const getOptions = require('./rollup_options')
+const getOptions = require('./rollup-options')
 
 getOptions(argv.entry, argv.dest)
   .then(options => rollup.rollup(options))
