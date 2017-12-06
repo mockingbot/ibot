@@ -1,34 +1,52 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { trimList } from '@ibot/util'
 
 /**
  * <Input>
  */
 export function Input({
+  size,
   className,
   value,
   type,
   ...others,
 }) {
   return (
-    <input
-      type={type}
-      className={`regular ${className}`}
-      value={value}
-      {...others}
-    />
+    <label className={trimList(['Input', size, className])}>
+      <input
+        type={type}
+        value={value}
+        {...others}
+      />
+    </label>
   )
 }
 
-Input.PropTypes = {
+Input.propTypes = {
   type: PropTypes.string,
+  size: PropTypes.oneOf(['regular', 'small']),
   className: PropTypes.string,
   value: PropTypes.string,
 }
 
 Input.defaultProps = {
   type: 'text',
-  className: '',
+  size: 'regular',
+}
+
+export function PanelInput({ className, ...others }) {
+  return (
+    <Input
+      size="small"
+      className={trimList(['PanelInput', className])}
+      {...others}
+    />
+  )
+}
+
+PanelInput.propTypes = {
+  className: PropTypes.string,
 }
 
 /**
@@ -36,21 +54,18 @@ Input.defaultProps = {
  */
 export function Textarea({ className, value, ...others }) {
   return (
-    <textarea
-      className={`regular ${className}`}
-      value={value}
-      {...others}
-    />
+    <label className={trimList(['Textarea', 'regular', className])}>
+      <textarea
+        value={value}
+        {...others}
+      />
+    </label>
   )
 }
 
-Textarea.PropTypes = {
-  type: PropTypes.string,
+Textarea.propTypes = {
   className: PropTypes.string,
   value: PropTypes.string,
 }
 
-Textarea.defaultProps = {
-  type: 'text',
-  className: '',
-}
+export * from './InputNumber'

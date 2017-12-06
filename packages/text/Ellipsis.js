@@ -31,8 +31,16 @@ export class EllipsisSpan extends PureComponent {
     }
   }
 
+  componentWillReceiveProps({ children: nextChildren }) {
+    const { children } = this.props
+
+    if (!isEqual(children, nextChildren)) {
+      this.setState({ isTruncated: false })
+    }
+  }
+
   componentDidUpdate({ children: prevChildren }) {
-    const { children, noTooltip } = this.props
+    const { children } = this.props
 
     if (!isEqual(prevChildren, children)) {
       this.setState({

@@ -1,15 +1,18 @@
-@import '../../constants'
+.mb-cant-scroll
+  overflow hidden !important
 
 label.Select
+  $padding-left = .5em
+
   &
     display inline-flex
     justify-content space-between
     align-items center
     max-width 100%
-    height $select-height
-    border-bottom 1px solid $cl-divider
+    height $Select-height
+    color inherit
     cursor pointer
-    transition all .2s
+    transition all .2s ease-out
   button
     flex 1
     width calc(100% - 2em)
@@ -17,38 +20,68 @@ label.Select
     text-align start
     color $cl-secondary-text
     cursor inherit
-  .Select-caret
-    margin 0 .5em 0 1em
-    color $cl-tertiary-text
-    transition all .3s ease-out
-  &:not(.is-disabled):hover
+  .caret
+    &
+      margin 0 .75em 0 1em
+      line-height 0
+      color $cl-tertiary-grey
+    svg
+      display block
+      width 6px
+      height 4px
+      fill currentColor
+      fill-rule evenodd
+      transform rotate(180deg)
+      transition all .3s ease-out
+  &:not(.unstyled)
+    padding-left $padding-left
+    background-color $cl-Input-bg
+    border 1px solid $cl-Input-border
+    border-radius 2px
+
+  &.small
+    &
+      height $Select-small-height
+      font-size 12px
+    .caret
+      margin-right .5em
+
+  &:not(.is-disabled):not(.unstyled):hover
+  &:not(.unstyled).is-open
+    border-color $cl-active
+
   &.is-open
-    border-color $cl-core
-  &.is-open .Select-caret
-    transform rotate(180deg)
+    &:not(.unstyled)
+      background-color #fff
+      box-shadow $cl-Input-active-shadow
+    .caret svg
+      transform rotate(0deg)
+
   &.is-disabled
-    opacity .6
     cursor not-allowed
+    opacity .6
 
 ul.SelectMenu
   &
     position fixed
     z-index $z-SelectMenu
-    margin 0
+    margin 2px 0
     padding 0
     display block
     max-width 20em
-    min-height $select-option-height
-    max-height (10 * $select-option-height)
+    min-height $Select-option-height
+    max-height (10 * $Select-option-height)
     overflow-x hidden
     overflow-y auto
     font-size 12px
     list-style none
     background-color #fff
-    box-shadow 0 2px 8px 0 rgba(#000,.1)
+    border-radius 3px
+    box-shadow 0 2px 10px 0 rgba(39,54,78,0.08), 4px 12px 40px 0 rgba(39,54,78,0.10)
     color $cl-secondary-text
-    transition .2s ease-in-out
+    transition .2s ease-out
     transition-property transform, opacity
+    transform-origin 50% 0
   &::-webkit-scrollbar
     display block
     width 2px
@@ -59,22 +92,22 @@ ul.SelectMenu
   &::-webkit-scrollbar-track
     background-color rgba(#fff, .5)
   &.is-empty
-    min-height $select-option-height
+    min-height $Select-option-height
   &:not(.is-open)
     pointer-events none
     opacity 0
-    transform-origin 50% 0
     transform scale(.8)
+  &.is-upward
+    transform-origin 50% 100%
   &.is-open
     opacity 1
-    transform none
 
   li.SelectGroup
     > .title
       display flex
       align-items center
       padding 0 .75em
-      height $select-option-height
+      height $Select-option-height
       font-weight bold
     > ul
       margin 0
@@ -87,11 +120,16 @@ ul.SelectMenu
       display flex
       align-items center
       padding 0 .75em
-      height $select-option-height
+      height $Select-option-height
       cursor pointer
-    &:not(.empty-msg):hover
+    &.is-disabled
+      cursor not-allowed
+      opacity .5
     &.is-active
-      background-color rgba(#000, .04)
+      color $cl-active
+    &:not(.empty-msg):not(.is-disabled):hover
+    &.is-active
+      background-color $cl-lightest-grey
     &.empty-msg
-      color $cl-tertiary-text
+      color $cl-tertiary-grey
       cursor not-allowed

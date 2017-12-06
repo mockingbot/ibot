@@ -3,10 +3,21 @@
 
   & &State
     padding 1px
-    background-clip content-box
     border-radius 50%
   input:checked + .RadioState
-    background-color $cl-core
+    &
+      position relative
+    &:after
+      content ''
+      position absolute
+      left 50%
+      top 50%
+      transform translate(-50%, -50%)
+      display block
+      width 4px
+      height @width
+      background-color #fff
+      border-radius 50%
 
 .RadioGroup
   @extends .CheckGroup

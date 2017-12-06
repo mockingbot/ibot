@@ -16,3 +16,13 @@ export function getOtherProps({ propTypes = {} }, props) {
     {},
   )
 }
+
+export function $(selector, context = document) {
+  return context.querySelector(selector)
+}
+
+export function $$(selector, context = document) {
+  return Array.from(context.querySelectorAll(selector))
+}
+
+export * as SVG from './svg'

@@ -6,14 +6,17 @@ import get from 'lodash/get'
 
 import { EllipsisSpan } from '@ibot/text'
 import Icon from '@ibot/icon'
-import { trimList } from '@ibot/util'
+import { positionDropdown } from '@ibot/dropdown'
+import { trimList, $, $$, SVG } from '@ibot/util'
 
 import './index.styl'
 
 const MENU_ROOT_ID = 'MB_SELECT_MENU_ROOT'
+const CANT_SCROLL_CLASS = 'mb-cant-scroll'
+
 const { I18N = {} } = window
 
-const $menuRoot = (
+export const $menuRoot = (
   document.getElementById(MENU_ROOT_ID)
   || Object.assign(document.createElement('div'), { id: MENU_ROOT_ID })
 )
@@ -28,6 +31,19 @@ function getOptionEntry(optionList, idx, def) {
   return get(optionList, idx, def)
 }
 
+function controlScrolling({ target, canScroll = false }) {
+  const classList = target.classList || document.body.classList
+  const action = canScroll ? 'remove' : 'add'
+  return classList[action](CANT_SCROLL_CLASS)
+}
+
+function enableScrolling() {
+  $$(`.${CANT_SCROLL_CLASS}`)
+  .forEach($elmt => (
+    $elmt.classList.remove(CANT_SCROLL_CLASS)
+  ))
+}
+
 export default class Select extends PureComponent {
   constructor(props) {
     super(props)
@@ -39,6 +55,7 @@ export default class Select extends PureComponent {
   }
 
   static propTypes = {
+    size: PropTypes.oneOf(['regular', 'small', 'unstyled']),
     className: PropTypes.string,
     menuClassName: PropTypes.string,
     placeholder: PropTypes.string,
@@ -99,6 +116,7 @@ export default class Select extends PureComponent {
   }
 
   static defaultProps = {
+    size: 'regular',
     className: '',
     menuClassName: '',
     placeholder: I18N.select_placeholder || 'Choose one…',
@@ -120,10 +138,6 @@ export default class Select extends PureComponent {
     }
   }
 
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.onResizeWindow)
-  }
-
   set$select = $select => this.setState({ $select })
 
   open = () => this.setState({ isOpen: true })
@@ -132,24 +146,6 @@ export default class Select extends PureComponent {
 
   onResizeWindow = () => this.state.isOpen && this.close()
 
-  onClickOutside = ({ target }) => (
-    !$menuRoot.contains(target)
-    && !(target.closest('label') && this.state.$select.contains(target))
-    && this.close()
-  )
-
-  onScrollOutside = () => (
-    this.state.isOpen
-    && this.canCloseOnScrollOutside
-    && this.close()
-  )
-
-  checkCursorPoint = ({ clientX, clientY }) => (
-    Object.assign(this, {
-      canCloseOnScrollOutside: !document.elementFromPoint(clientX, clientY).matches('.SelectMenu.is-open *')
-    })
-  )
-
   onChange = idx => this.setState(
     { currentOptionIdx: idx },
     () => {
@@ -157,7 +153,11 @@ export default class Select extends PureComponent {
       const opt = getOptionEntry(optionList, idx)
 
       this.close()
-      onChange(idx, opt.value || opt.label || opt)
+
+      onChange(
+        idx,
+        typeof opt === 'string' ? opt : (opt.value || opt.label),
+      )
     },
   )
 
@@ -167,6 +167,7 @@ export default class Select extends PureComponent {
 
   render() {
     const {
+      size,
       className,
       menuClassName,
       isDisabled,
@@ -181,6 +182,7 @@ export default class Select extends PureComponent {
 
     const klass = trimList([
       'Select',
+      size,
       className,
       isOpen && 'is-open',
       isDisabled && 'is-disabled',
@@ -196,34 +198,28 @@ export default class Select extends PureComponent {
           <EllipsisSpan>{ displayText }</EllipsisSpan>
         </button>
 
-        <Icon type="fa" name="caret-down" className="Select-caret" />
+        <span className="caret" dangerouslySetInnerHTML={{ __html: SVG.INPUT_ARROW }} />
 
         <SelectMenu
           isOpen={isOpen}
           {...this.props}
           $select={$select}
           onChange={this.onSelect}
+          onClose={this.close}
           currentOptionIdx={currentOptionIdx}
         />
-
-        {/* 点击下拉菜单以外的地方时, 收起下拉菜单 */}
-        { isOpen && (
-          <DocumentEvents
-            onMouseDown={this.onClickOutside}
-            onMouseOver={this.checkCursorPoint}
-            onScroll={this.onScrollOutside}
-          />
-        )}
       </label>
     )
   }
 }
 
-class SelectMenu extends PureComponent {
+export class SelectMenu extends PureComponent {
   constructor(props) {
     super(props)
 
     Object.assign(this, {
+      state: { isDownward: true },
+
       portal: Object.assign(
         document.createElement('div'),
         { className: 'SelectMenuPortal' },
@@ -235,6 +231,7 @@ class SelectMenu extends PureComponent {
     ...Select.propTypes,
     isOpen: PropTypes.bool,
     onChange: PropTypes.func,
+    onClose: PropTypes.func,
     $select: PropTypes.instanceOf(Element),
   }
 
@@ -255,7 +252,16 @@ class SelectMenu extends PureComponent {
 
     // Set up the position of the <SelectMenu> once opened:
     if (!isOpen && willBeOpen) {
-      this.position$menu()
+      const result = positionDropdown({
+        $menu,
+        $opener: $select,
+        shouldSetMinWidth: true,
+        shouldAlignLeft: true,
+        position: 'bottom',
+      })
+
+      this.setState({ isDownward: result.finalPosition === 'bottom' })
+      this.scrollIntoActive()
     }
   }
 
@@ -263,13 +269,23 @@ class SelectMenu extends PureComponent {
     if (this.portal) this.portal.remove()
   }
 
+  onClose = () => {
+    const { onClose } = this.props
+
+    onClose()
+    enableScrolling()
+  }
+
   set$menu = $menu => Object.assign(this, { $menu })
-  set$menuStyle = style => Object.assign(this.$menu.style, style)
 
   size$select = ($select = this.props.$select) => {
     const { $menu } = this
 
     if (!$select || !$menu) return
+
+    // Clean up previously-set min-width:
+    //$select.removeAttribute('style')
+    Object.assign($menu.style, { minWidth: 0 })
 
     const { offsetWidth: wOf$menu, offsetHeight: hOf$menu } = $menu
     const { offsetWidth: wOf$select, offsetHeight: hOf$select } = $select
@@ -278,52 +294,12 @@ class SelectMenu extends PureComponent {
     const maxY = window.innerHeight - 10
 
     Object.assign($select.style, { minWidth: `${minW}px` })
+    Object.assign($menu.style, { minWidth: `${minW}px` })
   }
 
-  position$menu = () => {
-    const { $select } = this.props
-    const { $menu } = this
+  scrollIntoActive = () => {
+    const $current = $('li[role=option].is-active', this.$menu)
 
-    if (!$select || !$menu) return
-
-    const { offsetWidth: wOf$menu, offsetHeight: hOf$menu } = $menu
-    const { offsetWidth: wOf$select, offsetHeight: hOf$select } = $select
-    const { top, bottom, left } = $select.getBoundingClientRect()
-    const { innerHeight: hOf$win } = window
-
-    const minW = Math.max(wOf$select, wOf$menu)
-    const minY = 10
-    const maxY = hOf$win - 10
-
-    // Y middle line of the <Select>:
-    const midOf$select = top + hOf$select/2
-
-    // Deciding point which separates menus going upward or downward:
-    const decidingPoint = hOf$win * 2/3
-
-    // Set X position, etc:
-    this.set$menuStyle({ left: `${left}px`, minWidth: `${minW}px` })
-
-    // Slide downward:
-    if (decidingPoint >= midOf$select) {
-      this.set$menuStyle({ top: `${bottom}px` })
-
-      // If the height of the menu is taller than that of space downward:
-      if (bottom + hOf$menu > maxY) {
-        this.set$menuStyle({ maxHeight: `${maxY - bottom}px` })
-      }
-
-    // Slide upward:
-    } else {
-      this.set$menuStyle({ top: '', bottom: `${hOf$win - top}px` })
-
-      // If the height of the menu is taller than that of space upward:
-      if (top - hOf$menu < minY) {
-        this.set$menuStyle({ maxHeight: `${top - minY}px` })
-      }
-    }
-
-    const $current = this.$menu.querySelector('li[role=option].is-active')
     if ($current) {
       $current.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
@@ -331,8 +307,42 @@ class SelectMenu extends PureComponent {
 
   onTransitionEnd = () => (
     // Clean up inline styles for <SelectMenu> once closed:
-    !this.props.isOpen && this.$menu.removeAttribute('style')
+    //!this.props.isOpen && this.$menu.removeAttribute('style')
+    null
   )
+
+  onClickOutside = ({ target }) => {
+    const { $select } = this.props
+
+    const isOutsideMenu = !$menuRoot.contains(target)
+
+    const closestLabel = target.closest('label')
+    const isOwnLabel = closestLabel && closestLabel.contains($select)
+
+    if (isOutsideMenu && !isOwnLabel) {
+      this.onClose()
+    }
+  }
+
+  onScrollWhileOpen = ({ target }) => {
+    const { $menu } = this
+    const { $select } = this.props
+    if (!$menu) return
+
+    const isScrollingMenu = $menu.contains(target)
+    const isCursorOnMenu = $menu.matches(':hover')
+    const isCursorOnOpener = $select.matches(':hover')
+
+    if (!isScrollingMenu && isCursorOnMenu) {
+      controlScrolling({ target, canScroll: false })
+
+    } else if (!isScrollingMenu && !isCursorOnMenu && !isCursorOnOpener) {
+      this.onClose()
+      controlScrolling({ target, canScroll: true })
+    }
+  }
+
+  onMouseLeave = () => setTimeout(enableScrolling, 300)
 
   render() {
     return createPortal(this.renderMenu(), this.portal)
@@ -349,14 +359,17 @@ class SelectMenu extends PureComponent {
       currentOptionIdx,
     } = this.props
 
+    const { isDownward } = this.state
+
     const isEmpty = optionList.length === 0
 
     const klass = trimList([
       'SelectMenu',
       menuClassName,
-      isOpen ? 'is-open' : '',
-      isDisabled ? 'is-disabled' : '',
-      isEmpty ? 'is-empty' : '',
+      isOpen && 'is-open',
+      isDownward ? 'is-downward' : 'is-upward',
+      isDisabled && 'is-disabled',
+      isEmpty && 'is-empty',
     ])
 
     return (
@@ -364,37 +377,50 @@ class SelectMenu extends PureComponent {
         className={klass}
         ref={this.set$menu}
         onTransitionEnd={this.onTransitionEnd}
+        onMouseLeave={this.onMouseLeave}
       >
-      {
-        isEmpty
-        ? <li className="SelectOption empty-msg">{ emptyMsg }</li>
-        : (
-          optionList
-          .map((opt, idx) => (
-            Array.isArray(opt)
-            ? (
-              <Group
-                key={idx}
-                idx={idx}
-                optionList={opt}
-                onChange={onChange}
-                currentOptionIdx={currentOptionIdx}
-              />
-            )
-            : (
-              <Option
-                key={idx}
-                idx={idx}
-                label={opt.label || opt}
-                value={opt.value}
-                isDisabled={opt.isDisabled}
-                onChange={onChange}
-                currentOptionIdx={currentOptionIdx}
-              />
-            )
-          ))
-        )
-      }
+        {
+          isEmpty
+          ? <li className="SelectOption empty-msg">{ emptyMsg }</li>
+          : (
+            optionList
+            .map((opt, idx) => (
+              Array.isArray(opt)
+              ? (
+                <Group
+                  key={idx}
+                  idx={idx}
+                  optionList={opt}
+                  onChange={onChange}
+                  currentOptionIdx={currentOptionIdx}
+                />
+              )
+              : (
+                <Option
+                  key={idx}
+                  idx={idx}
+                  label={opt.label || opt}
+                  value={opt.value}
+                  isDisabled={opt.isDisabled}
+                  onChange={onChange}
+                  currentOptionIdx={currentOptionIdx}
+                />
+              )
+            ))
+          )
+        }
+
+        <DocumentEvents
+          enabled={isOpen}
+          capture={false}
+          onMouseDown={this.onClickOutside}
+        />
+
+        <DocumentEvents
+          enabled={isOpen}
+          capture={true}
+          onScroll={this.onScrollWhileOpen}
+        />
       </ul>
     )
   }
@@ -457,7 +483,7 @@ function Option({
       role="option"
       data-idx={idx}
       className={className}
-      onClick={onChange}
+      onClick={isDisabled ? undefined : onChange}
     >
       <EllipsisSpan>{ label }</EllipsisSpan>
     </li>
@@ -471,4 +497,18 @@ Option.propTypes = {
   isDisabled: PropTypes.bool,
   onChange: PropTypes.func,
   currentOptionIdx: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+}
+
+export function PanelSelect({ className, ...others }) {
+  return (
+    <Input
+      size="small"
+      className={trimList(['PanelSelect', className])}
+      {...others}
+    />
+  )
+}
+
+PanelSelect.propTypes = {
+  className: PropTypes.string,
 }

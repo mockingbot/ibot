@@ -9,15 +9,18 @@ import './index.styl'
 export default class Button extends PureComponent {
   static propTypes = {
     type: PropTypes.oneOf(['primary', 'regular', 'text']),
-    iconType: PropTypes.oneOf(['mb','icon', 'fa', 'md']),
+    size: PropTypes.oneOf(['regular', 'small']),
+    iconType: PropTypes.oneOf(['dora', 'mb','icon', 'fa', 'md']),
     icon: PropTypes.string,
     className: PropTypes.string,
     isDisabled: PropTypes.bool,
     children: PropTypes.any,
+    html: PropTypes.string,
   }
 
   static defaultProps = {
     type: 'regular',
+    size: 'regular',
     icon: '',
     className: '',
     isDisabled: false,
@@ -25,24 +28,27 @@ export default class Button extends PureComponent {
 
   render () {
     const {
-      type,
-      icon,
-      iconType,
-      className,
-      children,
+      type, size,
       isDisabled,
+      icon, iconType,
+      className,
+      children, html,
       ...others,
     } = this.props
 
+    const contentProp = (
+      !!html
+      ? { dangerouslySetInnerHTML: { __html: html } }
+      : { children: [!!icon && <Icon key="icon" type={iconType} name={icon} />, children] }
+    )
+
     return (
       <button
-        className={trimList([type, className])}
+        className={trimList([type, size !== 'regular' && size, className])}
         disabled={isDisabled}
         {...others}
-      >
-        { !!icon && <Icon type={iconType} name={icon} /> }
-        { children }
-      </button>
+        {...contentProp}
+      />
     )
   }
 }

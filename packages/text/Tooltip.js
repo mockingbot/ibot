@@ -1,7 +1,7 @@
 import React, { PureComponent, isValidElement } from 'react'
 import { createPortal } from 'react-dom'
 import PropTypes from 'prop-types'
-import { trimList, getOtherProps } from '@ibot/util'
+import { trimList, getOtherProps, SVG } from '@ibot/util'
 
 import { TYPE_ELEMENT_MAP } from './constants'
 
@@ -45,6 +45,7 @@ export default class Tooltip extends PureComponent {
     type: PropTypes.oneOf(Object.keys(TYPE_ELEMENT_MAP)).isRequired,
 
     position: PropTypes.oneOf(['top', 'right', 'bottom', 'left']).isRequired,
+    arrowed: PropTypes.bool,
     inflexible: PropTypes.bool,
 
     className: PropTypes.string,
@@ -63,14 +64,20 @@ export default class Tooltip extends PureComponent {
     onMouseEnter: PropTypes.func,
     onClick: PropTypes.func,
     onMouseLeave: PropTypes.func,
+    delay: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
     children: PropTypes.node,
   }
 
   static defaultProps = {
     type: 'inline',
+
     position: 'right',
+    arrowed: true,
     inflexible: false,
+
+    delay: 200,
+
     className: '',
     tipClassName: '',
   }
@@ -82,20 +89,29 @@ export default class Tooltip extends PureComponent {
     this.props.onClick,
   )
 
-  onMouseEnter = () => this.setState(
-    { isOpen: true },
-    this.props.onMouseEnter,
-  )
+  onMouseEnter = () => Object.assign(this, {
+    hoverTimeout: setTimeout(
+      () => this.setState(
+        { isOpen: true },
+        this.props.onMouseEnter,
+      ),
+      this.props.delay,
+    ),
+  })
 
-  onMouseLeave = () => this.setState(
-    { isOpen: false, isClicked: false },
-    this.props.onMouseLeave,
-  )
+  onMouseLeave = () => {
+    clearTimeout(this.hoverTimeout)
+
+    this.setState(
+      { isOpen: false, isClicked: false },
+      this.props.onMouseLeave,
+    )
+  }
 
   render() {
     const {
       type,
-      position, inflexible,
+      position, inflexible, arrowed,
       className, tipClassName,
       content,
       children,
@@ -130,8 +146,11 @@ export default class Tooltip extends PureComponent {
           isOpen={isOpen}
           className={tipClassName}
           eventName={eventName}
+
           position={position}
           inflexible={inflexible}
+          arrowed={arrowed}
+
           children={parseContent(content, eventName)}
         />,
       ],
@@ -150,8 +169,11 @@ class Tip extends PureComponent {
     className: PropTypes.string,
     eventName: PropTypes.oneOf(EVENT_NAME_LIST),
     $text: PropTypes.instanceOf(Element),
+
     position: PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
     inflexible: PropTypes.bool,
+    arrowed: PropTypes.bool,
+
     children: PropTypes.node,
   }
 
@@ -300,7 +322,7 @@ class Tip extends PureComponent {
   }
 
   renderTip() {
-    const { className, inflexible, children } = this.props
+    const { className, inflexible, arrowed, children } = this.props
     const { isOpen, position } = this.state
 
     const klass = trimList([
@@ -308,6 +330,7 @@ class Tip extends PureComponent {
       className,
       `on-${position}`,
       inflexible && 'inflexible',
+      arrowed && 'arrowed',
     ])
 
     return isOpen && (
@@ -316,7 +339,13 @@ class Tip extends PureComponent {
         className={klass}
         onTransitionEnd={this.onTransitionEnd}
       >
-        <div className="arrow" />
+        { arrowed && (
+          <div
+            className="arrow"
+            dangerouslySetInnerHTML={{ __html: SVG.DROPDOWN_ARROW }}
+          />
+        )}
+
         <div className="content" children={children} />
       </div>
     )

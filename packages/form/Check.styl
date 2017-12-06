@@ -4,8 +4,9 @@
       position relative
       display inline-flex
       align-items baseline
-      line-height $label-line-height
+      line-height $Checker-line-height
       cursor pointer
+      color $cl-Input-text
     &.is-disabled
       &
         cursor not-allowed
@@ -33,10 +34,19 @@
       width 1em
       height @width
       transform translateY(1px)
-      font-size $checker-size
-      border 1px solid $cl-core
-      color $cl-core
+      font-size $Checker-size
+      background-color $cl-Check-bg
+      border 1px solid $cl-Check-border
+      border-radius 2px
+      color $cl-Check-active-check
       transition all .2s ease-in-out
+  input:checked + &State
+    &
+      background-color $cl-Check-active-check-bg
+      border-color transparent
+      color $cl-Check-active-check
+    .icon
+      transform scale(.833)
 
 label.Check .CheckState .icon
   position absolute
@@ -46,7 +56,6 @@ label.Check .CheckState .icon
 label.Check input:not(:checked) + .CheckState .icon
   speak none
   opacity 0
-  transform translateY(50%)
 
 .CheckGroup
   &

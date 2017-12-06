@@ -1,50 +1,65 @@
-Input.regular:not([type="radio"]):not([type="checkbox"])
+$Input
   &
-    height 34px
-    font-size inherit
-    background-color #fff
-    border 0
-    border-bottom 1px solid $cl-divider
-    border-radius 0
-    color $cl-main-text
-    transition all .2s ease-out
-  &:not([disabled]):not([readonly])
-    &:hover
+    display inline-block
+    color $cl-Input-text
+  input
+  textarea
+    &
+      font-size inherit
+      background-color $cl-Input-bg
+      border 1px solid $cl-Input-border
+      border-radius 2px
+      color inherit
+      caret-color $cl-active
+      transition .2s ease-out
+      transition-property background, border, box-shadow, opacity
+    &::selection
+      //background-color rgba($cl-warning, .3)
+    &::-moz-selection
+      //background-color rgba($cl-warning, .3)
+    &:not([disabled]):not([readonly]):focus
+      background-color $cl-Input-hover-bg
+      border-color $cl-Input-hover-border
+      box-shadow $cl-Input-active-shadow
+    &[disabled]
+      opacity .5
+      cursor not-allowed
     &:focus
-      border-color $cl-core
-  &[disabled]
-    opacity .5
-  &[readonly]
+      outline 0
+    &:invalid
+      border-color $cl-Input-invalid-border !important
+      box-shadow $cl-Input-invalid-shadow !important
+    &::placeholder
+      color $cl-Input-placeholder-text
+  &:hover
+    input
+    textarea
+      &:not([disabled]):not([readonly])
+        border-color $cl-Input-hover-border
+
+label.Input
+  &
+    @extends $Input
+  &.regular
+    height $Input-regular-height
+  &.small
+    height $Input-small-height
+    font-size 12px
+  input
     padding 0 .5em
-    background-color #f6f6f6
-    border 0
-    color rgba($cl-main-text, .4)
+    width 100%
+    height 100%
 
-Textarea.regular
+label.Textarea
   &
-    padding .5em
-    min-height 5em
-    max-height 10em
-    resize vertical
-    font-size inherit
-    border 1px solid $cl-divider
-    color $cl-main-text
-    transition all .2s ease-out
-  &:focus
-    outline 0
-  &:not([disabled]):not([readonly])
-    &:hover
-    &:focus
-      border-color $cl-core
-  &[disabled]
-    resize none
-    opacity .5
-  &[readonly]
-    background-color #f6f6f6
-    border 0
-    color rgba($cl-main-text, .4)
-    resize none
-
-Input.regular::placeholder
-Textarea.regular::placeholder
-  color $cl-tertiary-text
+    @extends $Input
+  textarea
+    &
+      padding .5em
+      width 100%
+      min-height 5em
+      max-height 10em
+      resize vertical
+    &[disabled]
+    &[readonly]
+      resize none

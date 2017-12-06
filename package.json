@@ -10,7 +10,7 @@
   "url": "https://github.com/mockingbot/ibot.git",
   "scripts": {
     "build:storybook": "build-storybook",
-    "deploy": "storybook-to-ghpages",
+    "deploy": "yarn run build:storybook && gh-pages -d storybook-static",
     "bootstrap": "lerna bootstrap",
     "start": "yarn run clean && start-storybook -p 6006",
     "build:pkgs": "lerna run build",
@@ -19,7 +19,6 @@
     "clean": "rm -rf lib packages/*/dest"
   },
   "devDependencies": {
-    "@kadira/storybook-deployer": "^1.2.0",
     "@storybook/addon-actions": "^3.2.12",
     "@storybook/react": "^3.2.12",
     "babel-cli": "^6.26.0",
@@ -38,6 +37,7 @@
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-react": "^7.4.0",
     "eslint-plugin-standard": "^3.0.1",
+    "gh-pages": "^1.1.0",
     "json-templater": "^1.1.0",
     "junk": "^2.1.0",
     "lerna": "^2.4.0",
@@ -61,6 +61,7 @@
     "rollup-loader": "^0.3.0",
     "rollup-plugin-babel": "^3.0.2",
     "rollup-plugin-commonjs": "^8.0.2",
+    "rollup-plugin-json": "^2.3.0",
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-postcss": "^0.5.5",
     "rollup-plugin-stylus-compiler": "^0.2.1",

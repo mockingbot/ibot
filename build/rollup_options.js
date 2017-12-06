@@ -4,6 +4,7 @@ const { exec } = require('child_process')
 const commonjs = require('rollup-plugin-commonjs')
 const resolve = require('rollup-plugin-node-resolve')
 const babel = require('rollup-plugin-babel')
+const json = require('rollup-plugin-json')
 
 const sass = require('node-sass')
 const stylus = require('stylus')
@@ -110,6 +111,7 @@ async function getOptions (entry, dest = '') {
         extract: !!entry,
         to: `${path.basename(path.dirname(dest))}/*`
       }),
+      json(),
       babel({
         exclude: 'node_modules/**',
         include: path.resolve(__dirname, '../packages/**'),

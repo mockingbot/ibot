@@ -15,12 +15,14 @@
   "license": "MIT",
   "devDependencies": {
     "@ibot/button": "^0.1.0-alpha.2",
+    "@ibot/dropdown": "^0.1.0-alpha.2",
     "@ibot/icon": "^0.1.0-alpha.2",
     "@ibot/text": "^0.1.0-alpha.2",
     "@ibot/util": "^0.1.0-alpha.2"
   },
   "peerDependencies": {
     "@ibot/button": "^0.1.0-alpha.2",
+    "@ibot/dropdown": "^0.1.0-alpha.2",
     "@ibot/icon": "^0.1.0-alpha.2",
     "@ibot/text": "^0.1.0-alpha.2",
     "@ibot/util": "^0.1.0-alpha.2",

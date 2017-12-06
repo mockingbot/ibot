@@ -1,5 +1,5 @@
 {
-  "name": "@ibot/icon",
+  "name": "@ibot/dropdown",
   "version": "0.1.0-alpha.2",
   "description": "",
   "main": "dest/index.js",
@@ -9,25 +9,30 @@
     "dest"
   ],
   "scripts": {
-    "build": "./build.js",
-    "build:icon": "./files.sh"
+    "build": "./build.js"
   },
   "author": "yijun@mockingbot.com",
   "license": "MIT",
   "devDependencies": {
-    "@ibot/util": "^0.1.0-alpha.2",
-    "mb-icons": "^0.4.0"
+    "@ibot/button": "^0.1.0-alpha.2",
+    "@ibot/icon": "^0.1.0-alpha.2",
+    "@ibot/text": "^0.1.0-alpha.2",
+    "@ibot/util": "^0.1.0-alpha.2"
   },
   "peerDependencies": {
+    "@ibot/button": "^0.1.0-alpha.2",
+    "@ibot/icon": "^0.1.0-alpha.2",
+    "@ibot/text": "^0.1.0-alpha.2",
     "@ibot/util": "^0.1.0-alpha.2",
     "prop-types": "^15.6.0",
     "react": "^16.0.0",
+    "react-document-events": "^1.3.2",
     "react-dom": "^16.0.0"
   },
   "keywords": [
     "react",
     "component",
-    "icon"
+    "downdown"
   ],
   "publishConfig": {
     "access": "public"

@@ -1,88 +1,104 @@
-@import '../../constants'
-
 label.InputNumber
+  $padding-left = .5em
+
   &
     position relative
     display inline-block
     min-width 2em
-    height $form-entry-min-height
-    overflow hidden
     // Can’t use San Francisco for suffix position reason:
     font-family 'Helvetica Neue', Helvetica, Arial, sans-serif
-    font-size 12px
-    color $cl-secondary-text
+    font-size $InputNumber-font-size
+  &.is-active input
+      background-color $cl-Input-hover-bg
+      border-color $cl-Input-hover-border
+      box-shadow $cl-Input-active-shadow
+  &.isnt-valid input
+    border-color $cl-Input-invalid-border !important
+    box-shadow $cl-Input-invalid-shadow !important
   &.is-disabled
     &
-      opacity .5
       cursor not-allowed
+    > *
+      opacity .5
   &.is-disabled
   &.is-readonly
-    &:after
-      content ''
-      position absolute
-      left 0
-      top 0
-      width 100%
-      height 100%
+    .action
+      visibility hidden
 
   input
-    &
-      padding 0 20px 0 0
-      width 100%
-      height 100%
-      font-family inherit
-      font-size inherit
-      text-indent 4px
-      border-bottom 1px solid $cl-divider
-      color inherit
-      transition all .3s ease-in-out
-      -moz-appearance textfield
-    &::-webkit-inner-spin-button
-    &::-webkit-outer-spin-button
-      -webkit-appearance none
-      margin 0
-    &::placeholder
-      color $cl-tertiary-text
-    &[readonly]
-      background-color #f6f6f6
-      border-bottom-color transparent
+    padding-right $InputNumber-action-width
+    padding-left $padding-left
+    font-family inherit
+  &.regular input
+    padding-right $InputNumber-regular-action-width
+
 
   &:not(.is-disabled):hover input:not([readonly])
   input:not([readonly]):focus
-    &
-      border-color $cl-core
-    ~ .action
+    & ~ .action
       opacity 1
-      transition all .2s ease-in-out
-
-  &.with-prefix input
-    padding-left 1em
-    text-indent 0
-  &.with-suffix input
-    padding-right 32px
+      transition all .2s ease-out
 
   .action
     &
       position absolute
       top 0
       right 0
-      display flex
-      flex-direction column
-      justify-content space-between
-      padding .5em 0
-      width 20px
+      width $InputNumber-action-width
       height 100%
       text-align center
-      opacity .5
+    &:not(.caret)
+      opacity 0
+    svg
+      height 4px
+      fill currentColor
+      fill-rule evenodd
+    &.caret
+      &
+        display flex
+        align-items center
+      button
+        padding 0 .5em
+        height 100%
+      svg
+        color $cl-tertiary-grey
+        transform rotate(180deg)
+        transition transform .2s ease-out
+      /label.InputNumber.is-menu-open .caret svg
+        transform rotate(0)
     button
     button:hover
+      display block
       margin 0
       padding 0
-      line-height 1
-      color $cl-tertiary-text
+      width 100%
+      height 50%
+      line-height 0
+      color $cl-InputNumber-action
+      transition all .1s ease-out
+    button:hover
+      color $cl-InputNumber-action-hover
     button:active
-      color $cl-core
+      color $cl-InputNumber-action-active
+    button[data-action=up]
+      padding 5px 0 2px
+    button[data-action=down]
+      &
+        padding 2px 0 5px
+      svg
+        transform rotate(180deg)
+  &.regular .action
+    top 50%
+    transform translateY(-50%)
+    width $InputNumber-regular-action-width
+    height 28px
 
+  &.with-desc
+    margin-top 6px
+    margin-bottom 1.5em
+
+  .title
+  .desc
   .prefix
   .suffix
     position absolute
@@ -91,15 +107,29 @@ label.InputNumber
     display flex
     align-items center
     height 100%
-    border-bottom 1px solid transparent
     pointer-events none
+    user-select none
+    border 1px solid transparent
+
+  .title
+    margin-left $padding-left
+    color $cl-InputNumber-desc
+
+  .desc
+    top 100%
+    width 100%
+    height 1.5em
+    line-height 1.5
+    justify-content center
+    color $cl-InputNumber-desc
+
   .prefix
-    min-width .75em
-    margin-right .125em
-    justify-content flex-end
+    margin-left $padding-left
+
   .suffix
     &
-      margin 0 32px 0 4px
+      padding-left $padding-left
+      padding-right ($InputNumber-action-width + .125em)
       width 100%
     &:before
       content attr(data-value)
@@ -107,8 +137,5 @@ label.InputNumber
       margin-right .125em
       width -moz-fit-content
       width fit-content
-      max-width calc(100% - 32px)
       overflow hidden
       opacity 0
-  /.InputNumber.with-prefix .suffix
-    margin 0 32px 0 12px

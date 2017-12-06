@@ -8,5 +8,6 @@ lerna-debug.log*
 package-lock.json
 dest/
 lib/
-storybook-static/
+storybook-static/*
+!storybook-static/CNAME
 yarn-error.log*

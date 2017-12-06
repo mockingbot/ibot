@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { trimList } from '@ibot/util'
 
-import duoList from './duo.json'
+import duoList from 'mb-icons/dora/duo-list.json'
 import './index.styl'
 
 const ICON_SET_LIST = ['dora', 'mb', 'icon', 'fa', 'md', 'ci']
@@ -36,8 +36,8 @@ export default function Icon({
 }
 
 Icon.propTypes = {
-  name: PropTypes.string,
-  type: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
   className: PropTypes.string,
 }
 
@@ -68,7 +68,7 @@ export function DuoIcon({
       icon.layer
       .map((l, idx) => (
         <span key={l} className="layer" style={{ color: colorList[idx] }}>
-        { `${name}_${l}` }
+        { `${name}__${l}` }
         </span>
       ))
     }
@@ -77,12 +77,14 @@ export function DuoIcon({
 }
 
 DuoIcon.propTypes = {
+  name: PropTypes.string.isRequired,
   type: PropTypes.oneOf(Object.keys(DUO_ICON_NAME_MAP)),
   className: PropTypes.string,
   colorList: PropTypes.array,
 }
 
 DuoIcon.defaultProps = {
+  name: '',
   type: 'dora',
   colorList: [],
 }
