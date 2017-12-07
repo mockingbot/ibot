@@ -170,6 +170,26 @@
     "keywords": ""
   },
   {
+    "id": "scale",
+    "cat": "General",
+    "keywords": ""
+  },
+  {
+    "id": "cut",
+    "cat": "General",
+    "keywords": ""
+  },
+  {
+    "id": "duplicate",
+    "cat": "General",
+    "keywords": ""
+  },
+  {
+    "id": "paste",
+    "cat": "General",
+    "keywords": ""
+  },
+  {
     "id": "save",
     "cat": "Toolbar",
     "keywords": ""
@@ -235,11 +255,6 @@
     "keywords": ""
   },
   {
-    "id": "scale",
-    "cat": "Toolbar",
-    "keywords": ""
-  },
-  {
     "id": "setting",
     "cat": "Toolbar",
     "keywords": ""
@@ -300,11 +315,6 @@
     "keywords": ""
   },
   {
-    "id": "duplicate",
-    "cat": "Panel",
-    "keywords": ""
-  },
-  {
     "id": "master",
     "cat": "Panel",
     "keywords": ""
@@ -316,6 +326,11 @@
   },
   {
     "id": "smiley",
+    "cat": "Panel",
+    "keywords": ""
+  },
+  {
+    "id": "import",
     "cat": "Panel",
     "keywords": ""
   },

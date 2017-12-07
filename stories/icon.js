@@ -13,15 +13,16 @@ storiesOf('Icon', module)
 class IconPreview extends PureComponent {
   constructor(props) {
     super(props)
-    this.state = { dora: [], mb: [] }
+    this.state = { dora: [], mb: [], duo: [] }
   }
 
   fetch = () => (
     Promise.all([
       import('./json/dora'),
       import('./json/mb'),
+      import('./json/duo'),
     ])
-    .then(([dora, mb]) => this.setState({ dora, mb }))
+    .then(([dora, mb, duo]) => this.setState({ dora, mb, duo }))
   )
 
   componentWillMount() {
@@ -29,7 +30,7 @@ class IconPreview extends PureComponent {
   }
 
   render() {
-    const { dora, mb } = this.state
+    const { dora, mb, duo } = this.state
 
     return (
       <Root>
@@ -98,13 +99,12 @@ class IconPreview extends PureComponent {
         <h2>Duo-colour icons</h2>
         <div className="duo">
         {
-          'play inspect evenly_distribute_h evenly_distribute_v widget_align_bottom widget_align_center widget_align_left widget_align_right widget_align_top widget_align_v_center'
-          .split(' ')
-          .concat(Array(2).fill(''))
-          .map((name, idx) => (
-            <div key={name || idx} className="label">
-              <DuoIcon name={name} />
-              { name }
+          duo
+          .concat(Array(1).fill(''))
+          .map(({ id }, idx) => (
+            <div key={id || idx} className="label">
+              <DuoIcon name={id} />
+              { id }
             </div>
           ))
         }

@@ -1,5 +1,12 @@
 [
   {
+    "id": "save",
+    "layer": [
+      "arrow",
+      "cloud"
+    ]
+  },
+  {
     "id": "inspect",
     "layer": [
       "slash",
