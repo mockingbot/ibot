@@ -9,8 +9,8 @@ yarn run start
 
 ### publish
 ````bash
-lerna run publish # for individual components
-yarn run publish # for entire lib
+lerna publish # for individual components
+yarn publish # for entire lib
 ````
 ###
 
