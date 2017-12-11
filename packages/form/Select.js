@@ -55,7 +55,8 @@ export default class Select extends PureComponent {
   }
 
   static propTypes = {
-    size: PropTypes.oneOf(['regular', 'small', 'unstyled']),
+    size: PropTypes.oneOf(['regular', 'small']),
+    unstyled: PropTypes.bool,
     className: PropTypes.string,
     menuClassName: PropTypes.string,
     placeholder: PropTypes.string,
@@ -167,7 +168,7 @@ export default class Select extends PureComponent {
 
   render() {
     const {
-      size,
+      size, unstyled,
       className,
       menuClassName,
       isDisabled,
@@ -183,6 +184,7 @@ export default class Select extends PureComponent {
     const klass = trimList([
       'Select',
       size,
+      unstyled && 'unstyled',
       className,
       isOpen && 'is-open',
       isDisabled && 'is-disabled',

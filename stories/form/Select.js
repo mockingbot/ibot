@@ -227,6 +227,7 @@ export default class SelectExample extends React.PureComponent {
               ['洋基队', 'InstaYankies', 'New York New York', 'Manhattan Project'],
               ['巨人队', 'Taller Men', 'Shorter Giants'],
               ['红襪队', '一个很長很長又臭又長很長很長又臭又長很長很長又臭又長又長又臭又長又臭又臭又長的项目名字'],
+              ['队名為什麼要取得那麼地長啊，好奇怪啊，你們！队', '一个很長很長又臭又長很長很長又臭又長很長很長又臭又長又長又臭又長又臭又臭又長的项目名字'],
             ]}
           />
         </p>
