@@ -9,7 +9,7 @@ import Modal from '../packages/modal/index'
 
 import {
   FormLabel, FormEntry,
-  Input, Textarea,
+  Input, InputNumber, Textarea,
   Radio, Check,
   RadioGroup, CheckGroup,
   Select,
@@ -116,6 +116,7 @@ storiesOf('Modal', module)
 .add('Advanced', () => (
   <Root>
     <style>
+    {`#root .FormEntry { width: 22em; }`}
     {`h2 + .FormEntry { margin-top: -1em; }`}
     {`.AlertModal p, .FormModal p { margin: .5em 0; }`}
     {`.FormEntry > .key { flex-basis: 15em; }`}
@@ -305,12 +306,23 @@ storiesOf('Modal', module)
               display: inline-block;
               width: 6em;
             }
+
+            .master-modal .size {
+              display: flex;
+              align-items: baseline;
+            }
+            .master-modal .times {
+              width: 3em;
+              text-align: center;
+            }
           `}
           </style>
 
-          <Input type="number" defaultValue={300} />
-          &nbsp;&times;&nbsp;
-          <Input type="number" defaultValue={50} />
+          <div className="size">
+            <InputNumber value={300} />
+            <span className="times">&times;</span>
+            <InputNumber value={50} />
+          </div>
         </FormLabel>
       </Modal>
     </FormLabel>
@@ -404,6 +416,7 @@ storiesOf('Modal', module)
         <style>
         {`.share-modal .FormEntry > .key { flex-basis: 10em; }`}
         {`.share-modal .FormEntry > .val label { width: 100%; }`}
+        {`.share-modal .Textarea { width: 100%; }`}
         </style>
 
         <p>Embed the app in a website or blog by the code below:</p>

@@ -1,44 +1,45 @@
 @import '~@ibot/util/index'
 
+body.mb-cant-scroll
+  overflow hidden
+
 .ModalPortal
   &
-    position absolute
-    top 0
-    left 0
-  &.is-open
     position fixed
     z-index $z-Modal
-    width 100%
-    height 100%
+    top 0
+    left 0
+    width 100vw
+    height 100vh
     overflow-x hidden
     overflow-y auto
   &:not(.is-open)
     &
-      overflow hidden
       pointer-events none
     .ModalMask
       background-color rgba(#000, 0)
     .Modal
       transform translateY(-50vh)
       opacity 0
+  &.is-open
+    .Modal
+      transition-delay .15s
 
 .ModalMask
   &
     display flex
-    // **DO NOT** use these:
-    // justify-content center
-    // align-items center
-    padding 50px 0
-    width 100vw // Dealing with y-scrollbar
-    min-height 100vh // Use `vh` so that animation works smoother
+    padding 50px 25px
+    width 100vw
+    min-height 100vh
     background-color rgba(#000, .4)
-    transition all .3s
+    transition background .2s
   &.can-close
     cursor pointer
 
 .Modal
   &
     position relative
+    z-index 20
     margin calc(20vh - 50px) auto auto
     min-height 150px
     transform translateY(0)

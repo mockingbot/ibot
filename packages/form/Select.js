@@ -415,7 +415,7 @@ export class SelectMenu extends PureComponent {
         <DocumentEvents
           enabled={isOpen}
           capture={false}
-          onMouseDown={this.onClickOutside}
+          onClick={this.onClickOutside}
         />
 
         <DocumentEvents

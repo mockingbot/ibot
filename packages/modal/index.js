@@ -5,14 +5,17 @@ import PropTypes from 'prop-types'
 import Button from '@ibot/button'
 import Switch from '@ibot/switch'
 import Icon from '@ibot/icon'
-import { trimList } from '@ibot/util'
+import { trimList, $ } from '@ibot/util'
 
 import './index.styl'
 
 const OPEN_MODAL_STACK = []
 const { I18N = {} } = window
+
 const MODAL_ROOT_ID = 'MB_MODAL_ROOT'
 const MODAL_PORTAL_CLASS = 'ModalPortal'
+const CANT_SCROLL_CLASS = 'mb-cant-scroll'
+
 const stopPropagation = e => e.stopPropagation()
 
 const $body = document.body
@@ -142,6 +145,8 @@ export default class Modal extends PureComponent {
   componentWillUnmount() {
     if (this.portal) this.portal.remove()
 
+    $body.classList.remove(CANT_SCROLL_CLASS)
+
     window.removeEventListener('resize', this.positionY)
     document.removeEventListener('keydown', this.onKeyDown)
   }
@@ -163,12 +168,19 @@ export default class Modal extends PureComponent {
 
     // Transition:
     setTimeout(() => this.portal.classList.add('is-open'))
+
+    // Disable scrolling:
+    $body.classList.add(CANT_SCROLL_CLASS)
   }
 
   didClose = () => {
     // Remove from the stack in the next round:
     const idx = OPEN_MODAL_STACK.indexOf(this)
     setTimeout(() => OPEN_MODAL_STACK.splice(idx, 1))
+
+
+    // Enable scrolling:
+    $body.classList.remove(CANT_SCROLL_CLASS)
   }
 
   onTransitionEnd = () => {
@@ -218,7 +230,7 @@ export default class Modal extends PureComponent {
 
   positionY = () => setTimeout(() => {
     const { type } = this.props
-    const $modal = this.portal.querySelector('.Modal')
+    const $modal = $('.Modal', this.portal)
 
     if (!$modal || type === 'alert') return
 
@@ -230,7 +242,7 @@ export default class Modal extends PureComponent {
   })
 
   focusOnInput = () => {
-    const $input = this.portal.querySelector('.content input')
+    const $input = $('.content input', this.portal)
     if ($input) $input.focus()
   }
 
@@ -243,7 +255,7 @@ export default class Modal extends PureComponent {
     } = this.props
 
     const { isOpen } = this.state
-    const isSelectMenuOpen = !!document.querySelector('#MB_SELECT_MENU_ROOT .SelectMenu.is-open')
+    const isSelectMenuOpen = !!$('#MB_SELECT_MENU_ROOT .SelectMenu.is-open')
 
     if (
       key === 'Escape'
@@ -264,7 +276,7 @@ export default class Modal extends PureComponent {
       key === 'Enter'
 
       // Not focus on form elements:
-      && !$elmt.matches('textarea') && !isSelectMenuOpen
+      && !$elmt.matches('textarea, button') && !isSelectMenuOpen
 
       // Current modal is open and can confirm via enter:
       && isOpen && canConfirmOnEnter
@@ -276,6 +288,17 @@ export default class Modal extends PureComponent {
       && (!!onConfirm || type === 'alert')
     ) {
       this.onConfirm()
+    }
+  }
+
+  onClickMask = e => {
+    stopPropagation(e)
+
+    const { canClose, canCloseOnClickMask } = this.props
+    const isSelectMenuOpen = !!$('#MB_SELECT_MENU_ROOT .SelectMenu.is-open')
+
+    if (canClose && canCloseOnClickMask && !isSelectMenuOpen) {
+      this.close()
     }
   }
 
@@ -346,7 +369,7 @@ export default class Modal extends PureComponent {
           maskClassName,
           canClose && canCloseOnClickMask ? 'can-close' : 'cant-close',
         ])}
-        onClick={canClose && canCloseOnClickMask ? this.close : stopPropagation}
+        onClick={this.onClickMask}
         onTransitionEnd={this.onTransitionEnd}
       >
         <div
