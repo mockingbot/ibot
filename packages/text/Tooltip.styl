@@ -62,8 +62,9 @@ div.Tooltip
 
   // Transition:
   &:not(.is-open)
+  &.is-empty
     &
-      opacity 0
+      opacity 0 !important
     &.on-top
       transform translate(-50%, -110%)
     &.on-bottom

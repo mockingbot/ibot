@@ -331,6 +331,7 @@ class Tip extends PureComponent {
       `on-${position}`,
       inflexible && 'inflexible',
       arrowed && 'arrowed',
+      !children && 'is-empty',
     ])
 
     return isOpen && (

@@ -322,13 +322,20 @@ class TooltipExample extends PureComponent {
             <Button type="primary" icon="cube">3D</Button>
           </Tooltip>
 
-
           <Tooltip
             arrowed={isArrowed}
             content={{
               hover: '点选复制一个神祕的东西送你哟～',
               click: '已复制！',
             }}
+            position="left"
+          >
+            <Button type="primary" icon="mobile-copy-link">点我复制</Button>
+          </Tooltip>
+
+          <Tooltip
+            arrowed={isArrowed}
+            content={{ click: '已复制！' }}
             position="left"
           >
             <Button type="primary" icon="mobile-copy-link">点我复制</Button>
