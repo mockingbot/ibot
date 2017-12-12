@@ -65,8 +65,8 @@ storiesOf('Dropdown', module)
       }
       .DropdownMenu.preview-option .content label {
         width: 100%;
-        height: 32px;
-        line-height: 32px;
+        height: 25px;
+        line-height: 25px;
       }
       .DropdownMenu.preview-option .content .Select .caret {
         margin: 0;
@@ -86,9 +86,9 @@ storiesOf('Dropdown', module)
         menuClassName="preview-option"
         menu={
           <div>
-            <Select optionList={['真实设备边框', '墨刀黑', '无边框']} currentOptionIdx="0" size="small" unstyled />
+            <Select size="small" optionList={['真实设备边框', '墨刀黑', '无边框']} currentOptionIdx="0" size="small" unstyled />
             <hr />
-            <Check label="高亮链接区域" />
+            <Check size="small" label="高亮链接区域" />
           </div>
         }
         unfold="right"
@@ -99,9 +99,9 @@ storiesOf('Dropdown', module)
         menuClassName="preview-option"
         menu={
           <div>
-            <Select optionList={['真实设备边框', '墨刀黑', '无边框']} currentOptionIdx="1" size="small" unstyled />
+            <Select size="small" optionList={['真实设备边框', '墨刀黑', '无边框']} currentOptionIdx="0" size="small" unstyled />
             <hr />
-            <Check label="高亮链接区域" />
+            <Check size="small" label="高亮链接区域" />
           </div>
         }
       />
@@ -111,9 +111,9 @@ storiesOf('Dropdown', module)
         menuClassName="preview-option"
         menu={
           <div>
-            <Select optionList={['真实设备边框', '墨刀黑', '无边框']} currentOptionIdx="1"  size="small" unstyled />
+            <Select size="small" optionList={['真实设备边框', '墨刀黑', '无边框']} currentOptionIdx="0" size="small" unstyled />
             <hr />
-            <Check label="高亮链接区域" />
+            <Check size="small" label="高亮链接区域" />
           </div>
         }
         unfold="left"

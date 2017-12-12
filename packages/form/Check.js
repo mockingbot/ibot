@@ -13,6 +13,7 @@ export class Check extends PureComponent {
   }
 
   static propTypes = {
+    size: PropTypes.oneOf(['regular', 'small']),
     isChecked: PropTypes.bool,
     onChange: PropTypes.func,
     label: PropTypes.any,
@@ -22,6 +23,7 @@ export class Check extends PureComponent {
   }
 
   static defaultProps = {
+    size: 'regular',
     isChecked: false,
     label: '',
     className: '',
@@ -46,13 +48,14 @@ export class Check extends PureComponent {
   }
 
   render() {
-    const { className, label, name, isDisabled } = this.props
+    const { size, className, label, name, isDisabled } = this.props
     const { isChecked } = this.state
 
     return (
       <label
         className={trimList([
           'Check',
+          size,
           className,
           isChecked ? 'is-checked' : '',
           isDisabled ? 'is-disabled' : '',
@@ -87,6 +90,7 @@ export class CheckGroup extends PureComponent {
   }
 
   static propTypes = {
+    size: PropTypes.oneOf(['regular', 'small']),
     className: PropTypes.string,
     onChange: PropTypes.func.isRequired,
     optionList: PropTypes.arrayOf(
@@ -107,6 +111,7 @@ export class CheckGroup extends PureComponent {
   }
 
   static defaultProps = {
+    size: 'regular',
     className: '',
     optionList: [],
     currentOptionIdxList: new Set(),
@@ -135,6 +140,7 @@ export class CheckGroup extends PureComponent {
     const { name } = this
 
     const {
+      size,
       className,
       optionList,
       isDisabled,
@@ -144,6 +150,7 @@ export class CheckGroup extends PureComponent {
 
     const klass = trimList([
       'CheckGroup',
+      size,
       className,
       isDisabled && 'is-disabled',
     ])
@@ -155,6 +162,7 @@ export class CheckGroup extends PureComponent {
           <Check
             key={idx}
             name={name}
+            size={size}
             isDisabled={isDisabled || opt.isDisabled}
             isChecked={currentOptionIdxList.has(idx)}
             label={typeof opt === 'string' ? opt : opt.label}

@@ -12,6 +12,7 @@ export class Radio extends PureComponent {
   }
 
   static propTypes = {
+    size: PropTypes.oneOf(['regular', 'small']),
     isChecked: PropTypes.bool,
     onChange: PropTypes.func,
     label: PropTypes.any,
@@ -21,6 +22,7 @@ export class Radio extends PureComponent {
   }
 
   static defaultProps = {
+    size: 'regular',
     isChecked: false,
     label: '',
     className: '',
@@ -45,7 +47,7 @@ export class Radio extends PureComponent {
   }
 
   render() {
-    const { className, label, name, isDisabled } = this.props
+    const { size, className, label, name, isDisabled } = this.props
     const { isChecked } = this.state
 
     return (
@@ -53,6 +55,7 @@ export class Radio extends PureComponent {
         className={
           trimList([
             'Radio',
+            size,
             className,
             isChecked ? 'is-checked' : '',
             isDisabled ? 'is-disabled' : '',
@@ -84,6 +87,7 @@ export class RadioGroup extends PureComponent {
   }
 
   static propTypes = {
+    size: PropTypes.oneOf(['regular', 'small']),
     className: PropTypes.string,
     name: PropTypes.string,
     optionList: PropTypes.arrayOf(
@@ -105,6 +109,7 @@ export class RadioGroup extends PureComponent {
   }
 
   static defaultProps = {
+    size: 'regular',
     className: '',
     optionList: [],
     isDisabled: false,
@@ -119,6 +124,7 @@ export class RadioGroup extends PureComponent {
     const { name } = this
 
     const {
+      size,
       className,
       optionList, currentOptionIdx,
       isDisabled,
@@ -126,6 +132,7 @@ export class RadioGroup extends PureComponent {
 
     const klass = trimList([
       'RadioGroup',
+      size,
       className,
       isDisabled && 'is-disabled',
     ])
@@ -138,6 +145,7 @@ export class RadioGroup extends PureComponent {
           <Radio
             key={idx}
             name={name}
+            size={size}
             label={typeof opt === 'string' ? opt : opt.label}
             type="radio"
             isChecked={idx === currentOptionIdx}

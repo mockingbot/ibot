@@ -6,7 +6,11 @@
       align-items baseline
       line-height $Checker-line-height
       cursor pointer
-      color $cl-Input-text
+      color $cl-Check-text
+    &.regular
+      font-size 14px
+    &.small
+      font-size 12px
     &.is-disabled
       &
         cursor not-allowed
@@ -27,19 +31,20 @@
 
   // Input state:
   & &State
-    &
-      position relative
-      flex 0 0 1em
-      margin-right .33333em
-      width 1em
-      height @width
-      transform translateY(1px)
-      font-size $Checker-size
-      background-color $cl-Check-bg
-      border 1px solid $cl-Check-border
-      border-radius 2px
-      color $cl-Check-active-check
-      transition all .2s ease-in-out
+    position relative
+    flex 0 0 1em
+    margin-right .33333em
+    width 1em
+    height @width
+    transform translateY(1px)
+    font-size $Checker-size
+    background-color $cl-Check-bg
+    border 1px solid $cl-Check-border
+    border-radius 2px
+    color $cl-Check-active-check
+    transition all .2s ease-in-out
+  &.small &State
+    transform translateY(2px)
   input:checked + &State
     &
       background-color $cl-Check-active-check-bg
