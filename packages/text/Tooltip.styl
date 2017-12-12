@@ -14,7 +14,6 @@ div.Tooltip
     line-height 1.4
     user-select none
     speak none
-    pointer-events none
     transition-property opacity, transform
     transition-duration .15s
   &.arrowed
@@ -62,7 +61,6 @@ div.Tooltip
 
   // Transition:
   &:not(.is-open)
-  &.is-empty
     &
       opacity 0 !important
     &.on-top

@@ -318,7 +318,12 @@ class TooltipExample extends PureComponent {
         </p>
 
         <p className="button">
-          <Tooltip arrowed={isArrowed} content="三维/三D/three dimensional" position="left">
+          <Tooltip
+            arrowed={isArrowed}
+            content="三维/三D/three dimensional"
+            position="left"
+            duration={2000}
+          >
             <Button type="primary" icon="cube">3D</Button>
           </Tooltip>
 
@@ -328,7 +333,7 @@ class TooltipExample extends PureComponent {
               hover: '点选复制一个神祕的东西送你哟～',
               click: '已复制！',
             }}
-            position="left"
+            position="right"
           >
             <Button type="primary" icon="mobile-copy-link">点我复制</Button>
           </Tooltip>
@@ -336,7 +341,8 @@ class TooltipExample extends PureComponent {
           <Tooltip
             arrowed={isArrowed}
             content={{ click: '已复制！' }}
-            position="left"
+            duration={1000}
+            position="right"
           >
             <Button type="primary" icon="mobile-copy-link">点我复制</Button>
           </Tooltip>

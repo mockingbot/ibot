@@ -64,7 +64,9 @@ export default class Tooltip extends PureComponent {
     onMouseEnter: PropTypes.func,
     onClick: PropTypes.func,
     onMouseLeave: PropTypes.func,
+
     delay: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    duration: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
     children: PropTypes.node,
   }
@@ -82,17 +84,29 @@ export default class Tooltip extends PureComponent {
     tipClassName: '',
   }
 
+  componentWillUpdate(_, { isOpen: willBeOpen }) {
+    const { duration } = this.props
+    const { isOpen } = this.state
+
+    if (!!duration && !isOpen && willBeOpen) {
+      setTimeout(() => this.setState({ isOpen: false }), duration)
+    }
+  }
+
   set$text = $text => this.setState({ $text })
 
   onClick = () => this.setState(
-    { isClicked: true },
+    {
+      isOpen: !!parseContent(this.props.content, 'click'),
+      isClicked: true,
+    },
     this.props.onClick,
   )
 
   onMouseEnter = () => Object.assign(this, {
     hoverTimeout: setTimeout(
       () => this.setState(
-        { isOpen: true },
+        { isOpen: !!parseContent(this.props.content, 'hover') },
         this.props.onMouseEnter,
       ),
       this.props.delay,
@@ -331,7 +345,6 @@ class Tip extends PureComponent {
       `on-${position}`,
       inflexible && 'inflexible',
       arrowed && 'arrowed',
-      !children && 'is-empty',
     ])
 
     return isOpen && (
