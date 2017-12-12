@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
+import DocumentEvents from 'react-document-events'
 
 import Button from '@ibot/button'
 import Switch from '@ibot/switch'
@@ -61,7 +62,7 @@ export default class Modal extends PureComponent {
     type: PropTypes.oneOf(['alert', 'form', 'functional', 'display']),
 
     opener: PropTypes.node,
-    openerType: PropTypes.oneOf(['primary', 'regular', 'text', 'switch', 'none']),
+    openerType: PropTypes.oneOf(['primary', 'regular', 'text', 'switch', 'custom', 'none']),
 
     className: PropTypes.string,
     maskClassName: PropTypes.string,
@@ -119,11 +120,10 @@ export default class Modal extends PureComponent {
     if (isOpen) this.didOpen()
 
     window.addEventListener('resize', this.positionY)
-    document.addEventListener('keydown', this.onKeyDown)
   }
 
   componentWillReceiveProps({ isOpen: willBeOpen }) {
-    const { isOpen } = this.state
+    const { isOpen } = this.props
 
     if (!isOpen && willBeOpen) {
       this.open()
@@ -148,7 +148,6 @@ export default class Modal extends PureComponent {
     $body.classList.remove(CANT_SCROLL_CLASS)
 
     window.removeEventListener('resize', this.positionY)
-    document.removeEventListener('keydown', this.onKeyDown)
   }
 
   open = () => this.setState({ isOpen: true })
@@ -303,7 +302,7 @@ export default class Modal extends PureComponent {
   }
 
   render() {
-    return this.renderOpener() || this.renderModal()
+    return this.renderOpener()
   }
 
   renderOpener() {
@@ -312,9 +311,21 @@ export default class Modal extends PureComponent {
 
     const modal = this.renderModal()
 
-    return openerType !== 'none' && (
-      openerType === 'switch'
+    return (
+      openerType === 'none'
+      ? modal
 
+      : openerType === 'custom'
+      ? (
+        opener
+        ? <span onClick={this.toggle}>
+            { opener }
+            { modal }
+          </span>
+        : modal
+      )
+
+      : openerType === 'switch'
       ? <Switch isChecked={isOpen} onChange={this.toggle}>
           { opener }
           { modal }
@@ -328,10 +339,8 @@ export default class Modal extends PureComponent {
   }
 
   renderModal() {
-    return (
-      this.props.modal
-      || ReactDOM.createPortal(this.renderModalDOM(), this.portal)
-    )
+    const { modal } = this.props
+    return modal || ReactDOM.createPortal(this.renderModalDOM(), this.portal)
   }
 
   renderModalDOM() {
@@ -417,6 +426,10 @@ export default class Modal extends PureComponent {
             </footer>
           )}
         </div>
+
+        <DocumentEvents
+          onKeyDown={this.onKeyDown}
+        />
       </div>
     )
   }

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 
@@ -36,6 +36,16 @@ storiesOf('Modal', module)
       >
         Modal opened with <Switch />
       </Modal>
+    </p>
+
+    <p>
+      <Modal openerType="custom" /* Shall not display */ />
+
+      <Modal
+        openerType="custom" opener="Custom Opener"
+        type="form"
+        onToggle={action('Modal toggled, `isOpen`')}
+      />
     </p>
 
     <p>
@@ -272,59 +282,7 @@ storiesOf('Modal', module)
 
     <h2>Form</h2>
     <FormLabel name="Add New Master">
-      <Modal
-        openerType="text"
-        opener={<Icon name="plus" />}
-        className="master-modal"
-
-        type="form"
-        title="New Master"
-        onConfirm={action('Confirmed')}
-        onCancel={action('Cancelled')}
-        onToggle={action('Modal toggled, `isOpen`')}
-      >
-        <p>All modals will try to focus on the first input element once opened.</p>
-
-        <FormLabel name="Name">
-          <Input placeholder="Name the new master" />
-        </FormLabel>
-
-        <FormEntry name="Access">
-          <RadioGroup
-            optionList={[
-              { label: 'Public', value: false },
-              { label: 'Private', value: true },
-            ]}
-            currentOptionIdx={1}
-          />
-        </FormEntry>
-
-        <FormLabel name="Size">
-          <style>
-          {`
-            .master-modal .FormEntry > .val > input.regular[type=number] {
-              display: inline-block;
-              width: 6em;
-            }
-
-            .master-modal .size {
-              display: flex;
-              align-items: baseline;
-            }
-            .master-modal .times {
-              width: 3em;
-              text-align: center;
-            }
-          `}
-          </style>
-
-          <div className="size">
-            <InputNumber value={300} />
-            <span className="times">&times;</span>
-            <InputNumber value={50} />
-          </div>
-        </FormLabel>
-      </Modal>
+      <NewMasterModal />
     </FormLabel>
 
     <FormLabel name="Transfer Screen(s)">
@@ -471,3 +429,86 @@ storiesOf('Modal', module)
     </FormLabel>
  </Root>
 ))
+
+
+class NewMasterModal extends PureComponent {
+  constructor(props) {
+    super(props)
+    this.state = {
+      name: '',
+      isPrivate: true,
+      w: 300,
+      h: 50,
+    }
+  }
+
+  onChangeName = ({ target: { value } }) => this.setState({ name: value })
+  onToggleAccess = ({ idx }) => this.setState({ isPrivate: Boolean(idx) })
+  onChangeW = w => this.setState({ w })
+  onChangeH = h => this.setState({ h })
+
+  render() {
+    const { name, isPrivate, w, h } = this.state
+
+    return (
+      <Modal
+        openerType="text"
+        opener={<Icon name="plus" />}
+        className="master-modal"
+
+        type="form"
+        title="New Master"
+        onConfirm={action('Confirmed')}
+        onCancel={action('Cancelled')}
+        onToggle={action('Modal toggled, `isOpen`')}
+      >
+        <p>All modals will try to focus on the first input element once opened.</p>
+
+        <FormLabel name="Name">
+          <Input
+            placeholder="Name the new master"
+            value={name}
+            onChange={this.onChangeName}
+          />
+        </FormLabel>
+
+        <FormEntry name="Access">
+          <RadioGroup
+            optionList={[
+              { label: 'Public', value: false },
+              { label: 'Private', value: true },
+            ]}
+            currentOptionIdx={Number(isPrivate)}
+            onChange={this.onToggleAccess}
+          />
+        </FormEntry>
+
+        <FormLabel name="Size">
+          <style>
+          {`
+            .master-modal .FormEntry > .val > input.regular[type=number] {
+              display: inline-block;
+              width: 6em;
+            }
+
+            .master-modal .size {
+              display: flex;
+              align-items: baseline;
+            }
+            .master-modal .times {
+              width: 3em;
+              text-align: center;
+            }
+          `}
+          </style>
+
+          <div className="size">
+            <InputNumber value={w} onChange={this.onChangeW} />
+            <span className="times">&times;</span>
+            <InputNumber value={h} onChange={this.onChangeH} />
+          </div>
+        </FormLabel>
+      </Modal>
+    )
+  }
+}
