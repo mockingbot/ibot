@@ -307,12 +307,6 @@ export class SelectMenu extends PureComponent {
     }
   }
 
-  onTransitionEnd = () => (
-    // Clean up inline styles for <SelectMenu> once closed:
-    //!this.props.isOpen && this.$menu.removeAttribute('style')
-    null
-  )
-
   onClickOutside = ({ target }) => {
     const { $select } = this.props
 
