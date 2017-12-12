@@ -436,7 +436,7 @@ function Group({
 }) {
   return (
     <li className="SelectGroup">
-      <div className="title">{ title }</div>
+      <EllipsisSpan className="title">{ title }</EllipsisSpan>
 
       <ul>
       {
