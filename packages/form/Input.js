@@ -52,9 +52,9 @@ PanelInput.propTypes = {
 /**
  * <Textarea>
  */
-export function Textarea({ className, value, ...others }) {
+export function Textarea({ className, size, value, ...others }) {
   return (
-    <label className={trimList(['Textarea', 'regular', className])}>
+    <label className={trimList(['Textarea', size, className])}>
       <textarea
         value={value}
         {...others}
@@ -65,7 +65,26 @@ export function Textarea({ className, value, ...others }) {
 
 Textarea.propTypes = {
   className: PropTypes.string,
+  size: PropTypes.oneOf(['regular', 'small']),
   value: PropTypes.string,
+}
+
+Textarea.defaultProps = {
+  size: 'regular',
+}
+
+export function PanelTextarea({ className, ...others }) {
+  return (
+    <Textarea
+      size="small"
+      className={trimList(['PanelTextarea', className])}
+      {...others}
+    />
+  )
+}
+
+PanelTextarea.propTypes = {
+  className: PropTypes.string,
 }
 
 export * from './InputNumber'

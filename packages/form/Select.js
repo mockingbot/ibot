@@ -132,7 +132,7 @@ export default class Select extends PureComponent {
   }
 
   componentWillReceiveProps({ currentOptionIdx: nextOptionIdx }) {
-    const { currentOptionIdx } = this.state
+    const { currentOptionIdx } = this.props
 
     if (currentOptionIdx !== nextOptionIdx) {
       this.setState({ currentOptionIdx: nextOptionIdx })

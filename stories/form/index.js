@@ -10,7 +10,7 @@ import Button from '../../packages/button/index'
 import {
   FormLabel, FormEntry,
   Input, PanelInput,
-  Textarea,
+  Textarea, PanelTextarea,
   InputNumber,
   Radio, Check,
   RadioGroup, CheckGroup,
@@ -52,7 +52,6 @@ storiesOf('Form Components', module)
     <p>
       <PanelInput placeholder="Helvetica?" onChange={onTypingChange} />
     </p>
-
 
     <style>
     {`
@@ -126,6 +125,11 @@ storiesOf('Form Components', module)
       <Textarea disabled placeholder="A disabled textarea" onChange={onTypingChange} />
       <br />
       <Textarea readOnly placeholder="A read-only textarea" onChange={onTypingChange} />
+    </p>
+
+    <h2>Panel textarea</h2>
+    <p>
+      <PanelTextarea placeholder="What do you want?" onChange={onTypingChange} />
     </p>
   </Root>
 ))

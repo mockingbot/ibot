@@ -134,8 +134,7 @@ export class InputNumber extends PureComponent {
   }
 
   componentWillReceiveProps({ value: newValue }) {
-    const { placeholder } = this.props
-    const { value } = this.state
+    const { value, placeholder } = this.props
 
     if (newValue !== value) {
       this.setState({

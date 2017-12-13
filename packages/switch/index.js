@@ -29,7 +29,7 @@ class Switch extends PureComponent {
   }
 
   componentWillReceiveProps({ isChecked: willBeChecked }) {
-    const { isChecked } = this.state
+    const { isChecked } = this.props
 
     if (willBeChecked !== isChecked) {
       this.setState({ isChecked: willBeChecked })
