@@ -257,9 +257,10 @@ export class SelectMenu extends PureComponent {
       const result = positionDropdown({
         $menu,
         $opener: $select,
-        shouldSetMinWidth: true,
-        shouldAlignLeft: true,
         position: 'bottom',
+        shouldSetMinWidth: true,
+        shouldSetMaxHeight: true,
+        shouldAlignLeft: true,
       })
 
       this.setState({ isDownward: result.finalPosition === 'bottom' })
@@ -285,8 +286,6 @@ export class SelectMenu extends PureComponent {
 
     if (!$select || !$menu) return
 
-    // Clean up previously-set min-width:
-    //$select.removeAttribute('style')
     Object.assign($menu.style, { minWidth: 0 })
 
     const { offsetWidth: wOf$menu, offsetHeight: hOf$menu } = $menu

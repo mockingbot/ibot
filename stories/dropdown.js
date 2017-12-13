@@ -7,6 +7,7 @@ import Icon from '../packages/icon/index'
 import Dropdown from '../packages/dropdown/index'
 
 import { Select, Check } from '../packages/form/index'
+import { Tooltip } from '../packages/text/index'
 
 storiesOf('Dropdown', module)
 .add('Default', () => (
@@ -186,13 +187,21 @@ storiesOf('Dropdown', module)
     <h3>Hover to open</h3>
     <p className="dropdown palette">
       <Dropdown
+        inflexible
         position="top"
         unfold="right"
         arrowed
+
         shouldOpenOnHover={true}
 
         className="color"
-        opener={<span style={{ background: '#4A90E2' }} />}
+        opener={
+          <Tooltip
+            arrowed={false}
+            content={{ click: 'Copied!' }}
+            style={{ background: '#4A90E2' }}
+          />
+        }
 
         menuClassName="color-control"
         menu={
@@ -203,13 +212,20 @@ storiesOf('Dropdown', module)
         }
       />
       <Dropdown
+        inflexible
         position="top"
         unfold="right"
         arrowed
         shouldOpenOnHover={true}
 
         className="color"
-        opener={<span style={{ background: '#e84030' }} />}
+        opener={
+          <Tooltip
+            arrowed={false}
+            content={{ click: 'Copied!' }}
+            style={{ background: '#e84030' }}
+          />
+        }
 
         menuClassName="color-control"
         menu={
@@ -220,13 +236,20 @@ storiesOf('Dropdown', module)
         }
       />
       <Dropdown
+        inflexible
         position="top"
         unfold="right"
         arrowed
         shouldOpenOnHover={true}
 
         className="color"
-        opener={<span style={{ background: '#1e292e' }} />}
+        opener={
+          <Tooltip
+            arrowed={false}
+            content={{ click: 'Copied!' }}
+            style={{ background: '#1e292e' }}
+          />
+        }
 
         menuClassName="color-control"
         menu={
@@ -237,13 +260,20 @@ storiesOf('Dropdown', module)
         }
       />
       <Dropdown
+        inflexible
         position="top"
         unfold="right"
         arrowed
         shouldOpenOnHover={true}
 
         className="color"
-        opener={<span style={{ background: '#415058' }} />}
+        opener={
+          <Tooltip
+            arrowed={false}
+            content={{ click: 'Copied!' }}
+            style={{ background: '#415058' }}
+          />
+        }
 
         menuClassName="color-control"
         menu={
@@ -254,12 +284,19 @@ storiesOf('Dropdown', module)
         }
       />
       <Dropdown
+        inflexible
         position="top"
         arrowed
         shouldOpenOnHover={true}
 
         className="color"
-        opener={<span style={{ background: '#FFB63D' }} />}
+        opener={
+          <Tooltip
+            arrowed={false}
+            content={{ click: 'Copied!' }}
+            style={{ background: '#FFB63D' }}
+          />
+        }
 
         menuClassName="color-control"
         menu={
@@ -270,13 +307,20 @@ storiesOf('Dropdown', module)
         }
       />
       <Dropdown
+        inflexible
         position="top"
         unfold="left"
         arrowed
         shouldOpenOnHover={true}
 
         className="color"
-        opener={<span style={{ background: '#009999' }} />}
+        opener={
+          <Tooltip
+            arrowed={false}
+            content={{ click: 'Copied!' }}
+            style={{ background: '#009999' }}
+          />
+        }
 
         menuClassName="color-control"
         menu={

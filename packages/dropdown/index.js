@@ -65,6 +65,7 @@ export default class Dropdown extends PureComponent {
     arrowed: PropTypes.bool,
     position: PropTypes.oneOf(['top', 'bottom']),
     unfold: PropTypes.oneOf(['left', 'center', 'right']),
+    inflexible: PropTypes.bool,
 
     isDisabled: PropTypes.bool,
     disabled: PropTypes.bool,
@@ -75,12 +76,14 @@ export default class Dropdown extends PureComponent {
 
   static defaultProps = {
     arrowed: false,
-    shouldCloseOnSelect: true,
 
+    shouldCloseOnSelect: true,
     shouldOpenOnHover: false,
     hoverDelay: 200,
+
     position: 'bottom',
     unfold: 'center',
+    inflexible: false,
   }
 
   componentWillMount() {
@@ -91,13 +94,7 @@ export default class Dropdown extends PureComponent {
     window.removeEventListener('resize', this.onResizeWindow)
   }
 
-  toggle = () => {
-    const { shouldOpenOnHover } = this.props
-    if (shouldOpenOnHover) return
-
-    this.setState({ isOpen: !this.state.isOpen })
-  }
-
+  toggle = () => this.setState({ isOpen: !this.state.isOpen })
   open = () => this.setState({ isOpen: true })
   close = () => this.setState({ isOpen: false })
 
@@ -132,15 +129,14 @@ export default class Dropdown extends PureComponent {
     clearTimeout(this.hoverTimeout)
 
     const $on = document.elementFromPoint(clientX, clientY)
-    const isOutsideOpener = $on.contains($opener)
+    const isOutsideOpener = !$opener.contains($on)
     const isOutsideMenu = !$on.closest('.DropdownMenu')
 
     if (!isOutsideMenu) {
       this.leaveTimeoutList.map(clearTimeout)
       Object.assign(this, { leaveTimeoutList: [] })
-    }
 
-    if (isOutsideOpener && isOutsideMenu) {
+    } else if (isOutsideOpener && isOutsideMenu) {
       this.leaveTimeoutList.push(
         setTimeout(this.close, Math.max(hoverDelay, 300))
       )
@@ -238,11 +234,11 @@ class DropdownMenu extends PureComponent {
 
   componentWillReceiveProps({ isOpen: willBeOpen, $opener }) {
     const { $menu } = this
-    const { isOpen, position } = this.props
+    const { isOpen, position, inflexible } = this.props
 
     // Set up the position of the <DropdownMenu> once opened:
     if (!isOpen && willBeOpen) {
-      const result = positionDropdown({ $menu, $opener, position })
+      const result = positionDropdown({ $menu, $opener, position, inflexible })
       this.setState({ isDownward: result.finalPosition === 'bottom' })
     }
   }
@@ -269,9 +265,9 @@ class DropdownMenu extends PureComponent {
 
   onScrollOutside = ({ target }) => {
     const { $menu } = this
-    const { $opener, position } = this.props
+    const { $opener, position, inflexible } = this.props
 
-    const result = positionDropdown({ $menu, $opener, position })
+    const result = positionDropdown({ $menu, $opener, position, inflexible })
     this.setState({ isDownward: result.finalPosition === 'bottom' })
   }
 
@@ -352,8 +348,10 @@ class DropdownMenu extends PureComponent {
  * @param {Object} option
  *  @prop {Element} $opener
  *  @prop {Element} $menu
- *  @prop {String} [position=bottom]
+ *  @prop {String} [position="bottom"]
+ *  @prop {String} [inflexible=false]
  *  @prop {Boolean} [shouldSetMinWidth=false]
+ *  @prop {Boolean} [shouldSetMaxHeight=false]
  *@return {Object}
  *  @prop {Object} style
  *  @prop {String} finalPosition
@@ -362,8 +360,10 @@ export function positionDropdown({
   $opener, $menu,
 
   position = 'bottom',
+  inflexible = false,
 
   shouldSetMinWidth = false,
+  shouldSetMaxHeight = false,
   shouldAlignLeft = false,
 } = {}) {
   if (!$opener || !$menu) return
@@ -394,13 +394,16 @@ export function positionDropdown({
   }
 
   // Slide downward:
-  if (decidingPoint >= midOf$opener) {
+  if (
+    inflexible && position === 'bottom'
+    || !inflexible && decidingPoint >= midOf$opener
+  ) {
     Object.assign(result, { finalPosition: 'bottom' })
 
     setStyle({ top: `${bottom}px` })
 
     // If the height of the menu is taller than that of space downward:
-    if (bottom + hOf$menu > maxY) {
+    if (shouldSetMaxHeight && bottom + hOf$menu > maxY) {
       setStyle({ maxHeight: `${maxY - bottom}px` })
     }
 
@@ -411,7 +414,7 @@ export function positionDropdown({
     setStyle({ top: '', bottom: `${hOf$win - top}px` })
 
     // If the height of the menu is taller than that of space upward:
-    if (top - hOf$menu < minY) {
+    if (shouldSetMaxHeight && top - hOf$menu < minY) {
       setStyle({ maxHeight: `${top - minY}px` })
     }
   }
