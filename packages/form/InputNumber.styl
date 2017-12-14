@@ -7,11 +7,11 @@ label.InputNumber
     min-width 2em
     // Can’t use San Francisco for suffix position reason:
     font-family 'Helvetica Neue', Helvetica, Arial, sans-serif
-  &.is-active input
+  &:not(.unstyled).is-active input
       background-color $cl-Input-hover-bg
       border-color $cl-Input-hover-border
       box-shadow $cl-Input-active-shadow
-  &.isnt-valid input
+  &:not(.unstyled).isnt-valid input
     border-color $cl-Input-invalid-border !important
     box-shadow $cl-Input-invalid-shadow !important
   &.is-disabled
@@ -24,7 +24,7 @@ label.InputNumber
     .action
       visibility hidden
 
-  input
+  & input
     padding-right $InputNumber-action-width
     padding-left $padding-left
     font-family inherit
@@ -53,20 +53,14 @@ label.InputNumber
       fill currentColor
       fill-rule evenodd
     &.caret
-      &
-        display flex
-        align-items center
       button
-        padding 0 .5em
         height 100%
       svg
-        color $cl-tertiary-grey
         transform rotate(180deg)
         transition transform .2s ease-out
       /label.InputNumber.is-menu-open .caret svg
         transform rotate(0)
     button
-    button:hover
       display block
       margin 0
       padding 0

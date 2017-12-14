@@ -61,6 +61,7 @@ export default class InputNumberExample extends React.PureComponent {
 
         <FormLabel name="Regular">
           <InputNumber
+            unstyled
             precision={2}
             value={formData.a}
             onChange={this.onChange.bind(this, 'a')}

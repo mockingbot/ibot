@@ -38,6 +38,7 @@ export class InputNumber extends PureComponent {
 
   static propTypes = {
     size: PropTypes.oneOf(['regular', 'small']),
+    unstyled: PropTypes.bool,
 
     step: PropTypes.number,
     precision: PropTypes.number, // 数值精度
@@ -67,6 +68,7 @@ export class InputNumber extends PureComponent {
 
   static defaultProps = {
     size: 'regular',
+    unstyled: false,
 
     value: '',
     placeholder: '',
@@ -287,12 +289,13 @@ export class InputNumber extends PureComponent {
     }
   }
 
-  render () {
+  render() {
     const {
       className,
-      size, readOnly,
+      size, unstyled,
+      readOnly, placeholder,
       optionList,
-      prefix, suffix, placeholder,
+      prefix, suffix,
       title, desc,
       formatter,
       onFocus,
@@ -304,6 +307,7 @@ export class InputNumber extends PureComponent {
     const klass = trimList([
       'Input InputNumber',
       size,
+      unstyled && 'unstyled',
       className,
 
       isActive && !isDisabled && !readOnly && 'is-active',

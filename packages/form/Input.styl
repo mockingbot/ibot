@@ -4,15 +4,8 @@ $Input
     color $cl-Input-text
   input
   textarea
-    &
       font-size inherit
-      background-color $cl-Input-bg
-      border 1px solid $cl-Input-border
-      border-radius 2px
       color inherit
-      caret-color $cl-active
-      transition .2s ease-out
-      transition-property background, border, box-shadow, opacity
     &::selection
       //background-color rgba($cl-warning, .3)
     &::-moz-selection
@@ -31,11 +24,20 @@ $Input
       box-shadow $cl-Input-invalid-shadow !important
     &::placeholder
       color $cl-Input-placeholder-text
-  &:hover
+  &:not(.unstyled)
     input
     textarea
-      &:not([disabled]):not([readonly])
-        border-color $cl-Input-hover-border
+      background-color $cl-Input-bg
+      border 1px solid $cl-Input-border
+      border-radius 2px
+      caret-color $cl-active
+      transition .2s ease-out
+      transition-property background, border, box-shadow, opacity
+    &:hover
+      input
+      textarea
+        &:not([disabled]):not([readonly])
+          border-color $cl-Input-hover-border
 
 label.Input
   &
