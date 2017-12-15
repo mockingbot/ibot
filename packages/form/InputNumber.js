@@ -47,7 +47,9 @@ export class InputNumber extends PureComponent {
 
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     placeholder: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+
     optionList: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
+    shouldMenuAlignCenter: PropTypes.bool,
 
     title: PropTypes.node,
     desc: PropTypes.node,
@@ -294,11 +296,14 @@ export class InputNumber extends PureComponent {
       className,
       size, unstyled,
       readOnly, placeholder,
-      optionList,
+
       prefix, suffix,
       title, desc,
+
       formatter,
       onFocus,
+
+      optionList, shouldMenuAlignCenter,
     } = this.props
 
     const { value, isActive, isValid, isMenuOpen } = this.state
@@ -401,10 +406,13 @@ export class InputNumber extends PureComponent {
             isOpen={isMenuOpen}
             menuClassName="SelectNumberMenu"
             $select={this.$label}
+
             optionList={optionList}
+            currentOptionIdx={optionList.indexOf(value)}
+            shouldMenuAlignCenter={shouldMenuAlignCenter}
+
             onChange={this.onSelect}
             onClose={this.closeMenu}
-            currentOptionIdx={optionList.indexOf(value)}
           />
         )}
 

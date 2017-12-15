@@ -114,6 +114,8 @@ export default class Select extends PureComponent {
     ]),
     isDisabled: PropTypes.bool,
     onChange: PropTypes.func,
+
+    shouldMenuAlignCenter: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -125,6 +127,7 @@ export default class Select extends PureComponent {
     optionList: [],
     isDisabled: false,
     onChange: () => null,
+    shouldMenuAlignCenter: false,
   }
 
   componentWillMount() {
@@ -169,10 +172,13 @@ export default class Select extends PureComponent {
   render() {
     const {
       size, unstyled,
+
       className,
       menuClassName,
-      isDisabled,
       optionList,
+      shouldMenuAlignCenter,
+
+      isDisabled,
       placeholder,
     } = this.props
 
@@ -209,6 +215,7 @@ export default class Select extends PureComponent {
           onChange={this.onSelect}
           onClose={this.close}
           currentOptionIdx={currentOptionIdx}
+          shouldMenuAlignCenter={shouldMenuAlignCenter}
         />
       </label>
     )
@@ -247,7 +254,7 @@ export class SelectMenu extends PureComponent {
 
   componentWillReceiveProps({ isOpen: willBeOpen, $select }) {
     const { $menu } = this
-    const { isOpen } = this.props
+    const { isOpen, shouldMenuAlignCenter } = this.props
 
     // Set up the min-width of the <Select> once mounted:
     this.size$select($select)
@@ -260,7 +267,7 @@ export class SelectMenu extends PureComponent {
         position: 'bottom',
         shouldSetMinWidth: true,
         shouldSetMaxHeight: true,
-        shouldAlignLeft: true,
+        shouldAlignLeft: !shouldMenuAlignCenter,
       })
 
       this.setState({ isDownward: result.finalPosition === 'bottom' })
@@ -352,6 +359,7 @@ export class SelectMenu extends PureComponent {
       emptyMsg,
       onChange,
       currentOptionIdx,
+      shouldMenuAlignCenter,
     } = this.props
 
     const { isDownward } = this.state
@@ -361,6 +369,7 @@ export class SelectMenu extends PureComponent {
     const klass = trimList([
       'SelectMenu',
       menuClassName,
+      shouldMenuAlignCenter && 'h-centered',
       isOpen && 'is-open',
       isDownward ? 'is-downward' : 'is-upward',
       isDisabled && 'is-disabled',

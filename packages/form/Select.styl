@@ -96,6 +96,13 @@ ul.SelectMenu
     pointer-events none
     opacity 0
     transform scale(.8)
+
+  &.h-centered
+    &
+      transform translateX(-50%)
+    &:not(.is-open)
+      transform scale(.8) translateX(-50%)
+
   &.is-upward
     transform-origin 50% 100%
   &.is-open

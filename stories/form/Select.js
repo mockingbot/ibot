@@ -14,7 +14,7 @@ import {
   InputNumber,
   Radio, Check,
   RadioGroup, CheckGroup,
-  Select,
+  Select, SelectNumber,
 } from '../../packages/form/index'
 
 export default class SelectExample extends React.PureComponent {
@@ -65,6 +65,8 @@ export default class SelectExample extends React.PureComponent {
 
         <h2>Regular node options</h2>
         <p>
+          <Select size={size} shouldMenuAlignCenter placeholder="Long long long placeholder" optionList={['Apple', 'Pencil']} onChange={action('Select changed')} />
+          <br />
           <Select size={size} optionList={['Apple', 'Pencil']} onChange={action('Select changed')} />
           <br />
           <Select size={size} optionList={['Apple', 'Pencil']} currentOptionIdx="0" onChange={action('Select changed')} />
