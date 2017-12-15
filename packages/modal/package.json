@@ -1,6 +1,6 @@
 {
   "name": "@ibot/modal",
-  "version": "0.1.2",
+  "version": "0.1.5",
   "description": "",
   "main": "dest/index.js",
   "module": "dest/index.js",
@@ -16,13 +16,13 @@
   "devDependencies": {
     "@ibot/button": "^0.1.2",
     "@ibot/icon": "^0.1.2",
-    "@ibot/switch": "^0.1.2",
+    "@ibot/switch": "^0.1.5",
     "@ibot/util": "^0.1.2"
   },
   "peerDependencies": {
     "@ibot/button": "^0.1.2",
     "@ibot/icon": "^0.1.2",
-    "@ibot/switch": "^0.1.2",
+    "@ibot/switch": "^0.1.5",
     "@ibot/util": "^0.1.2",
     "prop-types": "^15.6.0",
     "react": "^16.0.0",
