@@ -31,7 +31,7 @@ export class InputNumber extends PureComponent {
     this.state = {
       value: props.value || (!!props.placeholder ? '' : 1),
       isActive: false,
-      isValid: false,
+      isValid: true,
       isMenuOpen: false,
     }
   }
@@ -163,7 +163,8 @@ export class InputNumber extends PureComponent {
   }
 
   checkValidity = number => (
-    isFinite(number)
+    number === ''
+    || isFinite(number)
     && this.correctNumber(number) === Number(number)
   )
 
