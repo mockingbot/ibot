@@ -164,8 +164,10 @@ export class InputNumber extends PureComponent {
 
   checkValidity = number => (
     number === ''
-    || isFinite(number)
-    && this.correctNumber(number) === Number(number)
+    || (
+      isFinite(number)
+      && this.correctNumber(number) === Number(number)
+    )
   )
 
   checkSettability = value => (
