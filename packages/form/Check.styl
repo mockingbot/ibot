@@ -1,5 +1,5 @@
 .Check
-  label&
+  &
     &
       position relative
       display inline-flex
@@ -23,14 +23,14 @@
         height 100%
         background-color rgba(#fff, .5)
 
-    // Visually-hide the actual input:
+    // Visually hide the actual input:
     > input[type=radio]
     > input[type=checkbox]
       position absolute
       opacity 0
 
   // Input state:
-  & &State
+  .state
     position relative
     flex 0 0 1em
     margin-right .33333em
@@ -43,9 +43,9 @@
     border-radius 2px
     color $cl-Check-active-check
     transition all .2s ease-in-out
-  &.small &State
+  &.small .state
     transform translateY(2px)
-  input:checked + &State
+  input:checked + .state
     &
       background-color $cl-Check-active-check-bg
       border-color transparent
@@ -53,12 +53,12 @@
     .icon
       transform scale(.833)
 
-label.Check .CheckState .icon
+.Check .state .icon
   position absolute
   top -1px
   left -1px
   transition all .2s ease-in-out
-label.Check input:not(:checked) + .CheckState .icon
+.Check input:not(:checked) + .state .icon
   speak none
   opacity 0
 
@@ -68,7 +68,8 @@ label.Check input:not(:checked) + .CheckState .icon
     display flex
     flex-wrap wrap
   &.is-disabled
-    @extends label.Check.is-disabled
-  label
+    @extends .Check.is-disabled
+  .Check
+  .Radio
     margin-right .5em
     min-height 2em

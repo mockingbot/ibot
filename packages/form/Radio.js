@@ -70,8 +70,8 @@ export class Radio extends PureComponent {
           onClick={this.onChange}
         />
 
-        <span className="RadioState" />
-        <span className="RadioLabel">{ label }</span>
+        <span className="state" />
+        <span className="label">{ label }</span>
       </label>
     )
   }

@@ -22,19 +22,19 @@
     color $cl-core
 
   > .val >
-    label.Input
+    .Input
       &
         display block
         width 100%
       &.small
         margin-top (($FormEntry-min-height - $Input-small-height)/2)
         margin-bottom @margin-top
-    label.Textarea
+    .Textarea
       display block
       width 100%
 
-    label.Check
-    label.Radio
+    .Check
+    .Radio
     .CheckGroup
     .RadioGroup
         margin-top s('calc((%s - %sem)/2)', $FormEntry-min-height, $FormEntry-line-height)
