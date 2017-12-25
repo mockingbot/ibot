@@ -116,8 +116,8 @@ export class RadioGroup extends PureComponent {
     onChange: () => null,
   }
 
-  createOnChangeHandler = (name, val, idx) => () => (
-    this.props.onChange({ name, val, idx })
+  createOnChangeHandler = (name, value, idx) => () => (
+    this.props.onChange({ name, value, idx })
   )
 
   render() {
