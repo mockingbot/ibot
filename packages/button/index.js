@@ -6,6 +6,12 @@ import { trimList } from '@ibot/util'
 
 import './index.styl'
 
+const CLASS_MAP = {
+  primary: 'PrimaryButton',
+  regular: 'RegularButton',
+  text: 'TextButton',
+}
+
 export default class Button extends PureComponent {
   static propTypes = {
     type: PropTypes.oneOf(['primary', 'regular', 'text']),
@@ -44,7 +50,7 @@ export default class Button extends PureComponent {
 
     return (
       <button
-        className={trimList([type, size !== 'regular' && size, className])}
+        className={trimList([CLASS_MAP[type], size !== 'regular' && size, className])}
         disabled={isDisabled}
         {...others}
         {...contentProp}

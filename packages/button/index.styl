@@ -18,11 +18,11 @@ $cl-PrimaryButton-bg = $cl-tertiary-grey
 $cl-PrimaryButton-active-text = rgba(#fff, .6)
 $cl-PrimaryButton-hover-bg = $cl-secondary-grey
 
-$cl-TextButton-text = $cl-secondary-grey
-$cl-TextButton-hover-text = $cl-primary-grey
+$cl-TextButton-text = $cl-active
+$cl-TextButton-hover-text = darken($cl-active, 10%)
 
 $Button,
-Button.regular
+.RegularButton
   &
     padding 0 .5em
     height $Button-height
@@ -48,7 +48,7 @@ Button.regular
     height $Button-small-height
     font-size $Button-small-font-size
 
-Button.primary
+.PrimaryButton
   &
     @extends $Button
     background-color $cl-PrimaryButton-bg
@@ -60,7 +60,7 @@ Button.primary
   &:active:not([disabled])
     color $cl-PrimaryButton-active-text
 
-Button.text
+.TextButton
   &
     color $cl-TextButton-text
     transition all .1s ease-out
