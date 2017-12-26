@@ -22,7 +22,7 @@ storiesOf('Text', module)
     <h2>Max</h2>
     <h3>Three ems</h3>
     <p>
-      <EllipsisSpan max={4}>墨刀是？</EllipsisSpan>
+      <EllipsisSpan max={4} withTooltip>墨刀是？</EllipsisSpan>
       <br />
       <EllipsisSpan max={4}>墨刀是一家有企业社会责任感的公司，对校园机构、学生社团和公益项目等方面格外关注！</EllipsisSpan>
     </p>

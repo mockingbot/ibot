@@ -3,7 +3,7 @@ div.Tooltip
   width fit-content
 
 .Tip
-  $cl-bg = $cl-primary-grey
+  $cl-bg = rgba($cl-primary-grey, .8)
   $cl-text = #fff
 
   &
@@ -21,13 +21,14 @@ div.Tooltip
   > .arrow
     &
       position absolute
+      z-index 10
       display block
       font-size 14px
       line-height 0
     svg
       width 1em
       height .375em
-      fill $cl-bg
+      fill #616b71 // 20% lighter of $cl-bg
 
   &.on-top > .arrow
     &
@@ -93,5 +94,7 @@ div.Tooltip
     max-width 20em
     min-height 2em
     background-color $cl-bg
+    -webkit-backdrop-filter blur(2px)
+    backdrop-filter blur(2px)
     border-radius 2px
     color $cl-text

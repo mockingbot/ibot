@@ -21,11 +21,10 @@ export class EllipsisSpan extends PureComponent {
     display: PropTypes.oneOf(['inline-block', 'block']),
     children: PropTypes.node,
     noTooltip: PropTypes.bool,
+    withTooltip: PropTypes.bool,
   }
 
   componentDidMount() {
-    const { noTooltip } = this.props
-
     if (this.detectTruncation()) {
       this.setState({ isTruncated: true })
     }
@@ -54,7 +53,8 @@ export class EllipsisSpan extends PureComponent {
 
   render() {
     const {
-      className, to, type, max, display, noTooltip,
+      className, to, type, max, display,
+      noTooltip, withTooltip,
       children,
       ...others,
     } = this.props
@@ -86,7 +86,7 @@ export class EllipsisSpan extends PureComponent {
     }
 
     return (
-      isTruncated && !noTooltip
+     withTooltip || isTruncated && !noTooltip
       ? <Tooltip type={elementType} content={children} {...attr} />
       : React.createElement(TYPE_ELEMENT_MAP[elementType], attr)
     )
