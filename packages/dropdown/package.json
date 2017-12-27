@@ -1,6 +1,6 @@
 {
   "name": "@ibot/dropdown",
-  "version": "0.1.8",
+  "version": "0.1.10",
   "description": "",
   "main": "dest/index.js",
   "module": "dest/index.js",
@@ -16,13 +16,13 @@
   "devDependencies": {
     "@ibot/button": "^0.1.8",
     "@ibot/icon": "^0.1.2",
-    "@ibot/text": "^0.1.2",
+    "@ibot/text": "^0.1.10",
     "@ibot/util": "^0.1.2"
   },
   "peerDependencies": {
     "@ibot/button": "^0.1.8",
     "@ibot/icon": "^0.1.2",
-    "@ibot/text": "^0.1.2",
+    "@ibot/text": "^0.1.10",
     "@ibot/util": "^0.1.2",
     "prop-types": "^15.6.0",
     "react": "^16.0.0",
