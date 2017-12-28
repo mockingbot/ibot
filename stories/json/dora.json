@@ -150,7 +150,12 @@
     "keywords": ""
   },
   {
-    "id": "visibility",
+    "id": "visible",
+    "cat": "General",
+    "keywords": ""
+  },
+  {
+    "id": "invisible",
     "cat": "General",
     "keywords": ""
   },
@@ -161,6 +166,11 @@
   },
   {
     "id": "lock",
+    "cat": "General",
+    "keywords": ""
+  },
+  {
+    "id": "unlock",
     "cat": "General",
     "keywords": ""
   },
@@ -246,6 +256,11 @@
   },
   {
     "id": "lock_keyhole",
+    "cat": "Toolbar",
+    "keywords": ""
+  },
+  {
+    "id": "unlock_keyhole",
     "cat": "Toolbar",
     "keywords": ""
   },
