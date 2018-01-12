@@ -16,7 +16,7 @@
   "license": "MIT",
   "devDependencies": {
     "@ibot/util": "^0.1.2",
-    "mb-icons": "^0.4.2"
+    "mb-icons": "^0.4.3"
   },
   "peerDependencies": {
     "@ibot/util": "^0.1.2",

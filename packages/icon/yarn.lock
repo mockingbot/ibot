@@ -2,6 +2,6 @@
 # yarn lockfile v1
 
 
-mb-icons@^0.4.2:
-  version "0.4.2"
-  resolved "https://registry.yarnpkg.com/mb-icons/-/mb-icons-0.4.2.tgz#14bb11682347ac6ab9f7d2a0dc7bdc60bb6643dc"
+mb-icons@^0.4.3:
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/mb-icons/-/mb-icons-0.4.3.tgz#8d08968004b29f6363d263a11780ed29fd5add40"
