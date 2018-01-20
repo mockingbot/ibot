@@ -6,30 +6,12 @@ const nodeResolvePlugin = require('rollup-plugin-node-resolve')
 const babel = require('rollup-plugin-babel')
 const json = require('rollup-plugin-json')
 
-const sass = require('node-sass')
-const stylus = require('stylus')
 const postcss = require('rollup-plugin-postcss')
 
-const postcssModules = require('postcss-modules')
-const cssvariables = require('postcss-css-variables')
-const colorFunction = require('postcss-color-function')
-const calc = require('postcss-calc')
 const url = require('postcss-url')
 
-const EnhancedEvaluator = require('./stylus-enhanced-evaluator')
-
-const sassPreprocessor = (_, filename) => new Promise((resolve, reject) => {
-  const result = sass.renderSync({ file: filename })
-  resolve({ code: result.css.toString() })
-})
-
-const stylusPreprocessor = (content, filename) => new Promise((resolve, reject) => {
-  stylus(content, { Evaluator: EnhancedEvaluator })
-  .set('filename', filename)
-  .render((err, code) => err ? reject(err) : resolve({ code }))
-})
-
-const cssExportMap = {}
+const sassLoader = require('./sass-loader')
+const stylusLoader = require('./stylus-loader')
 
 // used to track the cache for subsequent bundles
 let cache
@@ -45,7 +27,9 @@ const getPkgs = () => new Promise((resolve, reject) => {
     })
 })
 
-async function getOptions (entry, dest = '') {
+async function getOptions (entry, dest = '', useModules = false) {
+  const styleOutputPath = path.join(path.dirname(entry), path.dirname(dest).split(path.sep).pop(), 'style/index.css')
+  const assetsOutputPath = path.join(path.dirname(entry), path.dirname(dest).split(path.sep).pop(), 'assets/')
   // TODO: should catch this result
   const pkgs = JSON.parse(await getPkgs())
   // TODO: no entry means running rollup for production build, need a better name
@@ -61,57 +45,15 @@ async function getOptions (entry, dest = '') {
     plugins: [
       // the order is fucking important
       nodeResolvePlugin(),
-      /* PostCSS */
       postcss({
         sourceMap: !entry,
         plugins: [
-          cssvariables(),
-          colorFunction(),
-          calc(),
-          postcssModules({
-            getJSON (id, exportTokens) {
-              cssExportMap[id] = exportTokens
-            }
-          }),
-          url(!entry ? { url: 'inline' }: { url: 'copy', assetsPath: 'assets' })
+          url(!entry ? { url: 'inline' }: { url: 'copy', assetsPath: assetsOutputPath })
         ],
-        // used for css-modules
-        getExport (id) {
-          return cssExportMap[id]
-        },
-        extensions: ['.css'],
-        extract: !!entry,
-        to: `${path.basename(path.dirname(dest))}/*`
-      }),
-      /* Sass */
-      postcss({
-        sourceMap: !entry,
-        preprocessor: sassPreprocessor,
-        plugins: [
-          postcssModules({
-            getJSON (id, exportTokens) {
-              cssExportMap[id] = exportTokens
-            }
-          }),
-          url(!entry ? { url: 'inline' }: { url: 'copy', assetsPath: 'assets' })
-        ],
-        getExport (id) {
-          return cssExportMap[id]
-        },
-        extensions: ['.sass'],
-        extract: !!entry,
-        to: `${path.basename(path.dirname(dest))}/*`
-      }),
-      /* Stylus */
-      postcss({
-        sourceMap: !entry,
-        preprocessor: stylusPreprocessor,
-        plugins: [
-          url(!entry ? { url: 'inline' }: { url: 'copy', assetsPath: 'assets' })
-        ],
-        extensions: ['.styl', '.stylus'],
-        extract: !!entry,
-        to: `${path.basename(path.dirname(dest))}/*`
+        use: ['sass', 'stylus'],
+        loaders: [sassLoader, stylusLoader],
+        modules: useModules,
+        extract: !!entry && styleOutputPath
       }),
       json(),
       babel({

@@ -4,7 +4,7 @@
   "description": "A color picker react component",
   "main": "dest/index.js",
   "module": "dest/index.js",
-  "style": "dest/index.css",
+  "style": "dest/style/index.css",
   "files": [
     "dest"
   ],
