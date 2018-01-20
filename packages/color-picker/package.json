@@ -1,6 +1,6 @@
 {
   "name": "@ibot/color-picker",
-  "version": "0.1.0",
+  "version": "0.1.11",
   "description": "A color picker react component",
   "main": "dest/index.js",
   "module": "dest/index.js",
