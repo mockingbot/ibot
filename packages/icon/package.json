@@ -1,6 +1,6 @@
 {
   "name": "@ibot/icon",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "description": "",
   "main": "dest/index.js",
   "module": "dest/index.js",
@@ -15,11 +15,11 @@
   "author": "yijun@mockingbot.com",
   "license": "MIT",
   "devDependencies": {
-    "@ibot/util": "^0.1.12",
+    "@ibot/util": "^0.1.13",
     "mb-icons": "^0.4.3"
   },
   "peerDependencies": {
-    "@ibot/util": "^0.1.12",
+    "@ibot/util": "^0.1.13",
     "prop-types": "^15.6.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0"
