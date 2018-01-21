@@ -6,6 +6,23 @@
   version "3.0.9"
   resolved "https://registry.yarnpkg.com/@hypnosphi/fuse.js/-/fuse.js-3.0.9.tgz#ea99f6121b4a8f065b4c71f85595db2714498807"
 
+"@plrthink/rollup-plugin-postcss@^1.2.6":
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/@plrthink/rollup-plugin-postcss/-/rollup-plugin-postcss-1.2.6.tgz#027a3bbd0ff5ea3bdbc6ed081068967a03d0f7b4"
+  dependencies:
+    chalk "^2.0.0"
+    concat-with-sourcemaps "^1.0.5"
+    cssnano "^3.10.0"
+    fs-extra "^5.0.0"
+    pify "^3.0.0"
+    postcss "^6.0.1"
+    postcss-load-config "^1.2.0"
+    postcss-modules "^1.1.0"
+    promise.series "^0.2.0"
+    reserved-words "^0.1.2"
+    rollup-pluginutils "^2.0.1"
+    style-inject "^0.2.0"
+
 "@storybook/addon-actions@^3.2.12", "@storybook/addon-actions@^3.2.13":
   version "3.2.13"
   resolved "https://registry.yarnpkg.com/@storybook/addon-actions/-/addon-actions-3.2.13.tgz#7fae9201514f0efeee710d466828ea3c6bf0ec16"
@@ -6041,23 +6058,6 @@ rollup-plugin-node-resolve@^3.0.0:
     builtin-modules "^1.1.0"
     is-module "^1.0.0"
     resolve "^1.1.6"
-
-rollup-plugin-postcss@^1.2.5:
-  version "1.2.5"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-postcss/-/rollup-plugin-postcss-1.2.5.tgz#2c20474e5b3fd222d5535c5125eb641c0d6fd1c7"
-  dependencies:
-    chalk "^2.0.0"
-    concat-with-sourcemaps "^1.0.5"
-    cssnano "^3.10.0"
-    fs-extra "^5.0.0"
-    pify "^3.0.0"
-    postcss "^6.0.1"
-    postcss-load-config "^1.2.0"
-    postcss-modules "^1.1.0"
-    promise.series "^0.2.0"
-    reserved-words "^0.1.2"
-    rollup-pluginutils "^2.0.1"
-    style-inject "^0.2.0"
 
 rollup-plugin-stylus-compiler@^0.2.1:
   version "0.2.1"

@@ -63,7 +63,7 @@
     "rollup-plugin-commonjs": "^8.0.2",
     "rollup-plugin-json": "^2.3.0",
     "rollup-plugin-node-resolve": "^3.0.0",
-    "rollup-plugin-postcss": "^1.2.5",
+    "@plrthink/rollup-plugin-postcss": "^1.2.6",
     "rollup-plugin-stylus-compiler": "^0.2.1",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.19.0",

@@ -6,7 +6,7 @@ const nodeResolvePlugin = require('rollup-plugin-node-resolve')
 const babel = require('rollup-plugin-babel')
 const json = require('rollup-plugin-json')
 
-const postcss = require('rollup-plugin-postcss')
+const postcss = require('@plrthink/rollup-plugin-postcss')
 
 const url = require('postcss-url')
 
