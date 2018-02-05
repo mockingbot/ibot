@@ -1,6 +1,6 @@
 {
   "name": "@ibot/ibot",
-  "version": "0.2.3",
+  "version": "0.2.5",
   "main": "lib/index.js",
   "module": "lib/index.js",
   "license": "MIT",
@@ -19,6 +19,7 @@
     "clean": "rm -rf lib packages/*/dest"
   },
   "devDependencies": {
+    "@plrthink/rollup-plugin-postcss": "^1.2.6",
     "@storybook/addon-actions": "^3.2.12",
     "@storybook/addon-info": "^3.2.17",
     "@storybook/react": "^3.2.12",
@@ -63,7 +64,6 @@
     "rollup-plugin-commonjs": "^8.0.2",
     "rollup-plugin-json": "^2.3.0",
     "rollup-plugin-node-resolve": "^3.0.0",
-    "@plrthink/rollup-plugin-postcss": "^1.2.6",
     "rollup-plugin-stylus-compiler": "^0.2.1",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.19.0",
