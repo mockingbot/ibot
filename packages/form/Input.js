@@ -87,4 +87,5 @@ PanelTextarea.propTypes = {
   className: PropTypes.string,
 }
 
+export * from './InputEmail'
 export * from './InputNumber'

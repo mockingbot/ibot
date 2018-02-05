@@ -16,7 +16,7 @@ $Input
       cursor not-allowed
     &:focus
       outline 0
-    &:invalid
+    &:not([type=email]):invalid
       border-color $cl-Input-invalid-border !important
       box-shadow $cl-Input-invalid-shadow !important
     &::placeholder

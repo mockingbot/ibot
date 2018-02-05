@@ -17,6 +17,7 @@ import {
   Select,
 } from '../../packages/form/index'
 
+import InputEmailExample from './InputEmail'
 import InputNumberExample from './InputNumber'
 import RadioCheckExample from './RadioCheck'
 import SelectExample from './Select'
@@ -134,6 +135,7 @@ storiesOf('Form Components', module)
   </Root>
 ))
 
+.add('Email', () => <InputEmailExample />)
 .add('Number', () => <InputNumberExample />)
 .add('Radio/Check', () => <RadioCheckExample />)
 .add('Select', () => <SelectExample />)
