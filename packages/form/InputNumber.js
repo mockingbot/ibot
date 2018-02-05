@@ -138,22 +138,20 @@ export class InputNumber extends PureComponent {
   }
 
   componentWillReceiveProps({ value: newValue }) {
-    const { value, placeholder } = this.props
+    const { value } = this.props
 
     if (newValue !== value) {
       this.setState({
         value: (
           newValue === 0 || !!newValue
           ? newValue
-          : !!placeholder
-          ? ''
-          : 1
+          : ''
         ),
       })
     }
   }
 
-  handleChange = ({ target: { value } }) => (
+  onChange = ({ target: { value } }) => (
     this.setValue(value.trim())
   )
 
@@ -193,7 +191,7 @@ export class InputNumber extends PureComponent {
       .replace(/^0(?!\.)/, '')
     )
 
-    const isNull = v !== '0' && !value && !!placeholder
+    const isNull = v !== '0' && !value
     const isValid = this.checkValidity(value)
     const isNumber = isFinite(value)
     const isSettable = this.checkSettability(value)
@@ -231,7 +229,7 @@ export class InputNumber extends PureComponent {
     } catch (e) {}
   }
 
-  handleStep = e => {
+  onStep = e => {
     e.stopPropagation()
     const { action } = e.currentTarget.dataset
 
@@ -259,12 +257,12 @@ export class InputNumber extends PureComponent {
     })
   }
 
-  handleRelease = () => {
+  onRelease = () => {
     clearTimeout(this.longPressedTimeout)
     clearInterval(this.steppingInterval)
   }
 
-  handleKeyDown = e => {
+  onKeyDown = e => {
     const action = e.key === 'ArrowUp' ? 'up' : e.key === 'ArrowDown' ? 'down' : null
 
     if (!action) return
@@ -356,8 +354,8 @@ export class InputNumber extends PureComponent {
           disabled={isDisabled}
           readOnly={readOnly}
 
-          onChange={this.handleChange}
-          onKeyDown={this.handleKeyDown}
+          onChange={this.onChange}
+          onKeyDown={this.onKeyDown}
           onFocus={onFocus}
           {...getOtherProps(this.constructor, this.props)}
         />
@@ -387,18 +385,18 @@ export class InputNumber extends PureComponent {
                 type="text"
                 tabIndex="-1"
                 data-action="up"
-                onMouseDown={this.handleStep}
-                onMouseLeave={this.handleRelease}
-                onMouseUp={this.handleRelease}
+                onMouseDown={this.onStep}
+                onMouseLeave={this.onRelease}
+                onMouseUp={this.onRelease}
                 html={SVG.INPUT_ARROW}
               />
               <Button
                 type="text"
                 tabIndex="-1"
                 data-action="down"
-                onMouseDown={this.handleStep}
-                onMouseLeave={this.handleRelease}
-                onMouseUp={this.handleRelease}
+                onMouseDown={this.onStep}
+                onMouseLeave={this.onRelease}
+                onMouseUp={this.onRelease}
                 html={SVG.INPUT_ARROW}
               />
             </div>
