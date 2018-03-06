@@ -2,7 +2,11 @@ import React, { PureComponent } from 'react'
 import { createPortal } from 'react-dom'
 import PropTypes from 'prop-types'
 import DocumentEvents from 'react-document-events'
+
 import get from 'lodash/get'
+import isArray from 'lodash/isArray'
+import isNumber from 'lodash/isNumber'
+import isString from 'lodash/isString'
 
 import { EllipsisSpan } from '@ibot/text'
 import Icon from '@ibot/icon'
@@ -31,6 +35,20 @@ function getOptionEntry(optionList, idx, def) {
   return get(optionList, idx, def)
 }
 
+function getItemValue(it) {
+  return (
+    isString(it) || isNumber(it)
+    ? String(it)
+    : it.value || it.label
+    ? String(it.value || it.label)
+    : undefined
+  )
+}
+
+function checkItemByValue(it, value) {
+  return !!value && getItemValue(it) === String(value)
+}
+
 function controlScrolling({ target, canScroll = false }) {
   const classList = target.classList || document.body.classList
   const action = canScroll ? 'remove' : 'add'
@@ -45,13 +63,9 @@ function enableScrolling() {
 }
 
 export default class Select extends PureComponent {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      isOpen: false,
-      currentOptionIdx: props.currentOptionIdx,
-    }
+  state = {
+    isOpen: false,
+    currentOptionIdx: this.currentOptionIdx,
   }
 
   static propTypes = {
@@ -108,10 +122,16 @@ export default class Select extends PureComponent {
       ])
     ).isRequired,
 
+    value: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.string,
+    ]),
+
     currentOptionIdx: PropTypes.oneOfType([
       PropTypes.number,
       PropTypes.string,
     ]),
+
     isDisabled: PropTypes.bool,
     onChange: PropTypes.func,
 
@@ -134,12 +154,45 @@ export default class Select extends PureComponent {
     window.addEventListener('resize', this.onResizeWindow)
   }
 
-  componentWillReceiveProps({ currentOptionIdx: nextOptionIdx }) {
-    const { currentOptionIdx } = this.props
+  componentWillReceiveProps(nextProps) {
+    const { currentOptionIdx, value } = this.props
+    const { currentOptionIdx: nextOptionIdx, value: nextValue } = nextProps
 
-    if (currentOptionIdx !== nextOptionIdx) {
-      this.setState({ currentOptionIdx: nextOptionIdx })
+    if (currentOptionIdx !== nextOptionIdx || value !== nextValue) {
+      this.setState({ currentOptionIdx: this.getCurrentOptionIdx(nextProps) })
     }
+  }
+
+  get currentOptionIdx() {
+    return this.getCurrentOptionIdx()
+  }
+
+  getCurrentOptionIdx({
+      currentOptionIdx = (this.state || this.props).currentOptionIdx,
+      value = this.props.value,
+  } = {}) {
+    const { optionList } = this.props
+
+    if (isNumber(currentOptionIdx) || isString(currentOptionIdx)) {
+      return currentOptionIdx
+    }
+
+    const firstIdx = optionList.findIndex(it => (
+      isArray(it)
+      ? !!it.find(o => checkItemByValue(o, value))
+      : checkItemByValue(it, value)
+    ))
+
+    const group = optionList[firstIdx]
+    const isInGroup = isArray(group)
+
+    const secondIdx = isInGroup && (
+      group.findIndex((it, idx) => (
+        idx === 0 ? false : checkItemByValue(it, value)
+      ))
+    )
+
+    return isInGroup ? `${firstIdx}.${secondIdx}` : firstIdx
   }
 
   set$select = $select => this.setState({ $select })
@@ -160,7 +213,7 @@ export default class Select extends PureComponent {
 
       onChange(
         idx,
-        typeof opt === 'string' ? opt : (opt.value || opt.label),
+        getItemValue(opt),
       )
     },
   )
@@ -182,7 +235,8 @@ export default class Select extends PureComponent {
       placeholder,
     } = this.props
 
-    const { isOpen, currentOptionIdx, $select } = this.state
+    const { isOpen, $select } = this.state
+    const { currentOptionIdx } = this
 
     const option = get(optionList, currentOptionIdx, placeholder)
     const displayText = option.label || option
@@ -430,6 +484,8 @@ export class SelectMenu extends PureComponent {
   }
 }
 
+const getGroupOptionIdx = ({ groupIdx, idx }) => `${groupIdx}.${idx + 1}`
+
 function Group({
   idx: groupIdx,
   optionList: [title, ...optionList],
@@ -446,7 +502,7 @@ function Group({
         .map((opt, idx) => (
           <Option
             key={idx}
-            idx={`${groupIdx}.${idx + 1}`}
+            idx={getGroupOptionIdx({ groupIdx, idx })}
             label={opt.label || opt}
             value={opt.value}
             isDisabled={opt.isDisabled}
