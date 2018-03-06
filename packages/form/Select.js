@@ -171,10 +171,10 @@ export default class Select extends PureComponent {
 
       this.close()
 
-      onChange(
+      onChange({
+        value: getOptionValue(opt),
         idx,
-        getOptionValue(opt),
-      )
+      })
     },
   )
 

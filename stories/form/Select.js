@@ -22,7 +22,7 @@ export default class SelectExample extends React.PureComponent {
 
   toggleSize = () => this.setState({ isSmall: !this.state.isSmall })
 
-  onChangeLongerSelect = (_, longerSelectValue) => this.setState(
+  onChangeLongerSelect = ({ value: longerSelectValue }) => this.setState(
     { longerSelectValue },
     () => action('Select changed'),
   )
