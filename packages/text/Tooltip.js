@@ -89,8 +89,13 @@ export default class Tooltip extends PureComponent {
     const { isOpen } = this.state
 
     if (!!duration && !isOpen && willBeOpen) {
-      setTimeout(() => this.setState({ isOpen: false }), duration)
+      this.timeout = setTimeout(() => this.setState({ isOpen: false }), duration)
     }
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.timeout)
+    clearTimeout(this.hoverTimeout)
   }
 
   set$text = $text => this.setState({ $text })
