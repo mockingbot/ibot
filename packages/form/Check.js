@@ -1,16 +1,17 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import isArray from 'lodash/isArray'
+import isSet from 'lodash/isSet'
+
 import Icon from '@ibot/icon'
 import { trimList } from '@ibot/util'
+import { getOptionLabel, getOptionValue } from './util'
 
 /**
  * <Check>
  */
 export class Check extends PureComponent {
-  constructor(props) {
-    super(props)
-    this.state = { isChecked: props.isChecked }
-  }
+  state = { isChecked: this.props.isChecked }
 
   static propTypes = {
     size: PropTypes.oneOf(['regular', 'small']),
@@ -79,23 +80,21 @@ export class Check extends PureComponent {
  * <CheckGroup>
  */
 export class CheckGroup extends PureComponent {
-  constructor(props) {
-    super(props)
+  name = this.props.name || Math.random().toString(36).substring(2, 15)
 
-    this.name = props.name || Math.random().toString(36).substring(2, 15)
-
-    this.state = {
-      currentOptionIdxList: new Set(props.currentOptionIdxList),
-    }
+  state = {
+    currentOptionIdxList: this.currentOptionIdxList,
   }
 
   static propTypes = {
     size: PropTypes.oneOf(['regular', 'small']),
     className: PropTypes.string,
     onChange: PropTypes.func.isRequired,
+
     optionList: PropTypes.arrayOf(
       PropTypes.oneOfType([
         PropTypes.string,
+        PropTypes.number,
         PropTypes.shape({
           label: PropTypes.any,
           value: PropTypes.any,
@@ -103,10 +102,17 @@ export class CheckGroup extends PureComponent {
         }),
       ])
     ).isRequired,
+
+    valueList: PropTypes.oneOfType([
+      PropTypes.instanceOf(Set),
+      PropTypes.array,
+    ]),
+
     currentOptionIdxList: PropTypes.oneOfType([
       PropTypes.instanceOf(Set),
       PropTypes.array,
     ]),
+
     isDisabled: PropTypes.bool,
   }
 
@@ -114,14 +120,26 @@ export class CheckGroup extends PureComponent {
     size: 'regular',
     className: '',
     optionList: [],
-    currentOptionIdxList: new Set(),
     onChange: () => null,
     isDisabled: false,
   }
 
+  get currentOptionIdxList() {
+    const { optionList, valueList } = this.props
+    const { currentOptionIdxList = this.props.currentOptionIdxList } = this.state || {}
+
+    return new Set(
+      isArray(currentOptionIdxList) || isSet(currentOptionIdxList)
+      ? currentOptionIdxList
+      : Array.from(valueList || [])
+        .map(v => optionList.findIndex(opt => getOptionValue(opt) === String(v)))
+        .filter(idx => idx !== -1)
+    )
+  }
+
   createOnChangeHandler = (name, idx) => () => {
     const { optionList, onChange } = this.props
-    const { currentOptionIdxList } = this.state
+    const { currentOptionIdxList } = this
 
     const result = new Set(currentOptionIdxList)
     const action = result.has(idx) ? 'delete' : 'add'
@@ -137,7 +155,7 @@ export class CheckGroup extends PureComponent {
   }
 
   render() {
-    const { name } = this
+    const { name, currentOptionIdxList } = this
 
     const {
       size,
@@ -145,8 +163,6 @@ export class CheckGroup extends PureComponent {
       optionList,
       isDisabled,
     } = this.props
-
-    const { currentOptionIdxList } = this.state
 
     const klass = trimList([
       'CheckGroup',
@@ -165,7 +181,7 @@ export class CheckGroup extends PureComponent {
             size={size}
             isDisabled={isDisabled || opt.isDisabled}
             isChecked={currentOptionIdxList.has(idx)}
-            label={typeof opt === 'string' ? opt : opt.label}
+            label={getOptionLabel(opt)}
             onChange={
               !(isDisabled || opt.isDisabled)
               ? this.createOnChangeHandler(name, idx)

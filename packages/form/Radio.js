@@ -1,15 +1,14 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+
 import { trimList } from '@ibot/util'
+import { getOptionLabel, getOptionValue, getCurrentOptionIdx } from './util'
 
 /**
  * <Radio>
  */
 export class Radio extends PureComponent {
-  constructor(props) {
-    super(props)
-    this.state = { isChecked: props.isChecked }
-  }
+  state = { isChecked: this.props.isChecked }
 
   static propTypes = {
     size: PropTypes.oneOf(['regular', 'small']),
@@ -81,18 +80,18 @@ export class Radio extends PureComponent {
  * <RadioGroup>
  */
 export class RadioGroup extends PureComponent {
-  constructor(props) {
-    super(props)
-    this.name = props.name || Math.random().toString(36).substring(2, 15)
-  }
+  name = this.props.name || Math.random().toString(36).substring(2, 15)
 
   static propTypes = {
     size: PropTypes.oneOf(['regular', 'small']),
     className: PropTypes.string,
+
     name: PropTypes.string,
+
     optionList: PropTypes.arrayOf(
       PropTypes.oneOfType([
         PropTypes.string,
+        PropTypes.number,
         PropTypes.shape({
           label: PropTypes.any,
           value: PropTypes.any,
@@ -100,10 +99,17 @@ export class RadioGroup extends PureComponent {
         }),
       ])
     ).isRequired,
+
+    value: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.string,
+    ]),
+
     currentOptionIdx: PropTypes.oneOfType([
       PropTypes.number,
       PropTypes.string,
     ]),
+
     isDisabled: PropTypes.bool,
     onChange: PropTypes.func,
   }
@@ -116,17 +122,21 @@ export class RadioGroup extends PureComponent {
     onChange: () => null,
   }
 
+  get currentOptionIdx() {
+    return this::getCurrentOptionIdx()
+  }
+
   createOnChangeHandler = (name, value, idx) => () => (
     this.props.onChange({ name, value, idx })
   )
 
   render() {
-    const { name } = this
+    const { name, currentOptionIdx } = this
 
     const {
       size,
       className,
-      optionList, currentOptionIdx,
+      optionList,
       isDisabled,
     } = this.props
 
@@ -146,13 +156,13 @@ export class RadioGroup extends PureComponent {
             key={idx}
             name={name}
             size={size}
-            label={typeof opt === 'string' ? opt : opt.label}
+            label={getOptionLabel(opt)}
             type="radio"
             isChecked={idx === currentOptionIdx}
             isDisabled={isDisabled || opt.isDisabled}
             onChange={
               !(isDisabled || opt.isDisabled)
-              ? this.createOnChangeHandler(name, opt.value || opt, idx)
+              ? this.createOnChangeHandler(name, getOptionValue(opt), idx)
               : undefined
             }
           />

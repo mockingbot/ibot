@@ -13,6 +13,8 @@ import Icon from '@ibot/icon'
 import { positionDropdown } from '@ibot/dropdown'
 import { trimList, $, $$, SVG } from '@ibot/util'
 
+import { getOptionValue, getCurrentOptionIdx } from './util'
+
 import './index.styl'
 
 const MENU_ROOT_ID = 'MB_SELECT_MENU_ROOT'
@@ -33,20 +35,6 @@ if (!$body.contains($menuRoot)) {
 
 function getOptionEntry(optionList, idx, def) {
   return get(optionList, idx, def)
-}
-
-function getItemValue(it) {
-  return (
-    isString(it) || isNumber(it)
-    ? String(it)
-    : it.value || it.label
-    ? String(it.value || it.label)
-    : undefined
-  )
-}
-
-function checkItemByValue(it, value) {
-  return !!value && getItemValue(it) === String(value)
 }
 
 function controlScrolling({ target, canScroll = false }) {
@@ -159,40 +147,12 @@ export default class Select extends PureComponent {
     const { currentOptionIdx: nextOptionIdx, value: nextValue } = nextProps
 
     if (currentOptionIdx !== nextOptionIdx || value !== nextValue) {
-      this.setState({ currentOptionIdx: this.getCurrentOptionIdx(nextProps) })
+      this.setState({ currentOptionIdx: this::getCurrentOptionIdx(nextProps) })
     }
   }
 
   get currentOptionIdx() {
-    return this.getCurrentOptionIdx()
-  }
-
-  getCurrentOptionIdx({
-      currentOptionIdx = (this.state || this.props).currentOptionIdx,
-      value = this.props.value,
-  } = {}) {
-    const { optionList } = this.props
-
-    if (isNumber(currentOptionIdx) || isString(currentOptionIdx)) {
-      return currentOptionIdx
-    }
-
-    const firstIdx = optionList.findIndex(it => (
-      isArray(it)
-      ? !!it.find(o => checkItemByValue(o, value))
-      : checkItemByValue(it, value)
-    ))
-
-    const group = optionList[firstIdx]
-    const isInGroup = isArray(group)
-
-    const secondIdx = isInGroup && (
-      group.findIndex((it, idx) => (
-        idx === 0 ? false : checkItemByValue(it, value)
-      ))
-    )
-
-    return isInGroup ? `${firstIdx}.${secondIdx}` : firstIdx
+    return this::getCurrentOptionIdx()
   }
 
   set$select = $select => this.setState({ $select })
@@ -213,7 +173,7 @@ export default class Select extends PureComponent {
 
       onChange(
         idx,
-        getItemValue(opt),
+        getOptionValue(opt),
       )
     },
   )
@@ -443,18 +403,15 @@ export class SelectMenu extends PureComponent {
           : (
             optionList
             .map((opt, idx) => (
-              Array.isArray(opt)
-              ? (
-                <Group
+              isArray(opt)
+              ? <Group
                   key={idx}
                   idx={idx}
                   optionList={opt}
                   onChange={onChange}
                   currentOptionIdx={currentOptionIdx}
                 />
-              )
-              : (
-                <Option
+              : <Option
                   key={idx}
                   idx={idx}
                   label={opt.label || opt}
@@ -463,7 +420,6 @@ export class SelectMenu extends PureComponent {
                   onChange={onChange}
                   currentOptionIdx={currentOptionIdx}
                 />
-              )
             ))
           )
         }

@@ -86,8 +86,52 @@ export default class RadioCheckExample extends PureComponent {
               { label: 'Krung-dēvamahānagara amararatanakosindra mahindrayudhyā mahātilakabhava navaratanarājadhānī purīrāmasya utamarājanivēsana mahāsthāna amaravimāna avatārasthitya shakrasdattiya vishnukarmaprasiddhi, Thailand', value: 'bangkok' },
               { label: 'New York, USA', value: 'newyork', isDisabled: true },
             ]}
+            value="newyork"
+            onChange={action('RadioGroup changed')}
+          />
+          <RadioGroup
+            size={size}
+            optionList={[
+              { label: 'Běijīng, China', value: 'beijing' },
+              { label: 'Tōkyō, Japan', value: 'tokyo' },
+              { label: 'Krung-dēvamahānagara amararatanakosindra mahindrayudhyā mahātilakabhava navaratanarājadhānī purīrāmasya utamarājanivēsana mahāsthāna amaravimāna avatārasthitya shakrasdattiya vishnukarmaprasiddhi, Thailand', value: 'bangkok' },
+              { label: 'New York, USA', value: 'newyork', isDisabled: true },
+            ]}
             currentOptionIdx={1}
-            onChange={action('Radio changed')}
+            onChange={action('RadioGroup changed')}
+          />
+        </p>
+
+        <p className="radio-group">
+          <RadioGroup
+            size={size}
+            optionList={[1,2,3,4,5]}
+            value={2}
+            onChange={action('RadioGroup changed')}
+          />
+          <RadioGroup
+            size={size}
+            optionList={[1,2,3,4,5]}
+            value="2"
+            onChange={action('RadioGroup changed')}
+          />
+          <RadioGroup
+            size={size}
+            optionList={['1','2','3','4','5']}
+            value="2"
+            onChange={action('RadioGroup changed')}
+          />
+          <RadioGroup
+            size={size}
+            optionList={['1','2','3','4','5']}
+            value={2}
+            onChange={action('RadioGroup changed')}
+          />
+          <RadioGroup
+            size={size}
+            optionList={['1','2','3','4','5']}
+            currentOptionIdx={2}
+            onChange={action('RadioGroup changed')}
           />
         </p>
 
@@ -95,6 +139,7 @@ export default class RadioCheckExample extends PureComponent {
         <p className="radio-group">
           <RadioGroup
             size={size}
+            isDisabled
             optionList={[
               { label: 'Běijīng, China', value: 'beijing' },
               { label: 'Tōkyō, Japan', value: 'tokyo' },
@@ -142,8 +187,52 @@ export default class RadioCheckExample extends PureComponent {
               { label: 'Krung-dēvamahānagara amararatanakosindra mahindrayudhyā mahātilakabhava navaratanarājadhānī purīrāmasya utamarājanivēsana mahāsthāna amaravimāna avatārasthitya shakrasdattiya vishnukarmaprasiddhi, Thailand', value: 'bangkok', isDisabled: true },
               { label: 'New York, USA', value: 'newyork' },
             ]}
+            valueList={['beijing','newyork']}
+            onChange={action('CheckGroup changed')}
+          />
+          <CheckGroup
+            size={size}
+            optionList={[
+              { label: 'Běijīng, China', value: 'beijing', isDisabled: true },
+              { label: 'Tōkyō, Japan', value: 'tokyo' },
+              { label: 'Krung-dēvamahānagara amararatanakosindra mahindrayudhyā mahātilakabhava navaratanarājadhānī purīrāmasya utamarājanivēsana mahāsthāna amaravimāna avatārasthitya shakrasdattiya vishnukarmaprasiddhi, Thailand', value: 'bangkok', isDisabled: true },
+              { label: 'New York, USA', value: 'newyork' },
+            ]}
             currentOptionIdxList={[0,3]}
-            onChange={({ name, idxList, valueList }) => action('CheckGroup changed').call(null, name, ...idxList, valueList)}
+            onChange={action('CheckGroup changed')}
+          />
+        </p>
+
+        <p className="check-group">
+          <CheckGroup
+            size={size}
+            optionList={[1,2,3,4,5]}
+            valueList={[2,3]}
+            onChange={action('CheckGroup changed')}
+          />
+          <CheckGroup
+            size={size}
+            optionList={[1,2,3,4,5]}
+            valueList={['2', '3']}
+            onChange={action('CheckGroup changed')}
+          />
+          <CheckGroup
+            size={size}
+            optionList={['1','2','3','4','5']}
+            valueList={['2', '3']}
+            onChange={action('CheckGroup changed')}
+          />
+          <CheckGroup
+            size={size}
+            optionList={['1','2','3','4','5']}
+            valueList={[2, 3]}
+            onChange={action('CheckGroup changed')}
+          />
+          <CheckGroup
+            size={size}
+            optionList={['1','2','3','4','5']}
+            currentOptionIdxList={[2, 3]}
+            onChange={action('CheckGroup changed')}
           />
         </p>
 
@@ -159,7 +248,6 @@ export default class RadioCheckExample extends PureComponent {
               { label: 'New York, USA', value: 'newyork' },
             ]}
             currentOptionIdxList={[0,3]}
-            onChange={({ name, idxList, valueList }) => action('CheckGroup changed').call(null, name, ...idxList, valueList)}
           />
         </p>
       </Root>
