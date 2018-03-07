@@ -1,6 +1,10 @@
 import React, { PureComponent, isValidElement } from 'react'
 import { createPortal } from 'react-dom'
 import PropTypes from 'prop-types'
+
+import isString from 'lodash/isString'
+import isArray from 'lodash/isArray'
+
 import { trimList, getOtherProps, SVG } from '@ibot/util'
 
 import { TYPE_ELEMENT_MAP } from './constants'
@@ -22,7 +26,7 @@ if (!$body.contains($tipRoot)) {
 
 function parseContent(content, eventName = 'hover') {
   return (
-    typeof content === 'string' || Array.isArray(content) || isValidElement(content)
+    isString(content) || isArray(content) || isValidElement(content)
     ? content
     : EVENT_NAME_LIST.includes(eventName)
     ? content[eventName] || content.hover
@@ -31,14 +35,10 @@ function parseContent(content, eventName = 'hover') {
 }
 
 export default class Tooltip extends PureComponent {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      isOpen: false,
-      isClicked: false,
-      $text: null,
-    }
+  state = {
+    isOpen: false,
+    isClicked: false,
+    $text: null,
   }
 
   static propTypes = {
@@ -178,9 +178,9 @@ export default class Tooltip extends PureComponent {
 }
 
 class Tip extends PureComponent {
-  constructor(props) {
-    super(props)
-    this.state = { isOpen: props.isOpen, position: props.position }
+  state = {
+    isOpen: this.props.isOpen,
+    position: this.props.position,
   }
 
   static propTypes = {

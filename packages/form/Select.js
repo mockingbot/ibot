@@ -8,7 +8,7 @@ import isArray from 'lodash/isArray'
 import isNumber from 'lodash/isNumber'
 import isString from 'lodash/isString'
 
-import { EllipsisSpan } from '@ibot/text'
+import { Ellipsis } from '@ibot/text'
 import Icon from '@ibot/icon'
 import { positionDropdown } from '@ibot/dropdown'
 import { trimList, $, $$, SVG } from '@ibot/util'
@@ -217,7 +217,7 @@ export default class Select extends PureComponent {
         ref={this.set$select}
       >
         <button type="button" onClick={this.toggle} disabled={isDisabled}>
-          <EllipsisSpan>{ displayText }</EllipsisSpan>
+          <Ellipsis>{ displayText }</Ellipsis>
         </button>
 
         <span className="caret" dangerouslySetInnerHTML={{ __html: SVG.INPUT_ARROW }} />
@@ -450,7 +450,7 @@ function Group({
 }) {
   return (
     <li className="SelectGroup">
-      <EllipsisSpan className="title">{ title }</EllipsisSpan>
+      <Ellipsis className="title">{ title }</Ellipsis>
 
       <ul>
       {
@@ -501,7 +501,7 @@ function Option({
       className={className}
       onClick={isDisabled ? undefined : onChange}
     >
-      <EllipsisSpan>{ label }</EllipsisSpan>
+      <Ellipsis>{ label }</Ellipsis>
     </li>
   )
 }

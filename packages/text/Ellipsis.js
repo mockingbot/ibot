@@ -7,21 +7,26 @@ import Tooltip from './Tooltip'
 
 import { TYPE_ELEMENT_MAP } from './constants'
 
-export class EllipsisSpan extends PureComponent {
-  constructor(props) {
-    super(props)
-    this.state = { isTruncated: false }
-  }
+export class Ellipsis extends PureComponent {
+  state = { isTruncated: false }
 
   static propTypes = {
     className: PropTypes.string,
-    to: PropTypes.string,
+
     type: PropTypes.oneOf(['user', 'id', 'email', 'team', 'app', 'widget']),
     max: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     display: PropTypes.oneOf(['inline-block', 'block']),
+
+    to: PropTypes.string,
     children: PropTypes.node,
+
     noTooltip: PropTypes.bool,
     withTooltip: PropTypes.bool,
+
+    withQuote: PropTypes.bool,
+    withComma: PropTypes.bool,
+    withPeriod: PropTypes.bool,
+    withQuestionMark: PropTypes.bool,
   }
 
   componentDidMount() {
@@ -55,6 +60,10 @@ export class EllipsisSpan extends PureComponent {
     const {
       className, to, type, max, display,
       noTooltip, withTooltip,
+
+      withQuote,
+      withPeriod, withComma, withQuestionMark,
+
       children,
       ...others,
     } = this.props
@@ -67,7 +76,7 @@ export class EllipsisSpan extends PureComponent {
       ref: this.set$ellipsis,
 
       className: trimList([
-        'EllipsisSpan',
+        'Ellipsis',
         className,
         isTruncated && 'is-truncated',
       ]),
@@ -85,10 +94,25 @@ export class EllipsisSpan extends PureComponent {
       children,
     }
 
-    return (
+    const ellipsis = (
      withTooltip || isTruncated && !noTooltip
       ? <Tooltip type={elementType} content={children} {...attr} />
       : React.createElement(TYPE_ELEMENT_MAP[elementType], attr)
+    )
+
+    return (
+      withQuote || withPeriod || withComma || withQuestionMark
+      ? <span
+          className={trimList([
+            'Punctuation',
+            withQuote && 'with-quote',
+            withPeriod && 'with-period',
+            withComma && 'with-comma',
+            withQuestionMark && 'with-question-mark',
+          ])}
+          children={ellipsis}
+        />
+      : ellipsis
     )
   }
 }
@@ -101,20 +125,20 @@ export function User({
   const resultType = !!name ? 'user' : !!id ? 'id' : !!email ? 'email' : null
 
   return (
-    <EllipsisSpan type={resultType} {...others}>
+    <Ellipsis type={resultType} {...others}>
     { result }
-    </EllipsisSpan>
+    </Ellipsis>
   )
 }
 
 export function TeamName({ name, ...others }) {
-  return <EllipsisSpan type="team" {...others}>{ name }</EllipsisSpan>
+  return <Ellipsis type="team" {...others}>{ name }</Ellipsis>
 }
 
 export function AppName({ name, ...others }) {
-  return <EllipsisSpan type="app" {...others}>{ name }</EllipsisSpan>
+  return <Ellipsis type="app" {...others}>{ name }</Ellipsis>
 }
 
 export function WidgetName({ name, ...others }) {
-  return <EllipsisSpan type="widget" {...others}>{ name }</EllipsisSpan>
+  return <Ellipsis type="widget" {...others}>{ name }</Ellipsis>
 }

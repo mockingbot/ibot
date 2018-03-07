@@ -1,6 +1,6 @@
 @import './ellipsis-extends'
 
-.EllipsisSpan
+.Ellipsis
   &
     @extends $Ellipsis
     display inline-block
@@ -25,3 +25,44 @@
     max-width-ellipsis(15em)
   &[data-type=widget]
     max-width-ellipsis(12em)
+
+.Punctuation
+  &
+    display inline-flex
+    align-items baseline
+  &.with-period
+    &:after
+      content '. '
+    &:lang(zh):after
+      content '。'
+  &.with-comma
+    &:after
+      content ', '
+    &:lang(zh):after
+      content '，'
+  &.with-question-mark
+    &:after
+      content '? '
+    &:lang(zh):after
+      content '？'
+  &.with-quote
+    &:before
+      content '“'
+    &:after
+      content '”'
+    &.with-period:after
+      content '”. '
+    &.with-comma:after
+      content '”, '
+    &.with-question-mark:after
+      content '”? '
+    &:lang(zh):before
+      content '「'
+    &:lang(zh):after
+      content '」'
+    &.with-period:lang(zh):after
+      content '」。'
+    &.with-comma:lang(zh):after
+      content '」，'
+    &.with-question-mark:lang(zh):after
+      content '」？'
