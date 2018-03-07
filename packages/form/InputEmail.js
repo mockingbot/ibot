@@ -9,18 +9,15 @@ const checkFinishedTyping = v => (
   || /@\./.test(v)
   || /\s+[\w@]/.test(v)
   || /@\w*\.\w*/.test(v)
+  || /@\w*@/.test(v)
 )
 
 export class InputEmail extends PureComponent {
-  constructor (props) {
-    super(props)
-
-    this.state = {
-      value: props.value,
-      isActive: false,
-      isValid: true,
-      isFinishedTyping: checkFinishedTyping(props.value),
-    }
+  state = {
+    value: this.props.value,
+    isActive: false,
+    isValid: true,
+    isFinishedTyping: checkFinishedTyping(this.props.value),
   }
 
   static propTypes = {
@@ -59,7 +56,9 @@ export class InputEmail extends PureComponent {
     }
   }
 
-  onChange = ({ target: { value } }) => (
+  onChange = e => {
+    const { target: { value } } = e
+
     this.setState(
       {
         value,
@@ -68,10 +67,10 @@ export class InputEmail extends PureComponent {
       () => {
         const { onChange } = this.props
         this.checkValidity()
-        onChange(value.trim())
+        onChange(value.trim(), e)
       }
     )
-  )
+  }
 
   checkValidity = () => {
     const { value, isFinishedTyping } = this.state

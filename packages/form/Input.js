@@ -2,6 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { trimList } from '@ibot/util'
 
+function createOnChangeHandler(onChange) {
+  return e => onChange(e.target.value, e)
+}
+
 /**
  * <Input>
  */
@@ -10,6 +14,7 @@ export function Input({
   className,
   value,
   type,
+  onChange,
   ...others,
 }) {
   return (
@@ -17,6 +22,7 @@ export function Input({
       <input
         type={type}
         value={value}
+        onChange={createOnChangeHandler(onChange)}
         {...others}
       />
     </label>
@@ -28,11 +34,13 @@ Input.propTypes = {
   size: PropTypes.oneOf(['regular', 'small']),
   className: PropTypes.string,
   value: PropTypes.string,
+  onChange: PropTypes.func,
 }
 
 Input.defaultProps = {
   type: 'text',
   size: 'regular',
+  onChange: () => null,
 }
 
 export function PanelInput({ className, ...others }) {
@@ -52,11 +60,16 @@ PanelInput.propTypes = {
 /**
  * <Textarea>
  */
-export function Textarea({ className, size, value, ...others }) {
+export function Textarea({
+  className, size,
+  value, onChange,
+  ...others,
+}) {
   return (
     <label className={trimList(['Textarea', size, className])}>
       <textarea
         value={value}
+        onChange={createOnChangeHandler(onChange)}
         {...others}
       />
     </label>
@@ -67,10 +80,12 @@ Textarea.propTypes = {
   className: PropTypes.string,
   size: PropTypes.oneOf(['regular', 'small']),
   value: PropTypes.string,
+  onChange: PropTypes.func,
 }
 
 Textarea.defaultProps = {
   size: 'regular',
+  onChange: () => null,
 }
 
 export function PanelTextarea({ className, ...others }) {

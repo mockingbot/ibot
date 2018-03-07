@@ -23,9 +23,9 @@ export default class InputEmailExample extends React.PureComponent {
     this.state = { formData: {}, isSmall: false }
   }
 
-  onChange = (name, value) => this.setState(
+  onChange = (name, value, e) => this.setState(
     ({ formData }) => ({ formData: { ...formData, [name]: value }}),
-    () => action('Email changed')(value),
+    () => action('Email changed')(value, e),
   )
 
   getFormData = (name, defaultValue) => {

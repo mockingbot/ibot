@@ -25,15 +25,11 @@ const getStep = ({ shiftKey, metaKey }, step = 1) => (
 )
 
 export class InputNumber extends PureComponent {
-  constructor (props) {
-    super(props)
-
-    this.state = {
-      value: props.value || (!!props.placeholder ? '' : 1),
-      isActive: false,
-      isValid: true,
-      isMenuOpen: false,
-    }
+  state = {
+    value: this.props.value || (!!this.props.placeholder ? '' : 1),
+    isActive: false,
+    isValid: true,
+    isMenuOpen: false,
   }
 
   static propTypes = {
@@ -151,9 +147,10 @@ export class InputNumber extends PureComponent {
     }
   }
 
-  onChange = ({ target: { value } }) => (
-    this.setValue(value.trim())
-  )
+  onChange = e => {
+    const { target: { value } } = e
+    this.setValue(value.trim(), e)
+  }
 
   correctNumber = number => {
     const { min, max, precision } = this.props
@@ -173,7 +170,7 @@ export class InputNumber extends PureComponent {
     || /^\-?\d*\.$/.test(value) // Ending with a dot
   )
 
-  setValue = v => {
+  setValue = (v, e) => {
     clearTimeout(this.correctionTimeout)
 
     const {
@@ -191,7 +188,7 @@ export class InputNumber extends PureComponent {
       .replace(/^0(?!\.)/, '')
     )
 
-    const isNull = v !== '0' && !value
+    const isNull = v !== '0' && !value && !!placeholder
     const isValid = this.checkValidity(value)
     const isNumber = isFinite(value)
     const isSettable = this.checkSettability(value)
@@ -236,7 +233,8 @@ export class InputNumber extends PureComponent {
     const step = getStep(e, this.props.step) * (action === 'up' ? 1 : -1)
 
     this.setValue(
-      this.correctNumber(Number(this.state.value) + step)
+      this.correctNumber(Number(this.state.value) + step),
+      e,
     )
 
     this.focusOnInput(e)
@@ -247,7 +245,8 @@ export class InputNumber extends PureComponent {
         () => Object.assign(this, {
           steppingInterval: setInterval(
             () => this.setValue(
-              this.correctNumber(Number(this.state.value) + step)
+              this.correctNumber(Number(this.state.value) + step),
+              e,
             ),
             LONG_PRESSED_STEPPING_INTERVAL,
           ),
@@ -271,7 +270,8 @@ export class InputNumber extends PureComponent {
     const step = getStep(e, this.props.step) * (action === 'up' ? 1 : -1)
 
     this.setValue(
-      this.correctNumber(Number(this.state.value) + step)
+      this.correctNumber(Number(this.state.value) + step),
+      e,
     )
   }
 
@@ -281,8 +281,9 @@ export class InputNumber extends PureComponent {
   toggleMenu = () => this.setState({ isMenuOpen: !this.state.isMenuOpen })
   closeMenu = () => this.setState({ isMenuOpen: false })
 
-  onSelect = ({ currentTarget: $opt }) => {
-    this.setValue(this.props.optionList[$opt.dataset.idx])
+  onSelect = e => {
+    const { currentTarget: $opt } = e
+    this.setValue(this.props.optionList[$opt.dataset.idx], e)
     this.closeMenu()
   }
 

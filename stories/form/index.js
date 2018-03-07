@@ -22,7 +22,7 @@ import InputNumberExample from './InputNumber'
 import RadioCheckExample from './RadioCheck'
 import SelectExample from './Select'
 
-const onTypingChange = ({ target: { value } }) => action('Changed').call(null, value)
+const onTypingChange = action('Typing changed')
 
 storiesOf('Form Components', module)
 .add('Input', () => (
