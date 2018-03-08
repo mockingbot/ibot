@@ -5,9 +5,9 @@ import isString from 'lodash/isString'
 export function getOptionLabel(it) {
   return (
     isString(it) || isNumber(it)
-    ? String(it)
+    ? it
     : it.label || it.value
-    ? String(it.label || it.value)
+    ? it.label || it.value
     : undefined
   )
 }

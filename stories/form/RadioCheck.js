@@ -82,7 +82,7 @@ export default class RadioCheckExample extends PureComponent {
             size={size}
             optionList={[
               { label: 'Běijīng, China', value: 'beijing' },
-              { label: 'Tōkyō, Japan', value: 'tokyo' },
+              { label: <b>Tōkyō, Japan</b>, value: 'tokyo' },
               { label: 'Krung-dēvamahānagara amararatanakosindra mahindrayudhyā mahātilakabhava navaratanarājadhānī purīrāmasya utamarājanivēsana mahāsthāna amaravimāna avatārasthitya shakrasdattiya vishnukarmaprasiddhi, Thailand', value: 'bangkok' },
               { label: 'New York, USA', value: 'newyork', isDisabled: true },
             ]}
@@ -182,7 +182,7 @@ export default class RadioCheckExample extends PureComponent {
           <CheckGroup
             size={size}
             optionList={[
-              { label: 'Běijīng, China', value: 'beijing', isDisabled: true },
+              { label: <b>Běijīng, China</b>, value: 'beijing', isDisabled: true },
               { label: 'Tōkyō, Japan', value: 'tokyo' },
               { label: 'Krung-dēvamahānagara amararatanakosindra mahindrayudhyā mahātilakabhava navaratanarājadhānī purīrāmasya utamarājanivēsana mahāsthāna amaravimāna avatārasthitya shakrasdattiya vishnukarmaprasiddhi, Thailand', value: 'bangkok', isDisabled: true },
               { label: 'New York, USA', value: 'newyork' },
