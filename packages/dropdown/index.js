@@ -2,10 +2,9 @@ import React, { PureComponent } from 'react'
 import { createPortal } from 'react-dom'
 import PropTypes from 'prop-types'
 import DocumentEvents from 'react-document-events'
-
-import { trimList, $, SVG } from '@ibot/util'
-
+import Util from '@ibot/util'
 import './index.styl'
+const { trimList, $, SVG } = Util
 
 const MENU_ROOT_ID = 'MB_DROPDOWN_MENU_ROOT'
 const { I18N = {} } = window
@@ -21,7 +20,7 @@ if (!$body.contains($menuRoot)) {
   $body.appendChild($menuRoot)
 }
 
-export default class Dropdown extends PureComponent {
+class Dropdown extends PureComponent {
   constructor(props) {
     super(props)
 
@@ -356,7 +355,7 @@ class DropdownMenu extends PureComponent {
  *  @prop {Object} style
  *  @prop {String} finalPosition
  */
-export function positionDropdown({
+function positionDropdown({
   $opener, $menu,
 
   position = 'bottom',
@@ -422,3 +421,5 @@ export function positionDropdown({
   Object.assign($menu.style, result.style)
   return result
 }
+
+export default Object.assign(Dropdown, { positionDropdown: positionDropdown })

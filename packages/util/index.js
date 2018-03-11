@@ -3,13 +3,13 @@ import './polyfill'
 
 import './index.styl'
 
-export const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
-export function trimList(list) {
+function trimList(list) {
   return compact(list).join(' ')
 }
 
-export function getOtherProps({ propTypes = {} }, props) {
+function getOtherProps({ propTypes = {} }, props) {
   const propKeyList = Object.keys(propTypes)
 
   return Object.entries(props).reduce(
@@ -22,12 +22,15 @@ export function getOtherProps({ propTypes = {} }, props) {
   )
 }
 
-export function $(selector, context = document) {
+function $(selector, context = document) {
   return context.querySelector(selector)
 }
 
-export function $$(selector, context = document) {
+function $$(selector, context = document) {
   return Array.from(context.querySelectorAll(selector))
 }
 
-export * as SVG from './svg'
+import * as SVG from './svg'
+
+
+export default { EMAIL_REGEX, trimList, getOtherProps, $, $$, SVG }

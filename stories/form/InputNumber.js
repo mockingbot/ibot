@@ -1,22 +1,16 @@
 import React from 'react'
-import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 
 import Root from '../../packages/root/index'
 import Icon from '../../packages/icon/index'
-import Switch from '../../packages/switch/index'
 import Button from '../../packages/button/index'
 
-import {
-  FormLabel, FormEntry,
-  Input, PanelInput,
-  Textarea,
-  InputNumber, PanelInputNumber,
-  SelectNumber, PanelSelectNumber,
-  Radio, Check,
-  RadioGroup, CheckGroup,
-  Select,
-} from '../../packages/form/index'
+import Form from '../../packages/form/index'
+
+const {
+  FormLabel,
+  Input: { InputNumber, SelectNumber, PanelInputNumber, PanelSelectNumber },
+} = Form
 
 export default class InputNumberExample extends React.PureComponent {
   constructor(props) {
@@ -25,7 +19,7 @@ export default class InputNumberExample extends React.PureComponent {
   }
 
   onChange = (name, value, e) => this.setState(
-    ({ formData }) => ({ formData: { ...formData, [name]: value }}),
+    ({ formData }) => ({formData: { ...formData, [name]: value }}),
     () => action('Number changed')(value, e),
   )
 

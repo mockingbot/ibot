@@ -7,15 +7,18 @@ import Icon from '../packages/icon/index'
 import Switch from '../packages/switch/index'
 import Modal from '../packages/modal/index'
 
-import {
+import Form from '../packages/form/index'
+
+import Text from '../packages/text/index'
+
+const  {
   FormLabel, FormEntry,
-  Input, InputNumber, Textarea,
-  Radio, Check,
+  Input: { InputNumber, Textarea, Input },
   RadioGroup, CheckGroup,
   Select,
-} from '../packages/form/index'
+} = Form
 
-import { WidgetName } from '../packages/text/index'
+const { Ellipsis: { WidgetName } } = Text
 
 storiesOf('Modal', module)
 .add('Default', () => (

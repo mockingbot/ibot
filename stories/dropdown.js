@@ -6,8 +6,11 @@ import Root from '../packages/root/index'
 import Icon from '../packages/icon/index'
 import Dropdown from '../packages/dropdown/index'
 
-import { Select, Check } from '../packages/form/index'
-import { Tooltip } from '../packages/text/index'
+import Form from '../packages/form/index'
+import Text from '../packages/text/index'
+
+const { Select, Check } = Form
+const { Tooltip } = Text
 
 storiesOf('Dropdown', module)
 .add('Default', () => (

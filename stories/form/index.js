@@ -5,22 +5,20 @@ import { action } from '@storybook/addon-actions'
 import Root from '../../packages/root/index'
 import Icon from '../../packages/icon/index'
 import Switch from '../../packages/switch/index'
-import Button from '../../packages/button/index'
-
-import {
-  FormLabel, FormEntry,
-  Input, PanelInput,
-  Textarea, PanelTextarea,
-  InputNumber,
-  Radio, Check,
-  RadioGroup, CheckGroup,
-  Select,
-} from '../../packages/form/index'
+import Form from '../../packages/form/index'
 
 import InputEmailExample from './InputEmail'
 import InputNumberExample from './InputNumber'
 import RadioCheckExample from './RadioCheck'
 import SelectExample from './Select'
+
+const {
+  FormLabel, FormEntry,
+  Input: { Input, PanelInput, Textarea, PanelTextarea, InputNumber },
+  Check,
+  RadioGroup, CheckGroup,
+  Select,
+} = Form
 
 const onTypingChange = action('Typing changed')
 
