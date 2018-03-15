@@ -1,6 +1,7 @@
 import './button'
 import './color-picker'
 import './dropdown'
+import './guide'
 import './form'
 import './icon'
 import './modal'
