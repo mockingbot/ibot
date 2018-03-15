@@ -263,7 +263,7 @@ class DropdownMenu extends PureComponent {
     }
   }
 
-  onScrollOutside = ({ target }) => {
+  onScrollOutside = () => {
     const { $menu } = this
     const { $opener, position, inflexible } = this.props
 
