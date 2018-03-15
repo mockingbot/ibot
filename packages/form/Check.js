@@ -148,7 +148,7 @@ export class CheckGroup extends PureComponent {
     result[action](idx)
 
     const idxList = Array.from(result)
-    const valueList = idxList.map(idx => optionList[idx])
+    const valueList = idxList.map(idx => getOptionValue(optionList[idx]))
 
     this.setState(
       { currentOptionIdxList: result },
