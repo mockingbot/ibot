@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import DocumentEvents from 'react-document-events'
 
 import Button from '@ibot/button'
+import Icon from '@ibot/icon'
 import { trimList, $, SVG } from '@ibot/util'
 import { positionDropdown } from '@ibot/dropdown'
 
@@ -163,8 +164,9 @@ export default class GuideBase extends PureComponent {
             <button
               className="close-btn"
               onClick={this.close}
-              dangerouslySetInnerHTML={{ __html: SVG.CLOSE_FILLED }}
-            />
+            >
+              <Icon name="times_fc" type="dora" />
+            </button>
           )}
 
           { guide }

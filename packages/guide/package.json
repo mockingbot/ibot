@@ -17,14 +17,12 @@
     "@ibot/button": "^0.1.13",
     "@ibot/dropdown": "^0.1.13",
     "@ibot/icon": "^0.1.13",
-    "@ibot/text": "^0.1.13",
     "@ibot/util": "^0.1.13"
   },
   "peerDependencies": {
     "@ibot/button": "^0.1.13",
     "@ibot/dropdown": "^0.1.13",
     "@ibot/icon": "^0.1.13",
-    "@ibot/text": "^0.1.13",
     "@ibot/util": "^0.1.13",
     "prop-types": "^15.6.0",
     "react": "^16.0.0",
@@ -34,6 +32,7 @@
   "keywords": [
     "react",
     "component",
+    "guide",
     "downdown"
   ],
   "publishConfig": {

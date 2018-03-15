@@ -69,6 +69,7 @@ class GuideExample extends PureComponent {
           guide="删除的页面可保存 20 天，请及时恢复重要页面"
           isOpen={openStatusMap.c}
           onClose={this.createGuideCloser('c')}
+          className="trash-guide"
         >
           <button onClick={this.createGuideOpener('c')}>Open a Guide via Clicking</button>
         </GuideBase>
