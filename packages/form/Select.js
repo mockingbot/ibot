@@ -8,14 +8,14 @@ import isArray from 'lodash/isArray'
 
 import Text from '@ibot/text'
 import Dropdown from '@ibot/dropdown'
-import Util from '@ibot/util'
+import util from '@ibot/util'
 import { Input } from './Input'
 import { getOptionValue, getCurrentOptionIdx } from './util'
 
 import './index.styl'
 
 const { Ellipsis: { Ellipsis } } = Text
-const { trimList, $, $$, SVG } = Util
+const { trimList, $, $$, SVG } = util
 const MENU_ROOT_ID = 'MB_SELECT_MENU_ROOT'
 const CANT_SCROLL_CLASS = 'mb-cant-scroll'
 

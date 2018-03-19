@@ -2,10 +2,10 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 
 import Icon from '@ibot/icon'
-import Util from '@ibot/util'
+import util from '@ibot/util'
 
 import './index.styl'
-const { trimList } = Util
+const { trimList } = util
 
 const CLASS_MAP = {
   primary: 'PrimaryButton',
