@@ -94,6 +94,10 @@ export default class GuideBase extends PureComponent {
     }
   }
 
+  componentWillUnmount() {
+    if (this.portal) this.portal.remove()
+  }
+
   position = () => {
     const { $base, $guide } = this
     const { position, inflexible } = this.props
