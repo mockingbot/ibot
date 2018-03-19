@@ -26,13 +26,15 @@ export function checkOptionByValue(it, value) {
   return !!value && getOptionValue(it) === String(value)
 }
 
-export function getCurrentOptionIdx({
-    currentOptionIdx = (this.state || this.props).currentOptionIdx,
-    value = this.props.value,
-} = {}) {
+export function getCurrentOptionIdx(
+  { currentOptionIdx, value } = {
+    currentOptionIdx: (this.state || this.props).currentOptionIdx,
+    value: this.props.value,
+  }
+) {
   const { optionList } = this.props
 
-  if (isNumber(currentOptionIdx) || isString(currentOptionIdx)) {
+  if (!value && isNumber(currentOptionIdx) || isString(currentOptionIdx)) {
     return currentOptionIdx
   }
 
