@@ -13,10 +13,7 @@ const {
 } = Form
 
 export default class InputNumberExample extends React.PureComponent {
-  constructor(props) {
-    super(props)
-    this.state = { formData: {}, isSmall: false }
-  }
+  state = { formData: { a: 0 }, isSmall: false }
 
   onChange = (name, value, e) => this.setState(
     ({ formData }) => ({formData: { ...formData, [name]: value }}),
