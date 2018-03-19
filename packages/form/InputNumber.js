@@ -2,6 +2,8 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import DocumentEvents from 'react-document-events'
 
+import isNumber from 'lodash/isNumber'
+
 import Button from '@ibot/button'
 import { trimList, getOtherProps, SVG } from '@ibot/util'
 
@@ -26,7 +28,14 @@ const getStep = ({ shiftKey, metaKey }, step = 1) => (
 
 export class InputNumber extends PureComponent {
   state = {
-    value: this.props.value || (!!this.props.placeholder ? '' : 1),
+    value: (
+      isNumber(this.props.value)
+      ? this.props.value
+      : !!this.props.placeholder
+      ? ''
+      : 1
+    ),
+
     isActive: false,
     isValid: true,
     isMenuOpen: false,
@@ -202,7 +211,7 @@ export class InputNumber extends PureComponent {
     this.setState({ value: settingNumber, isValid })
 
     if (isValid) {
-      onChange(settingNumber)
+      onChange(settingNumber, e)
     } else {
       Object.assign(this, { correctionTimeout: (
         setTimeout(() => (
@@ -212,7 +221,7 @@ export class InputNumber extends PureComponent {
               value: finalNumber,
               isValid: true,
             },
-            onChange(finalNumber),
+            onChange(finalNumber, e),
           )
         ), CORRECTION_AWAIT)
       )})
