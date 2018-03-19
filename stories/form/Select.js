@@ -20,13 +20,22 @@ const {
 } = Form
 
 export default class SelectExample extends React.PureComponent {
-  state = { isSmall: false, longerSelectValue: 'Taller Men' }
+  state = {
+    isSmall: false,
+    forcedChangingValue: 5,
+    longerSelectValue: 'Taller Men',
+  }
 
   toggleSize = () => this.setState({ isSmall: !this.state.isSmall })
 
+  onChangeForcedChangingSelect = ({ value: forcedChangingValue }) => this.setState(
+    { forcedChangingValue },
+    action('Select changed')(forcedChangingValue),
+  )
+
   onChangeLongerSelect = ({ value: longerSelectValue }) => this.setState(
     { longerSelectValue },
-    () => action('Select changed'),
+    action('Select changed')(longerSelectValue),
   )
 
   render() {
@@ -293,6 +302,26 @@ export default class SelectExample extends React.PureComponent {
             ]}
             onChange={action('Select changed')}
           />
+        </p>
+
+        <h2>Changing the `value` in `props`</h2>
+        <p style={{ maxWidth: '20em' }}>
+          <Select
+            size={size}
+            placeholder="选择一个项目"
+            optionList={[1,2,3,4,5]}
+            value={this.state.forcedChangingValue}
+            onChange={this.onChangeForcedChangingSelect}
+          />
+          <button onClick={() => this.setState({ forcedChangingValue: 1 })}>One</button>
+          {' / '}
+          <button onClick={() => this.setState({ forcedChangingValue: 2 })}>Two</button>
+          {' / '}
+          <button onClick={() => this.setState({ forcedChangingValue: 3 })}>Three</button>
+          {' / '}
+          <button onClick={() => this.setState({ forcedChangingValue: 4 })}>Four</button>
+          {' / '}
+          <button onClick={() => this.setState({ forcedChangingValue: 5 })}>Five</button>
         </p>
 
         <h2>Longer options</h2>
