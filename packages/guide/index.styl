@@ -62,14 +62,17 @@
     position relative
     padding 1.5em 1.5em 1em
     min-height 32px
+    font-size 14px
+    line-height 2
     background-color #fff
     border-radius 4px
     color $cl-tertiary-grey
 
   header
-    margin .25em 0 .5em
+    margin .25em 0 10px
     font-size 16px
     font-weight bold
+    line-height 1.2
     color $cl-primary-grey
 
   .close-btn
@@ -84,5 +87,9 @@
       height @width
 
   footer
-    margin-top .75em
-    text-align end
+    &
+      margin-top .75em
+      text-align end
+    button:not([disabled]):hover
+      text-decoration none
+      opacity .8
