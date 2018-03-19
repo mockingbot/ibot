@@ -62,9 +62,10 @@ function renderIndexFile (pkgs) {
   const importStatmentsArray = []
   for (let i = 0; i < pkgs.length; i++) {
     const pkg = pkgs[i]
+    const camelCasedPkg = camelCase(pkg)
     importStatmentsArray.push(
       render(tmpl, {
-        name: capitalize(camelCase(pkg)),
+        name: ['util', 'form', 'text'].includes(pkg) ? camelCasedPkg : capitalize(camelCasedPkg),
         package: pkg
       })
     )
