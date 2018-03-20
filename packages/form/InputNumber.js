@@ -5,9 +5,10 @@ import DocumentEvents from 'react-document-events'
 import isNumber from 'lodash/isNumber'
 
 import Button from '@ibot/button'
-import { trimList, getOtherProps, SVG } from '@ibot/util'
+import util from '@ibot/util'
 
 import { SelectMenu, $menuRoot } from './Select'
+const { trimList, getOtherProps, SVG } = util
 
 const LONG_PRESSED_THRESHOLD = 500
 const LONG_PRESSED_STEPPING_INTERVAL = 30

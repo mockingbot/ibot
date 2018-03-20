@@ -1,15 +1,12 @@
 import React, { PureComponent } from 'react'
-import { storiesOf } from '@storybook/react'
-import { action } from '@storybook/addon-actions'
 
 import Root from '../../packages/root/index'
-import Icon from '../../packages/icon/index'
 import Button from '../../packages/button/index'
-import { Textarea } from '../../packages/form/index'
-import {
-  Tooltip, Ellipsis,
-  User, TeamName, AppName, WidgetName,
-} from '../../packages/text/index'
+import Text from '../../packages/text/index'
+
+const {
+  Ellipsis: { User, TeamName, AppName, WidgetName },
+} = Text
 
 const shortName = 'Vincent'
 const longName = 'Mitchell Vincent Pritchett'

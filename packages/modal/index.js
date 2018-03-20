@@ -6,10 +6,11 @@ import DocumentEvents from 'react-document-events'
 import Button from '@ibot/button'
 import Switch from '@ibot/switch'
 import Icon from '@ibot/icon'
-import { trimList, $ } from '@ibot/util'
+import util from '@ibot/util'
 
 import './index.styl'
 
+const { trimList, $ } = util
 const OPEN_MODAL_STACK = []
 const { I18N = {} } = window
 

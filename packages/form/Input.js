@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { trimList } from '@ibot/util'
+import util from '@ibot/util'
+const { trimList } = util
 
 function createOnChangeHandler(onChange) {
   return e => onChange(e.target.value, e)

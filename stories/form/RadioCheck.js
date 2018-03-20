@@ -7,7 +7,9 @@ import Icon from '../../packages/icon/index'
 import Switch from '../../packages/switch/index'
 import Button from '../../packages/button/index'
 
-import {
+import Form from '../../packages/form/index'
+
+const {
   FormLabel, FormEntry,
   Input, PanelInput,
   Textarea,
@@ -15,7 +17,7 @@ import {
   Radio, Check,
   RadioGroup, CheckGroup,
   Select,
-} from '../../packages/form/index'
+} = Form
 
 export default class RadioCheckExample extends PureComponent {
   constructor(props) {
@@ -254,4 +256,3 @@ export default class RadioCheckExample extends PureComponent {
     )
   }
 }
-

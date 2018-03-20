@@ -5,18 +5,17 @@ import DocumentEvents from 'react-document-events'
 
 import get from 'lodash/get'
 import isArray from 'lodash/isArray'
-import isNumber from 'lodash/isNumber'
-import isString from 'lodash/isString'
 
-import { Ellipsis } from '@ibot/text'
-import Icon from '@ibot/icon'
-import { positionDropdown } from '@ibot/dropdown'
-import { trimList, $, $$, SVG } from '@ibot/util'
-
+import Text from '@ibot/text'
+import Dropdown from '@ibot/dropdown'
+import util from '@ibot/util'
+import { Input } from './Input'
 import { getOptionValue, getCurrentOptionIdx } from './util'
 
 import './index.styl'
 
+const { Ellipsis: { Ellipsis } } = Text
+const { trimList, $, $$, SVG } = util
 const MENU_ROOT_ID = 'MB_SELECT_MENU_ROOT'
 const CANT_SCROLL_CLASS = 'mb-cant-scroll'
 
@@ -275,7 +274,7 @@ export class SelectMenu extends PureComponent {
 
     // Set up the position of the <SelectMenu> once opened:
     if (!isOpen && willBeOpen) {
-      const result = positionDropdown({
+      const result = Dropdown.positionDropdown({
         $menu,
         $opener: $select,
         position: 'bottom',

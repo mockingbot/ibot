@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { trimList } from '@ibot/util'
+import util from '@ibot/util'
 
+const { trimList } = util
 /**
  * <FormEntry>
  */

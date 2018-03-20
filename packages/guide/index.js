@@ -6,11 +6,13 @@ import DocumentEvents from 'react-document-events'
 
 import Button from '@ibot/button'
 import Icon from '@ibot/icon'
-import { trimList, $, SVG } from '@ibot/util'
-import { positionDropdown } from '@ibot/dropdown'
+import util from '@ibot/util'
+import Dropdown from '@ibot/dropdown'
 
 import './index.styl'
 
+const { positionDropdown } = Dropdown
+const { trimList, SVG } = util
 const { I18N = {} } = window
 const GUIDE_ROOT_ID = 'MB_GUIDE_GUIDE_ROOT'
 
