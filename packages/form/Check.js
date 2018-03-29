@@ -5,7 +5,7 @@ import isSet from 'lodash/isSet'
 
 import Icon from '@ibot/icon'
 import util from '@ibot/util'
-import { getOptionLabel, getOptionValue } from './util'
+import { getOptionLabel, getOptionValue, getCurrentOptionIdxList } from './util'
 
 const { trimList } = util
 
@@ -127,16 +127,7 @@ export class CheckGroup extends PureComponent {
   }
 
   get currentOptionIdxList() {
-    const { optionList, valueList } = this.props
-    const { currentOptionIdxList = this.props.currentOptionIdxList } = this.state || {}
-
-    return new Set(
-      isArray(currentOptionIdxList) || isSet(currentOptionIdxList)
-      ? currentOptionIdxList
-      : Array.from(valueList || [])
-        .map(v => optionList.findIndex(opt => getOptionValue(opt) === String(v)))
-        .filter(idx => idx !== -1)
-    )
+    return this::getCurrentOptionIdxList()
   }
 
   createOnChangeHandler = (name, idx) => () => {

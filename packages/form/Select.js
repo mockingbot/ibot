@@ -10,7 +10,7 @@ import Text from '@ibot/text'
 import Dropdown from '@ibot/dropdown'
 import util from '@ibot/util'
 import { Input } from './Input'
-import { getOptionValue, getCurrentOptionIdx } from './util'
+import { getOptionLabel, getOptionValue, getCurrentOptionIdx } from './util'
 
 import './index.styl'
 
@@ -32,10 +32,6 @@ if (!$body.contains($menuRoot)) {
   $body.appendChild($menuRoot)
 }
 
-function getOptionEntry(optionList, idx, def) {
-  return get(optionList, idx, def)
-}
-
 function controlScrolling({ target, canScroll = false }) {
   const classList = target.classList || document.body.classList
   const action = canScroll ? 'remove' : 'add'
@@ -53,6 +49,7 @@ export default class Select extends PureComponent {
   state = {
     isOpen: false,
     currentOptionIdx: this.currentOptionIdx,
+    value: this.props.value,
   }
 
   static propTypes = {
@@ -146,7 +143,10 @@ export default class Select extends PureComponent {
     const { currentOptionIdx: nextOptionIdx, value: nextValue } = nextProps
 
     if (currentOptionIdx !== nextOptionIdx || value !== nextValue) {
-      this.setState({ currentOptionIdx: this::getCurrentOptionIdx(nextProps) })
+      this.setState({
+        currentOptionIdx: this::getCurrentOptionIdx(nextProps),
+        value: nextValue,
+      })
     }
   }
 
@@ -162,23 +162,17 @@ export default class Select extends PureComponent {
 
   onResizeWindow = () => this.state.isOpen && this.close()
 
-  onChange = idx => this.setState(
-    { currentOptionIdx: idx },
+  onChange = (idx, value) => this.setState(
+    { currentOptionIdx: idx, value },
     () => {
       const { optionList, onChange } = this.props
-      const opt = getOptionEntry(optionList, idx)
-
       this.close()
-
-      onChange({
-        value: getOptionValue(opt),
-        idx,
-      })
+      onChange({ value, idx })
     },
   )
 
   onSelect = ({ currentTarget: $opt }) => (
-    this.onChange($opt.dataset.idx)
+    this.onChange($opt.dataset.idx, $opt.dataset.value)
   )
 
   render() {
@@ -413,8 +407,8 @@ export class SelectMenu extends PureComponent {
               : <Option
                   key={idx}
                   idx={idx}
-                  label={opt.label || opt}
-                  value={opt.value}
+                  label={getOptionLabel(opt)}
+                  value={getOptionValue(opt)}
                   isDisabled={opt.isDisabled}
                   onChange={onChange}
                   currentOptionIdx={currentOptionIdx}
@@ -458,8 +452,8 @@ function Group({
           <Option
             key={idx}
             idx={getGroupOptionIdx({ groupIdx, idx })}
-            label={opt.label || opt}
-            value={opt.value}
+            label={getOptionLabel(opt)}
+            value={getOptionValue(opt)}
             isDisabled={opt.isDisabled}
             onChange={onChange}
             currentOptionIdx={currentOptionIdx}
@@ -497,6 +491,7 @@ function Option({
     <li
       role="option"
       data-idx={idx}
+      data-value={value}
       className={className}
       onClick={isDisabled ? undefined : onChange}
     >

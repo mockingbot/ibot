@@ -13,7 +13,7 @@ export class Radio extends PureComponent {
   static propTypes = {
     size: PropTypes.oneOf(['regular', 'small']),
     isChecked: PropTypes.bool,
-    onChange: PropTypes.func,
+    onChange: PropTypes.func.isRequired,
     label: PropTypes.any,
     name: PropTypes.string,
     value: PropTypes.any,
@@ -63,7 +63,7 @@ export class Radio extends PureComponent {
       >
         <input
           type="radio"
-          defaultChecked={isChecked}
+          checked={isChecked}
           disabled={isDisabled}
           name={name}
           onClick={this.onChange}
@@ -81,6 +81,10 @@ export class Radio extends PureComponent {
  */
 export class RadioGroup extends PureComponent {
   name = this.props.name || Math.random().toString(36).substring(2, 15)
+
+  state = {
+    currentOptionIdx: this.currentOptionIdx,
+  }
 
   static propTypes = {
     size: PropTypes.oneOf(['regular', 'small']),
@@ -111,7 +115,7 @@ export class RadioGroup extends PureComponent {
     ]),
 
     isDisabled: PropTypes.bool,
-    onChange: PropTypes.func,
+    onChange: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -122,12 +126,27 @@ export class RadioGroup extends PureComponent {
     onChange: () => null,
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { currentOptionIdx, value } = this.props
+    const { currentOptionIdx: nextOptionIdx, value: nextValue } = nextProps
+
+    if (currentOptionIdx !== nextOptionIdx || value !== nextValue) {
+      this.setState({
+        currentOptionIdx: this::getCurrentOptionIdx(nextProps),
+        value: nextValue,
+      })
+    }
+  }
+
   get currentOptionIdx() {
     return this::getCurrentOptionIdx()
   }
 
   createOnChangeHandler = (name, value, idx) => () => (
-    this.props.onChange({ name, value, idx })
+    this.setState(
+      { currentOptionIdx: idx, value },
+      () => this.props.onChange({ name, value, idx }),
+    )
   )
 
   render() {

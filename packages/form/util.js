@@ -1,10 +1,9 @@
-import isArray from 'lodash/isArray'
-import isNumber from 'lodash/isNumber'
-import isString from 'lodash/isString'
+import { isValidElement } from 'react'
+import { isArray, isSet, isNumber, isString } from 'lodash'
 
 export function getOptionLabel(it) {
   return (
-    isString(it) || isNumber(it)
+    isString(it) || isNumber(it) || isValidElement(it)
     ? it
     : it.label || it.value
     ? it.label || it.value
@@ -29,8 +28,8 @@ export function checkOptionByValue(it, value) {
 export function getCurrentOptionIdx(
   { currentOptionIdx, value } = {
     currentOptionIdx: (this.state || this.props).currentOptionIdx,
-    value: this.props.value,
-  }
+    value: (this.state || this.props).value,
+  },
 ) {
   const { optionList } = this.props
 
@@ -54,4 +53,21 @@ export function getCurrentOptionIdx(
   )
 
   return isInGroup ? `${firstIdx}.${secondIdx}` : firstIdx
+}
+
+export function getCurrentOptionIdxList(
+  { currentOptionIdxList, valueList } = {
+    currentOptionIdxList: (this.state || this.props).currentOptionIdxList,
+    valueList: (this.state || this.props).valueList,
+  },
+) {
+  const { optionList } = this.props
+
+  return new Set(
+    !valueList && isArray(currentOptionIdxList) || isSet(currentOptionIdxList)
+    ? currentOptionIdxList
+    : Array.from(valueList || [])
+      .map(v => optionList.findIndex(opt => getOptionValue(opt) === String(v)))
+      .filter(idx => idx !== -1)
+  )
 }

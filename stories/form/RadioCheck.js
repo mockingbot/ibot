@@ -20,18 +20,22 @@ const {
 } = Form
 
 export default class RadioCheckExample extends PureComponent {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      isSmall: false,
-    }
+  state = {
+    isSmall: false,
+    langValue: 'zh',
   }
 
   toggleSize = () => this.setState({ isSmall: !this.state.isSmall })
 
+  onChangeLang = (_, langValue) => this.setState(
+    { langValue },
+    () => action('Radio Checked')('lang', langValue),
+  )
+
   render() {
-    const { isSmall } = this.state
+    const {
+      isSmall, langValue
+    } = this.state
     const size = isSmall ? 'small' : 'regular'
 
     return (
@@ -52,14 +56,6 @@ export default class RadioCheckExample extends PureComponent {
           Toggle Size
         </Button>
 
-        <h2>Native Radio</h2>
-        <p style={{ width: '100%' }}>
-          <label><input type="radio" name="nr" defaultChecked /> 汉语</label>
-          <label><input type="radio" name="nr" /> 日本語</label>
-          <label><input type="radio" name="nr" disabled /> English</label>
-          <label><input type="radio" name="nr" /> Klingon</label>
-        </p>
-
         <style>
         {`p.radio { display: flex; flex-wrap: wrap; width: 15em; }`}
         {`p.radio label { margin-right: .5em; }`}
@@ -67,10 +63,14 @@ export default class RadioCheckExample extends PureComponent {
 
         <h2>Radio</h2>
         <p className="radio">
-          <Radio size={size} name="lang" value="zh" label="汉语" isChecked={true} onChange={action('Radio changed')} />
-          <Radio size={size} name="lang" value="ja" label="日本語" isDisabled={true} onChange={action('Radio changed')} />
-          <Radio size={size} name="lang" value="en" label="English" onChange={action('Radio changed')} />
-          <Radio size={size} name="lang" value="tlh" label="Klingon" isDisabled={true} onChange={action('Radio changed')} />
+          <Radio size={size} name="lang" value="zh" label="汉语" isChecked={'zh' === langValue} onChange={this.onChangeLang} />
+          <Radio size={size} name="lang" value="ja" label="日本語" isChecked={'ja' === langValue} isDisabled={true}  onChange={this.onChangeLang} />
+          <Radio size={size} name="lang" value="en" label="English" isChecked={'en' === langValue}  onChange={this.onChangeLang} />
+          <Radio size={size} name="lang" value="tlh" label="Klingon" isChecked={'tlh' === langValue} isDisabled={true} onChange={this.onChangeLang} />
+          <Radio size={size} name="lang" value="ava" label="Avarin" isChecked={'ava' === langValue} isDisabled={false} onChange={this.onChangeLang} />
+
+          <br />
+          <button onClick={this.onChangeLang.bind(this, null, 'zh')}>Change back to 汉语</button>
         </p>
 
         <style>
@@ -152,14 +152,6 @@ export default class RadioCheckExample extends PureComponent {
             onChange={action('Radio changed')}
           />
 
-        </p>
-
-        <h2>Native Check</h2>
-        <p style={{ width: '100%' }}>
-          <label><input type="checkbox" name="nr" /> 汉语</label>
-          <label><input type="checkbox" name="nr" /> 日本語</label>
-          <label><input type="checkbox" name="nr" defaultChecked /> English</label>
-          <label><input type="checkbox" name="nr" disabled /> Klingon</label>
         </p>
 
         <h2>Check</h2>
