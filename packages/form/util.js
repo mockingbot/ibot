@@ -1,5 +1,9 @@
 import { isValidElement } from 'react'
-import { isArray, isSet, isNumber, isString } from 'lodash'
+
+import isNumber from 'lodash/isNumber'
+import isSet from 'lodash/isSet'
+import isArray from 'lodash/isArray'
+import isString from 'lodash/isString'
 
 export function getOptionLabel(it) {
   return (
