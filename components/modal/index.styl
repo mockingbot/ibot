@@ -1,0 +1,135 @@
+@import '../util/index'
+
+body.mb-cant-scroll
+  overflow hidden
+
+.ModalPortal
+  &
+    position fixed
+    z-index $z-Modal
+    top 0
+    left 0
+    width 100vw
+    height 100vh
+    overflow-x hidden
+    overflow-y auto
+  &:not(.is-open)
+    &
+      pointer-events none
+    .ModalMask
+      background-color rgba(#000, 0)
+    .Modal
+      transform translateY(-50vh)
+      opacity 0
+  &.is-open
+    .Modal
+      transition-delay .175s
+
+.ModalMask
+  &
+    display flex
+    padding 50px 25px
+    width 100vw
+    min-height 100vh
+    background-color rgba(#000, .4)
+    transition background .2s
+  &.can-close
+    cursor pointer
+
+.Modal
+  &
+    position relative
+    z-index 20
+    margin calc(20vh - 50px) auto auto
+    min-height 150px
+    transform translateY(0)
+    font-size 14px
+    background-color #fff
+    box-shadow 0 2px 8px 0 rgba(#000,.1)
+    border-radius 1px // To make modals less aggressive
+    color $cl-secondary-text
+    cursor initial
+    transition transform .3s, opacity .2s
+  &.is-v-centered
+    margin auto
+
+  // Header:
+  header
+    position relative
+    display flex
+    align-items center
+    padding 0 20px
+    height 55px
+    font-size 14px
+    border-bottom 1px solid $cl-divider
+    color $cl-header-text
+
+  // Close button:
+  .close-btn
+    &
+      position absolute
+      top 50%
+      right 0
+      padding 0 20px
+      width 54px
+      height 100%
+      transform translateY(-50%)
+      font-size 14px
+      line-height 1
+      color $cl-tertiary-grey
+    &:hover
+      color $cl-secondary-grey
+
+  // Content:
+  .content
+    padding 30px 20px 35px
+
+  // Footer:
+  footer
+    display flex
+    justify-content flex-end
+    align-items center
+    padding 0 20px
+    height 55px
+    line-height 1
+    border-top 1px solid $cl-divider
+  .confirm-btn
+  .cancel-btn
+    &
+      margin-left 1.5em
+      min-width 2em
+      height 34px
+      color $cl-tertiary-text
+      transition color ease-in-out .1s
+    &[disabled]
+      opacity .5
+      cursor not-allowed
+    &:not([disabled]):hover
+      color $cl-secondary-text
+  .confirm-btn
+    &
+      font-weight bold
+      color $cl-core
+    &:not([disabled]):hover
+      color darken($cl-core, 20%)
+
+.AlertModal
+.FormModal
+  &
+    display flex
+    flex-direction column
+    width 380px
+    line-height 1.5
+  .FormEntry
+    &:last-child
+      margin-bottom -.5em
+    > .key
+      flex-basis 7em
+    > .val
+      max-width calc(100% - 7em)
+
+.FunctionalModal
+  width 500px
+
+.DisplayModal
+  width 640px

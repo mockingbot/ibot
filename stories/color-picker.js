@@ -1,9 +1,7 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
-import { action } from '@storybook/addon-actions'
 
-import Root from '../packages/root/index'
-import ColorPicker from '../packages/color-picker/src/index'
+import { Root, ColorPicker } from '../components'
 
 storiesOf('Color Picker', module)
 .add('Default', () => {
@@ -21,4 +19,3 @@ storiesOf('Color Picker', module)
     </Root>
   )
 })
-

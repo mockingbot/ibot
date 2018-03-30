@@ -2,10 +2,7 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 
-import Root from '../../packages/root/index'
-import Icon from '../../packages/icon/index'
-import Switch from '../../packages/switch/index'
-import Form from '../../packages/form/index'
+import { Root, Icon, Switch, form } from '../../components'
 
 import InputEmailExample from './InputEmail'
 import InputNumberExample from './InputNumber'
@@ -18,7 +15,7 @@ const {
   Check,
   RadioGroup, CheckGroup,
   Select,
-} = Form
+} = form
 
 const onTypingChange = action('Typing changed')
 

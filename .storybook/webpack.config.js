@@ -1,78 +1,83 @@
 const path = require('path')
+const stylus = require('stylus')
+const genDefaultConfig = require('@storybook/react/dist/server/config/defaults/webpack.config.js')
 
-module.exports = {
-  module: {
-    rules: [
-      /* Asset */
-      {
-        test: /\.(png|jpg|gif|svg|ttf|woff2?|otf)$/,
-        use: {
-          loader: 'file-loader',
-          options: {
-            name: '[name].[hash].[ext]',
-          },
+module.exports = (baseConfig, env) => {
+  const config = genDefaultConfig(baseConfig, env)
+
+  config.module.rules.push(
+    /* Asset */
+    {
+      test: /\.(png|jpg|gif)$/,
+      use: {
+        loader: 'file-loader',
+        options: {
+          name: '[name].[hash].[ext]',
         },
       },
+    },
 
-      /* Stylus */
-      {
-        test: /\.styl$/,
-        use: [
-          'style-loader',
-          'css-loader',
-          'stylus-loader',
-        ],
-      },
-
-      /* Sass */
-      {
-        test: /\.sass$/,
-        use: [
-          'style-loader',
-          {
-            loader: 'css-loader',
-            options: {
-              importLoaders: 1,
-              modules: true,
-              localIdentName: '[local]---[hash:base64:5]'
-            }
+    /* Stylus */
+    {
+      test: /\.styl$/,
+      use: [
+        'style-loader',
+        'css-loader',
+        'stylus-loader',
+        {
+          loader: 'stylus-loader',
+          options: {
+            define: {
+              url: stylus.resolver(),
+            },
           },
-          {
-            loader: 'sass-loader'
-          }
-        ]
-      },
+        },
+      ],
+    },
 
-      /* CSS */
-      {
-        test: /\.css$/,
-        use: [
-          'style-loader',
-          {
-            loader: 'css-loader',
-            options: {
-              importLoaders: 1,
-              modules: true,
-              localIdentName: '[local]---[hash:base64:5]'
-            }
+    /* Sass */
+    {
+      test: /\.sass$/,
+      use: [
+        'style-loader',
+        {
+          loader: 'css-loader',
+          options: {
+            importLoaders: 1,
+            modules: true,
+            localIdentName: '[local]---[hash:base64:5]',
           },
-          {
-            loader: 'postcss-loader',
-            options: {
-              config: {
-                path: `${path.resolve(__dirname, '..', '.storybook/postcss.config.js')}`
-              }
-            }
-          }
-        ]
-      }
-      // TODO:
-        // test: /\.(js|sass|styl|stylus|css)$/,
-        // include: path.resolve(__dirname, '../packages'),
-        // // exclude asset in dest folder
-        // exclude: asset => asset.split('/').includes('dest'),
-        // loader: 'rollup-loader',
-        // options: rollupOptions()
-    ]
-  }
+        },
+        {
+          loader: 'sass-loader',
+        },
+      ],
+    },
+
+    /* CSS */
+    {
+      test: /\.css$/,
+      use: [
+        'style-loader',
+        {
+          loader: 'css-loader',
+          options: {
+            importLoaders: 1,
+            modules: true,
+            localIdentName: '[local]---[hash:base64:5]',
+          },
+        },
+        {
+          loader: 'postcss-loader',
+          options: {
+            config: {
+              path: `${path.resolve(__dirname, '..', '.storybook/postcss.config.js')}`,
+            },
+          },
+        },
+      ],
+    },
+  )
+
+  return config
 }

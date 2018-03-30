@@ -9,14 +9,13 @@
   ],
   "url": "https://github.com/mockingbot/ibot.git",
   "scripts": {
+    "start": "start-storybook -p 6006",
+    "prestart": "yarn run clean && ./scripts/icon-storybook.sh && ./scripts/icon-bootstrap.sh",
+    "build": "node scripts/index.js && ./scripts/icon-bootstrap.sh",
+    "prebuild": "yarn run clean",
+    "clean": "rm -rf lib",
     "build:storybook": "build-storybook",
-    "deploy": "yarn run build:storybook && gh-pages -d storybook-static",
-    "bootstrap": "lerna bootstrap",
-    "start": "yarn run clean && start-storybook -p 6006",
-    "build:pkgs": "lerna run build",
-    "build:lib": "./build/build-lib.js --dest=dest",
-    "build": "yarn run clean && yarn run build:pkgs && yarn run build:lib",
-    "clean": "rm -rf lib packages/*/dest"
+    "deploy": "yarn run build:storybook && gh-pages -d storybook-static"
   },
   "devDependencies": {
     "@plrthink/rollup-plugin-postcss": "^1.2.6",
@@ -42,9 +41,10 @@
     "gh-pages": "^1.1.0",
     "json-templater": "^1.1.0",
     "junk": "^2.1.0",
-    "lerna": "^2.4.0",
     "loader-utils": "^1.1.0",
     "lodash": "^4.17.4",
+    "mb-icons": "^0.4.3",
+    "minimatch": "^3.0.4",
     "ncp": "^2.0.0",
     "node-sass": "^4.5.3",
     "pify": "^3.0.0",
@@ -58,7 +58,7 @@
     "react-dom": "^16.0.0",
     "resolve": "^1.5.0",
     "rimraf": "^2.6.1",
-    "rollup": "^0.41.6",
+    "rollup": "^0.57.1",
     "rollup-loader": "^0.3.0",
     "rollup-plugin-babel": "^3.0.2",
     "rollup-plugin-commonjs": "^8.0.2",
@@ -72,6 +72,8 @@
     "yargs": "^8.0.1"
   },
   "peerDependencies": {
+    "lodash": "^4.17.4",
+    "prop-types": "^15.6.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0"
   }

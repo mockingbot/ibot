@@ -1,23 +1,12 @@
 import React, { PureComponent } from 'react'
-import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 
-import Root from '../../packages/root/index'
-import Icon from '../../packages/icon/index'
-import Switch from '../../packages/switch/index'
-import Button from '../../packages/button/index'
-
-import Form from '../../packages/form/index'
+import { Root, Button, form } from '../../components'
 
 const {
-  FormLabel, FormEntry,
-  Input, PanelInput,
-  Textarea,
-  InputNumber,
   Radio, Check,
   RadioGroup, CheckGroup,
-  Select,
-} = Form
+} = form
 
 export default class RadioCheckExample extends PureComponent {
   state = {

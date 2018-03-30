@@ -15,7 +15,7 @@ yarn publish # for entire lib
 ###
 
 ### development experience
- - implement components in packages folder
+ - implement components in components folder
  - write live showcase in stories directory
 
 ### note:

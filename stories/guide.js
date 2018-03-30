@@ -1,13 +1,7 @@
 import React, { PureComponent } from 'react'
 import { storiesOf } from '@storybook/react'
-import { action } from '@storybook/addon-actions'
 
-import Root from '../packages/root/index'
-import Icon from '../packages/icon/index'
-import GuideBase from '../packages/guide/index'
-
-import { Select, Check } from '../packages/form/index'
-import { Tooltip } from '../packages/text/index'
+import { Root, Guide as GuideBase } from '../components'
 
 storiesOf('Guide', module)
   .add('Default', () => <GuideExample />)

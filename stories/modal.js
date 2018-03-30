@@ -2,23 +2,16 @@ import React, { PureComponent } from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 
-import Root from '../packages/root/index'
-import Icon from '../packages/icon/index'
-import Switch from '../packages/switch/index'
-import Modal from '../packages/modal/index'
-
-import Form from '../packages/form/index'
-
-import Text from '../packages/text/index'
+import { Root, Icon, Switch, Modal, form, text } from '../components'
 
 const  {
   FormLabel, FormEntry,
   Input: { InputNumber, Textarea, Input },
   RadioGroup, CheckGroup,
   Select,
-} = Form
+} = form
 
-const { Ellipsis: { WidgetName } } = Text
+const { Ellipsis: { WidgetName } } = text
 
 storiesOf('Modal', module)
 .add('Default', () => (
