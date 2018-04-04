@@ -11,3 +11,7 @@ lib/
 storybook-static/*
 !storybook-static/CNAME
 yarn-error.log*
+
+stories/json/
+components/icon/fonts/dora.*
+components/icon/fonts/mb-icons.*

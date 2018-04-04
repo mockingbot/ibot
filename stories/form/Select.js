@@ -1,23 +1,9 @@
 import React from 'react'
-import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 
-import Root from '../../packages/root/index'
-import Icon from '../../packages/icon/index'
-import Switch from '../../packages/switch/index'
-import Button from '../../packages/button/index'
+import { Root, Icon, Button, form } from '../../components'
 
-import Form from '../../packages/form/index'
-
-const {
-  FormLabel, FormEntry,
-  Input, PanelInput,
-  Textarea,
-  InputNumber,
-  Radio, Check,
-  RadioGroup, CheckGroup,
-  Select, SelectNumber,
-} = Form
+const { Select } = form
 
 export default class SelectExample extends React.PureComponent {
   state = {

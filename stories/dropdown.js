@@ -2,15 +2,10 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 
-import Root from '../packages/root/index'
-import Icon from '../packages/icon/index'
-import Dropdown from '../packages/dropdown/index'
+import { Root, Icon, Dropdown, form, text } from '../components'
 
-import Form from '../packages/form/index'
-import Text from '../packages/text/index'
-
-const { Select, Check } = Form
-const { Tooltip } = Text
+const { Select, Check } = form
+const { Tooltip } = text
 
 storiesOf('Dropdown', module)
 .add('Default', () => (

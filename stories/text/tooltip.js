@@ -1,15 +1,9 @@
 import React, { PureComponent } from 'react'
 
-import Root from '../../packages/root/index'
-import Icon from '../../packages/icon/index'
-import Button from '../../packages/button/index'
-import Form from '../../packages/form/index'
-import Text from '../../packages/text/index'
+import { Root, Icon, Button, form, text } from '../../components'
 
-const { Input: { Textarea } } = Form
-const {
-  Tooltip
-} = Text
+const { Input: { Textarea } } = form
+const { Tooltip } = text
 
 export default class TooltipExample extends PureComponent {
   constructor(props) {

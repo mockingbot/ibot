@@ -2,8 +2,7 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 
-import Root from '../packages/root/index'
-import Switch from '../packages/switch/index'
+import { Root, Switch } from '../components'
 
 storiesOf('Switch', module)
 .add('On/off', () => (

@@ -1,11 +1,10 @@
 import React, { PureComponent } from 'react'
 import { storiesOf } from '@storybook/react'
-import { action } from '@storybook/addon-actions'
 import shuffle from 'lodash/shuffle'
 
-import Root from '../packages/root/index'
-import Icon, { DuoIcon } from '../packages/icon/index'
-import Button from '../packages/button/index'
+import { Root, Icon, Button } from '../components'
+
+const { DuoIcon } = Icon
 
 storiesOf('Icon', module)
 .add('Dora & MockingBot', () => <IconPreview />)

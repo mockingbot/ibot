@@ -1,16 +1,12 @@
 import React from 'react'
 import { action } from '@storybook/addon-actions'
 
-import Root from '../../packages/root/index'
-import Icon from '../../packages/icon/index'
-import Button from '../../packages/button/index'
-
-import Form from '../../packages/form/index'
+import { Root, Icon, Button, form } from '../../components'
 
 const {
   FormLabel,
   Input: { InputNumber, SelectNumber, PanelInputNumber, PanelSelectNumber },
-} = Form
+} = form
 
 export default class InputNumberExample extends React.PureComponent {
   state = { formData: { a: 0 }, isSmall: false }

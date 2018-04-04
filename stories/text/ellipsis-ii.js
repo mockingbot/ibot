@@ -1,12 +1,10 @@
 import React, { PureComponent } from 'react'
 
-import Root from '../../packages/root/index'
-import Button from '../../packages/button/index'
-import Text from '../../packages/text/index'
+import { Root, Button, text } from '../../components'
 
 const {
   Ellipsis: { User, TeamName, AppName, WidgetName },
-} = Text
+} = text
 
 const shortName = 'Vincent'
 const longName = 'Mitchell Vincent Pritchett'

@@ -1,10 +1,7 @@
 import React, { PureComponent } from 'react'
 import { storiesOf } from '@storybook/react'
-import { action } from '@storybook/addon-actions'
 
-import Root from '../packages/root/index'
-import Icon from '../packages/icon/index'
-import Button from '../packages/button/index'
+import { Root, Button } from '../components'
 
 storiesOf('Button', module)
 .add('default', () => <ButtonExample />)
