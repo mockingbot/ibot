@@ -398,7 +398,7 @@ function positionDropdown({
   ) {
     Object.assign(result, { finalPosition: 'bottom' })
 
-    setStyle({ top: `${bottom}px` })
+    setStyle({ top: `${bottom}px`, bottom: '' })
 
     // If the height of the menu is taller than that of space downward:
     if (shouldSetMaxHeight && bottom + hOf$menu > maxY) {
