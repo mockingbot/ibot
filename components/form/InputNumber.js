@@ -27,6 +27,10 @@ const getStep = ({ shiftKey, metaKey }, step = 1) => (
   shiftKey ? step*10 : metaKey ? step*100 : step
 )
 
+const defaultOnFocus = ({ currentTarget: $input }) => (
+  setTimeout(() => $input.select(), 50)
+)
+
 export class InputNumber extends PureComponent {
   state = {
     value: (
@@ -56,6 +60,7 @@ export class InputNumber extends PureComponent {
 
     optionList: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
     shouldMenuAlignCenter: PropTypes.bool,
+    dontSelectOnFocus: PropTypes.bool,
 
     title: PropTypes.node,
     desc: PropTypes.node,
@@ -96,9 +101,6 @@ export class InputNumber extends PureComponent {
     readOnly: false,
 
     onChange: () => null,
-    onFocus: ({ currentTarget: $input }) => (
-      setTimeout(() => $input.select(), 50)
-    ),
   }
 
   componentWillMount() {
@@ -240,7 +242,7 @@ export class InputNumber extends PureComponent {
   }
 
   onStep = e => {
-    e.stopPropagation()
+    e.nativeEvent.stopPropagation()
     const { action } = e.currentTarget.dataset
 
     const step = getStep(e, this.props.step) * (action === 'up' ? 1 : -1)
@@ -278,6 +280,8 @@ export class InputNumber extends PureComponent {
     const action = e.key === 'ArrowUp' ? 'up' : e.key === 'ArrowDown' ? 'down' : null
 
     if (!action) return
+
+    e.persist()
     e.preventDefault()
 
     const step = getStep(e, this.props.step) * (action === 'up' ? 1 : -1)
@@ -316,7 +320,9 @@ export class InputNumber extends PureComponent {
       title, desc,
 
       formatter,
-      onFocus,
+
+      dontSelectOnFocus,
+      onFocus = !dontSelectOnFocus && defaultOnFocus,
 
       optionList, shouldMenuAlignCenter,
     } = this.props

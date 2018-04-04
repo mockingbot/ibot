@@ -51,6 +51,7 @@ export default class InputNumberExample extends React.PureComponent {
             precision={2}
             value={formData.a}
             onChange={this.onChange.bind(this, 'a')}
+            dontSelectOnFocus
           />
         </FormLabel>
 
