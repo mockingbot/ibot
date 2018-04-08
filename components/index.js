@@ -1,7 +1,7 @@
 export { default as Button } from './button'
 export { default as ColorPicker } from './color-picker'
 export { default as Dropdown } from './dropdown'
-export { default as form } from './form'
+export * from './form'
 export { default as Guide } from './guide'
 export { default as Icon } from './icon'
 export { default as Modal } from './modal'

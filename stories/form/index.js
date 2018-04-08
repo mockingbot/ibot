@@ -2,20 +2,19 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 
-import { Root, Icon, Switch, form } from '../../components'
+import {
+  Root, Icon, Switch,
+  FormLabel, FormEntry,
+  Input, PanelInput, Textarea, PanelTextarea, InputNumber,
+  Check,
+  RadioGroup, CheckGroup,
+  Select,
+} from '../../components'
 
 import InputEmailExample from './InputEmail'
 import InputNumberExample from './InputNumber'
 import RadioCheckExample from './RadioCheck'
 import SelectExample from './Select'
-
-const {
-  FormLabel, FormEntry,
-  Input: { Input, PanelInput, Textarea, PanelTextarea, InputNumber },
-  Check,
-  RadioGroup, CheckGroup,
-  Select,
-} = form
 
 const onTypingChange = action('Typing changed')
 

@@ -2,9 +2,8 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 
-import { Root, Icon, Dropdown, form, text } from '../components'
+import { Root, Icon, Dropdown, Select, Check, text } from '../components'
 
-const { Select, Check } = form
 const { Tooltip } = text
 
 storiesOf('Dropdown', module)

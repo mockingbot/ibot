@@ -1,12 +1,11 @@
 import React, { PureComponent } from 'react'
 import { action } from '@storybook/addon-actions'
 
-import { Root, Button, form } from '../../components'
-
-const {
+import {
+  Root, Button,
   Radio, Check,
   RadioGroup, CheckGroup,
-} = form
+} from '../../components'
 
 export default class RadioCheckExample extends PureComponent {
   state = {

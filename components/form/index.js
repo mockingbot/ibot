@@ -1,11 +1,14 @@
 import './index.styl'
 
-import { FormEntry, FormLabel } from './FormEntry'
-import * as Input from './Input'
-import { Check, CheckGroup } from './Check'
-import { Radio, RadioGroup } from './Radio'
-import Select, { PanelSelect } from './Select'
+export { FormEntry, FormLabel } from './FormEntry'
 
-export default {
-  FormEntry, FormLabel, Input, Check, CheckGroup, Radio, RadioGroup, Select, PanelSelect,
-}
+export {
+  Input, PanelInput, Textarea, PanelTextarea,
+  InputEmail, PanelInputEmail,
+  InputNumber, PanelInputNumber,
+  SelectNumber, PanelSelectNumber,
+} from './Input'
+
+export { Check, CheckGroup } from './Check'
+export { Radio, RadioGroup } from './Radio'
+export { Select, PanelSelect } from './Select'

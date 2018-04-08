@@ -1,9 +1,7 @@
 import React from 'react'
 import { action } from '@storybook/addon-actions'
 
-import { Root, Icon, Button, form } from '../../components'
-
-const { Select } = form
+import { Root, Icon, Button, Select } from '../../components'
 
 export default class SelectExample extends React.PureComponent {
   state = {

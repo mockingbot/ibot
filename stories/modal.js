@@ -2,14 +2,13 @@ import React, { PureComponent } from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 
-import { Root, Icon, Switch, Modal, form, text } from '../components'
-
-const  {
+import {
+  Root, Icon, Switch, Modal, text,
   FormLabel, FormEntry,
-  Input: { InputNumber, Textarea, Input },
+  InputNumber, Textarea, Input,
   RadioGroup, CheckGroup,
   Select,
-} = form
+} from '../components'
 
 const { Ellipsis: { WidgetName } } = text
 
