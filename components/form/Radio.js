@@ -63,7 +63,7 @@ export class Radio extends PureComponent {
       >
         <input
           type="radio"
-          checked={isChecked}
+          defaultChecked={isChecked}
           disabled={isDisabled}
           name={name}
           onClick={this.onChange}
