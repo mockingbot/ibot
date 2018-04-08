@@ -1,10 +1,6 @@
 import React, { PureComponent } from 'react'
 
-import { Root, text } from '../../components'
-
-const {
-  Ellipsis: { Ellipsis } ,
-} = text
+import { Root, Ellipsis } from '../../components'
 
 export default class EllipsisI extends PureComponent {
   render() {

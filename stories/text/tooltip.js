@@ -1,8 +1,6 @@
 import React, { PureComponent } from 'react'
 
-import { Root, Icon, Button, Textarea, text } from '../../components'
-
-const { Tooltip } = text
+import { Root, Icon, Button, Textarea, Tooltip } from '../../components'
 
 export default class TooltipExample extends PureComponent {
   constructor(props) {

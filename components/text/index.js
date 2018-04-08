@@ -1,6 +1,4 @@
 import './index.styl'
 
-import * as Ellipsis from './Ellipsis'
-import Tooltip from './Tooltip'
-
-export default { Ellipsis, Tooltip }
+export * from './Ellipsis'
+export Tooltip from './Tooltip'

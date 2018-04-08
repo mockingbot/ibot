@@ -6,7 +6,9 @@ import util from '../util'
 import Tooltip from './Tooltip'
 
 import { TYPE_ELEMENT_MAP } from './constants'
+
 const { trimList } = util
+
 export class Ellipsis extends PureComponent {
   state = { isTruncated: false }
 

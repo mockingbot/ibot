@@ -8,9 +8,8 @@ import {
   InputNumber, Textarea, Input,
   RadioGroup, CheckGroup,
   Select,
+  WidgetName,
 } from '../components'
-
-const { Ellipsis: { WidgetName } } = text
 
 storiesOf('Modal', module)
 .add('Default', () => (
@@ -478,7 +477,7 @@ class NewMasterModal extends PureComponent {
           />
         </FormEntry>
 
-        <FormLabel name="Size">
+        <FormEntry name="Size">
           <style>
           {`
             .master-modal .FormEntry > .val > input.regular[type=number] {
@@ -502,7 +501,7 @@ class NewMasterModal extends PureComponent {
             <span className="times">&times;</span>
             <InputNumber value={h} onChange={this.onChangeH} />
           </div>
-        </FormLabel>
+        </FormEntry>
       </Modal>
     )
   }

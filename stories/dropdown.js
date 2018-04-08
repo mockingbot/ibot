@@ -2,9 +2,7 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 
-import { Root, Icon, Dropdown, Select, Check, text } from '../components'
-
-const { Tooltip } = text
+import { Root, Icon, Dropdown, Select, Check, Tooltip } from '../components'
 
 storiesOf('Dropdown', module)
 .add('Default', () => (

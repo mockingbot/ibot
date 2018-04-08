@@ -6,15 +6,15 @@ import DocumentEvents from 'react-document-events'
 import get from 'lodash/get'
 import isArray from 'lodash/isArray'
 
-import Text from '../text'
 import Dropdown from '../dropdown'
-import util from '../util'
 import { Input } from './Input'
+import { Ellipsis } from '../text'
+
+import util from '../util'
 import { getOptionLabel, getOptionValue, getCurrentOptionIdx } from './util'
 
 import './index.styl'
 
-const { Ellipsis: { Ellipsis } } = Text
 const { trimList, $, $$, SVG } = util
 const MENU_ROOT_ID = 'MB_SELECT_MENU_ROOT'
 const CANT_SCROLL_CLASS = 'mb-cant-scroll'
