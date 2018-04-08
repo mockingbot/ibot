@@ -15,7 +15,8 @@
     "prebuild": "yarn run clean",
     "clean": "rm -rf lib",
     "build:storybook": "build-storybook",
-    "deploy": "yarn run build:storybook && gh-pages -d storybook-static"
+    "deploy": "yarn run build:storybook && gh-pages -d storybook-static",
+    "prepublish": "yarn run build"
   },
   "devDependencies": {
     "@plrthink/rollup-plugin-postcss": "^1.2.6",
