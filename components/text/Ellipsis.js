@@ -1,13 +1,10 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import isEqual from 'lodash/isEqual'
-import util from '../util'
 
 import Tooltip from './Tooltip'
-
+import { trimList } from '../util'
 import { TYPE_ELEMENT_MAP } from './constants'
-
-const { trimList } = util
 
 export class Ellipsis extends PureComponent {
   state = { isTruncated: false }

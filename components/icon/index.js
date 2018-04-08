@@ -1,10 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import util from '../util'
 
+import { trimList } from '../util'
 import duoList from 'mb-icons/dora/duo-list.json'
+
 import './index.styl'
-const { trimList } = util
+
 const ICON_SET_LIST = ['dora', 'mb', 'icon', 'fa', 'md', 'ci']
 const LIGA_ICON_SET_LIST = ['dora', 'md']
 

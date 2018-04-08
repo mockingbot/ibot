@@ -2,11 +2,10 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 
 import Icon from '../icon'
-import util from '../util'
+import { trimList } from '../util'
 
 import './index.styl'
 
-const { trimList } = util
 class Switch extends PureComponent {
   constructor(props) {
     super(props)

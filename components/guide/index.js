@@ -6,13 +6,13 @@ import DocumentEvents from 'react-document-events'
 
 import Button from '../button'
 import Icon from '../icon'
-import util from '../util'
 import Dropdown from '../dropdown'
+
+import { trimList, SVG } from '../util'
 
 import './index.styl'
 
 const { positionDropdown } = Dropdown
-const { trimList, SVG } = util
 const { I18N = {} } = window
 const GUIDE_ROOT_ID = 'MB_GUIDE_GUIDE_ROOT'
 

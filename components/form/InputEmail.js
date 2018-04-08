@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import DocumentEvents from 'react-document-events'
-import util from '../util'
-const { trimList, getOtherProps, EMAIL_REGEX } = util
+
+import { trimList, getOtherProps, EMAIL_REGEX } from '../util'
 
 const checkFinishedTyping = v => (
   /^@/.test(v)

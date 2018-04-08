@@ -1,8 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import util from '../util'
 
-const { trimList } = util
+import { trimList } from '../util'
 /**
  * <FormEntry>
  */

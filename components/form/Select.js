@@ -10,12 +10,11 @@ import Dropdown from '../dropdown'
 import { Input } from './Input'
 import { Ellipsis } from '../text'
 
-import util from '../util'
+import { trimList, $, $$, SVG } from '../util'
 import { getOptionLabel, getOptionValue, getCurrentOptionIdx } from './util'
 
 import './index.styl'
 
-const { trimList, $, $$, SVG } = util
 const MENU_ROOT_ID = 'MB_SELECT_MENU_ROOT'
 const CANT_SCROLL_CLASS = 'mb-cant-scroll'
 

@@ -4,10 +4,10 @@ import isArray from 'lodash/isArray'
 import isSet from 'lodash/isSet'
 
 import Icon from '../icon'
-import util from '../util'
+
+import { trimList } from '../util'
 import { getOptionLabel, getOptionValue, getCurrentOptionIdxList } from './util'
 
-const { trimList } = util
 
 /**
  * <Check>

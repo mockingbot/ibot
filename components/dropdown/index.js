@@ -2,9 +2,10 @@ import React, { PureComponent } from 'react'
 import { createPortal } from 'react-dom'
 import PropTypes from 'prop-types'
 import DocumentEvents from 'react-document-events'
-import util from '../util'
+
+import { trimList, $, SVG } from '../util'
+
 import './index.styl'
-const { trimList, $, SVG } = util
 
 const MENU_ROOT_ID = 'MB_DROPDOWN_MENU_ROOT'
 

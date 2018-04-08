@@ -6,11 +6,10 @@ import DocumentEvents from 'react-document-events'
 import Button from '../button'
 import Switch from '../switch'
 import Icon from '../icon'
-import util from '../util'
+import { trimList, $ } from '../util'
 
 import './index.styl'
 
-const { trimList, $ } = util
 const OPEN_MODAL_STACK = []
 const { I18N = {} } = window
 

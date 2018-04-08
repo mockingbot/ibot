@@ -5,11 +5,10 @@ import PropTypes from 'prop-types'
 import isString from 'lodash/isString'
 import isArray from 'lodash/isArray'
 
-import util from '../util'
+import { trimList, getOtherProps, SVG } from '../util'
 
 import { TYPE_ELEMENT_MAP } from './constants'
 
-const { trimList, getOtherProps, SVG } = util
 const EVENT_NAME_LIST = ['hover', 'click']
 
 const TIP_ROOT_ID = 'MB_TOOLTIP_ROOT'

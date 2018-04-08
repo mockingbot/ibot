@@ -1,9 +1,8 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 
-import util from '../util'
+import { trimList } from '../util'
 import { getOptionLabel, getOptionValue, getCurrentOptionIdx } from './util'
-const { trimList } = util
 /**
  * <Radio>
  */
