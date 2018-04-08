@@ -45,7 +45,7 @@ function enableScrolling() {
   ))
 }
 
-export default class Select extends PureComponent {
+export class Select extends PureComponent {
   state = {
     isOpen: false,
     currentOptionIdx: this.currentOptionIdx,
@@ -229,18 +229,14 @@ export default class Select extends PureComponent {
 }
 
 export class SelectMenu extends PureComponent {
-  constructor(props) {
-    super(props)
-
-    Object.assign(this, {
-      state: { isDownward: true },
-
-      portal: Object.assign(
-        document.createElement('div'),
-        { className: 'SelectMenuPortal' },
-      ),
-    })
+  state = {
+    isDownward: true,
   }
+
+  portal = Object.assign(
+    document.createElement('div'),
+    { className: 'SelectMenuPortal' },
+  )
 
   static propTypes = {
     ...Select.propTypes,
@@ -283,6 +279,35 @@ export class SelectMenu extends PureComponent {
 
   componentWillUnmount() {
     if (this.portal) this.portal.remove()
+  }
+
+  /**
+   * Workaround for Safari where options in invisible areas are still clickable.
+   */
+  onChange = e => {
+    const { onChange } = this.props
+    const { isDownward } = this.state
+
+    const $opt = e.currentTarget
+    const $menu = $opt.closest('.SelectMenu')
+
+    if (!$opt || !$menu) {
+      return this.onlose()
+    }
+
+    const { top: topOf$opt, bottom: bottomOf$opt } = $opt.getBoundingClientRect()
+    const { top: topOf$menu, bottom: bottomOf$menu } = $menu.getBoundingClientRect()
+
+    if (
+      isDownward && topOf$opt >= topOf$menu
+      || !isDownward && bottomOf$opt <= bottomOf$menu
+    ) {
+      if ($opt.classList.contains('title')) return
+
+      return onChange(e)
+    }
+
+    return this.onClose()
   }
 
   onClose = () => {
@@ -362,7 +387,6 @@ export class SelectMenu extends PureComponent {
       menuClassName,
       optionList,
       emptyMsg,
-      onChange,
       currentOptionIdx,
       shouldMenuAlignCenter,
     } = this.props
@@ -399,7 +423,7 @@ export class SelectMenu extends PureComponent {
                   key={idx}
                   idx={idx}
                   optionList={opt}
-                  onChange={onChange}
+                  onChange={this.onChange}
                   currentOptionIdx={currentOptionIdx}
                 />
               : <Option
@@ -408,7 +432,7 @@ export class SelectMenu extends PureComponent {
                   label={getOptionLabel(opt)}
                   value={getOptionValue(opt)}
                   isDisabled={opt.isDisabled}
-                  onChange={onChange}
+                  onChange={this.onChange}
                   currentOptionIdx={currentOptionIdx}
                 />
             ))
@@ -441,7 +465,7 @@ function Group({
 }) {
   return (
     <li className="SelectGroup">
-      <Ellipsis className="title">{ title }</Ellipsis>
+      <Ellipsis className="title" onClick={onChange}>{ title }</Ellipsis>
 
       <ul>
       {
