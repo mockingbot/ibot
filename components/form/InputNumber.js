@@ -241,6 +241,7 @@ export class InputNumber extends PureComponent {
   }
 
   onStep = e => {
+    e.persist()
     e.nativeEvent.stopPropagation()
     const { action } = e.currentTarget.dataset
 
@@ -281,7 +282,7 @@ export class InputNumber extends PureComponent {
     if (!action) return
 
     e.persist()
-    e.preventDefault()
+    e.nativeEvent.preventDefault()
 
     const step = getStep(e, this.props.step) * (action === 'up' ? 1 : -1)
 
@@ -321,7 +322,7 @@ export class InputNumber extends PureComponent {
       formatter,
 
       dontSelectOnFocus,
-      onFocus = !dontSelectOnFocus && defaultOnFocus,
+      onFocus = !dontSelectOnFocus ? defaultOnFocus : undefined,
 
       optionList, shouldMenuAlignCenter,
     } = this.props
