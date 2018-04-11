@@ -10,9 +10,9 @@ import Dropdown from '../dropdown'
 import { Input } from './Input'
 import { Ellipsis } from '../text'
 
-import { trimList, $, $$, SVG } from '../util'
+import { trimList, $, $$, SVG, preparePortal } from '../util'
 import { positionMenu } from '../dropdown/util'
-import { getOptionLabel, getOptionValue, getCurrentOptionIdx } from './util'
+import { getOptionLabel, getOptionValue, checkOptionByValue } from './util'
 
 import './index.styl'
 
@@ -48,7 +48,6 @@ function enableScrolling() {
 export class Select extends PureComponent {
   state = {
     isOpen: false,
-    currentOptionIdx: this.currentOptionIdx,
     value: this.props.value,
   }
 
@@ -111,11 +110,6 @@ export class Select extends PureComponent {
       PropTypes.string,
     ]),
 
-    currentOptionIdx: PropTypes.oneOfType([
-      PropTypes.number,
-      PropTypes.string,
-    ]),
-
     isDisabled: PropTypes.bool,
     onChange: PropTypes.func,
 
@@ -134,24 +128,16 @@ export class Select extends PureComponent {
     menuX: 'left',
   }
 
-  componentWillMount() {
-    window.addEventListener('resize', this.onResizeWindow)
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { currentOptionIdx, value } = this.props
-    const { currentOptionIdx: nextOptionIdx, value: nextValue } = nextProps
-
-    if (currentOptionIdx !== nextOptionIdx || value !== nextValue) {
-      this.setState({
-        currentOptionIdx: this::getCurrentOptionIdx(nextProps),
-        value: nextValue,
-      })
+  static getDerivedStateFromProps({ value: nextValue }, { value }) {
+    if (value !== nextValue) {
+      return { value: nextValue }
     }
+
+    return null
   }
 
-  get currentOptionIdx() {
-    return this::getCurrentOptionIdx()
+  componentDidMount() {
+    window.addEventListener('resize', this.onResizeWindow)
   }
 
   set$select = $select => this.setState({ $select })
@@ -162,36 +148,43 @@ export class Select extends PureComponent {
 
   onResizeWindow = () => this.state.isOpen && this.close()
 
-  onChange = (idx, value) => this.setState(
-    { currentOptionIdx: idx, value },
+  onChange = value => this.setState(
+    { value },
     () => {
-      const { optionList, onChange } = this.props
       this.close()
-      onChange({ value, idx })
+      this.props.onChange(value)
     },
   )
 
   onSelect = ({ currentTarget: $opt }) => (
-    this.onChange($opt.dataset.idx, $opt.dataset.value)
+    this.onChange($opt.dataset.value)
   )
+
+  get displayText() {
+    const { optionList, placeholder } = this.props
+    const { value } = this.state
+
+    const group = optionList.find(g => (
+      isArray(g) && g.slice(0).some(o => checkOptionByValue(o, value))
+    ))
+
+    const option = (group || optionList).find(o => (
+      !isArray(o) && checkOptionByValue(o, value)
+    ))
+
+    return !!option ? getOptionLabel(option) : placeholder
+  }
 
   render() {
     const {
       size, unstyled,
-
       className,
-      optionList,
       menuX,
-
       isDisabled,
-      placeholder,
     } = this.props
 
-    const { isOpen, $select } = this.state
-    const { currentOptionIdx } = this
+    const { isOpen, $select, value } = this.state
 
-    const option = get(optionList, currentOptionIdx, placeholder)
-    const displayText = option.label || option
 
     const klass = trimList([
       'Select',
@@ -209,7 +202,7 @@ export class Select extends PureComponent {
         ref={this.set$select}
       >
         <button type="button" onClick={this.toggle} disabled={isDisabled}>
-          <Ellipsis>{ displayText }</Ellipsis>
+          <Ellipsis>{ this.displayText }</Ellipsis>
         </button>
 
         <span className="caret" dangerouslySetInnerHTML={{ __html: SVG.INPUT_ARROW }} />
@@ -217,10 +210,10 @@ export class Select extends PureComponent {
         <SelectMenu
           isOpen={isOpen}
           {...this.props}
+          value={value}
           $select={$select}
           onChange={this.onSelect}
           onClose={this.close}
-          currentOptionIdx={currentOptionIdx}
           menuX={menuX}
         />
       </label>
@@ -233,10 +226,7 @@ export class SelectMenu extends PureComponent {
     isDownward: true,
   }
 
-  portal = Object.assign(
-    document.createElement('div'),
-    { className: 'SelectMenuPortal' },
-  )
+  portal = preparePortal($menuRoot, 'SelectMenuPortal')
 
   static propTypes = {
     ...Select.propTypes,
@@ -250,16 +240,12 @@ export class SelectMenu extends PureComponent {
     isOpen: false,
   }
 
-  componentWillMount() {
-    $menuRoot.appendChild(this.portal)
-  }
-
-  componentWillReceiveProps({ isOpen: willBeOpen, $select }) {
+  componentDidUpdate({ isOpen: wasOpen, $select }) {
     const { $menuBase } = this
     const { isOpen, menuX } = this.props
 
     // Set up the position of the <SelectMenu> once opened:
-    if (!isOpen && willBeOpen) {
+    if (!wasOpen && isOpen) {
       const { isDownward } = positionMenu({
         $menuBase,
         $opener: $select,
@@ -367,7 +353,7 @@ export class SelectMenu extends PureComponent {
       menuClassName,
       optionList,
       emptyMsg,
-      currentOptionIdx,
+      value,
       menuX,
     } = this.props
 
@@ -397,23 +383,20 @@ export class SelectMenu extends PureComponent {
             ? <li className="SelectOption empty-msg">{ emptyMsg }</li>
             : (
               optionList
-              .map((opt, idx) => (
-                isArray(opt)
+              .map((option, idx) => (
+                isArray(option)
                 ? <Group
                     key={idx}
-                    idx={idx}
-                    optionList={opt}
+                    optionList={option}
+                    value={value}
                     onChange={this.onChange}
-                    currentOptionIdx={currentOptionIdx}
                   />
                 : <Option
                     key={idx}
-                    idx={idx}
-                    label={getOptionLabel(opt)}
-                    value={getOptionValue(opt)}
-                    isDisabled={opt.isDisabled}
+                    isActive={checkOptionByValue(option, value)}
+                    option={option}
+                    isDisabled={option.isDisabled}
                     onChange={this.onChange}
-                    currentOptionIdx={currentOptionIdx}
                   />
               ))
             )
@@ -436,13 +419,10 @@ export class SelectMenu extends PureComponent {
   }
 }
 
-const getGroupOptionIdx = ({ groupIdx, idx }) => `${groupIdx}.${idx + 1}`
-
 function Group({
-  idx: groupIdx,
+  value,
   optionList: [title, ...optionList],
   onChange,
-  currentOptionIdx,
 }) {
   return (
     <li className="SelectGroup">
@@ -451,15 +431,13 @@ function Group({
       <ul>
       {
         optionList
-        .map((opt, idx) => (
+        .map((option, idx) => (
           <Option
             key={idx}
-            idx={getGroupOptionIdx({ groupIdx, idx })}
-            label={getOptionLabel(opt)}
-            value={getOptionValue(opt)}
-            isDisabled={opt.isDisabled}
+            option={option}
+            isActive={checkOptionByValue(option, value)}
+            isDisabled={option.isDisabled}
             onChange={onChange}
-            currentOptionIdx={currentOptionIdx}
           />
         ))
       }
@@ -472,28 +450,26 @@ Group.propTypes = {
   idx: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   optionList: PropTypes.array,
   onChange: PropTypes.func,
-  currentOptionIdx: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 }
 
 function Option({
-  idx,
-  label,
-  value,
+  option,
+  isActive,
   isDisabled,
   onChange,
-  currentOptionIdx,
 }) {
-
   const className = trimList([
     'SelectOption',
-    isDisabled ? 'is-disabled' : '',
-    String(currentOptionIdx) === String(idx) ? 'is-active' : '',
+    isActive && 'is-active',
+    isDisabled && 'is-disabled',
   ])
+
+  const label = getOptionLabel(option)
+  const value = getOptionValue(option)
 
   return (
     <li
       role="option"
-      data-idx={idx}
       data-value={value}
       className={className}
       onClick={isDisabled ? undefined : onChange}
@@ -505,11 +481,12 @@ function Option({
 
 Option.propTypes = {
   idx: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  label: PropTypes.node.isRequired,
-  value: PropTypes.any,
+  option: PropTypes.oneOfType([
+    PropTypes.node,
+    PropTypes.object,
+  ]),
   isDisabled: PropTypes.bool,
   onChange: PropTypes.func,
-  currentOptionIdx: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 }
 
 export function PanelSelect({ className, ...others }) {

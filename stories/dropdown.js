@@ -82,7 +82,7 @@ storiesOf('Dropdown', module)
         menuClassName="preview-option"
         menu={
           <div>
-            <Select size="small" optionList={['真实设备边框', '墨刀黑', '无边框']} currentOptionIdx="0" size="small" unstyled />
+            <Select size="small" optionList={['真实设备边框', '墨刀黑', '无边框']} value="真实设备边框" size="small" unstyled />
             <hr />
             <Check size="small" label="高亮链接区域" />
           </div>
@@ -95,7 +95,7 @@ storiesOf('Dropdown', module)
         menuClassName="preview-option"
         menu={
           <div>
-            <Select size="small" optionList={['真实设备边框', '墨刀黑', '无边框']} currentOptionIdx="0" size="small" unstyled />
+            <Select size="small" optionList={['真实设备边框', '墨刀黑', '无边框']} value="真实设备边框" size="small" unstyled />
             <hr />
             <Check size="small" label="高亮链接区域" />
           </div>
@@ -107,7 +107,7 @@ storiesOf('Dropdown', module)
         menuClassName="preview-option"
         menu={
           <div>
-            <Select size="small" optionList={['真实设备边框', '墨刀黑', '无边框']} currentOptionIdx="0" size="small" unstyled />
+            <Select size="small" optionList={['真实设备边框', '墨刀黑', '无边框']} value="真实设备边框" size="small" unstyled />
             <hr />
             <Check size="small" label="高亮链接区域" />
           </div>

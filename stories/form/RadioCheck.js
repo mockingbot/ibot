@@ -11,6 +11,7 @@ export default class RadioCheckExample extends PureComponent {
   state = {
     isSmall: false,
     langValue: 'zh',
+    cgValueList: ['One', 'Three', 'Five'],
   }
 
   toggleSize = () => this.setState({ isSmall: !this.state.isSmall })
@@ -20,10 +21,22 @@ export default class RadioCheckExample extends PureComponent {
     () => action('Radio Checked')('lang', langValue),
   )
 
+  onChangeCgValueList = ({ valueList: cgValueList }) => this.setState({ cgValueList })
+
+  toggle3FromOutside = () => this.setState(({ cgValueList: prevList }) => ({
+    cgValueList: (
+      prevList.includes('Three')
+      ? prevList.filter(v => v !== 'Three')
+      : [...prevList, 'Three']
+    )
+  }))
+
   render() {
     const {
-      isSmall, langValue
+      isSmall, langValue,
+      cgValueList,
     } = this.state
+
     const size = isSmall ? 'small' : 'regular'
 
     return (
@@ -87,7 +100,7 @@ export default class RadioCheckExample extends PureComponent {
               { label: 'Krung-dēvamahānagara amararatanakosindra mahindrayudhyā mahātilakabhava navaratanarājadhānī purīrāmasya utamarājanivēsana mahāsthāna amaravimāna avatārasthitya shakrasdattiya vishnukarmaprasiddhi, Thailand', value: 'bangkok' },
               { label: 'New York, USA', value: 'newyork', isDisabled: true },
             ]}
-            currentOptionIdx={1}
+            value="tokyo"
             onChange={action('RadioGroup changed')}
           />
         </p>
@@ -120,7 +133,7 @@ export default class RadioCheckExample extends PureComponent {
           <RadioGroup
             size={size}
             optionList={['1','2','3','4','5']}
-            currentOptionIdx={2}
+            value={'2'}
             onChange={action('RadioGroup changed')}
           />
         </p>
@@ -136,7 +149,7 @@ export default class RadioCheckExample extends PureComponent {
               { label: 'Krung-dēvamahānagara amararatanakosindra mahindrayudhyā mahātilakabhava navaratanarājadhānī purīrāmasya utamarājanivēsana mahāsthāna amaravimāna avatārasthitya shakrasdattiya vishnukarmaprasiddhi, Thailand', value: 'bangkok' },
               { label: 'New York, USA', value: 'newyork', isDisabled: true },
             ]}
-            currentOptionIdx={1}
+            value="tokyo"
             onChange={action('Radio changed')}
           />
 
@@ -180,7 +193,7 @@ export default class RadioCheckExample extends PureComponent {
               { label: 'Krung-dēvamahānagara amararatanakosindra mahindrayudhyā mahātilakabhava navaratanarājadhānī purīrāmasya utamarājanivēsana mahāsthāna amaravimāna avatārasthitya shakrasdattiya vishnukarmaprasiddhi, Thailand', value: 'bangkok', isDisabled: true },
               { label: 'New York, USA', value: 'newyork' },
             ]}
-            currentOptionIdxList={[0,3]}
+            valueList={['beijing', 'newyork']}
             onChange={action('CheckGroup changed')}
           />
         </p>
@@ -213,10 +226,21 @@ export default class RadioCheckExample extends PureComponent {
           <CheckGroup
             size={size}
             optionList={['1','2','3','4','5']}
-            currentOptionIdxList={[2, 3]}
+            valueList={[2, 3]}
             onChange={action('CheckGroup changed')}
           />
         </p>
+
+        <h3>Toggle from outside</h3>
+        <p className="check-group">
+          <CheckGroup
+            size={size}
+            optionList={['One', 'Two', 'Three', 'Four', 'Five']}
+            valueList={cgValueList}
+            onChange={this.onChangeCgValueList}
+          />
+        </p>
+        <button onClick={this.toggle3FromOutside}>Toggle ‘three’</button>
 
         <h3>Disabling the entire check group</h3>
         <p className="check-group">
@@ -229,7 +253,7 @@ export default class RadioCheckExample extends PureComponent {
               { label: 'Krung-dēvamahānagara amararatanakosindra mahindrayudhyā mahātilakabhava navaratanarājadhānī purīrāmasya utamarājanivēsana mahāsthāna amaravimāna avatārasthitya shakrasdattiya vishnukarmaprasiddhi, Thailand', value: 'bangkok', isDisabled: true },
               { label: 'New York, USA', value: 'newyork' },
             ]}
-            currentOptionIdxList={[0,3]}
+            valueList={['beijing', 'newyork']}
           />
         </p>
       </Root>

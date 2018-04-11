@@ -163,7 +163,7 @@ storiesOf('Form Components', module)
             { label: 'Female', value: 'F' },
             { label: 'Other', value: 'O' },
           ]}
-          currentOptionIdx={2}
+          value="O"
         />
       </FormEntry>
 
@@ -213,7 +213,7 @@ USA`
             { label: 'The other 7' },
             { label: 'Not in Solar System' },
           ]}
-          currentOptionIdx={2}
+          value="Not in Solar System"
         />
       </FormEntry>
 
@@ -237,7 +237,7 @@ USA`
             { label: 'Perl' },
             { label: '珍珠語言（PerlYuYan）' },
           ]}
-          currentOptionIdxList={[0,1,5]}
+          valueList={['JavaScript', 'Ruby on Rails', 'Node.js']}
         />
       </FormEntry>
     </form>

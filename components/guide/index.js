@@ -1,4 +1,4 @@
-import React, { PureComponent, isValidElement, cloneElement } from 'react'
+import React, { PureComponent, Fragment, isValidElement, cloneElement } from 'react'
 import { createPortal } from 'react-dom'
 
 import PropTypes from 'prop-types'
@@ -7,7 +7,7 @@ import DocumentEvents from 'react-document-events'
 import Button from '../button'
 import Icon from '../icon'
 
-import { trimList, SVG } from '../util'
+import { trimList, SVG, preparePortal } from '../util'
 
 import './index.styl'
 import { positionMenu } from '../dropdown/util'
@@ -32,10 +32,7 @@ export default class GuideBase extends PureComponent {
     isDownward: this.props.Y === 'bottom',
   }
 
-  portal = Object.assign(
-    document.createElement('div'),
-    { className: 'GuidePortal' },
-  )
+  portal = preparePortal($guideRoot, 'GuidePortal')
 
   static propTypes = {
     isOpen: PropTypes.bool,
@@ -48,7 +45,7 @@ export default class GuideBase extends PureComponent {
     gotItText: PropTypes.any,
 
     className: PropTypes.string,
-    children: PropTypes.any,
+    children: PropTypes.node,
     guide: PropTypes.any,
 
     X: PropTypes.oneOf(['left', 'center', 'right']),
@@ -71,28 +68,23 @@ export default class GuideBase extends PureComponent {
     inflexible: false,
   }
 
-  componentWillMount() {
-    $guideRoot.appendChild(this.portal)
+  static getDerivedStateFromProps({ isOpen: willBeOpen }, { isOpen }) {
+    return (
+      isOpen !== willBeOpen
+      ? { isOpen: willBeOpen }
+      : null
+    )
   }
 
   componentDidMount() {
     const { isOpen } = this.state
-
     if (isOpen) this.position()
   }
 
-  componentWillReceiveProps({ isOpen: willBeOpen }) {
+  componentDidUpdate(_, { isOpen: wasOpen }) {
     const { isOpen } = this.state
 
-    if (isOpen !== willBeOpen) {
-      this.setState({ isOpen: willBeOpen })
-    }
-  }
-
-  componentWillUpdate(_, { isOpen: willBeOpen }) {
-    const { isOpen } = this.state
-
-    if (!isOpen && willBeOpen) {
+    if (!wasOpen && isOpen) {
       this.position()
     }
   }
@@ -130,13 +122,18 @@ export default class GuideBase extends PureComponent {
 
     const base = (
       isValidElement(children)
-      ? cloneElement(children, { key: 'base', ref: this.set$base })
-      : <span key="base" ref={this.set$base}>{ children }</span>
+      ? cloneElement(children, { ref: this.set$base })
+      : <span ref={this.set$base}>{ children }</span>
     )
 
     const guide = createPortal(this.renderGuide(), this.portal)
 
-    return [base, guide]
+    return (
+      <Fragment>
+        { base }
+        { guide }
+      </Fragment>
+    )
   }
 
   onScrollOutside = this.position

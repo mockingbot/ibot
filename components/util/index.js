@@ -31,3 +31,13 @@ export function $(selector, context = document) {
 export function $$(selector, context = document) {
   return Array.from(context.querySelectorAll(selector))
 }
+
+export function preparePortal($root, className) {
+  const $portal = Object.assign(
+    document.createElement('div'),
+    { className },
+  )
+
+  $root.appendChild($portal)
+  return $portal
+}

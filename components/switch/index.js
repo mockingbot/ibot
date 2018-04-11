@@ -6,11 +6,8 @@ import { trimList } from '../util'
 
 import './index.styl'
 
-class Switch extends PureComponent {
-  constructor(props) {
-    super(props)
-    this.state = { isChecked: props.isChecked }
-  }
+export default class Switch extends PureComponent {
+  state = { isChecked: this.props.isChecked }
 
   static propTypes = {
     isChecked: PropTypes.bool,
@@ -18,7 +15,7 @@ class Switch extends PureComponent {
     onChange: PropTypes.func,
     className: PropTypes.string,
     icon: PropTypes.string,
-    children: PropTypes.children,
+    children: PropTypes.any,
   }
 
   static defaultProps = {
@@ -29,12 +26,11 @@ class Switch extends PureComponent {
     icon: '',
   }
 
-  componentWillReceiveProps({ isChecked: willBeChecked }) {
-    const { isChecked } = this.props
-
+  static getDerivedStateFromProps({ isChecked: willBeChecked }, { isChecked }) {
     if (willBeChecked !== isChecked) {
-      this.setState({ isChecked: willBeChecked })
+      return { isChecked: willBeChecked }
     }
+    return null
   }
 
   toggle = ({ target: $btn }) => {
@@ -70,5 +66,3 @@ class Switch extends PureComponent {
     )
   }
 }
-
-export default Switch

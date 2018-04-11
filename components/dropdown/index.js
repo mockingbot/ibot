@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom'
 import PropTypes from 'prop-types'
 import DocumentEvents from 'react-document-events'
 
-import { trimList, $, SVG } from '../util'
+import { trimList, $, SVG, preparePortal } from '../util'
 import { positionMenu } from './util'
 
 import './index.styl'
@@ -86,7 +86,7 @@ export default class Dropdown extends PureComponent {
     menuBasedX: false,
   }
 
-  componentWillMount() {
+  componentDidMount() {
     window.addEventListener('resize', this.onResizeWindow)
   }
 
@@ -207,18 +207,9 @@ export default class Dropdown extends PureComponent {
 }
 
 class DropdownMenu extends PureComponent {
-  constructor(props) {
-    super(props)
+  state = { isDownward: this.props.position === 'bottom' }
 
-    Object.assign(this, {
-      state: { isDownward: props.position === 'bottom' },
-
-      portal: Object.assign(
-        document.createElement('div'),
-        { className: 'DropdownMenuPortal' },
-      ),
-    })
-  }
+  portal = preparePortal($menuRoot, 'DropdownMenuPortal')
 
   static propTypes = {
     ...Dropdown.propTypes,
@@ -228,15 +219,11 @@ class DropdownMenu extends PureComponent {
     onClose: PropTypes.func,
   }
 
-  componentWillMount() {
-    $menuRoot.appendChild(this.portal)
-  }
-
-  componentWillReceiveProps({ isOpen: willBeOpen }) {
+  componentDidUpdate({ isOpen: wasOpen }) {
     const { isOpen } = this.props
 
     // Set up the position of the <DropdownMenu> once opened:
-    if (!isOpen && willBeOpen) {
+    if (!wasOpen && isOpen) {
       this.position()
     }
   }

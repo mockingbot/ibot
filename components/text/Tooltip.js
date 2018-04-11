@@ -84,7 +84,7 @@ export default class Tooltip extends PureComponent {
     tipClassName: '',
   }
 
-  componentWillUpdate(_, { isOpen: willBeOpen }) {
+  componentDidUpdate(_, { isOpen: willBeOpen }) {
     const { duration } = this.props
     const { isOpen } = this.state
 
@@ -197,30 +197,34 @@ class Tip extends PureComponent {
     children: PropTypes.node,
   }
 
-  componentWillReceiveProps({ isOpen: willBeOpen, position: newPosition }) {
-    const { isOpen, position } = this.state
+  static getDerivedStateFromProps(
+    // nextProps:
+    { isOpen: willBeOpen, position: newPosition },
+    // prevState:
+    { isOpen, position },
+  ) {
 
     if (!isOpen && willBeOpen) {
+      return { isOpen: willBeOpen }
       this.setState({ isOpen: willBeOpen })
-    } else if (isOpen && !willBeOpen) {
-      this.$tip.classList.remove('is-open')
+    } else if (!isOpen && willBeOpen && position !== newPosition) {
+      return { position: newPosition }
     }
 
-    if (!isOpen && willBeOpen && position !== newPosition) {
-      this.setState({ position: newPosition })
-    }
-  }
+    return null
+ }
 
   componentDidUpdate({ isOpen: wasOpen }) {
-    const { isOpen } = this.state
+    const { isOpen } = this.props
 
     if (!wasOpen && isOpen) {
       this.position()
+    } else if (wasOpen && !isOpen) {
+      this.$tip.classList.remove('is-open')
     }
   }
 
   set$tip = $tip => Object.assign(this, { $tip })
-  set$tipStyle = style => Object.assign(this.$tip.style, style)
 
   position = () => {
     const { $tip } = this

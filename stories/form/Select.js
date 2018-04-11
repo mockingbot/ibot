@@ -12,12 +12,12 @@ export default class SelectExample extends React.PureComponent {
 
   toggleSize = () => this.setState({ isSmall: !this.state.isSmall })
 
-  onChangeForcedChangingSelect = ({ value: forcedChangingValue }) => this.setState(
+  onChangeForcedChangingSelect = forcedChangingValue => this.setState(
     { forcedChangingValue },
     action('Select changed')(forcedChangingValue),
   )
 
-  onChangeLongerSelect = ({ value: longerSelectValue }) => this.setState(
+  onChangeLongerSelect = longerSelectValue => this.setState(
     { longerSelectValue },
     action('Select changed')(longerSelectValue),
   )
@@ -66,13 +66,10 @@ export default class SelectExample extends React.PureComponent {
           <Select size={size} optionList={['Apple', 'Pencil']} onChange={action('Select changed')} />
           <br />
           <Select size={size} optionList={['Apple', 'Pencil']} value="Apple" onChange={action('Select changed')} />
-          <Select size={size} optionList={['Apple', 'Pencil']} currentOptionIdx="0" onChange={action('Select changed')} />
           <br />
           <Select size={size} optionList={['Apple', 'Pencil']}  value="Apple" onChange={action('Select changed')} />
-          <Select size={size} optionList={['Apple', 'Pencil']}  currentOptionIdx={0} onChange={action('Select changed')} />
           <br />
           <Select size={size} optionList={['Apple', 'Pencil', <span><Icon name="apple" /> Apple</span>]} value="Pencil" onChange={action('Select changed')} />
-          <Select size={size} optionList={['Apple', 'Pencil', <span><Icon name="apple" /> Apple</span>]} currentOptionIdx={1} onChange={action('Select changed')} />
           <br />
           <Select size={size} optionList={[1, 2, 3, 4, 5]} value={2} onChange={action('Select changed')} />
           <Select size={size} optionList={[1, 2, 3, 4, 5]} value="2" onChange={action('Select changed')} />
@@ -80,52 +77,14 @@ export default class SelectExample extends React.PureComponent {
           <Select size={size} optionList={['1', '2', '3', '4', '5']} value="2" onChange={action('Select changed')} />
           <br />
           <Select size={size} optionList={['Apple', 'Pencil']} isDisabled={true} onChange={action('Select changed')} />
-        </p>
-
-        <p>
-          <Select
-            size={size}
-            menuClassName="select-menu-with-icons"
-            optionList={[
-              <span><Icon name="apple" /> Apple</span>,
-              <span><Icon name="pencil" /> Pencil</span>,
-            ]}
-            onChange={action('Select changed')}
-          />
           <br />
           <Select
             size={size}
             menuClassName="select-menu-with-icons"
             optionList={[
-              <span>Apple</span>,
-              <span>Pencil</span>,
-              <span><Icon name="apple" /> Apple</span>,
-              <span><Icon name="pencil" /> Pencil</span>,
+              { label: <span><Icon name="apple" /> Apple</span>, value: 'apple' },
+              { label: <span><Icon name="pencil" /> Pencil</span>, value: 'pencil' },
             ]}
-            currentOptionIdx={0}
-            onChange={action('Select changed')}
-          />
-          <br />
-          <Select
-            size={size}
-            menuClassName="select-menu-with-icons"
-            optionList={[
-              <span><Icon name="apple" /> Apple</span>,
-              <span><Icon name="pencil" /> Pencil</span>,
-            ]}
-            currentOptionIdx="1"
-            onChange={action('Select changed')}
-          />
-          <br />
-          <Select
-            size={size}
-            menuClassName="select-menu-with-icons"
-            optionList={[
-              <span><Icon name="apple" /> Apple</span>,
-              <span><Icon name="pencil" /> Pencil</span>,
-            ]}
-            currentOptionIdx="1"
-            isDisabled={true}
             onChange={action('Select changed')}
           />
         </p>
@@ -151,26 +110,11 @@ export default class SelectExample extends React.PureComponent {
           />
           <Select
             size={size}
-            currentOptionIdx="5"
-            optionList={['Yirgacheffe', 'Harrar', 'Kenya AA', 'Antiqua Flora', 'Huehuetenango', 'Tanzania AA', 'Cerrado', 'Bucaramanga Supremo', 'Tarrazu', 'Hawaii Kona', 'Blue Mountain', 'Mandheling']}
-            onChange={action('Select changed')}
-          />
-          <br />
-          <Select
-            size={size}
             isDisabled={false}
             value="Blue Mountain"
             optionList={['Yirgacheffe', 'Harrar', 'Kenya AA', 'Antiqua Flora', 'Huehuetenango', 'Tanzania AA', 'Cerrado', 'Bucaramanga Supremo', 'Tarrazu', 'Hawaii Kona', 'Blue Mountain', 'Mandheling']}
             onChange={action('Select changed')}
           />
-          <Select
-            size={size}
-            isDisabled={false}
-            currentOptionIdx={10}
-            optionList={['Yirgacheffe', 'Harrar', 'Kenya AA', 'Antiqua Flora', 'Huehuetenango', 'Tanzania AA', 'Cerrado', 'Bucaramanga Supremo', 'Tarrazu', 'Hawaii Kona', 'Blue Mountain', 'Mandheling']}
-            onChange={action('Select changed')}
-          />
-          <br />
           <Select
             size={size}
             isDisabled
@@ -201,30 +145,10 @@ export default class SelectExample extends React.PureComponent {
             ]}
             onChange={action('Select changed')}
           />
-          <Select
-            size={size}
-            currentOptionIdx="0.2"
-            optionList={[
-              ['Fruit', 'Apples', 'Blackberries', 'Blueberries', 'Bananas', 'Pitayas', 'Mangos'],
-              ['Cheese', 'Blue Cheese', 'Parmesan', 'Ricotta', 'Benedictine', 'Brie', { label: 'Cheddar', value: 'cheddar' }, { label: 'Cream Cheese', isDisabled: true }],
-              'Rib Eye Steak', 'Bacon Sandwich', 'Caesar Salad',
-            ]}
-            onChange={action('Select changed')}
-          />
           <br />
           <Select
             size={size}
             value="Brie"
-            optionList={[
-              ['Fruit', 'Apples', 'Blackberries', 'Blueberries', 'Bananas', 'Pitayas', 'Mangos'],
-              ['Cheese', 'Blue Cheese', 'Parmesan', 'Ricotta', 'Benedictine', 'Brie', { label: 'Cheddar', value: 'cheddar' }, { label: 'Cream Cheese', isDisabled: true }],
-              'Rib Eye Steak', 'Bacon Sandwich', 'Caesar Salad',
-            ]}
-            onChange={action('Select changed')}
-          />
-          <Select
-            size={size}
-            currentOptionIdx="1.5"
             optionList={[
               ['Fruit', 'Apples', 'Blackberries', 'Blueberries', 'Bananas', 'Pitayas', 'Mangos'],
               ['Cheese', 'Blue Cheese', 'Parmesan', 'Ricotta', 'Benedictine', 'Brie', { label: 'Cheddar', value: 'cheddar' }, { label: 'Cream Cheese', isDisabled: true }],
@@ -243,32 +167,11 @@ export default class SelectExample extends React.PureComponent {
             ]}
             onChange={action('Select changed')}
           />
-          <Select
-            size={size}
-            currentOptionIdx="2"
-            optionList={[
-              ['Fruit', 'Apples', 'Blackberries', 'Blueberries', 'Bananas', 'Pitayas', 'Mangos'],
-              ['Cheese', 'Blue Cheese', 'Parmesan', 'Ricotta', 'Benedictine', 'Brie', { label: 'Cheddar', value: 'cheddar' }, { label: 'Cream Cheese', isDisabled: true }],
-              'Rib Eye Steak', 'Bacon Sandwich', 'Caesar Salad',
-            ]}
-            onChange={action('Select changed')}
-          />
           <br />
           <Select
             size={size}
             isDisabled
             value="cheddar"
-            optionList={[
-              ['Fruit', 'Apples', 'Blackberries', 'Blueberries', 'Bananas', 'Pitayas', 'Mangos'],
-              ['Cheese', 'Blue Cheese', 'Parmesan', 'Ricotta', 'Benedictine', 'Brie', { label: 'Cheddar', value: 'cheddar' }, { label: 'Cream Cheese', isDisabled: true }],
-              'Rib Eye Steak', 'Bacon Sandwich', 'Caesar Salad',
-            ]}
-            onChange={action('Select changed')}
-          />
-          <Select
-            size={size}
-            isDisabled
-            currentOptionIdx="1.6"
             optionList={[
               ['Fruit', 'Apples', 'Blackberries', 'Blueberries', 'Bananas', 'Pitayas', 'Mangos'],
               ['Cheese', 'Blue Cheese', 'Parmesan', 'Ricotta', 'Benedictine', 'Brie', { label: 'Cheddar', value: 'cheddar' }, { label: 'Cream Cheese', isDisabled: true }],
@@ -313,6 +216,7 @@ export default class SelectExample extends React.PureComponent {
           <Select
             size={size}
             placeholder="选择一个项目"
+            value={this.state.longerSelectValue}
             optionList={[
               ['我的项目', '私ノ友達', '双十一的特价活动超强報价页面，十月底最终版'],
               ['洋基队', 'InstaYankies', 'New York New York', 'Manhattan Project'],
@@ -320,8 +224,9 @@ export default class SelectExample extends React.PureComponent {
               ['红襪队', '一个很長很長又臭又長很長很長又臭又長很長很長又臭又長又長又臭又長又臭又臭又長的项目名字'],
               ['队名為什麼要取得那麼地長啊，好奇怪啊，你們！队', '一个很長很長又臭又長很長很長又臭又長很長很長又臭又長又長又臭又長又臭又臭又長的项目名字'],
             ]}
+            onChange={this.onChangeLongerSelect}
           />
-
+          <br />
           <Select
             size={size}
             placeholder="选择一个项目"

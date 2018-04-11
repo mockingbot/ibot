@@ -5,7 +5,7 @@ import './index.styl'
 
 export default class Root extends PureComponent {
   static propTypes = {
-    children: PropTypes.any,
+    children: PropTypes.node,
   }
 
   static defaultProps = {

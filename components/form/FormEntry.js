@@ -27,7 +27,7 @@ export function FormEntry({
 
 FormEntry.propTypes = {
   className: PropTypes.string,
-  children: PropTypes.any,
+  children: PropTypes.node,
   name: PropTypes.any,
   type: PropTypes.string,
   isLabel: PropTypes.bool,

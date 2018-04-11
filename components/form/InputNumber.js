@@ -35,9 +35,7 @@ export class InputNumber extends PureComponent {
     value: (
       isNumber(this.props.value)
       ? this.props.value
-      : this.props.placeholder
-      ? ''
-      : 1
+      : ''
     ),
 
     isActive: false,
@@ -102,16 +100,22 @@ export class InputNumber extends PureComponent {
     onChange: () => null,
   }
 
-  componentWillMount() {
-    const { value } = this.props
-    const isValid = this.checkValidity(value)
-    this.setState({ isValid })
+  static getDerivedStateFromProps({ value: newValue }, { value }) {
+    if (newValue !== value) {
+      return {
+        value: newValue === 0 || !!newValue ? newValue : '',
+      }
+    }
+
+    return null
   }
 
   componentDidMount() {
     const { $label } = this
+    const { value, title, prefix, suffix } = this.props
 
-    const { title, prefix, suffix } = this.props
+    const isValid = this.checkValidity(value)
+    this.setState({ isValid })
 
     if (!title && !prefix && !suffix) return
 
@@ -143,20 +147,6 @@ export class InputNumber extends PureComponent {
     if (suffix) {
       const space = $action.clientWidth + $suffix.clientWidth
       Object.assign($input.style, { paddingRight: `${space}px` })
-    }
-  }
-
-  componentWillReceiveProps({ value: newValue }) {
-    const { value } = this.props
-
-    if (newValue !== value) {
-      this.setState({
-        value: (
-          newValue === 0 || !!newValue
-          ? newValue
-          : ''
-        ),
-      })
     }
   }
 
@@ -243,6 +233,7 @@ export class InputNumber extends PureComponent {
   onStep = e => {
     e.persist()
     e.nativeEvent.stopPropagation()
+
     const { action } = e.currentTarget.dataset
 
     const step = getStep(e, this.props.step) * (action === 'up' ? 1 : -1)
@@ -299,8 +290,10 @@ export class InputNumber extends PureComponent {
   closeMenu = () => this.setState({ isMenuOpen: false })
 
   onSelect = e => {
+    e.persist()
+
     const { currentTarget: $opt } = e
-    this.setValue(this.props.optionList[$opt.dataset.idx], e)
+    this.setValue($opt.dataset.value, e)
     this.closeMenu()
   }
 
@@ -430,7 +423,7 @@ export class InputNumber extends PureComponent {
             $select={this.$label}
 
             optionList={optionList}
-            currentOptionIdx={optionList.indexOf(value)}
+            value={value}
             shouldMenuAlignCenter={shouldMenuAlignCenter}
 
             onChange={this.onSelect}

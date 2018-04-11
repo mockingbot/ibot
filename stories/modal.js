@@ -275,9 +275,7 @@ storiesOf('Modal', module)
 
 
     <h2>Form</h2>
-    <FormLabel name="Add New Master">
-      <NewMasterModal />
-    </FormLabel>
+    <NewMasterFormLabel />
 
     <FormLabel name="Transfer Screen(s)">
       <Modal
@@ -383,12 +381,18 @@ storiesOf('Modal', module)
           <RadioGroup
             optionList={[
               'Only for Collaborators',
-              { label: [
-                'Anyone with the URL and optional password:',
-                <Input key="input" type="password" />,
-              ]}
+              {
+                label: (
+                  <span>
+                    Anyone with the URL and optional password:
+                    {' '}
+                    <Input key="input" type="password" />
+                  </span>
+                ),
+                value: 'pwd',
+              },
             ]}
-            currentOptionIdx={1}
+            value="pwd"
           />
         </FormEntry>
 
@@ -398,7 +402,7 @@ storiesOf('Modal', module)
               'Highlight clickable areas on the screens.',
               'Play the app directly without showing install instructions.',
             ]}
-            currentOptionIdxList={[0]}
+            valueList={['Highlight clickable areas on the screens.']}
           />
         </FormEntry>
 
@@ -425,24 +429,39 @@ storiesOf('Modal', module)
 ))
 
 
+class NewMasterFormLabel extends PureComponent {
+  state = { isOpen: false }
+
+  onToggle = isOpen => this.setState({ isOpen })
+
+  render() {
+    const { isOpen } = this.state
+
+    return (
+      <FormLabel name="Add New Master">
+        <NewMasterModal isOpen={isOpen} onToggle={this.onToggle} />
+      </FormLabel>
+    )
+  }
+}
+
 class NewMasterModal extends PureComponent {
-  constructor(props) {
-    super(props)
-    this.state = {
-      name: '',
-      isPrivate: true,
-      w: 300,
-      h: 50,
-    }
+  state = {
+    name: '',
+    access: 'public',
+    w: 300,
+    h: 50,
   }
 
-  onChangeName = ({ target: { value } }) => this.setState({ name: value })
-  onToggleAccess = ({ idx }) => this.setState({ isPrivate: Boolean(idx) })
+  onChangeName = name => this.setState({ name })
+  onToggleAccess = ({ value: access }) => this.setState({ access })
+
   onChangeW = w => this.setState({ w })
   onChangeH = h => this.setState({ h })
 
   render() {
-    const { name, isPrivate, w, h } = this.state
+    const { isOpen, onToggle } = this.props
+    const { name, access, w, h } = this.state
 
     return (
       <Modal
@@ -450,11 +469,15 @@ class NewMasterModal extends PureComponent {
         opener={<Icon name="plus" />}
         className="master-modal"
 
+        isOpen={isOpen}
+
         type="form"
         title="New Master"
         onConfirm={action('Confirmed')}
         onCancel={action('Cancelled')}
         onToggle={action('Modal toggled, `isOpen`')}
+
+        onToggle={onToggle}
       >
         <p>All modals will try to focus on the first input element once opened.</p>
 
@@ -469,10 +492,10 @@ class NewMasterModal extends PureComponent {
         <FormEntry name="Access">
           <RadioGroup
             optionList={[
-              { label: 'Public', value: false },
-              { label: 'Private', value: true },
+              { label: 'Public', value: 'public' },
+              { label: 'Private', value: 'private' },
             ]}
-            currentOptionIdx={Number(isPrivate)}
+            value={access}
             onChange={this.onToggleAccess}
           />
         </FormEntry>

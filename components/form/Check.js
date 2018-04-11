@@ -1,13 +1,20 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+
 import isArray from 'lodash/isArray'
 import isSet from 'lodash/isSet'
+import isEqual from 'lodash/isEqual'
 
 import Icon from '../icon'
 
 import { trimList } from '../util'
-import { getOptionLabel, getOptionValue, getCurrentOptionIdxList } from './util'
 
+import {
+  getOptionLabel,
+  getOptionValue,
+  checkOptionByValueList,
+  convertValueListToSet,
+} from './util'
 
 /**
  * <Check>
@@ -34,12 +41,11 @@ export class Check extends PureComponent {
     onChange: () => null,
   }
 
-  componentWillReceiveProps({ isChecked: willBeChecked }) {
-    const { isChecked } = this.props
-
+  static getDerivedStateFromProps({ isChecked: willBeChecked }, { isChecked }) {
     if (willBeChecked !== isChecked) {
-      this.setState({ isChecked: willBeChecked })
+      return { isChecked: willBeChecked }
     }
+    return null
   }
 
   onToggle = () => {
@@ -86,7 +92,7 @@ export class CheckGroup extends PureComponent {
   name = this.props.name || Math.random().toString(36).substring(2, 15)
 
   state = {
-    currentOptionIdxList: this.currentOptionIdxList,
+    valueList: convertValueListToSet(this.props.valueList),
   }
 
   static propTypes = {
@@ -112,11 +118,6 @@ export class CheckGroup extends PureComponent {
       PropTypes.array,
     ]),
 
-    currentOptionIdxList: PropTypes.oneOfType([
-      PropTypes.instanceOf(Set),
-      PropTypes.array,
-    ]),
-
     isDisabled: PropTypes.bool,
   }
 
@@ -128,29 +129,37 @@ export class CheckGroup extends PureComponent {
     isDisabled: false,
   }
 
-  get currentOptionIdxList() {
-    return this::getCurrentOptionIdxList()
+  static getDerivedStateFromProps(nextProps, { valueList }) {
+    const nextValueList = convertValueListToSet(nextProps.valueList)
+
+    if (!isEqual(valueList, nextValueList)) {
+      return { valueList: nextValueList }
+    }
+
+    return null
   }
 
-  createOnChangeHandler = (name, idx) => () => {
+  createOnChangeHandler = (name, opt) => () => {
     const { optionList, onChange } = this.props
-    const { currentOptionIdxList } = this
+    const { valueList } = this.state
 
-    const result = new Set(currentOptionIdxList)
-    const action = result.has(idx) ? 'delete' : 'add'
-    result[action](idx)
+    const resultValueList = new Set(valueList)
+    const optionValue = getOptionValue(opt)
 
-    const idxList = Array.from(result)
-    const valueList = idxList.map(idx => getOptionValue(optionList[idx]))
+    const toggleAction = resultValueList.has(optionValue) ? 'delete' : 'add'
+    resultValueList[toggleAction](optionValue)
+
+    const nextValueList = Array.from(resultValueList)
+    const nextIdxList = nextValueList.map(v => optionList.findIndex(o => getOptionValue(o) === v))
 
     this.setState(
-      { currentOptionIdxList: result },
-      () => onChange({ name, idxList, valueList }),
+      { valueList: resultValueList },
+      () => onChange({ name, valueList: nextValueList, idxList: nextIdxList }),
     )
   }
 
   render() {
-    const { name, currentOptionIdxList } = this
+    const { name } = this
 
     const {
       size,
@@ -158,6 +167,8 @@ export class CheckGroup extends PureComponent {
       optionList,
       isDisabled,
     } = this.props
+
+    const { valueList } = this.state
 
     const klass = trimList([
       'CheckGroup',
@@ -175,11 +186,11 @@ export class CheckGroup extends PureComponent {
             name={name}
             size={size}
             isDisabled={isDisabled || opt.isDisabled}
-            isChecked={currentOptionIdxList.has(idx)}
+            isChecked={checkOptionByValueList(opt, valueList)}
             label={getOptionLabel(opt)}
             onChange={
               !(isDisabled || opt.isDisabled)
-              ? this.createOnChangeHandler(name, idx)
+              ? this.createOnChangeHandler(name, opt)
               : undefined
             }
           />

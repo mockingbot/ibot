@@ -24,7 +24,7 @@ class IconPreview extends PureComponent {
     .then(([dora, mb, duo]) => this.setState({ dora, mb, duo }))
   )
 
-  componentWillMount() {
+  componentDidMount() {
     this.fetch()
   }
 
