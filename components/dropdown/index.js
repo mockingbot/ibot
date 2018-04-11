@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import DocumentEvents from 'react-document-events'
 
 import { trimList, $, SVG } from '../util'
+import { positionMenu } from './util'
 
 import './index.styl'
 
@@ -20,20 +21,16 @@ if (!$body.contains($menuRoot)) {
   $body.appendChild($menuRoot)
 }
 
-class Dropdown extends PureComponent {
-  constructor(props) {
-    super(props)
-
-    Object.assign(this, {
-      state: {
-        isOpen: false,
-        $opener: null,
-        currentMenuListItemIdx: props.currentMenuListItemIdx,
-      },
-
-      leaveTimeoutList: [],
-    })
+export default class Dropdown extends PureComponent {
+  state = {
+    isOpen: false,
+    $opener: null,
+    currentMenuListItemIdx: this.props.currentMenuListItemIdx,
   }
+
+  leaveTimeoutList = []
+
+  static positionMenu = positionMenu
 
   static propTypes = {
     opener: PropTypes.node,
@@ -62,9 +59,11 @@ class Dropdown extends PureComponent {
     hoverDelay: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
     arrowed: PropTypes.bool,
-    position: PropTypes.oneOf(['top', 'bottom']),
-    unfold: PropTypes.oneOf(['left', 'center', 'right']),
     inflexible: PropTypes.bool,
+
+    menuX: PropTypes.oneOf(['left', 'center', 'right']),
+    menuY: PropTypes.oneOf(['top', 'bottom']),
+    menuBasedX: PropTypes.bool,
 
     isDisabled: PropTypes.bool,
     disabled: PropTypes.bool,
@@ -80,9 +79,11 @@ class Dropdown extends PureComponent {
     shouldOpenOnHover: false,
     hoverDelay: 200,
 
-    position: 'bottom',
-    unfold: 'center',
+    menuX: 'center',
+    menuY: 'bottom',
+
     inflexible: false,
+    menuBasedX: false,
   }
 
   componentWillMount() {
@@ -231,14 +232,12 @@ class DropdownMenu extends PureComponent {
     $menuRoot.appendChild(this.portal)
   }
 
-  componentWillReceiveProps({ isOpen: willBeOpen, $opener }) {
-    const { $menu } = this
-    const { isOpen, position, inflexible } = this.props
+  componentWillReceiveProps({ isOpen: willBeOpen }) {
+    const { isOpen } = this.props
 
     // Set up the position of the <DropdownMenu> once opened:
     if (!isOpen && willBeOpen) {
-      const result = positionDropdown({ $menu, $opener, position, inflexible })
-      this.setState({ isDownward: result.finalPosition === 'bottom' })
+      this.position()
     }
   }
 
@@ -246,7 +245,7 @@ class DropdownMenu extends PureComponent {
     if (this.portal) this.portal.remove()
   }
 
-  set$menu = $menu => Object.assign(this, { $menu })
+  set$menuBase = $menuBase => Object.assign(this, { $menuBase })
 
   onClickOutside = ({ target }) => {
     const { $opener, onClose } = this.props
@@ -262,12 +261,12 @@ class DropdownMenu extends PureComponent {
     }
   }
 
-  onScrollOutside = () => {
-    const { $menu } = this
-    const { $opener, position, inflexible } = this.props
+  position = () => {
+    const { $menuBase } = this
+    const { $opener, menuX, menuY, inflexible } = this.props
 
-    const result = positionDropdown({ $menu, $opener, position, inflexible })
-    this.setState({ isDownward: result.finalPosition === 'bottom' })
+    const { isDownward } = positionMenu({ $menuBase, $opener, menuX, menuY, inflexible })
+    this.setState({ isDownward })
   }
 
   render() {
@@ -277,8 +276,8 @@ class DropdownMenu extends PureComponent {
   renderMenu() {
     const {
       isOpen, menuClassName,
-      arrowed, unfold,
       menu, menuList,
+      arrowed, menuX, menuY, menuBasedX,
       currentMenuListItemIdx,
       onSelect,
     } = this.props
@@ -289,137 +288,55 @@ class DropdownMenu extends PureComponent {
       'DropdownMenu',
       isOpen && 'is-open',
       isDownward ? 'is-downward' : 'is-upward',
-      arrowed && 'arrowed',
-      `unfold-${unfold}`,
+      `x-${menuX}`,
+      arrowed && `arrowed ${menuBasedX ? 'x-menu-based' : 'x-arrow-based'}`,
       menuClassName,
     ])
 
     return (
-      <div ref={this.set$menu} className={klass}>
-        { arrowed && (
-          <span className="arrow" dangerouslySetInnerHTML={{ __html: SVG.DROPDOWN_ARROW }} />
-        )}
+      <div ref={this.set$menuBase} className="DropdownMenuBase">
+        <div className={klass}>
+          { arrowed && (
+            <span className="arrow" dangerouslySetInnerHTML={{ __html: SVG.DROPDOWN_ARROW }} />
+          )}
 
-        <div className="content">
-        {
-          menuList
-          ? (
-            <ul className="MenuList">
-            { menuList.map((it, idx) => (
-              <li
-                key={idx}
-                role="option"
-                data-idx={idx}
-                className={trimList([
-                  it.isDisabled && 'is-disabled',
-                  idx === Number(currentMenuListItemIdx) && 'is-active',
-                ])}
-                onClick={it.isDisabled ? undefined : onSelect}
-              >
-              { it.label || it }
-              </li>
-            ))}
-            </ul>
-          )
-          : menu
-        }
+          <div className="content">
+          {
+            menuList
+            ? (
+              <ul className="MenuList">
+              { menuList.map((it, idx) => (
+                <li
+                  key={idx}
+                  role="option"
+                  data-idx={idx}
+                  className={trimList([
+                    it.isDisabled && 'is-disabled',
+                    idx === Number(currentMenuListItemIdx) && 'is-active',
+                  ])}
+                  onClick={it.isDisabled ? undefined : onSelect}
+                >
+                { it.label || it }
+                </li>
+              ))}
+              </ul>
+            )
+            : menu
+          }
+          </div>
+
+          <DocumentEvents
+            enabled={isOpen}
+            onMouseDown={this.onClickOutside}
+          />
+
+          <DocumentEvents
+            enabled={isOpen}
+            capture={true}
+            onScroll={this.position}
+          />
         </div>
-
-        <DocumentEvents
-          enabled={isOpen}
-          onMouseDown={this.onClickOutside}
-        />
-
-        <DocumentEvents
-          enabled={isOpen}
-          capture={true}
-          onScroll={this.onScrollOutside}
-        />
       </div>
     )
   }
 }
-
-/**
- * Position menu according to where its opener is and returns
- * corresponding information.
- *
- * @param {Object} option
- *  @prop {Element} $opener
- *  @prop {Element} $menu
- *  @prop {String} [position="bottom"]
- *  @prop {String} [inflexible=false]
- *  @prop {Boolean} [shouldSetMinWidth=false]
- *  @prop {Boolean} [shouldSetMaxHeight=false]
- *@return {Object}
- *  @prop {Object} style
- *  @prop {String} finalPosition
- */
-function positionDropdown({
-  $opener, $menu,
-
-  position = 'bottom',
-  inflexible = false,
-
-  shouldSetMinWidth = false,
-  shouldSetMaxHeight = false,
-  shouldAlignLeft = false,
-} = {}) {
-  if (!$opener || !$menu) return
-
-  const { offsetWidth: wOf$menu, offsetHeight: hOf$menu } = $menu
-  const { offsetWidth: wOf$opener, offsetHeight: hOf$opener } = $opener
-  const { top, bottom, left } = $opener.getBoundingClientRect()
-  const { innerHeight: hOf$win } = window
-
-  const minW = Math.max(wOf$opener, wOf$menu)
-  const minY = 10
-  const maxY = hOf$win - 10
-
-  const result = { style: {}, finalPosition: position }
-  const setStyle = style => Object.assign(result.style, style)
-
-  // Y middle line of the $opener:
-  const midOf$opener = top + hOf$opener/2
-
-  // Point deciding the position for the menu:
-  const decidingPoint = hOf$win * (position === 'top' ? 1/3 : 2/3)
-
-  // Set X position, etc:
-  setStyle({ left: `${ shouldAlignLeft ? left : left + wOf$opener/2}px` })
-
-  if (shouldSetMinWidth) {
-    setStyle({ minWidth: `${minW}px` })
-  }
-
-  // Slide downward:
-  if (
-    inflexible && position === 'bottom'
-    || !inflexible && decidingPoint >= midOf$opener
-  ) {
-    Object.assign(result, { finalPosition: 'bottom' })
-
-    setStyle({ top: `${bottom}px`, bottom: '' })
-
-    // If the height of the menu is taller than that of space downward:
-    if (shouldSetMaxHeight && bottom + hOf$menu > maxY) {
-      setStyle({ maxHeight: `${maxY - bottom}px` })
-    }
-
-  // Slide upward:
-  } else {
-    Object.assign(result, { finalPosition: 'top' })
-
-    setStyle({ top: '', bottom: `${hOf$win - top}px` })
-
-    // If the height of the menu is taller than that of space upward:
-    if (shouldSetMaxHeight && top - hOf$menu < minY) {
-      setStyle({ maxHeight: `${top - minY}px` })
-    }
-  }
-
-  Object.assign($menu.style, result.style)
-  return result
-}
-
-export default Object.assign(Dropdown, { positionDropdown: positionDropdown })

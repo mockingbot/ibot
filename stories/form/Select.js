@@ -61,7 +61,7 @@ export default class SelectExample extends React.PureComponent {
 
         <h2>Regular node options</h2>
         <p>
-          <Select size={size} shouldMenuAlignCenter placeholder="Long long long placeholder" optionList={['Apple', 'Pencil']} onChange={action('Select changed')} />
+          <Select size={size} menuX="center" placeholder="Long long long placeholder" optionList={['Apple', 'Pencil']} onChange={action('Select changed')} />
           <br />
           <Select size={size} optionList={['Apple', 'Pencil']} onChange={action('Select changed')} />
           <br />

@@ -6,13 +6,12 @@ import DocumentEvents from 'react-document-events'
 
 import Button from '../button'
 import Icon from '../icon'
-import Dropdown from '../dropdown'
 
 import { trimList, SVG } from '../util'
 
 import './index.styl'
+import { positionMenu } from '../dropdown/util'
 
-const { positionDropdown } = Dropdown
 const { I18N = {} } = window
 const GUIDE_ROOT_ID = 'MB_GUIDE_GUIDE_ROOT'
 
@@ -30,7 +29,7 @@ if (!$body.contains($guideRoot)) {
 export default class GuideBase extends PureComponent {
   state = {
     isOpen: this.props.isOpen,
-    isDownward: this.props.position === 'bottom',
+    isDownward: this.props.Y === 'bottom',
   }
 
   portal = Object.assign(
@@ -52,8 +51,9 @@ export default class GuideBase extends PureComponent {
     children: PropTypes.any,
     guide: PropTypes.any,
 
-    position: PropTypes.oneOf(['top', 'bottom']),
-    unfold: PropTypes.oneOf(['left', 'center', 'right']),
+    X: PropTypes.oneOf(['left', 'center', 'right']),
+    Y: PropTypes.oneOf(['top', 'bottom']),
+
     inflexible: PropTypes.bool,
   }
 
@@ -65,9 +65,10 @@ export default class GuideBase extends PureComponent {
     onClose: () => null,
     gotItText: I18N.iknow || 'Got it!',
 
-    position: 'bottom',
-    unfold: 'right',
-    inflexible: true,
+    X: 'left',
+    Y: 'bottom',
+
+    inflexible: false,
   }
 
   componentWillMount() {
@@ -102,16 +103,18 @@ export default class GuideBase extends PureComponent {
 
   position = () => {
     const { $base, $guide } = this
-    const { position, inflexible } = this.props
+    const { X, Y, inflexible } = this.props
 
-    const { finalPosition } = positionDropdown({
-      $menu: $guide,
+    const { isDownward } = positionMenu({
+      $menuBase: $guide,
       $opener: $base,
-      position,
+
+      menuX: X,
+      menuY: Y,
       inflexible,
     })
 
-    this.setState({ isDownward: finalPosition === 'bottom' })
+    this.setState({ isDownward })
   }
 
   set$base = $base => Object.assign(this, { $base })
@@ -142,7 +145,7 @@ export default class GuideBase extends PureComponent {
     const {
       className,
       noCloseBtn,
-      unfold,
+      X,
       header,
       gotItText, gotItBtn,
       guide,
@@ -154,40 +157,42 @@ export default class GuideBase extends PureComponent {
       'Guide',
       isOpen && 'is-open',
       isDownward ? 'is-downward' : 'is-upward',
-      `unfold-${unfold}`,
+      `x-${X}`,
       className,
     ])
 
     return (
-      <div className={klass} ref={this.set$guide}>
-        <span className="arrow" dangerouslySetInnerHTML={{ __html: SVG.GUIDE_ARROW }} />
+      <div className="GuideBase" ref={this.set$guide}>
+        <div className={klass}>
+          <span className="arrow" dangerouslySetInnerHTML={{ __html: SVG.GUIDE_ARROW }} />
 
-        <div className="content">
-          { header && <header>{ header }</header> }
+          <div className="content">
+            { header && <header>{ header }</header> }
 
-          { !noCloseBtn && (
-            <button
-              className="close-btn"
-              onClick={this.close}
-            >
-              <Icon name="times_fc" type="dora" />
-            </button>
-          )}
+            { !noCloseBtn && (
+              <button
+                className="close-btn"
+                onClick={this.close}
+              >
+                <Icon name="times_fc" type="dora" />
+              </button>
+            )}
 
-          { guide }
+            { guide }
 
-          { gotItBtn && (
-            <footer>
-              <Button type="text" onClick={this.close}>{ gotItText }</Button>
-            </footer>
-          )}
+            { gotItBtn && (
+              <footer>
+                <Button type="text" onClick={this.close}>{ gotItText }</Button>
+              </footer>
+            )}
+          </div>
+
+          <DocumentEvents
+            enabled={isOpen}
+            capture={true}
+            onScroll={this.onScrollOutside}
+          />
         </div>
-
-        <DocumentEvents
-          enabled={isOpen}
-          capture={true}
-          onScroll={this.onScrollOutside}
-        />
       </div>
     )
   }

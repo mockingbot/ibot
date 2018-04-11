@@ -11,6 +11,7 @@ import { Input } from './Input'
 import { Ellipsis } from '../text'
 
 import { trimList, $, $$, SVG } from '../util'
+import { positionMenu } from '../dropdown/util'
 import { getOptionLabel, getOptionValue, getCurrentOptionIdx } from './util'
 
 import './index.styl'
@@ -118,7 +119,7 @@ export class Select extends PureComponent {
     isDisabled: PropTypes.bool,
     onChange: PropTypes.func,
 
-    shouldMenuAlignCenter: PropTypes.bool,
+    menuX: PropTypes.oneOf(['left', 'center']),
   }
 
   static defaultProps = {
@@ -130,7 +131,7 @@ export class Select extends PureComponent {
     optionList: [],
     isDisabled: false,
     onChange: () => null,
-    shouldMenuAlignCenter: false,
+    menuX: 'left',
   }
 
   componentWillMount() {
@@ -180,7 +181,7 @@ export class Select extends PureComponent {
 
       className,
       optionList,
-      shouldMenuAlignCenter,
+      menuX,
 
       isDisabled,
       placeholder,
@@ -220,7 +221,7 @@ export class Select extends PureComponent {
           onChange={this.onSelect}
           onClose={this.close}
           currentOptionIdx={currentOptionIdx}
-          shouldMenuAlignCenter={shouldMenuAlignCenter}
+          menuX={menuX}
         />
       </label>
     )
@@ -254,24 +255,20 @@ export class SelectMenu extends PureComponent {
   }
 
   componentWillReceiveProps({ isOpen: willBeOpen, $select }) {
-    const { $menu } = this
-    const { isOpen, shouldMenuAlignCenter } = this.props
-
-    // Set up the min-width of the <Select> once mounted:
-    this.size$select($select)
+    const { $menuBase } = this
+    const { isOpen, menuX } = this.props
 
     // Set up the position of the <SelectMenu> once opened:
     if (!isOpen && willBeOpen) {
-      const result = Dropdown.positionDropdown({
-        $menu,
+      const { isDownward } = positionMenu({
+        $menuBase,
         $opener: $select,
-        position: 'bottom',
-        shouldSetMinWidth: true,
+
+        menuX,
         shouldSetMaxHeight: true,
-        shouldAlignLeft: !shouldMenuAlignCenter,
       })
 
-      this.setState({ isDownward: result.finalPosition === 'bottom' })
+      this.setState({ isDownward })
       this.scrollIntoActive()
     }
   }
@@ -288,18 +285,18 @@ export class SelectMenu extends PureComponent {
     const { isDownward } = this.state
 
     const $opt = e.currentTarget
-    const $menu = $opt.closest('.SelectMenu')
+    const $menuBase = $opt.closest('.SelectMenu')
 
-    if (!$opt || !$menu) {
+    if (!$opt || !$menuBase) {
       return this.onlose()
     }
 
     const { top: topOf$opt, bottom: bottomOf$opt } = $opt.getBoundingClientRect()
-    const { top: topOf$menu, bottom: bottomOf$menu } = $menu.getBoundingClientRect()
+    const { top: topOf$menuBase, bottom: bottomOf$menuBase } = $menuBase.getBoundingClientRect()
 
     if (
-      isDownward && topOf$opt >= topOf$menu
-      || !isDownward && bottomOf$opt <= bottomOf$menu
+      isDownward && topOf$opt >= topOf$menuBase
+      || !isDownward && bottomOf$opt <= bottomOf$menuBase
     ) {
       if ($opt.classList.contains('title')) return
 
@@ -316,26 +313,10 @@ export class SelectMenu extends PureComponent {
     enableScrolling()
   }
 
-  set$menu = $menu => Object.assign(this, { $menu })
-
-  size$select = ($select = this.props.$select) => {
-    const { $menu } = this
-
-    if (!$select || !$menu) return
-
-    Object.assign($menu.style, { minWidth: 0 })
-
-    const { offsetWidth: wOf$menu } = $menu
-    const { offsetWidth: wOf$select } = $select
-
-    const minW = Math.max(wOf$select, wOf$menu)
-
-    Object.assign($select.style, { minWidth: `${minW}px` })
-    Object.assign($menu.style, { minWidth: `${minW}px` })
-  }
+  set$menuBase = $menuBase => Object.assign(this, { $menuBase })
 
   scrollIntoActive = () => {
-    const $current = $('li[role=option].is-active', this.$menu)
+    const $current = $('li[role=option].is-active', this.$menuBase)
 
     if ($current) {
       $current.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -356,12 +337,12 @@ export class SelectMenu extends PureComponent {
   }
 
   onScrollWhileOpen = ({ target }) => {
-    const { $menu } = this
+    const { $menuBase } = this
     const { $select } = this.props
-    if (!$menu) return
+    if (!$menuBase) return
 
-    const isScrollingMenu = $menu.contains(target)
-    const isCursorOnMenu = $menu.matches(':hover')
+    const isScrollingMenu = $menuBase.contains(target)
+    const isCursorOnMenu = $menuBase.matches(':hover')
     const isCursorOnOpener = $select.matches(':hover')
 
     if (!isScrollingMenu && isCursorOnMenu) {
@@ -387,7 +368,7 @@ export class SelectMenu extends PureComponent {
       optionList,
       emptyMsg,
       currentOptionIdx,
-      shouldMenuAlignCenter,
+      menuX,
     } = this.props
 
     const { isDownward } = this.state
@@ -397,7 +378,7 @@ export class SelectMenu extends PureComponent {
     const klass = trimList([
       'SelectMenu',
       menuClassName,
-      shouldMenuAlignCenter && 'h-centered',
+      `x-${menuX}`,
       isOpen && 'is-open',
       isDownward ? 'is-downward' : 'is-upward',
       isDisabled && 'is-disabled',
@@ -405,51 +386,52 @@ export class SelectMenu extends PureComponent {
     ])
 
     return (
-      <ul
-        className={klass}
-        ref={this.set$menu}
-        onTransitionEnd={this.onTransitionEnd}
-        onMouseLeave={this.onMouseLeave}
-      >
-        {
-          isEmpty
-          ? <li className="SelectOption empty-msg">{ emptyMsg }</li>
-          : (
-            optionList
-            .map((opt, idx) => (
-              isArray(opt)
-              ? <Group
-                  key={idx}
-                  idx={idx}
-                  optionList={opt}
-                  onChange={this.onChange}
-                  currentOptionIdx={currentOptionIdx}
-                />
-              : <Option
-                  key={idx}
-                  idx={idx}
-                  label={getOptionLabel(opt)}
-                  value={getOptionValue(opt)}
-                  isDisabled={opt.isDisabled}
-                  onChange={this.onChange}
-                  currentOptionIdx={currentOptionIdx}
-                />
-            ))
-          )
-        }
+      <div ref={this.set$menuBase} className="SelectMenuBase">
+        <ul
+          className={klass}
+          onTransitionEnd={this.onTransitionEnd}
+          onMouseLeave={this.onMouseLeave}
+        >
+          {
+            isEmpty
+            ? <li className="SelectOption empty-msg">{ emptyMsg }</li>
+            : (
+              optionList
+              .map((opt, idx) => (
+                isArray(opt)
+                ? <Group
+                    key={idx}
+                    idx={idx}
+                    optionList={opt}
+                    onChange={this.onChange}
+                    currentOptionIdx={currentOptionIdx}
+                  />
+                : <Option
+                    key={idx}
+                    idx={idx}
+                    label={getOptionLabel(opt)}
+                    value={getOptionValue(opt)}
+                    isDisabled={opt.isDisabled}
+                    onChange={this.onChange}
+                    currentOptionIdx={currentOptionIdx}
+                  />
+              ))
+            )
+          }
 
-        <DocumentEvents
-          enabled={isOpen}
-          capture={false}
-          onClick={this.onClickOutside}
-        />
+          <DocumentEvents
+            enabled={isOpen}
+            capture={false}
+            onClick={this.onClickOutside}
+          />
 
-        <DocumentEvents
-          enabled={isOpen}
-          capture={true}
-          onScroll={this.onScrollWhileOpen}
-        />
-      </ul>
+          <DocumentEvents
+            enabled={isOpen}
+            capture={true}
+            onScroll={this.onScrollWhileOpen}
+          />
+        </ul>
+      </div>
     )
   }
 }
