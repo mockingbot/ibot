@@ -26,18 +26,20 @@ const getStep = ({ shiftKey, metaKey }, step = 1) => (
   shiftKey ? step*10 : metaKey ? step*100 : step
 )
 
+
+const checkSettability = value => (
+  value === ''
+  || /^0?\-0*$/.test(value)   // Starting with a minus
+  || /^\-?\d*\.$/.test(value) // Ending with a dot
+)
+
 const defaultOnFocus = ({ currentTarget: $input }) => (
   setTimeout(() => $input.select(), 50)
 )
 
 export class InputNumber extends PureComponent {
   state = {
-    value: (
-      isNumber(this.props.value)
-      ? this.props.value
-      : ''
-    ),
-
+    value: isNumber(this.props.value) ? this.props.value : '',
     isActive: false,
     isValid: true,
     isMenuOpen: false,
@@ -56,7 +58,7 @@ export class InputNumber extends PureComponent {
     placeholder: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 
     optionList: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
-    shouldMenuAlignCenter: PropTypes.bool,
+    menuX: PropTypes.oneOf(['left', 'center']),
     dontSelectOnFocus: PropTypes.bool,
 
     title: PropTypes.node,
@@ -103,7 +105,7 @@ export class InputNumber extends PureComponent {
   static getDerivedStateFromProps({ value: newValue }, { value }) {
     if (newValue !== value) {
       return {
-        value: newValue === 0 || !!newValue ? newValue : '',
+        value: isNumber(newValue) ? newValue : '',
       }
     }
 
@@ -168,12 +170,8 @@ export class InputNumber extends PureComponent {
     )
   )
 
-  checkSettability = value => (
-    /^0?\-0*$/.test(value)      // Starting with a minus
-    || /^\-?\d*\.$/.test(value) // Ending with a dot
-  )
-
   setValue = (v, e) => {
+    e.persist()
     clearTimeout(this.correctionTimeout)
 
     const {
@@ -183,16 +181,12 @@ export class InputNumber extends PureComponent {
       onChange,
     } = this.props
 
-    const value = (
-      parser(v.toString())
-      .toString()
-      .replace(/^0(?!\.)/, '')
-    )
+    const value = parser(v.toString()).toString()
 
     const isNull = v !== '0' && !value && !!placeholder
     const isValid = this.checkValidity(value)
-    const isNumber = isFinite(value)
-    const isSettable = this.checkSettability(value)
+    const isNumber = v !== '' && isFinite(value)
+    const isSettable = checkSettability(value)
 
     if (!isNumber && !isSettable) return
 
@@ -317,10 +311,12 @@ export class InputNumber extends PureComponent {
       dontSelectOnFocus,
       onFocus = !dontSelectOnFocus ? defaultOnFocus : undefined,
 
-      optionList, shouldMenuAlignCenter,
+      optionList, menuX,
     } = this.props
 
     const { value, isActive, isValid, isMenuOpen } = this.state
+
+    const isEmpty = value === ''
     const isDisabled = this.props.isDisabled || this.props.disabled
 
     const klass = trimList([
@@ -335,6 +331,7 @@ export class InputNumber extends PureComponent {
       isDisabled && 'is-disabled',
       readOnly && 'is-readonly',
       isValid ? 'is-valid' : 'isnt-valid',
+      isEmpty ? 'is-empty' : 'isnt-empty',
 
       !!title && 'with-title',
       !!desc && 'with-desc',
@@ -373,7 +370,7 @@ export class InputNumber extends PureComponent {
           {...getOtherProps(this.constructor, this.props)}
         />
 
-        { suffix && (
+      { suffix && (
           <span
             className="suffix"
             data-value={formatter(value)}
@@ -424,7 +421,7 @@ export class InputNumber extends PureComponent {
 
             optionList={optionList}
             value={value}
-            shouldMenuAlignCenter={shouldMenuAlignCenter}
+            menuX={menuX}
 
             onChange={this.onSelect}
             onClose={this.closeMenu}
