@@ -69,7 +69,7 @@ export default class SelectExample extends React.PureComponent {
           <br />
           <Select size={size} optionList={['Apple', 'Pencil']}  value="Apple" onChange={action('Select changed')} />
           <br />
-          <Select size={size} optionList={['Apple', 'Pencil', <span><Icon name="apple" /> Apple</span>]} value="Pencil" onChange={action('Select changed')} />
+          <Select size={size} optionList={['Apple', 'Pencil', { label: <span><Icon name="apple" /> Apple</span>, value: 'Apple with Icon' }]} value="Pencil" onChange={action('Select changed')} />
           <br />
           <Select size={size} optionList={[1, 2, 3, 4, 5]} value={2} onChange={action('Select changed')} />
           <Select size={size} optionList={[1, 2, 3, 4, 5]} value="2" onChange={action('Select changed')} />

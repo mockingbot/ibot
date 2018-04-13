@@ -1,4 +1,4 @@
-import React, { PureComponent, isValidElement } from 'react'
+import React, { PureComponent, Fragment, isValidElement } from 'react'
 import { createPortal } from 'react-dom'
 import PropTypes from 'prop-types'
 
@@ -84,11 +84,11 @@ export default class Tooltip extends PureComponent {
     tipClassName: '',
   }
 
-  componentDidUpdate(_, { isOpen: willBeOpen }) {
+  componentDidUpdate(_, { isOpen: wasOpen }) {
     const { duration } = this.props
     const { isOpen } = this.state
 
-    if (!!duration && !isOpen && willBeOpen) {
+    if (duration > 0 && !wasOpen && isOpen) {
       this.timeout = setTimeout(() => this.setState({ isOpen: false }), duration)
     }
   }
@@ -148,7 +148,10 @@ export default class Tooltip extends PureComponent {
     const eventName = isClicked ? 'click' : 'hover'
 
     return React.createElement(
+      // Name:
       TYPE_ELEMENT_MAP[type],
+
+      // Props:
       {
         ref: this.set$text,
         className: klass,
@@ -157,10 +160,11 @@ export default class Tooltip extends PureComponent {
         onMouseLeave: this.onMouseLeave,
         ...getOtherProps(this.constructor, this.props),
       },
-      [
-        children,
+
+      // Children:
+      <Fragment>
+        { children }
         <Tip
-          key="tip"
           $text={$text}
           isOpen={isOpen}
           className={tipClassName}
@@ -172,8 +176,7 @@ export default class Tooltip extends PureComponent {
         >
           {parseContent(content, eventName)}
         </Tip>
-        ,
-      ],
+      </Fragment>,
     )
   }
 }
@@ -203,12 +206,8 @@ class Tip extends PureComponent {
     // prevState:
     { isOpen, position },
   ) {
-
     if (!isOpen && willBeOpen) {
-      return { isOpen: willBeOpen }
-      this.setState({ isOpen: willBeOpen })
-    } else if (!isOpen && willBeOpen && position !== newPosition) {
-      return { position: newPosition }
+      return { isOpen: willBeOpen, position: newPosition }
     }
 
     return null
@@ -224,111 +223,99 @@ class Tip extends PureComponent {
     }
   }
 
-  set$tip = $tip => Object.assign(this, { $tip })
+  set$tipBase = $tipBase => Object.assign(this, {
+    $tipBase,
+    $tip: $tipBase && $tipBase.querySelector('.Tip'),
+  })
 
   position = () => {
-    const { $tip } = this
+    const { $tipBase, $tip } = this
     const { $text, position, inflexible } = this.props
 
+    if (!$text || !$tipBase || !$tip) return
+
     const flexible = !inflexible
+    const [minX, minY] = [10, 10]
+    const [maxX, maxY] = [window.innerWidth - 10, window.innerHeight - 10]
 
-    if (!$text || !$tip) return
-
-    const { offsetWidth: w_$tip, offsetHeight: h_$tip } = $tip
-    const { offsetWidth: w_$text, offsetHeight: h_$text } = $text
     const { top, right, bottom, left } = $text.getBoundingClientRect()
+    const { offsetWidth: wOf$text, offsetHeight: hOf$text } = $text
+    const { offsetWidth: wOf$tip, offsetHeight: hOf$tip } = $tip
 
-    const midX_$text = left + w_$text/2
-    const midY_$text = top + h_$text/2
-    const maxX = window.innerWidth - 10
-    const maxY = window.innerHeight - 10
+    const midXOf$text = left + wOf$text/2
+    const midYOf$text = top + hOf$text/2
 
-    const main = {}
-    const cross = {}
-    const setMain = src => Object.assign(main, src)
-    const setCross = src => Object.assign(cross, src)
+    const baseStyle = {}
+    const tipStyle = {}
+    const setStyleForBase = src => Object.assign(baseStyle, src)
+    const setStyleForTip = src => Object.assign(tipStyle, src)
 
-    // Top:
-    if (position === 'top') {
-      if (flexible && top - h_$tip < 10) {
-        setMain({ top: `${bottom}px` })
+    setStyleForBase({
+      top: `${top}px`,
+      left: `${left}px`,
+      width: `${wOf$text}px`,
+      height: `${hOf$text}px`,
+    })
+
+    // Main-axis position adjustment:
+    if (flexible) {
+      if (position === 'top' && top - hOf$tip < minY) {
         this.setState({ position: 'bottom' })
-      } else {
-        setMain({ top: `${top}px` })
-      }
-
-    // Bottom:
-    } else if (position === 'bottom') {
-      if (flexible && bottom + h_$tip > maxY) {
-        setMain({ top: `${top}px` })
+      } else if (position === 'bottom' && bottom + hOf$tip > maxY) {
         this.setState({ position: 'top' })
-      } else {
-        setMain({ top: `${bottom}px` })
-      }
-    }
-
-    if (['top', 'bottom'].includes(position)) {
-      setMain({ left: `${midX_$text}px` })
-
-      const most = (w_$tip-18)/2 + 6
-
-      const adjustment = (
-        // No enough space to the left:
-        midX_$text - w_$tip/2 < 10
-        ? Math.min(w_$tip/2 - midX_$text - 6, most)
-        // No enough space to the right:
-        : midX_$text + w_$tip/2 > maxX
-        ? Math.max(-(w_$tip/2 - (maxX + 10 - midX_$text)) + 6, -most)
-        : 0
-      )
-
-      if (adjustment !== 0) {
-        setCross({ transform: `translateX(${adjustment}px)` })
-      }
-    }
-
-    // Left:
-    if (position === 'left') {
-      if (flexible && left - w_$tip < 10) {
-        setMain({ left: `${right}px` })
+      } else if (position === 'left' && left - wOf$tip < minX) {
         this.setState({ position: 'right' })
-      } else {
-        setMain({ left: `${left}px` })
-      }
-
-    // Right:
-    } else if (position === 'right') {
-      if (flexible && right + w_$tip > maxX) {
-        setMain({ left: `${left}px` })
+      } else if (position === 'right' && right + wOf$tip > maxX) {
         this.setState({ position: 'left' })
-      } else {
-        setMain({ left: `${right}px` })
       }
     }
 
-    if (['left', 'right'].includes(position)) {
-      setMain({ top: `${midY_$text}px` })
+    // Cross-axis position adjustment:
+    switch (position) {
+      case 'top':
+      case 'bottom': {
+        const most = (wOf$tip-18)/2 + 6
 
-      const most = (h_$tip - 18)/2 - 6
+        const adjustment = (
+          // No enough space to the left:
+          midXOf$text - wOf$tip/2 < 10
+          ? Math.min(wOf$tip/2 - midXOf$text - 6, most)
+          // No enough space to the right:
+          : midXOf$text + wOf$tip/2 > maxX
+          ? Math.max(-(wOf$tip/2 - (maxX + 10 - midXOf$text)) + 6, -most)
+          : 0
+        )
 
-      const adjustment = h_$tip > 50 && (
-        // No enough space to the top:
-        midY_$text - 5 <= maxY/2 && midY_$text - h_$tip/2 < 10
-        ? Math.min(h_$tip/2 - midY_$text - 6, most)
-        // No enough space to the bottom:
-        : midY_$text - 5 > maxY/2 && midY_$text + h_$tip/2 > maxY
-        ? Math.max(-(h_$tip/2 - (maxY + 10 - midY_$text)), -most)
-        : 0
-      )
+        if (adjustment !== 0) {
+          setStyleForTip({ transform: `translateX(${adjustment}px)` })
+        }
+        break
+      }
 
-      if (adjustment !== 0) {
-        setCross({ transform: `translateY(${adjustment}px)` })
+      case 'left':
+      case 'right': {
+        const most = (hOf$tip - 18)/2 - 6
+
+        const adjustment = hOf$tip > 50 && (
+          // No enough space to the top:
+          midYOf$text - 5 <= maxY/2 && midYOf$text - hOf$tip/2 < 10
+          ? Math.min(hOf$tip/2 - midYOf$text - 6, most)
+          // No enough space to the bottom:
+          : midYOf$text - 5 > maxY/2 && midYOf$text + hOf$tip/2 > maxY
+          ? Math.max(-(hOf$tip/2 - (maxY + 10 - midYOf$text)), -most)
+          : 0
+        )
+
+        if (adjustment !== 0) {
+          setStyleForTip({ transform: `translateY(${adjustment}px)` })
+        }
+        break
       }
     }
 
-    Object.assign($tip.style, main)
-    Object.assign($tip.querySelector('.content').style, cross)
-    this.$tip.classList.add('is-open')
+    Object.assign($tipBase.style, baseStyle)
+    Object.assign($tip.querySelector('.content').style, tipStyle)
+    $tip.classList.add('is-open')
   }
 
   onTransitionEnd = () => {
@@ -358,19 +345,20 @@ class Tip extends PureComponent {
     ])
 
     return isOpen && (
-      <div
-        ref={this.set$tip}
-        className={klass}
-        onTransitionEnd={this.onTransitionEnd}
-      >
-        { arrowed && (
-          <div
-            className="arrow"
-            dangerouslySetInnerHTML={{ __html: SVG.DROPDOWN_ARROW }}
-          />
-        )}
+      <div className="TipBase" ref={this.set$tipBase}>
+        <div
+          className={klass}
+          onTransitionEnd={this.onTransitionEnd}
+        >
+          { arrowed && (
+            <div
+              className="arrow"
+              dangerouslySetInnerHTML={{ __html: SVG.DROPDOWN_ARROW }}
+            />
+          )}
 
-        <div className="content">{children}</div>
+          <div className="content">{children}</div>
+        </div>
       </div>
     )
   }
