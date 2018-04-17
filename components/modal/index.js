@@ -1,12 +1,12 @@
 import React, { PureComponent } from 'react'
-import ReactDOM from 'react-dom'
+import { createPortal } from 'react-dom'
 import PropTypes from 'prop-types'
 import DocumentEvents from 'react-document-events'
 
 import Button from '../button'
 import Switch from '../switch'
 import Icon from '../icon'
-import { trimList, $ } from '../util'
+import { trimList, $, preparePortal } from '../util'
 
 import './index.styl'
 
@@ -38,20 +38,12 @@ const TYPE_CLASS_MAP = {
 }
 
 export default class Modal extends PureComponent {
-  constructor(props) {
-    super(props)
+  state = { isOpen: this.props.isOpen }
 
-    const { isOpen, portalClassName } = props
-
-    Object.assign(this, {
-      state: { isOpen },
-
-      portal: Object.assign(
-        document.createElement('div'),
-        { className: trimList([MODAL_PORTAL_CLASS, portalClassName]) },
-      ),
-    })
-  }
+  portal = preparePortal(
+    $modalRoot,
+    trimList([MODAL_PORTAL_CLASS, this.props.portalClassName]),
+  )
 
   static propTypes = {
     isOpen: PropTypes.bool,
@@ -111,8 +103,12 @@ export default class Modal extends PureComponent {
     confirmText: I18N.confirm || 'Confirm',
   }
 
-  componentWillMount() {
-    $modalRoot.appendChild(this.portal)
+  static getDerivedStateFromProps({ isOpen: willBeOpen }, { isOpen }) {
+    return (
+      isOpen !== willBeOpen
+      ? { isOpen: willBeOpen }
+      : null
+    )
   }
 
   componentDidMount() {
@@ -122,23 +118,13 @@ export default class Modal extends PureComponent {
     window.addEventListener('resize', this.positionY)
   }
 
-  componentWillReceiveProps({ isOpen: willBeOpen }) {
-    const { isOpen } = this.props
-
-    if (!isOpen && willBeOpen) {
-      this.open()
-    } else if (isOpen && !willBeOpen) {
-      this.close()
-    }
-  }
-
   componentDidUpdate(_, { isOpen: wasOpen }) {
     const { isOpen } = this.state
 
     if (!wasOpen && isOpen) {
-      this.didOpen()
+      this.open()
     } else if (wasOpen && !isOpen) {
-      this.didClose()
+      this.close()
     }
   }
 
@@ -150,7 +136,7 @@ export default class Modal extends PureComponent {
     window.removeEventListener('resize', this.positionY)
   }
 
-  open = () => this.setState({ isOpen: true })
+  open = () => this.setState({ isOpen: true }, this.didOpen)
   close = () => this.portal.classList.remove('is-open')
 
   toggle = (willBeOpen = !this.state.isOpen) => (
@@ -165,18 +151,17 @@ export default class Modal extends PureComponent {
     this.positionY()
     this.focusOnInput()
 
-    // Transition:
-    setTimeout(() => this.portal.classList.add('is-open'))
-
     // Disable scrolling:
     $body.classList.add(CANT_SCROLL_CLASS)
+
+    // Transition:
+    setTimeout(() => this.portal.classList.add('is-open'))
   }
 
   didClose = () => {
     // Remove from the stack in the next round:
     const idx = OPEN_MODAL_STACK.indexOf(this)
     setTimeout(() => OPEN_MODAL_STACK.splice(idx, 1))
-
 
     // Enable scrolling:
     $body.classList.remove(CANT_SCROLL_CLASS)
@@ -189,7 +174,7 @@ export default class Modal extends PureComponent {
       this.props.onOpen()
       this.props.onToggle(true)
     } else {
-      this.setState({ isOpen: false })
+      this.setState({ isOpen: false }, this.didClose)
       this.props.onClose()
       this.props.onToggle(false)
     }
@@ -340,7 +325,7 @@ export default class Modal extends PureComponent {
 
   renderModal() {
     const { modal } = this.props
-    return modal || ReactDOM.createPortal(this.renderModalDOM(), this.portal)
+    return modal || createPortal(this.renderModalDOM(), this.portal)
   }
 
   renderModalDOM() {

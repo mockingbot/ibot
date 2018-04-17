@@ -78,16 +78,16 @@ storiesOf('Dropdown', module)
     <h2 style={{ marginTop: '70vh' }}>Default</h2>
     <p className="dropdown">
       <Dropdown
-        opener={<Icon type="dora" name="cog" />}
+        opener={<div><Icon type="dora" name="cog" /> Settings</div>}
         menuClassName="preview-option"
         menu={
           <div>
-            <Select size="small" optionList={['真实设备边框', '墨刀黑', '无边框']} currentOptionIdx="0" size="small" unstyled />
+            <Select size="small" optionList={['真实设备边框', '墨刀黑', '无边框']} value="真实设备边框" size="small" unstyled />
             <hr />
             <Check size="small" label="高亮链接区域" />
           </div>
         }
-        unfold="right"
+        menuX="left"
       />
 
       <Dropdown
@@ -95,7 +95,7 @@ storiesOf('Dropdown', module)
         menuClassName="preview-option"
         menu={
           <div>
-            <Select size="small" optionList={['真实设备边框', '墨刀黑', '无边框']} currentOptionIdx="0" size="small" unstyled />
+            <Select size="small" optionList={['真实设备边框', '墨刀黑', '无边框']} value="真实设备边框" size="small" unstyled />
             <hr />
             <Check size="small" label="高亮链接区域" />
           </div>
@@ -103,25 +103,26 @@ storiesOf('Dropdown', module)
       />
 
       <Dropdown
-        opener={<Icon type="dora" name="cog" />}
+        opener={<div><Icon type="dora" name="cog" /> Settings</div>}
         menuClassName="preview-option"
         menu={
           <div>
-            <Select size="small" optionList={['真实设备边框', '墨刀黑', '无边框']} currentOptionIdx="0" size="small" unstyled />
+            <Select size="small" optionList={['真实设备边框', '墨刀黑', '无边框']} value="真实设备边框" size="small" unstyled />
             <hr />
             <Check size="small" label="高亮链接区域" />
           </div>
         }
-        unfold="left"
+        menuX="right"
       />
     </p>
 
     <h2>Arrowed</h2>
+    <h3>Arrow-based X</h3>
     <p className="dropdown">
       <Dropdown
         opener={<Icon type="dora" name="cog" />}
         arrowed
-        unfold="right"
+        menuX="left"
 
         menuList={['编辑', '标记完成']}
         onSelect={action('Dropdown item selected')}
@@ -130,7 +131,7 @@ storiesOf('Dropdown', module)
       <Dropdown
         opener={<Icon type="dora" name="cog" />}
         arrowed
-        unfold="center"
+        menuX="center"
 
         menuList={['编辑', '已完成']}
         currentMenuListItemIdx={1}
@@ -140,7 +141,39 @@ storiesOf('Dropdown', module)
       <Dropdown
         opener={<Icon type="dora" name="cog" />}
         arrowed
-        unfold="left"
+        menuX="right"
+
+        menuList={[{ isDisabled: true, label: '编辑' }, '已完成']}
+        currentMenuListItemIdx={1}
+        onSelect={action('Dropdown item selected')}
+      />
+    </p>
+
+    <h3>menu-based X</h3>
+    <p className="dropdown">
+      <Dropdown
+        opener={<div><Icon type="dora" name="cog" /> Settings</div>}
+        arrowed menuBasedX
+        menuX="left"
+
+        menuList={['编辑', '标记完成']}
+        onSelect={action('Dropdown item selected')}
+      />
+
+      <Dropdown
+        opener={<Icon type="dora" name="cog" />}
+        arrowed
+        menuX="center"
+
+        menuList={['编辑', '已完成']}
+        currentMenuListItemIdx={1}
+        onSelect={action('Dropdown item selected')}
+      />
+
+      <Dropdown
+        opener={<div><Icon type="dora" name="cog" /> Settings</div>}
+        arrowed menuBasedX
+        menuX="right"
 
         menuList={[{ isDisabled: true, label: '编辑' }, '已完成']}
         currentMenuListItemIdx={1}
@@ -151,16 +184,16 @@ storiesOf('Dropdown', module)
     <h2>Preferred-top & arrowed</h2>
     <p className="dropdown">
       <Dropdown
-        position="top"
+        menuY="top"
         opener={<Icon type="dora" name="cog" />}
         arrowed
-        unfold="right"
+        menuX="left"
         menuList={['编辑', '标记完成']}
         onSelect={action('Dropdown item selected')}
       />
 
       <Dropdown
-        position="top"
+        menuY="top"
         opener={<Icon type="dora" name="cog" />}
         arrowed
         menuList={['编辑', '已完成']}
@@ -169,10 +202,10 @@ storiesOf('Dropdown', module)
       />
 
       <Dropdown
-        position="top"
+        menuY="top"
         opener={<Icon type="dora" name="cog" />}
         arrowed
-        unfold="left"
+        menuX="right"
         menuList={[{ isDisabled: true, label: '编辑' }, '已完成']}
         currentMenuListItemIdx={1}
         onSelect={action('Dropdown item selected')}
@@ -183,8 +216,8 @@ storiesOf('Dropdown', module)
     <p className="dropdown palette">
       <Dropdown
         inflexible
-        position="top"
-        unfold="right"
+        menuY="top"
+        menuX="left"
         arrowed
 
         shouldOpenOnHover={true}
@@ -208,9 +241,10 @@ storiesOf('Dropdown', module)
       />
       <Dropdown
         inflexible
-        position="top"
-        unfold="right"
+        menuY="top"
+        menuX="left"
         arrowed
+
         shouldOpenOnHover={true}
 
         className="color"
@@ -232,9 +266,10 @@ storiesOf('Dropdown', module)
       />
       <Dropdown
         inflexible
-        position="top"
-        unfold="right"
+        menuY="top"
+        menuX="left"
         arrowed
+
         shouldOpenOnHover={true}
 
         className="color"
@@ -256,9 +291,10 @@ storiesOf('Dropdown', module)
       />
       <Dropdown
         inflexible
-        position="top"
-        unfold="right"
+        menuY="top"
+        menuX="left"
         arrowed
+
         shouldOpenOnHover={true}
 
         className="color"
@@ -280,8 +316,9 @@ storiesOf('Dropdown', module)
       />
       <Dropdown
         inflexible
-        position="top"
+        menuY="top"
         arrowed
+
         shouldOpenOnHover={true}
 
         className="color"
@@ -303,9 +340,10 @@ storiesOf('Dropdown', module)
       />
       <Dropdown
         inflexible
-        position="top"
-        unfold="left"
+        menuY="top"
+        menuX="right"
         arrowed
+
         shouldOpenOnHover={true}
 
         className="color"
@@ -338,7 +376,7 @@ storiesOf('Dropdown', module)
       <Dropdown
         opener={<Icon type="dora" name="cog" />}
         arrowed
-        unfold="right"
+        menuX="left"
         menuList={['编辑', '标记完成']}
         onSelect={action('Dropdown item selected')}
         shouldCloseOnSelect={false}
@@ -347,7 +385,7 @@ storiesOf('Dropdown', module)
       <Dropdown
         opener={<Icon type="dora" name="cog" />}
         arrowed
-        unfold="center"
+        menuX="center"
         menuList={['编辑', '标记完成']}
         onSelect={action('Dropdown item selected')}
         shouldCloseOnSelect={false}
@@ -356,7 +394,7 @@ storiesOf('Dropdown', module)
       <Dropdown
         opener={<Icon type="dora" name="cog" />}
         arrowed
-        unfold="left"
+        menuX="right"
         menuList={['编辑', '已完成']}
         currentMenuListItemIdx={1}
         onSelect={action('Dropdown item selected')}
@@ -367,19 +405,19 @@ storiesOf('Dropdown', module)
     <h2>Custom content</h2>
     <p className="dropdown">
       <Dropdown
-        unfold="right"
+        menuX="left"
         opener={<Icon type="dora" name="cube" />}
         menu={<div>Your own content, whatever you like.</div>}
         menuClassName="custom-dropdown-menu"
       />
       <Dropdown
-        unfold="center"
+        menuX="center"
         opener={<Icon type="dora" name="comment" />}
         menu={<div>Your own content, whatever you like.</div>}
         menuClassName="custom-dropdown-menu"
       />
       <Dropdown
-        unfold="left"
+        menuX="right"
         opener={<Icon type="dora" name="arrow_down" />}
         arrowed
         menu={<div>Your own content, with arrow.</div>}

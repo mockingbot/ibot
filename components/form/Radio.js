@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 
 import { trimList } from '../util'
-import { getOptionLabel, getOptionValue, getCurrentOptionIdx } from './util'
+import { getOptionLabel, getOptionValue, checkOptionByValue } from './util'
 /**
  * <Radio>
  */
@@ -28,12 +28,12 @@ export class Radio extends PureComponent {
     onChange: () => null,
   }
 
-  componentWillReceiveProps({ isChecked: willBeChecked }) {
-    const { isChecked } = this.props
-
+  static getDerivedStateFromProps({ isChecked: willBeChecked }, { isChecked }) {
     if (willBeChecked !== isChecked) {
-      this.setState({ isChecked: willBeChecked })
+      return { isChecked: willBeChecked }
     }
+
+    return null
   }
 
   onChange = () => {
@@ -82,9 +82,7 @@ export class Radio extends PureComponent {
 export class RadioGroup extends PureComponent {
   name = this.props.name || Math.random().toString(36).substring(2, 15)
 
-  state = {
-    currentOptionIdx: this.currentOptionIdx,
-  }
+  state = { value: this.props.value }
 
   static propTypes = {
     size: PropTypes.oneOf(['regular', 'small']),
@@ -109,11 +107,6 @@ export class RadioGroup extends PureComponent {
       PropTypes.string,
     ]),
 
-    currentOptionIdx: PropTypes.oneOfType([
-      PropTypes.number,
-      PropTypes.string,
-    ]),
-
     isDisabled: PropTypes.bool,
     onChange: PropTypes.func.isRequired,
   }
@@ -126,31 +119,23 @@ export class RadioGroup extends PureComponent {
     onChange: () => null,
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { currentOptionIdx, value } = this.props
-    const { currentOptionIdx: nextOptionIdx, value: nextValue } = nextProps
-
-    if (currentOptionIdx !== nextOptionIdx || value !== nextValue) {
-      this.setState({
-        currentOptionIdx: this::getCurrentOptionIdx(nextProps),
-        value: nextValue,
-      })
+  static getDerivedStateFromProps({ value: nextValue }, { value }) {
+    if (value !== nextValue) {
+      return { value: nextValue }
     }
-  }
 
-  get currentOptionIdx() {
-    return this::getCurrentOptionIdx()
+    return null
   }
 
   createOnChangeHandler = (name, value, idx) => () => (
     this.setState(
-      { currentOptionIdx: idx, value },
+      { value },
       () => this.props.onChange({ name, value, idx }),
     )
   )
 
   render() {
-    const { name, currentOptionIdx } = this
+    const { name } = this
 
     const {
       size,
@@ -158,6 +143,8 @@ export class RadioGroup extends PureComponent {
       optionList,
       isDisabled,
     } = this.props
+
+    const { value } = this.state
 
     const klass = trimList([
       'RadioGroup',
@@ -177,7 +164,7 @@ export class RadioGroup extends PureComponent {
             size={size}
             label={getOptionLabel(opt)}
             type="radio"
-            isChecked={idx === currentOptionIdx}
+            isChecked={checkOptionByValue(opt, value)}
             isDisabled={isDisabled || opt.isDisabled}
             onChange={
               !(isDisabled || opt.isDisabled)

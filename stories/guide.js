@@ -40,7 +40,7 @@ class GuideExample extends PureComponent {
 
             gotItBtn noCloseBtn
             gotItText="我知道了"
-            unfold="left"
+            X="right"
           >
             Open with an 1 sec. <code>timeout</code>, and close in 5 sec.
           </GuideBase>

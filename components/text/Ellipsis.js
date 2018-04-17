@@ -34,14 +34,6 @@ export class Ellipsis extends PureComponent {
     }
   }
 
-  componentWillReceiveProps({ children: nextChildren }) {
-    const { children } = this.props
-
-    if (!isEqual(children, nextChildren)) {
-      this.setState({ isTruncated: false })
-    }
-  }
-
   componentDidUpdate({ children: prevChildren }) {
     const { children } = this.props
 

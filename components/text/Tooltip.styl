@@ -3,13 +3,17 @@ div.Tooltip
   width -webkit-fit-content
   width fit-content
 
+.TipBase
+  position fixed
+  z-index $z-Tip
+  pointer-events none
+
 .Tip
   $cl-bg = rgba($cl-primary-grey, .8)
   $cl-text = #fff
 
   &
-    position fixed
-    z-index $z-Tip
+    position absolute
     padding .33em .5em
     font-size 12px
     line-height 1.4
@@ -31,6 +35,48 @@ div.Tooltip
       width 1em
       height .375em
       fill #616b71 // 20% lighter of $cl-bg
+
+  // Transition:
+  &:not(.is-open)
+    opacity 0 !important
+  &.is-open
+    opacity 1
+
+  &.on-top
+    &
+      left 50%
+      bottom 100%
+      transform translate(-50%, -10%)
+    &.arrowed
+      margin-bottom .25em
+    &.is-open
+      transform translate(-50%)
+
+  &.on-bottom
+    &
+      left 50%
+      top 100%
+      transform translate(-50%, 10%)
+    &.arrowed
+      margin-top .25em
+    &.is-open
+      transform translate(-50%)
+
+  &.on-left
+    &
+      right 100%
+      top 50%
+      transform translate(-10%, -50%)
+    &.is-open
+      transform translate(0, -50%)
+
+  &.on-right
+    &
+      left 100%
+      top 50%
+      transform translate(10%, -50%)
+    &.is-open
+      transform translate(0, -50%)
 
   &.on-top > .arrow
     &
@@ -61,31 +107,6 @@ div.Tooltip
       transform translateY(-50%)
     svg
       transform rotate(90deg)
-
-  // Transition:
-  &:not(.is-open)
-    &
-      opacity 0 !important
-    &.on-top
-      transform translate(-50%, -110%)
-    &.on-bottom
-      transform translate(-50%, 10%)
-    &.on-right
-      transform translate(10%, -50%)
-    &.on-left
-      transform translate(-110%, -50%)
-
-  &.is-open
-    &
-      opacity 1
-    &.on-top
-      transform translate(-50%, -100%)
-    &.on-bottom
-      transform translate(-50%, 0)
-    &.on-right
-      transform translate(0, -50%)
-    &.on-left
-      transform translate(-100%, -50%)
 
   > .content
     position relative

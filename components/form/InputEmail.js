@@ -49,12 +49,11 @@ export class InputEmail extends PureComponent {
     readOnly: false,
   }
 
-  componentWillReceiveProps({ value: newValue }) {
-    const { value } = this.props
-
+  static getDerivedStateFromProps({ value: newValue }, { value }) {
     if (newValue !== value) {
-      this.setState({ value: newValue })
+      return { value: newValue }
     }
+    return null
   }
 
   onChange = e => {

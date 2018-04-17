@@ -9,6 +9,7 @@
     justify-content space-between
     align-items center
     max-width 100%
+    min-width 3em
     height $Select-height
     color $cl-Select-text
     cursor pointer
@@ -60,18 +61,24 @@
     cursor not-allowed
     opacity .6
 
+.SelectMenuBase
+  position fixed
+  pointer-events none
+  z-index $z-SelectMenu
+
 ul.SelectMenu
   &
-    position fixed
-    z-index $z-SelectMenu
+    position absolute
     margin 2px 0
     padding 0
     display block
     max-width 20em
+    min-width 100%
     min-height $Select-option-height
     max-height (10 * $Select-option-height)
     overflow-x hidden
     overflow-y auto
+    pointer-events none
     font-size 12px
     list-style none
     background-color #fff
@@ -93,20 +100,26 @@ ul.SelectMenu
   &.is-empty
     min-height $Select-option-height
   &:not(.is-open)
-    pointer-events none
     opacity 0
     transform scale(.8)
 
-  &.h-centered
+  &.x-center
     &
+      left 50%
       transform translateX(-50%)
     &:not(.is-open)
       transform scale(.8) translateX(-50%)
 
+  &.is-downward
+    top 100%
+    bottom initial
   &.is-upward
     transform-origin 50% 100%
+    top initial
+    bottom 100%
   &.is-open
     opacity 1
+    pointer-events initial
 
   li.SelectGroup
     > .title
