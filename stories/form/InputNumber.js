@@ -4,7 +4,7 @@ import { action } from '@storybook/addon-actions'
 import {
   Root, Icon, Button,
   FormLabel,
-  InputNumber, SelectNumber, PanelInputNumber, PanelSelectNumber,
+  InputNumber, SelectNumber, //PanelInputNumber, PanelSelectNumber,
 } from '../../components'
 
 export default class InputNumberExample extends React.PureComponent {
@@ -19,7 +19,7 @@ export default class InputNumberExample extends React.PureComponent {
     const value = this.state.formData[name]
 
     return (
-      value === 0 || !!value
+      value === 0 || value === '' || !!value
       ? value
       : defaultValue
     )
@@ -72,7 +72,7 @@ export default class InputNumberExample extends React.PureComponent {
           />
         </FormLabel>
 
-
+        {/*
         <FormLabel name="Panel Input">
           <PanelInputNumber
             precision={2}
@@ -88,6 +88,7 @@ export default class InputNumberExample extends React.PureComponent {
             onChange={this.onChange.bind(this, 'a')}
           />
         </FormLabel>
+          */}
 
         <FormLabel name="With options">
           <SelectNumber
@@ -126,7 +127,7 @@ export default class InputNumberExample extends React.PureComponent {
             className="degree-input-number"
             title={<Icon name="degree" type="dora" />}
             precision={1}
-            suffix="px"
+            suffix="°"
           />
         </FormLabel>
 

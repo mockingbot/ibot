@@ -13,6 +13,7 @@ import {
 
 import InputEmailExample from './InputEmail'
 import InputNumberExample from './InputNumber'
+import ConfirmInputNumberExample from './ConfirmInputNumber'
 import RadioCheckExample from './RadioCheck'
 import SelectExample from './Select'
 
@@ -131,6 +132,7 @@ storiesOf('Form Components', module)
 
 .add('Email', () => <InputEmailExample />)
 .add('Number', () => <InputNumberExample />)
+.add('Confirm Number', () => <ConfirmInputNumberExample />)
 .add('Radio/Check', () => <RadioCheckExample />)
 .add('Select', () => <SelectExample />)
 

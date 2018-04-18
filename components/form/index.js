@@ -5,8 +5,8 @@ export { FormEntry, FormLabel } from './FormEntry'
 export {
   Input, PanelInput, Textarea, PanelTextarea,
   InputEmail, PanelInputEmail,
-  InputNumber, PanelInputNumber,
-  SelectNumber, PanelSelectNumber,
+  InputNumber, SelectNumber,
+  ConfirmInputNumber, PanelInputNumber, PanelSelectNumber,
 } from './Input'
 
 export { Check, CheckGroup } from './Check'
