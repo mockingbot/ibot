@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import DocumentEvents from 'react-document-events'
 
-import isNumber from 'lodash/isNumber'
+import { isNumber, isEqual } from 'lodash'
 
 import Button from '../button'
 import { trimList, getOtherProps, SVG } from '../util'
@@ -11,7 +11,6 @@ import { SelectMenu } from './Select'
 
 const LONG_PRESSED_THRESHOLD = 500
 const LONG_PRESSED_STEPPING_INTERVAL = 30
-const CORRECTION_AWAIT = 1000
 
 const toFixed = (num, precision) => Number(Number(num).toFixed(precision))
 
@@ -26,7 +25,6 @@ const getStep = ({ shiftKey, metaKey }, step = 1) => (
   shiftKey ? step*10 : metaKey ? step*100 : step
 )
 
-
 const checkSettability = value => (
   value === ''
   || /^0?[\+\-]0*$/.test(value)   // Starting with a plus/minus
@@ -37,9 +35,10 @@ const defaultOnFocus = ({ currentTarget: $input }) => (
   setTimeout(() => $input.select(), 50)
 )
 
-export class InputNumber extends PureComponent {
+export class ConfirmInputNumber extends PureComponent {
   state = {
     value: isNumber(Number(this.props.value)) ? Number(this.props.value) : '',
+
     isActive: false,
     isValid: true,
     isMenuOpen: false,
@@ -50,9 +49,9 @@ export class InputNumber extends PureComponent {
     unstyled: PropTypes.bool,
 
     step: PropTypes.number,
-    precision: PropTypes.number, // 数值精度
-    formatter: PropTypes.func, // 输入框展示值的格式
-    parser: PropTypes.func, // 从formatter里转换回数字的方式
+    precision: PropTypes.number,
+    formatter: PropTypes.func,
+    parser: PropTypes.func,
 
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     placeholder: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -74,8 +73,9 @@ export class InputNumber extends PureComponent {
     disabled: PropTypes.bool,
     readOnly: PropTypes.bool,
 
-    onChange: PropTypes.func.isRequired,
     onFocus: PropTypes.func,
+    onConfirm: PropTypes.func.isRequired,
+    shouldCorrectOnConfirm: PropTypes.bool,
 
     className: PropTypes.string,
   }
@@ -99,20 +99,35 @@ export class InputNumber extends PureComponent {
     disabled: false,
     readOnly: false,
 
-    onChange: () => null,
+    onConfirm: () => null,
+    shouldCorrectOnConfirm: false,
   }
 
   static getDerivedStateFromProps({ value: newValue }, { value }) {
     if (newValue !== value) {
-      return {
-        value: isNumber(newValue) ? newValue : '',
-      }
+      return { value: isNumber(newValue) ? newValue : '' }
     }
 
     return null
   }
 
   componentDidMount() {
+    this.positionEverything()
+  }
+
+  componentDidUpdate({ title: prevTitle, prefix: prevPrefix, suffix: prevSuffix }) {
+    const { title, prefix, suffix } = this.props
+
+    if (
+      !isEqual(prevTitle, title)
+      || !isEqual(prevPrefix, prefix)
+      || !isEqual(prevSuffix, suffix)
+    ) {
+      this.positionEverything()
+    }
+  }
+
+  positionEverything() {
     const { $label } = this
     const { value, title, prefix, suffix } = this.props
 
@@ -127,6 +142,8 @@ export class InputNumber extends PureComponent {
     const $title = $label.querySelector('.title')
     const $prefix = $label.querySelector('.prefix')
     const $suffix = $label.querySelector('.suffix span')
+
+    $input.style.paddingLeft = null
 
     const originalPaddingLeft = parseInt(getComputedStyle($input).getPropertyValue('padding-left'))
 
@@ -152,38 +169,51 @@ export class InputNumber extends PureComponent {
     }
   }
 
+  get canBePositive() { return this.props.max > 0 }
+  get canBeNegative() { return this.props.min < 0 }
+
   onChange = e => {
     const { target: { value } } = e
     this.setValue(value.trim(), e)
   }
 
   correctNumber = number => {
-    const { min, max, precision } = this.props
-    return toFixed(Math.min(Math.max(number, min), max), precision)
+    const { value: originalValue, min, max, precision } = this.props
+
+    const correctedNumber = toFixed(
+      Math.min(Math.max(number, min), max),
+      precision,
+    )
+
+    return isNaN(correctedNumber) ? originalValue : correctedNumber
   }
 
   checkValidity = number => (
-    number === ''
-    || (
-      isFinite(number)
-      && this.correctNumber(number) === Number(number)
-    )
+    /^\+$/.test(number)
+    ? this.canBePositive
+    : /^\-$/.test(number)
+    ? this.canBeNegative
+    : number === ''
+      || (
+        isFinite(number)
+        && this.correctNumber(number) === Number(number)
+      )
   )
 
-  setValue = (v, e) => {
-    e.persist()
-    clearTimeout(this.correctionTimeout)
+  setValue = (v, e, callback) => {
+    if (e.persist) {
+      e.persist()
+    }
 
     const {
       value: originalValue,
       parser,
       placeholder,
-      onChange,
+      onConfirm,
     } = this.props
 
     const value = parser(v.toString()).toString()
 
-    const isNull = v !== '0' && !value && !!placeholder
     const isValid = this.checkValidity(value)
     const isNumber = v !== '' && isFinite(value)
     const isSettable = checkSettability(value)
@@ -192,26 +222,57 @@ export class InputNumber extends PureComponent {
 
     const correctedNumber = this.correctNumber(value)
     const finalNumber = isNaN(correctedNumber) ? originalValue : correctedNumber
-    const settingNumber = isNull ? '' : isSettable || !isValid ? value : finalNumber
+    const settingNumber = isSettable || !isValid ? value : finalNumber
 
-    this.setState({ value: settingNumber, isValid })
+    this.setState(
+      { value: settingNumber, isValid },
+      callback,
+    )
+  }
 
-    if (isValid) {
-      onChange(settingNumber, e)
-    } else {
-      Object.assign(this, { correctionTimeout: (
-        setTimeout(() => (
-          this.state.value === settingNumber
-          && this.setState(
-            {
-              value: finalNumber,
-              isValid: true,
-            },
-            onChange(finalNumber, e),
-          )
-        ), CORRECTION_AWAIT)
-      )})
+  setConfirmedValue = (v, e) => this.setValue(
+    v,
+    e,
+    () => this.onConfirm(e),
+  )
+
+  onConfirm = e => {
+    const {
+      value: originalValue,
+      precision,
+      onConfirm,
+      shouldCorrectOnConfirm,
+    } = this.props
+
+    const { value } = this.state
+    const isValid = this.checkValidity(value)
+
+    if (e.persist) {
+      e.persist()
     }
+
+    const correctedNumber = this.correctNumber(value)
+    const finalNumber = isNaN(correctedNumber) ? originalValue : correctedNumber
+
+    const settingNumber = (
+      value === ''
+      ? originalValue
+      : isValid
+      ? /^[\+\-]$/.test(value) ? 0 : value
+      : correctedNumber === toFixed(value, precision)
+      ? correctedNumber
+      : shouldCorrectOnConfirm
+      ? finalNumber
+      : originalValue || finalNumber
+    )
+
+    return this.setState(
+      {
+        value: settingNumber,
+        isValid: true,
+      },
+      () => onConfirm(settingNumber, e),
+    )
   }
 
   focusOnInput = e => {
@@ -232,7 +293,7 @@ export class InputNumber extends PureComponent {
 
     const step = getStep(e, this.props.step) * (action === 'up' ? 1 : -1)
 
-    this.setValue(
+    this.setConfirmedValue(
       this.correctNumber(Number(this.state.value) + step),
       e,
     )
@@ -244,7 +305,7 @@ export class InputNumber extends PureComponent {
       longPressedTimeout: setTimeout(
         () => Object.assign(this, {
           steppingInterval: setInterval(
-            () => this.setValue(
+            () => this.setConfirmedValue(
               this.correctNumber(Number(this.state.value) + step),
               e,
             ),
@@ -262,19 +323,47 @@ export class InputNumber extends PureComponent {
   }
 
   onKeyDown = e => {
-    const action = e.key === 'ArrowUp' ? 'up' : e.key === 'ArrowDown' ? 'down' : null
+    const { key, currentTarget } = e
+
+    const action = (
+      key === 'ArrowUp'
+      ? 'up'
+      : key === 'ArrowDown'
+      ? 'down'
+      : key === 'Enter'
+      ? 'enter'
+      : key === 'Tab'
+      ? 'tab'
+      : null
+    )
 
     if (!action) return
 
-    e.persist()
-    e.nativeEvent.preventDefault()
+    if (e.persist) {
+      e.persist()
+    }
 
-    const step = getStep(e, this.props.step) * (action === 'up' ? 1 : -1)
+    if (action !== 'tab') {
+      e.preventDefault()
+    }
 
-    this.setValue(
-      this.correctNumber(Number(this.state.value) + step),
-      e,
-    )
+    if (action === 'tab') {
+      this.setInactive()
+      return this.onConfirm(e)
+    } else if (action === 'enter') {
+      this.onConfirm(e)
+      this.$label.querySelector('input').select()
+      return
+    }
+
+    if (currentTarget instanceof Element && currentTarget.matches('input')) {
+      const step = getStep(e, this.props.step) * (action === 'up' ? 1 : -1)
+
+      this.setConfirmedValue(
+        this.correctNumber(Number(this.state.value) + step),
+        e,
+      )
+    }
   }
 
   set$label = $label => Object.assign(this, { $label })
@@ -287,12 +376,15 @@ export class InputNumber extends PureComponent {
     e.persist()
 
     const { currentTarget: $opt } = e
-    this.setValue($opt.dataset.value, e)
+    this.setConfirmedValue($opt.dataset.value, e)
     this.closeMenu()
   }
 
-  onClickOutside = ({ target }) => {
+  onClickOutside = e => {
+    const { target } = e
+
     if (!(target.closest('label') && this.$label.contains(target))) {
+      this.onConfirm(e)
       this.setInactive()
     }
   }
@@ -320,7 +412,7 @@ export class InputNumber extends PureComponent {
     const isDisabled = this.props.isDisabled || this.props.disabled
 
     const klass = trimList([
-      'Input InputNumber',
+      'Input InputNumber ConfirmInputNumber',
       size,
       unstyled && 'unstyled',
       className,
@@ -431,25 +523,39 @@ export class InputNumber extends PureComponent {
         <DocumentEvents
           enabled={isActive || isMenuOpen}
           onMouseDown={this.onClickOutside}
+          onKeyDown={this.onKeyDown}
         />
       </label>
     )
   }
 }
 
-export function SelectNumber({ className, ...others }) {
+export function PanelInputNumber({ className, ...others }) {
   return (
-    <InputNumber
-      className={trimList(['SelectNumber', className])}
+    <ConfirmInputNumber
+      size="small"
+      className={trimList(['PanelInputNumber', className])}
       {...others}
     />
   )
 }
 
-SelectNumber.propTypes = {
+ PanelInputNumber.propTypes = {
   className: PropTypes.string,
 }
 
-SelectNumber.defaultProps = {
+export function PanelSelectNumber({ className, ...others }) {
+  return (
+    <ConfirmInputNumber
+      size="small"
+      className={trimList(['PanelInputNumber', className])}
+      {...others}
+    />
+  )
+}
+
+PanelSelectNumber.propTypes = PanelInputNumber.propTypes
+
+PanelSelectNumber.defaultProps = {
   optionList: [1, 2, 3],
 }

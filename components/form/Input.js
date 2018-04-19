@@ -105,3 +105,4 @@ PanelTextarea.propTypes = {
 
 export * from './InputEmail'
 export * from './InputNumber'
+export * from './ConfirmInputNumber'
