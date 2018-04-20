@@ -147,7 +147,7 @@ export default class InputNumberExample extends React.PureComponent {
             max={360}
             suffix="°"
             value={formData.rotate}
-            parser={v => v%360}
+            parser={v =>isFinite(v) ? v%360 : v}
             onConfirm={this.onChange.bind(this, 'rotate')}
           />
         </FormLabel>
