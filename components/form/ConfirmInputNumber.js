@@ -337,6 +337,7 @@ export class ConfirmInputNumber extends PureComponent {
       : null
     )
 
+    const isOn$input = currentTarget instanceof Element && currentTarget.matches('input')
     if (!action) return
 
     if (e.persist) {
@@ -350,13 +351,13 @@ export class ConfirmInputNumber extends PureComponent {
     if (action === 'tab') {
       this.setInactive()
       return this.onConfirm(e)
-    } else if (action === 'enter') {
+    } else if (isOn$input && action === 'enter') {
       this.onConfirm(e)
       this.$label.querySelector('input').select()
       return
     }
 
-    if (currentTarget instanceof Element && currentTarget.matches('input')) {
+    if (isOn$input) {
       const step = getStep(e, this.props.step) * (action === 'up' ? 1 : -1)
 
       this.setConfirmedValue(
