@@ -348,7 +348,7 @@ export class ConfirmInputNumber extends PureComponent {
       e.preventDefault()
     }
 
-    if (action === 'tab') {
+    if (isOn$input && action === 'tab') {
       this.setInactive()
       return this.onConfirm(e)
     } else if (isOn$input && action === 'enter') {
