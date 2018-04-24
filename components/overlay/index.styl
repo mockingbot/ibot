@@ -1,0 +1,36 @@
+@import '../util/index'
+
+body.mb-cant-scroll
+  overflow hidden
+
+.Overlay
+  &
+    position fixed
+    z-index $z-Overlay
+    top 0
+    left 0
+    display flex
+    flex-wrap wrap
+    justify-content center
+    align-items center
+    width 100vw
+    height 100vh
+    background-color #fff
+    transition all .3s ease-in-out
+  &:not(.is-open)
+    opacity 0
+    pointer-events none
+
+  .close-btn
+    &
+      position absolute
+      top 1rem
+      right 1rem
+      color $cl-light-grey
+      opacity .8
+      transition all .2s ease-in
+    &:hover
+      color $cl-light-grey
+      opacity 1
+    .fore
+      color $cl-tertiary-grey
