@@ -19,7 +19,6 @@ export function Input({
   onChange,
   ...others
 }) {
-  console.log({unstyled})
   return (
     <label className={trimList(['Input', size, unstyled && 'unstyled', className])}>
       <input
