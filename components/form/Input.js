@@ -12,14 +12,16 @@ function createOnChangeHandler(onChange) {
  */
 export function Input({
   size,
+  unstyled,
   className,
   value,
   type,
   onChange,
   ...others
 }) {
+  console.log({unstyled})
   return (
-    <label className={trimList(['Input', size, className])}>
+    <label className={trimList(['Input', size, unstyled && 'unstyled', className])}>
       <input
         type={type}
         value={value}
@@ -33,6 +35,7 @@ export function Input({
 Input.propTypes = {
   type: PropTypes.string,
   size: PropTypes.oneOf(['regular', 'small']),
+  unstyled: PropTypes.bool,
   className: PropTypes.string,
   value: PropTypes.string,
   onChange: PropTypes.func,
@@ -62,12 +65,14 @@ PanelInput.propTypes = {
  * <Textarea>
  */
 export function Textarea({
-  className, size,
+  size,
+  unstyled,
+  className,
   value, onChange,
   ...others
 }) {
   return (
-    <label className={trimList(['Textarea', size, className])}>
+    <label className={trimList(['Textarea', size, unstyled && 'unstyled', className])}>
       <textarea
         value={value}
         onChange={createOnChangeHandler(onChange)}
@@ -80,6 +85,7 @@ export function Textarea({
 Textarea.propTypes = {
   className: PropTypes.string,
   size: PropTypes.oneOf(['regular', 'small']),
+  unstyled: PropTypes.bool,
   value: PropTypes.string,
   onChange: PropTypes.func,
 }

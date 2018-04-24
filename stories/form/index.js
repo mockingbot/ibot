@@ -37,6 +37,8 @@ storiesOf('Form Components', module)
       <Input disabled placeholder="A disabled text input" onChange={onTypingChange} />
       <br />
       <Input readOnly value="A read-only text input" onChange={onTypingChange} />
+      <br />
+      <Input unstyled placeholder="An unstyled text input" onChange={onTypingChange} />
     </p>
 
     <h2>Email input</h2>
