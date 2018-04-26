@@ -39,7 +39,9 @@ export class ConfirmInputNumber extends PureComponent {
   state = {
     value: isNumber(Number(this.props.value)) ? Number(this.props.value) : '',
 
+    isHover: false,
     isActive: false,
+
     isValid: true,
     isMenuOpen: false,
   }
@@ -115,7 +117,9 @@ export class ConfirmInputNumber extends PureComponent {
     this.positionEverything()
   }
 
-  componentDidUpdate({ title: prevTitle, prefix: prevPrefix, suffix: prevSuffix }) {
+  componentDidUpdate({
+    title: prevTitle, prefix: prevPrefix, suffix: prevSuffix,
+  }) {
     const { title, prefix, suffix } = this.props
 
     if (
@@ -246,6 +250,11 @@ export class ConfirmInputNumber extends PureComponent {
 
     const { value } = this.state
     const isValid = this.checkValidity(value)
+    const isDisabled = this.props.isDisabled || this.props.disabled
+
+    if (isDisabled) {
+      return
+    }
 
     if (e.persist) {
       e.persist()
@@ -368,8 +377,13 @@ export class ConfirmInputNumber extends PureComponent {
   }
 
   set$label = $label => Object.assign(this, { $label })
+
   setActive = () => this.setState({ isActive: true })
   setInactive = () => this.setState({ isActive: false })
+
+  onHover = () => this.setState({ isHover: true })
+  onLeave = () => this.setState({ isHover: false })
+
   toggleMenu = () => this.setState({ isMenuOpen: !this.state.isMenuOpen })
   closeMenu = () => this.setState({ isMenuOpen: false })
 
@@ -407,7 +421,7 @@ export class ConfirmInputNumber extends PureComponent {
       optionList, menuX,
     } = this.props
 
-    const { value, isActive, isValid, isMenuOpen } = this.state
+    const { value, isHover, isActive, isValid, isMenuOpen } = this.state
 
     const isEmpty = value === ''
     const isDisabled = this.props.isDisabled || this.props.disabled
@@ -418,6 +432,7 @@ export class ConfirmInputNumber extends PureComponent {
       unstyled && 'unstyled',
       className,
 
+      isHover && !isDisabled && !readOnly && 'is-hover',
       isActive && !isDisabled && !readOnly && 'is-active',
       isMenuOpen && 'is-menu-open',
 
@@ -438,6 +453,10 @@ export class ConfirmInputNumber extends PureComponent {
       <label
         className={klass}
         ref={this.set$label}
+
+        onMouseEnter={this.onHover}
+        onMouseLeave={this.onLeave}
+
         onMouseDown={this.setActive}
       >
         { title && <span className="title">{title}</span> }

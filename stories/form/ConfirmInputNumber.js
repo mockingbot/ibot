@@ -182,6 +182,18 @@ export default class InputNumberExample extends React.PureComponent {
             dontSelectOnFocus
           />
         </FormEntry>
+
+        <FormEntry name="Disabled">
+          <PanelInputNumber
+            desc="Disabled"
+            isDisabled
+            precision={2}
+            suffix="cm"
+            value={5.67}
+            onConfirm={() => null}
+            dontSelectOnFocus
+          />
+        </FormEntry>
       </Root>
     )
   }
