@@ -1,4 +1,4 @@
-export { default as Button } from './button'
+export * from './button'
 //export { default as ColorPicker } from './color-picker'
 export { default as Dropdown } from './dropdown'
 export * from './form'

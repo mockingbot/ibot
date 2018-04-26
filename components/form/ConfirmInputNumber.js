@@ -4,7 +4,7 @@ import DocumentEvents from 'react-document-events'
 
 import { isNumber, isEqual } from 'lodash'
 
-import Button from '../button'
+import { Button } from '../button'
 import { trimList, getOtherProps, SVG } from '../util'
 
 import { SelectMenu } from './Select'

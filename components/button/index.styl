@@ -3,6 +3,9 @@
 $Button-font-size = 14px
 $Button-height = 34px
 
+$CoreButton-height = 38px
+$CoreButton-small-height = 28px
+
 $Button-small-font-size = 12px
 $Button-small-height = 2em
 
@@ -21,32 +24,88 @@ $cl-PrimaryButton-hover-bg = $cl-secondary-grey
 $cl-TextButton-text = $cl-active
 $cl-TextButton-hover-text = darken($cl-active, 10%)
 
-$Button,
-.RegularButton
+$Button
   &
     padding 0 .5em
     height $Button-height
     font-size $Button-font-size
     border 1px solid
     border-radius 2px
-    color $cl-Button-text
     cursor pointer
     transition all .2s ease-out
   &:not(button)
     display inline-flex
     justify-content center
     align-items center
-  &:hover:not([disabled])
-    color $cl-Button-hover-text
   &[disabled]
     cursor not-allowed
-    opacity .6
   .icon
     margin-right .125em
-
   &.small
     height $Button-small-height
     font-size $Button-small-font-size
+
+$CoreButton
+  &
+    @extends $Button
+    padding 0 1em
+    height $CoreButton-height
+    border-radius 4px
+  &.small
+    height $CoreButton-small-height
+  &[disabled]
+    background-color $cl-lightest-grey
+    border-color $cl-light-grey
+    color $cl-quaternary-grey
+
+.PrimaryCoreButton
+  &
+    @extends $CoreButton
+    background-color $cl-core
+    color #fff
+  &:not([disabled])
+    border 0
+  &:hover:not([disabled])
+    background-color #ef776c
+  &:active:not([disabled])
+    background-color #bc4439
+    color #e4b4b0
+
+.RegularCoreButton
+.SecondaryCoreButton
+  &
+    @extends $CoreButton
+    background-color #fff
+    color $cl-core
+  &:hover:not([disabled])
+    border-color #ffa39e
+    color #ef776c
+  &:active:not([disabled])
+    border-color #e84030
+    color #bc4439
+
+.TertiaryCoreButton
+  &
+    @extends $CoreButton
+    background-color #fff
+    border-color $cl-quaternary-grey
+    color $cl-primary-grey
+  &:hover:not([disabled])
+    background-color $cl-tertiary-grey
+    border-color #7d8694
+    color #fff
+  &:active:not([disabled])
+    background-color $cl-secondary-grey
+    border-color $cl-primary-grey
+
+.RegularButton
+  &
+    @extends $Button
+    color $cl-Button-text
+  &:hover:not([disabled])
+    color $cl-Button-hover-text
+  &[disabled]
+    opacity .6
 
 .PrimaryButton
   &

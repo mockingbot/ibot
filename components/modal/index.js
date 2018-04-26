@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom'
 import PropTypes from 'prop-types'
 import DocumentEvents from 'react-document-events'
 
-import Button from '../button'
+import { Button } from '../button'
 import Switch from '../switch'
 import Icon from '../icon'
 import { trimList, $, preparePortal } from '../util'

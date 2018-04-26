@@ -1,7 +1,13 @@
 import React, { PureComponent } from 'react'
 import { storiesOf } from '@storybook/react'
 
-import { Root, Button } from '../components'
+import {
+  Root,
+  Button, CoreButton,
+  PrimaryCoreButton,
+  SecondaryCoreButton, RegularCoreButton,
+  TertiaryCoreButton,
+} from '../components'
 
 storiesOf('Button', module)
 .add('default', () => <ButtonExample />)
@@ -75,6 +81,27 @@ class ButtonExample extends PureComponent {
           <Button type="text" size={size} icon="like">讚</Button>
           <Button type="text" size={size} icon="single-comment">留言</Button>
           <Button type="text" size={size} icon="undo" />
+        </p>
+
+        <h2>Core Button</h2>
+        <h3>Primary</h3>
+        <p className="button">
+          <PrimaryCoreButton size={size}>Done</PrimaryCoreButton>
+          <PrimaryCoreButton disabled size={size}>Done</PrimaryCoreButton>
+        </p>
+
+        <h3>Regular/Secondary</h3>
+        <p className="button">
+          <CoreButton size={size}>Cancel</CoreButton>
+          <RegularCoreButton size={size}>Cancel</RegularCoreButton>
+          <SecondaryCoreButton size={size}>Cancel</SecondaryCoreButton>
+          <SecondaryCoreButton disabled size={size}>Cancel</SecondaryCoreButton>
+        </p>
+
+        <h3>Tertiary</h3>
+        <p className="button">
+          <TertiaryCoreButton size={size}>Fine</TertiaryCoreButton>
+          <TertiaryCoreButton disabled size={size}>Fine</TertiaryCoreButton>
         </p>
       </Root>
     )
