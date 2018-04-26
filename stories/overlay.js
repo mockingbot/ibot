@@ -63,7 +63,7 @@ storiesOf('Overlay', module)
 
         onToggle={action('Overlay toggled, `isOpen`')}
       >
-        Overlay opened with a button
+        <div style={{ background: '#ede', height: 200, padding: '.5em' }}>Overlay opened with a button</div>
       </Overlay>
 
       <Overlay
@@ -75,7 +75,7 @@ storiesOf('Overlay', module)
 
         onToggle={action('Overlay toggled, `isOpen`')}
       >
-        Overlay opened with a button
+        <div style={{ background: '#ede', height: 200, padding: '.5em' }}>Overlay opened with a button</div>
       </Overlay>
 
       <Overlay

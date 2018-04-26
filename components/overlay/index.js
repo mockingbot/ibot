@@ -182,7 +182,9 @@ export default class Overlay extends PureComponent {
           <SVG name="close" label="Close the Overlay" />
         </Button>
 
-        { children }
+        <div className="content">
+          { children }
+        </div>
       </div>
     )
   }
