@@ -123,8 +123,8 @@ export function User({
 }
 
 User.propTypes = {
-  name: PropTypes.string,
-  id: PropTypes.string,
+  name: PropTypes.node,
+  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   email: PropTypes.string,
 }
 
@@ -133,7 +133,7 @@ export function TeamName({ name, ...others }) {
 }
 
 TeamName.propTypes = {
-  name: PropTypes.string,
+  name: PropTypes.node,
 }
 
 export function AppName({ name, ...others }) {
@@ -141,7 +141,7 @@ export function AppName({ name, ...others }) {
 }
 
 AppName.propTypes = {
-  name: PropTypes.string,
+  name: PropTypes.node,
 }
 
 export function WidgetName({ name, ...others }) {
@@ -149,5 +149,5 @@ export function WidgetName({ name, ...others }) {
 }
 
 WidgetName.propTypes = {
-  name: PropTypes.string,
+  name: PropTypes.node,
 }
