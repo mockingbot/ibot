@@ -17,8 +17,7 @@ function SVG({ name, icon = ICON_MAP[name], className, label, ...others }) {
     <svg
       xmlns="http://www.w3.org/2000/svg"
       className={trimList(['svg-icon', name, className])}
-      width={width}
-      height={height}
+      viewBox={`0 0 ${width} ${height}`}
       {...{ ...aria, ...others }}
       dangerouslySetInnerHTML={{ __html }}
     />
