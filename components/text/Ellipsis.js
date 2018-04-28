@@ -16,6 +16,8 @@ export class Ellipsis extends PureComponent {
     max: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     display: PropTypes.oneOf(['inline-block', 'block']),
 
+    lang: PropTypes.string,
+
     to: PropTypes.string,
     children: PropTypes.node,
 
@@ -26,6 +28,10 @@ export class Ellipsis extends PureComponent {
     withComma: PropTypes.bool,
     withPeriod: PropTypes.bool,
     withQuestionMark: PropTypes.bool,
+  }
+
+  static defaultProps = {
+    lang: 'en',
   }
 
   componentDidMount() {
@@ -49,7 +55,7 @@ export class Ellipsis extends PureComponent {
 
   render() {
     const {
-      className, to, type, max, display,
+      className, to, type, max, display, lang,
       noTooltip, withTooltip,
 
       withQuote,
@@ -85,9 +91,13 @@ export class Ellipsis extends PureComponent {
       children,
     }
 
+    const tip = (
+      <div lang={lang} className="EllipsisTip">{children}</div>
+    )
+
     const ellipsis = (
      withTooltip || isTruncated && !noTooltip
-      ? <Tooltip type={elementType} content={children} {...attr} />
+      ? <Tooltip type={elementType} content={tip} {...attr} />
       : React.createElement(TYPE_ELEMENT_MAP[elementType], attr)
     )
 

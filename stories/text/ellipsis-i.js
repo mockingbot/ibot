@@ -25,6 +25,19 @@ export default class EllipsisI extends PureComponent {
           <Ellipsis max="100px">墨刀是一家有企业社会责任感的公司，对校园机构、学生社团和公益项目等方面格外关注！</Ellipsis>
         </p>
 
+        <h3>Longer words</h3>
+        <p>
+          <Ellipsis max="10em">Pneumonoultramicroscopicsilicovolcanoconiosis</Ellipsis>
+          <br />
+          <Ellipsis lang="en-GB" max="10em">Pneumonoultramicroscopicsilicovolcanoconiosis</Ellipsis>
+          <br />
+          <Ellipsis lang="de" max="10em">Rindfleischetikettierungsüberwachungsaufgabenübertragungsgesetz</Ellipsis>
+        </p>
+        <h4>No hyphens for text attributed with CJK</h4>
+        <p>
+          <Ellipsis lang="zh" max="10em">Pneumonoultramicroscopicsilicovolcanoconiosis</Ellipsis>
+        </p>
+
         <h2>Types</h2>
         <ul>
           <li>User: <Ellipsis type="user">Zhang Yuanyi</Ellipsis></li>
