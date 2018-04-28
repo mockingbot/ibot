@@ -18,6 +18,7 @@ export default class Switch extends PureComponent {
     disabled: PropTypes.bool,
 
     onChange: PropTypes.func,
+    children: PropTypes.any,
   }
 
   static defaultProps = {
@@ -47,7 +48,7 @@ export default class Switch extends PureComponent {
     return (
       !isDisabled && this.setState(
         { isChecked: !isChecked },
-        () => onChange(this.state.isChecked),
+        () => onChange(!isChecked),
       )
     )
   }
@@ -58,7 +59,7 @@ export default class Switch extends PureComponent {
   }
 
   render () {
-    const { size } = this.props
+    const { size, children } = this.props
     const { isChecked } = this.state
     const { isDisabled } = this
 
@@ -72,6 +73,7 @@ export default class Switch extends PureComponent {
         ])}
       >
         <button type="button" disabled={isDisabled} onClick={this.toggle} />
+        { children }
       </label>
     )
   }

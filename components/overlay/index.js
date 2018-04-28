@@ -146,7 +146,6 @@ export default class Overlay extends PureComponent {
 
       : openerType === 'switch'
       ? <Switch isChecked={isOpen} onChange={this.toggle}>
-          { opener }
           { overlay }
         </Switch>
 

@@ -312,7 +312,6 @@ export default class Modal extends PureComponent {
 
       : openerType === 'switch'
       ? <Switch isChecked={isOpen} onChange={this.toggle}>
-          { opener }
           { modal }
         </Switch>
 
