@@ -10,20 +10,25 @@ export default class Switch extends PureComponent {
   state = { isChecked: this.props.isChecked }
 
   static propTypes = {
+    className: PropTypes.string,
+    size: PropTypes.oneOf(['regular', 'small']),
+
     isChecked: PropTypes.bool,
     isDisabled: PropTypes.bool,
+    disabled: PropTypes.bool,
+
     onChange: PropTypes.func,
-    className: PropTypes.string,
-    icon: PropTypes.string,
-    children: PropTypes.any,
   }
 
   static defaultProps = {
+    className: '',
+    size: 'regular',
+
     isChecked: false,
     isDisabled: false,
-    className: '',
+    disabled: false,
+
     onChange: () => null,
-    icon: '',
   }
 
   static getDerivedStateFromProps({ isChecked: willBeChecked }, { isChecked }) {
@@ -47,21 +52,26 @@ export default class Switch extends PureComponent {
     )
   }
 
+  get isDisabled() {
+    const { isDisabled, disabled } = this.props
+    return isDisabled || disabled
+  }
+
   render () {
-    const { icon, isDisabled, children } = this.props
+    const { size } = this.props
     const { isChecked } = this.state
+    const { isDisabled } = this
 
     return (
       <label
         className={trimList([
           'Switch',
+          size,
           isChecked ? 'is-checked' : 'isnt-checked',
           isDisabled && 'is-disabled',
         ])}
       >
-        <button type="button" disabled={isDisabled} onClick={this.toggle}>
-          { icon ? <Icon name={icon} /> : children }
-        </button>
+        <button type="button" disabled={isDisabled} onClick={this.toggle} />
       </label>
     )
   }

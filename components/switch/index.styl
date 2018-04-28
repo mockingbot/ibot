@@ -1,44 +1,66 @@
 @import '../util/index'
 
 label.Switch
-  $size = 26px
+  $w = 42px
+  $h = 16px
+  $button-size = 22px
+
+  $w-small = 26px
+  $h-small = 10px
+  $button-size-small = 14px
 
   &
     position relative
     display inline-block
     margin 0 .125em
-    width $size * 2
-    height $size
-    vertical-align s('calc((1em - %s)/2)', $size)
+    width $w
+    height $h
+    vertical-align text-bottom
     background-color $cl-quaternary-grey
-    border-radius ($size/2)
+    border-radius ($h/2)
     cursor pointer
-    transition all 0.2s
+    transition all 0.2s ease-in
+    transition-delay .15s
   > button
     position absolute
-    top 0
+    top 50%
     left 0
+    transform translateY(-50%)
     display flex
     justify-content center
     align-items center
-    margin 1px
-    width $size - 2px
+    width $button-size
     height @width
     font-size 14px
+    border 2px solid #d0d7dd
     border-radius 50%
     background-color white
-    box-shadow 0 1px 2px 0 rgba(#000,.1)
-    transition all 0.3s
-  .icon
-    color $cl-core
+    box-shadow 0 4px 4px 0 rgba(#000,.04)
+    transition all 0.2s cubic-bezier(.55,.06,.68,.19)
+
+  &.small
+    &
+      width $w-small
+      height $h-small
+      vertical-align baseline
+    > button
+      width $button-size-small
+      height @width
+
   &.is-checked
     &
       background-color $cl-core
     > button
-      left s('calc(100% - %s)', $size)
+      transform translate($w/2, -50%)
+      cursor inherit
+    &.small > button
+      transform translate($w-small/2, -50%)
+
   &.is-disabled
     &
-      opacity .5
+      background-color $cl-light-grey
       cursor not-allowed
+    &.is-checked
+      background-color rgba($cl-core, .35)
     & button
-      cursor not-allowed
+       background-color $cl-lightest-grey
