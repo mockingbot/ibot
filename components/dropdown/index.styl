@@ -9,6 +9,7 @@
 
 .DropdownMenuBase
   position fixed
+  z-index $z-DropdownMenu
   pointer-events none
 
 .DropdownMenu
@@ -16,7 +17,6 @@
 
   &
     position absolute
-    z-index $z-DropdownMenu
     margin .25em 0
     width -moz-fit-content
     width -webkit-fit-content
