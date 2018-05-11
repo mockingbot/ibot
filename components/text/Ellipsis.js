@@ -53,11 +53,7 @@ export class Ellipsis extends PureComponent {
 
   set$ellipsis = $ellipsis => Object.assign(this, { $ellipsis })
 
-  detectTruncation = ($e = this.$ellipsis) => {
-    if (this.props.html) console.log($e.offsetWidth, $e.scrollWidth)
-
-    return $e.offsetWidth < $e.scrollWidth
-  }
+  detectTruncation = ($e = this.$ellipsis) => $e.offsetWidth < $e.scrollWidth
 
   render() {
     const {
