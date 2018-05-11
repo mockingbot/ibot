@@ -75,6 +75,15 @@ export default class EllipsisI extends PureComponent {
           <Ellipsis max="10" target="_blank" to="https://mockingbot.com/posts/run-puppeteer-chrome-headless-on-ec2-amazon-linux">mockingbot.com/posts/run-puppeteer-chrome-headless-on-ec2-amazon-linux</Ellipsis>
         </p>
 
+        <h2>HTML</h2>
+        <p>
+          <Ellipsis max="5" className="AppName" position="left" html="LOL<code>abc</code>" />
+          <br />
+          <Ellipsis max="5" className="AppName" position="left" html="LOL&amp;LOL&amp;" />
+          <br />
+          <Ellipsis max="5" className="AppName" position="left" html="LOL&amp;&lt;&gt;LOL&amp;" />
+        </p>
+
         <h2>Tooltip or not</h2>
         <ul>
           <li>With: <Ellipsis max="8">Lick The Palm Of The Burning Handshake</Ellipsis></li>

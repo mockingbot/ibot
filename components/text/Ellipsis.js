@@ -20,6 +20,7 @@ export class Ellipsis extends PureComponent {
 
     to: PropTypes.string,
     children: PropTypes.node,
+    html: PropTypes.string,
 
     noTooltip: PropTypes.bool,
     withTooltip: PropTypes.bool,
@@ -40,10 +41,10 @@ export class Ellipsis extends PureComponent {
     }
   }
 
-  componentDidUpdate({ children: prevChildren }) {
-    const { children } = this.props
+  componentDidUpdate({ children: prevChildren, html: prevHTML }) {
+    const { children, html } = this.props
 
-    if (!isEqual(prevChildren, children)) {
+    if (!isEqual(prevChildren, children) || !isEqual(prevHTML, html)) {
       this.setState({
         isTruncated: this.detectTruncation(),
       })
@@ -51,7 +52,12 @@ export class Ellipsis extends PureComponent {
   }
 
   set$ellipsis = $ellipsis => Object.assign(this, { $ellipsis })
-  detectTruncation = ($e = this.$ellipsis) => $e.offsetWidth < $e.scrollWidth
+
+  detectTruncation = ($e = this.$ellipsis) => {
+    if (this.props.html) console.log($e.offsetWidth, $e.scrollWidth)
+
+    return $e.offsetWidth < $e.scrollWidth
+  }
 
   render() {
     const {
@@ -62,12 +68,19 @@ export class Ellipsis extends PureComponent {
       withPeriod, withComma, withQuestionMark,
 
       children,
+      html,
       ...others
     } = this.props
 
     const { isTruncated } = this.state
 
     const elementType = to ? 'link' : 'inline'
+
+    const contentProp = (
+      html
+      ? { dangerouslySetInnerHTML: { __html: html } }
+      : { children }
+    )
 
     const attr = {
       ref: this.set$ellipsis,
@@ -87,18 +100,19 @@ export class Ellipsis extends PureComponent {
         maxWidth: isFinite(max) ? `${max}em` : max,
       },
 
-      ...others,
+      html,
       children,
+      ...others,
     }
 
     const tip = (
-      <div lang={lang} className="EllipsisTip">{children}</div>
+      <div lang={lang} className="EllipsisTip" {...contentProp}></div>
     )
 
     const ellipsis = (
      withTooltip || isTruncated && !noTooltip
       ? <Tooltip type={elementType} content={tip} {...attr} />
-      : React.createElement(TYPE_ELEMENT_MAP[elementType], attr)
+      : React.createElement(TYPE_ELEMENT_MAP[elementType], {...attr, ...contentProp})
     )
 
     return (

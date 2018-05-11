@@ -69,6 +69,7 @@ export default class Tooltip extends PureComponent {
     duration: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
     children: PropTypes.node,
+    html: PropTypes.string,
   }
 
   static defaultProps = {
@@ -133,6 +134,8 @@ export default class Tooltip extends PureComponent {
       position, inflexible, arrowed,
       className, tipClassName,
       content,
+
+      html,
       children,
     } = this.props
 
@@ -163,7 +166,8 @@ export default class Tooltip extends PureComponent {
 
       // Children:
       <Fragment>
-        { children }
+        { html ? <span dangerouslySetInnerHTML={{ __html: html }} /> : children }
+
         <Tip
           $text={$text}
           isOpen={isOpen}
