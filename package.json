@@ -1,6 +1,6 @@
 {
   "name": "@ibot/ibot",
-  "version": "0.4.8-beta9",
+  "version": "0.4.9-beta9",
   "main": "lib/index.js",
   "module": "lib/index.js",
   "license": "MIT",
