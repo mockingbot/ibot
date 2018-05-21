@@ -88,6 +88,10 @@ storiesOf('Dropdown', module)
           </div>
         }
         menuX="left"
+
+        onOpen={action('Dropdown `onOpen`')}
+        onClose={action('Dropdown `onClose`')}
+        onToggle={action('Dropdown `isOpen`')}
       />
 
       <Dropdown
@@ -221,6 +225,10 @@ storiesOf('Dropdown', module)
         arrowed
 
         shouldOpenOnHover={true}
+
+        onOpen={action('Dropdown `onOpen`')}
+        onClose={action('Dropdown `onClose`')}
+        onToggle={action('Dropdown `isOpen`')}
 
         className="color"
         opener={

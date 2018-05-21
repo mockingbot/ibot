@@ -3,6 +3,8 @@ import { createPortal } from 'react-dom'
 import PropTypes from 'prop-types'
 import DocumentEvents from 'react-document-events'
 
+import { isBoolean } from 'lodash'
+
 import { trimList, $, SVG, preparePortal } from '../util'
 import { positionMenu } from './util'
 
@@ -70,6 +72,10 @@ export default class Dropdown extends PureComponent {
 
     onSelect: PropTypes.func,
     shouldCloseOnSelect: PropTypes.bool,
+
+    onOpen: PropTypes.func,
+    onClose: PropTypes.func,
+    onToggle: PropTypes.func,
   }
 
   static defaultProps = {
@@ -84,6 +90,10 @@ export default class Dropdown extends PureComponent {
 
     inflexible: false,
     menuBasedX: false,
+
+    onOpen: () => null,
+    onClose: () => null,
+    onToggle: () => null,
   }
 
   componentDidMount() {
@@ -94,9 +104,24 @@ export default class Dropdown extends PureComponent {
     window.removeEventListener('resize', this.onResizeWindow)
   }
 
-  toggle = () => this.setState({ isOpen: !this.state.isOpen })
-  open = () => this.setState({ isOpen: true })
-  close = () => this.setState({ isOpen: false })
+  toggle = willBeOpen  => this.setState(
+    { isOpen: isBoolean(willBeOpen) ? willBeOpen : !this.state.isOpen },
+    () => {
+      const { onOpen, onClose, onToggle } = this.props
+      const { isOpen } = this.state
+
+      if (isOpen) {
+        onOpen()
+      } else {
+        onClose()
+      }
+
+      onToggle(isOpen)
+    },
+  )
+
+  open = () => this.toggle(true)
+  close = () => this.toggle(false)
 
   onMouseEnter = () => {
     const { shouldOpenOnHover } = this.props
