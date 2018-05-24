@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import { createPortal } from 'react-dom'
 import PropTypes from 'prop-types'
 import DocumentEvents from 'react-document-events'
+import { isBoolean } from 'lodash'
 
 import { Button } from '../button'
 import Switch from '../switch'
@@ -60,10 +61,12 @@ export default class Overlay extends PureComponent {
   }
 
   static getDerivedStateFromProps({ isOpen: willBeOpen }, { isVisible }) {
-    if (!isVisible && willBeOpen) {
-      return { isOpen: true }
-    } else if (isVisible && !willBeOpen) {
-      return { isVisible: false }
+    if (isBoolean(willBeOpen)) {
+      if (!isVisible && willBeOpen) {
+        return { isOpen: true }
+      } else if (isVisible && !willBeOpen) {
+        return { isVisible: false }
+      }
     }
     return null
   }
