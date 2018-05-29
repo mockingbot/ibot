@@ -56,30 +56,29 @@
       button
         height 100%
       svg
-        transform rotate(180deg)
         transition transform .2s ease-out
       /.InputNumber.is-menu-open .caret svg
-        transform rotate(0)
-    button
-      display block
-      margin 0
-      padding 0
-      width 100%
-      height 50%
-      line-height 0
-      color $cl-InputNumber-action
-      transition all .1s ease-out
-    button:hover
-      color $cl-InputNumber-action-hover
-    button:active
-      color $cl-InputNumber-action-active
-    button[data-action=up]
-      padding 5px 0 2px
-    button[data-action=down]
-      &
-        padding 2px 0 5px
-      svg
         transform rotate(180deg)
+
+     button
+      &
+        display block
+        margin 0
+        padding 0
+        width 100%
+        height 50%
+        line-height 0
+        color $cl-InputNumber-action
+        transition all .1s ease-out
+      &:hover
+        color $cl-InputNumber-action-hover
+      &:active
+        color $cl-InputNumber-action-active
+      &[data-action=up] svg
+        margin 5px 0 2px
+      &[data-action=down] svg
+        margin 2px 0 5px
+
   &.regular .action
     top 50%
     transform translateY(-50%)

@@ -5,9 +5,10 @@ import DocumentEvents from 'react-document-events'
 import isNumber from 'lodash/isNumber'
 
 import { Button } from '../button'
-import { trimList, getOtherProps, SVG } from '../util'
-
 import { SelectMenu } from './Select'
+import SVG from '../svg'
+
+import { trimList, getOtherProps } from '../util'
 
 const LONG_PRESSED_THRESHOLD = 500
 const LONG_PRESSED_STEPPING_INTERVAL = 30
@@ -383,12 +384,9 @@ export class InputNumber extends PureComponent {
         {
           hasMenu
           ? <div className="action caret">
-              <Button
-                type="text"
-                tabIndex="-1"
-                onClick={this.toggleMenu}
-                html={SVG.INPUT_ARROW}
-              />
+              <Button type="text" tabIndex="-1" onClick={this.toggleMenu}>
+                <SVG name="triangle_down" />
+              </Button>
             </div>
 
           : <div className="action">
@@ -399,8 +397,10 @@ export class InputNumber extends PureComponent {
                 onMouseDown={this.onStep}
                 onMouseLeave={this.onRelease}
                 onMouseUp={this.onRelease}
-                html={SVG.INPUT_ARROW}
-              />
+              >
+                <SVG name="triangle_up" />
+              </Button>
+
               <Button
                 type="text"
                 tabIndex="-1"
@@ -408,8 +408,9 @@ export class InputNumber extends PureComponent {
                 onMouseDown={this.onStep}
                 onMouseLeave={this.onRelease}
                 onMouseUp={this.onRelease}
-                html={SVG.INPUT_ARROW}
-              />
+              >
+                <SVG name="triangle_down" />
+              </Button>
             </div>
         }
 
