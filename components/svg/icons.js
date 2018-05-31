@@ -23,3 +23,6 @@ export const angle_bracket_left = [8, 12, `<path d="M7.137 10.872a1.04 1.04 0 0 
 export const angle_bracket_right = [8, 12, `<path d="M.363 10.872a1.04 1.04 0 0 1 0-1.578L4.506 5.6.363 1.906a1.04 1.04 0 0 1 0-1.578 1.343 1.343 0 0 1 1.759 0L7.137 4.81a1.042 1.042 0 0 1 0 1.58l-5.015 4.482a1.343 1.343 0 0 1-1.76 0z"/>`]
 export const triangle_up = [6, 4, `<path d="M3 0l3 4H0z"/>`]
 export const triangle_down = [6, 4, `<path d="M3 4l3-4H0z"/>`]
+
+// Math:
+export const plus = [23, 23, `<path d="M9.063 9.063V2.186a2.187 2.187 0 1 1 4.374 0v6.876h6.876a2.187 2.187 0 1 1 0 4.374h-6.875v6.876a2.187 2.187 0 1 1-4.376 0v-6.875H2.189a2.187 2.187 0 1 1 0-4.376h6.874z"/>`]
