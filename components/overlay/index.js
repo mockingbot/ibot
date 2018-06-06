@@ -30,6 +30,7 @@ if (!$body.contains($overlayRoot)) {
 
 export default class Overlay extends PureComponent {
   state = {
+    prevProp_isOpen: this.props.isOpen,
     isOpen: this.props.isOpen,
     isVisible: this.props.isOpen,
   }
@@ -60,22 +61,25 @@ export default class Overlay extends PureComponent {
     onToggle: () => null,
   }
 
-  static getDerivedStateFromProps({ isOpen: willBeOpen }, { isVisible }) {
+  static getDerivedStateFromProps({ isOpen: willBeOpen }, { prevProp_isOpen }) {
     if (isBoolean(willBeOpen)) {
-      if (!isVisible && willBeOpen) {
-        return { isOpen: true }
-      } else if (isVisible && !willBeOpen) {
-        return { isVisible: false }
+      if (!prevProp_isOpen && willBeOpen) {
+        return { isOpen: true, prevProp_isOpen: true }
+      } else if (prevProp_isOpen && !willBeOpen) {
+        return { isVisible: false, prevProp_isOpen: false }
       }
     }
     return null
   }
 
   componentDidMount() {
+    const { onOpen, onToggle } = this.props
     const { isOpen } = this.state
 
     if (isOpen) {
       $body.classList.add(CANT_SCROLL_CLASS)
+      onOpen()
+      onToggle(true)
     }
   }
 
@@ -87,11 +91,13 @@ export default class Overlay extends PureComponent {
       setTimeout(() => this.setState(
         { isVisible: true },
         () => {
+          $body.classList.add(CANT_SCROLL_CLASS)
           onOpen()
           onToggle(true)
         },
       ))
     } else if (wasOpen && !isOpen) {
+      $body.classList.remove(CANT_SCROLL_CLASS)
       onClose()
       onToggle(false)
     }
@@ -102,15 +108,8 @@ export default class Overlay extends PureComponent {
     $body.classList.remove(CANT_SCROLL_CLASS)
   }
 
-  open = () => this.setState(
-    { isOpen: true },
-    () => $body.classList.add(CANT_SCROLL_CLASS),
-  )
-
-  close = () => this.setState(
-    { isVisible: false },
-    () => $body.classList.remove(CANT_SCROLL_CLASS),
-  )
+  open = () => this.setState({ isOpen: true })
+  close = () => this.setState({ isVisible: false })
 
   toggle = (willBeOpen = !this.state.isOpen) => (
     willBeOpen ? this.open() : this.close()
