@@ -1,0 +1,90 @@
+@import '../util/index'
+
+body.ibot-cant-scroll
+  overflow hidden
+
+.CoreModalMask
+  &
+    position fixed
+    top 0
+    left 0
+    z-index $z-Modal
+    display flex 
+    justify-content center
+    padding 50px
+    width 100vw
+    height 100vh
+    overflow-x hidden 
+    overflow-y auto
+    background-color rgba($cl-strong-grey, .8)
+    transition all .2s ease-in
+  &.can-close
+    cursor pointer
+  &:not(.is-open)
+    opacity 0
+    pointer-events none
+    transition-delay .2s
+  &.is-open
+    opacity 1
+
+  .close-btn
+    &
+      position fixed 
+      top 16px
+      right @top
+      font-size 32px
+      color $cl-light-grey
+      opacity .8
+      transition all .2s ease-in
+    .fore
+      fill $cl-tertiary-grey
+      transition all .2s ease-in
+    &:hover
+      &
+        color $cl-core
+        opacity 1
+        transition-delay .2s
+      .fore
+        fill #fff
+
+.CoreModal
+  &
+    margin-top calc(20vh - 50px)
+    padding 1.5em 1em
+    height -webkit-fit-content
+    height fit-content
+    min-height 120px
+    background-color #fff
+    border-radius 4px
+    cursor initial
+    transition all .3s cubic-bezier(.18,.89,.32,1.1)
+  .CoreModalMask:not(.is-open) &
+    opacity 0
+    transform translateY(-100%)
+  .CoreModalMask.is-open &
+    opacity 1
+    transform none
+    transition-delay .2s
+  &.is-v-centered
+    margin auto
+
+.AlertCoreModal
+.FormCoreModal
+  &
+    display flex
+    flex-direction column
+    width 380px
+    line-height 1.5
+  .FormEntry
+    &:last-child
+      margin-bottom -.5em
+    > .key
+      flex-basis 7em
+    > .val
+      max-width calc(100% - 7em)
+
+.FunctionalCoreModal
+  width 590px
+
+.DisplayCoreModal
+  width 640px
