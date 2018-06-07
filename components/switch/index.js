@@ -1,13 +1,18 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 
+import { isEqual } from 'lodash'
+
 import Icon from '../icon'
 import { trimList } from '../util'
 
 import './index.styl'
 
 export default class Switch extends PureComponent {
-  state = { isChecked: this.props.isChecked }
+  state = {
+    prevProps: this.props,
+    isChecked: this.props.isChecked,
+  }
 
   static propTypes = {
     className: PropTypes.string,
@@ -32,9 +37,9 @@ export default class Switch extends PureComponent {
     onChange: () => null,
   }
 
-  static getDerivedStateFromProps({ isChecked: willBeChecked }, { isChecked }) {
-    if (willBeChecked !== isChecked) {
-      return { isChecked: willBeChecked }
+  static getDerivedStateFromProps(props, { prevProps }) {
+    if (!isEqual(prevProps, props)) {
+      return { prevProps: props, isChecked: props.isChecked }
     }
     return null
   }

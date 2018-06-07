@@ -3,8 +3,7 @@ import { createPortal } from 'react-dom'
 import PropTypes from 'prop-types'
 import DocumentEvents from 'react-document-events'
 
-import get from 'lodash/get'
-import isArray from 'lodash/isArray'
+import { get, isArray, isEqual } from 'lodash'
 
 import Dropdown from '../dropdown'
 import { Input } from './Input'
@@ -48,6 +47,8 @@ function enableScrolling() {
 export class Select extends PureComponent {
   state = {
     isOpen: false,
+
+    prevProps: this.props,
     value: this.props.value,
   }
 
@@ -128,11 +129,11 @@ export class Select extends PureComponent {
     menuX: 'left',
   }
 
-  static getDerivedStateFromProps({ value: nextValue }, { value }) {
-    if (value !== nextValue) {
-      return { value: nextValue }
-    }
 
+  static getDerivedStateFromProps(props, { prevProps, value }) {
+    if (!isEqual(prevProps, props)) {
+      return { prevProps: props, value: props.value }
+    }
     return null
   }
 

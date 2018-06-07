@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import DocumentEvents from 'react-document-events'
 
-import isNumber from 'lodash/isNumber'
+import { isNumber, isEqual } from 'lodash'
 
 import { Button } from '../button'
 import { SelectMenu } from './Select'
@@ -40,7 +40,9 @@ const defaultOnFocus = ({ currentTarget: $input }) => (
 
 export class InputNumber extends PureComponent {
   state = {
+    prevProps: this.props,
     value: isNumber(Number(this.props.value)) ? Number(this.props.value) : '',
+
     isActive: false,
     isValid: true,
     isMenuOpen: false,
@@ -103,13 +105,11 @@ export class InputNumber extends PureComponent {
     onChange: () => null,
   }
 
-  static getDerivedStateFromProps({ value: newValue }, { value }) {
-    if (newValue !== value) {
-      return {
-        value: isNumber(newValue) ? newValue : '',
-      }
+  static getDerivedStateFromProps(props, { prevProps, value }) {
+    if (!isEqual(prevProps, props)) {
+      const { value: newValue } = props
+      return { prevProps: props, value: isNumber(newValue) ? newValue : '' }
     }
-
     return null
   }
 

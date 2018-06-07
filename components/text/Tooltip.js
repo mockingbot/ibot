@@ -2,8 +2,7 @@ import React, { PureComponent, Fragment, isValidElement } from 'react'
 import { createPortal } from 'react-dom'
 import PropTypes from 'prop-types'
 
-import isString from 'lodash/isString'
-import isArray from 'lodash/isArray'
+import { isArray, isEqual, isString } from 'lodash'
 
 import { trimList, getOtherProps, SVG } from '../util'
 
@@ -187,6 +186,8 @@ export default class Tooltip extends PureComponent {
 
 class Tip extends PureComponent {
   state = {
+    prevProps: this.props,
+
     isOpen: this.props.isOpen,
     position: this.props.position,
   }
@@ -204,18 +205,16 @@ class Tip extends PureComponent {
     children: PropTypes.node,
   }
 
-  static getDerivedStateFromProps(
-    // nextProps:
-    { isOpen: willBeOpen, position: newPosition },
-    // prevState:
-    { isOpen, position },
-  ) {
-    if (!isOpen && willBeOpen) {
-      return { isOpen: willBeOpen, position: newPosition }
+  static getDerivedStateFromProps(props, { prevProps }) {
+    if (!isEqual(prevProps, props)) {
+      return {
+        prevProps: props,
+        isOpen: props.isOpen,
+        position: props.position,
+      }
     }
-
     return null
- }
+  }
 
   componentDidUpdate({ isOpen: wasOpen }) {
     const { isOpen } = this.props
@@ -223,7 +222,9 @@ class Tip extends PureComponent {
     if (!wasOpen && isOpen) {
       this.position()
     } else if (wasOpen && !isOpen) {
-      this.$tip.classList.remove('is-open')
+      if (this.$tip) {
+        this.$tip.classList.remove('is-open')
+      }
     }
   }
 

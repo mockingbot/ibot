@@ -20,7 +20,10 @@ import {
  * <Check>
  */
 export class Check extends PureComponent {
-  state = { isChecked: this.props.isChecked }
+  state = {
+    prevProps: this.props,
+    isChecked: this.props.isChecked,
+  }
 
   static propTypes = {
     size: PropTypes.oneOf(['regular', 'small']),
@@ -41,9 +44,10 @@ export class Check extends PureComponent {
     onChange: () => null,
   }
 
-  static getDerivedStateFromProps({ isChecked: willBeChecked }, { isChecked }) {
-    if (willBeChecked !== isChecked) {
-      return { isChecked: willBeChecked }
+  static getDerivedStateFromProps(props, { prevProps, isChecked }) {
+    if (!isEqual(prevProps, props)) {
+      const willBeChecked = props.isChecked !== isChecked ? props.isChecked : isChecked
+      return { prevProps: props, isChecked: willBeChecked }
     }
     return null
   }
@@ -92,6 +96,7 @@ export class CheckGroup extends PureComponent {
   name = this.props.name || Math.random().toString(36).substring(2, 15)
 
   state = {
+    prevProps: this.props,
     valueList: convertValueListToSet(this.props.valueList),
   }
 
@@ -129,13 +134,11 @@ export class CheckGroup extends PureComponent {
     isDisabled: false,
   }
 
-  static getDerivedStateFromProps(nextProps, { valueList }) {
-    const nextValueList = convertValueListToSet(nextProps.valueList)
-
-    if (!isEqual(valueList, nextValueList)) {
-      return { valueList: nextValueList }
+  static getDerivedStateFromProps(props, { prevProps, valueList }) {
+    if (!isEqual(prevProps, props)) {
+      const nextValueList = props.valueList !== valueList ? props.valueList : valueList
+      return { prevProps: props, valueList: nextValueList }
     }
-
     return null
   }
 

@@ -3,6 +3,8 @@ import { createPortal } from 'react-dom'
 import PropTypes from 'prop-types'
 import DocumentEvents from 'react-document-events'
 
+import { isEqual } from 'lodash'
+
 import { Button } from '../button'
 import Switch from '../switch'
 import Icon from '../icon'
@@ -38,7 +40,10 @@ const TYPE_CLASS_MAP = {
 }
 
 export default class Modal extends PureComponent {
-  state = { isOpen: this.props.isOpen }
+  state = {
+    prevProps: this.props,
+    isOpen: this.props.isOpen,
+  }
 
   portal = preparePortal(
     $modalRoot,
@@ -103,12 +108,12 @@ export default class Modal extends PureComponent {
     confirmText: I18N.confirm || 'Confirm',
   }
 
-  static getDerivedStateFromProps({ isOpen: willBeOpen }, { isOpen }) {
-    return (
-      isOpen !== willBeOpen
-      ? { isOpen: willBeOpen }
-      : null
-    )
+  static getDerivedStateFromProps(props, { prevProps }) {
+    if (!isEqual(prevProps, props)) {
+      return { prevProps: props, isOpen: props.isOpen }
+    }
+
+    return null
   }
 
   componentDidMount() {

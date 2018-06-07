@@ -1,9 +1,9 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, cloneElement, isValidElement } from 'react'
 import { createPortal } from 'react-dom'
 import PropTypes from 'prop-types'
 import DocumentEvents from 'react-document-events'
 
-import { isBoolean } from 'lodash'
+import { isBoolean, isEqual } from 'lodash'
 
 import { trimList, $, SVG, preparePortal } from '../util'
 import { positionMenu } from './util'
@@ -25,7 +25,9 @@ if (!$body.contains($menuRoot)) {
 
 export default class Dropdown extends PureComponent {
   state = {
-    isOpen: false,
+    prevProps: this.props,
+    isOpen: this.props.isOpen,
+
     $opener: null,
     currentMenuListItemIdx: this.props.currentMenuListItemIdx,
   }
@@ -35,7 +37,10 @@ export default class Dropdown extends PureComponent {
   static positionMenu = positionMenu
 
   static propTypes = {
+    isOpen: PropTypes.bool,
+
     opener: PropTypes.node,
+    openerType: PropTypes.oneOf(['button', 'custom']),
     className: PropTypes.string,
 
     menuClassName: PropTypes.string,
@@ -73,13 +78,16 @@ export default class Dropdown extends PureComponent {
     onSelect: PropTypes.func,
     shouldCloseOnSelect: PropTypes.bool,
 
-    onOpen: PropTypes.func,
-    onClose: PropTypes.func,
-    onToggle: PropTypes.func,
+    onOpen: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired,
+    onToggle: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
+    isOpen: false,
+
     arrowed: false,
+    openerType: 'button',
 
     shouldCloseOnSelect: true,
     shouldOpenOnHover: false,
@@ -96,28 +104,38 @@ export default class Dropdown extends PureComponent {
     onToggle: () => null,
   }
 
+  static getDerivedStateFromProps(props, { prevProps, isOpen }) {
+    if (!isEqual(props, prevProps)) {
+      return { prevProps: props, isOpen: props.isOpen }
+    }
+    return null
+  }
+
   componentDidMount() {
     window.addEventListener('resize', this.onResizeWindow)
+  }
+
+  componentDidUpdate(_, { isOpen: wasOpen }) {
+    const { onOpen, onClose, onToggle } = this.props
+    const { isOpen } = this.state
+
+    if (wasOpen !== isOpen) {
+      if (isOpen) {
+        onOpen()
+        onToggle(true)
+      } else {
+        onClose()
+        onToggle(false)
+      }
+    }
   }
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.onResizeWindow)
   }
 
-  toggle = willBeOpen  => this.setState(
+  toggle = willBeOpen => this.setState(
     { isOpen: isBoolean(willBeOpen) ? willBeOpen : !this.state.isOpen },
-    () => {
-      const { onOpen, onClose, onToggle } = this.props
-      const { isOpen } = this.state
-
-      if (isOpen) {
-        onOpen()
-      } else {
-        onClose()
-      }
-
-      onToggle(isOpen)
-    },
   )
 
   open = () => this.toggle(true)
@@ -189,7 +207,7 @@ export default class Dropdown extends PureComponent {
   }
 
   render() {
-    const { className, opener } = this.props
+    const { className, opener, openerType } = this.props
     const { isOpen, $opener, currentMenuListItemIdx } = this.state
     const isDisabled = this.props.isDisabled || this.props.disabled
 
@@ -200,17 +218,23 @@ export default class Dropdown extends PureComponent {
       className,
     ])
 
+    const openerAttr = {
+      onClick: this.toggle,
+      onMouseEnter: this.onMouseEnter,
+      onMouseLeave: this.onMouseLeave,
+      disabled: isDisabled,
+    }
+
     return (
       <label ref={this.set$opener} className={klass}>
-        <button
-          type="button"
-          onClick={this.toggle}
-          onMouseEnter={this.onMouseEnter}
-          onMouseLeave={this.onMouseLeave}
-          disabled={isDisabled}
-        >
-        { opener }
-        </button>
+        {
+          openerType !== 'button' && isValidElement(opener)
+          ? cloneElement(opener, openerAttr)
+
+          : <button type="button" {...openerAttr}>
+              { opener }
+            </button>
+        }
 
         <DropdownMenu
           {...this.props}
@@ -242,6 +266,14 @@ class DropdownMenu extends PureComponent {
     $opener: PropTypes.instanceOf(Element),
     onSelect: PropTypes.func,
     onClose: PropTypes.func,
+  }
+
+  componentDidMount() {
+    const { isOpen } = this.props
+
+    if (isOpen) {
+      setTimeout(this.position)
+    }
   }
 
   componentDidUpdate({ isOpen: wasOpen }) {

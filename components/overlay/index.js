@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import { createPortal } from 'react-dom'
 import PropTypes from 'prop-types'
 import DocumentEvents from 'react-document-events'
-import { isBoolean } from 'lodash'
+import { isBoolean, isEqual } from 'lodash'
 
 import { Button } from '../button'
 import Switch from '../switch'
@@ -30,7 +30,7 @@ if (!$body.contains($overlayRoot)) {
 
 export default class Overlay extends PureComponent {
   state = {
-    prevProp_isOpen: this.props.isOpen,
+    prevProps: this.props,
     isOpen: this.props.isOpen,
     isVisible: this.props.isOpen,
   }
@@ -61,14 +61,18 @@ export default class Overlay extends PureComponent {
     onToggle: () => null,
   }
 
-  static getDerivedStateFromProps({ isOpen: willBeOpen }, { prevProp_isOpen }) {
-    if (isBoolean(willBeOpen)) {
-      if (!prevProp_isOpen && willBeOpen) {
-        return { isOpen: true, prevProp_isOpen: true }
-      } else if (prevProp_isOpen && !willBeOpen) {
-        return { isVisible: false, prevProp_isOpen: false }
+  static getDerivedStateFromProps(props, { prevProps, isOpen }) {
+    if (!isEqual(prevProps, props)) {
+      const { isOpen: willBeOpen } = props
+
+      if (!isOpen && willBeOpen) {
+        return { isOpen: true, prevProps: props }
+      } else if (isOpen && !willBeOpen) {
+        return { isVisible: false, prevProps: props }
       }
+      return { prevProps: props }
     }
+
     return null
   }
 

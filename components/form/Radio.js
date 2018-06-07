@@ -3,11 +3,17 @@ import PropTypes from 'prop-types'
 
 import { trimList } from '../util'
 import { getOptionLabel, getOptionValue, checkOptionByValue } from './util'
+
+import isEqual from 'lodash/isEqual'
+
 /**
  * <Radio>
  */
 export class Radio extends PureComponent {
-  state = { isChecked: this.props.isChecked }
+  state = {
+    prevProps: this.props,
+    isChecked: this.props.isChecked,
+  }
 
   static propTypes = {
     size: PropTypes.oneOf(['regular', 'small']),
@@ -28,11 +34,11 @@ export class Radio extends PureComponent {
     onChange: () => null,
   }
 
-  static getDerivedStateFromProps({ isChecked: willBeChecked }, { isChecked }) {
-    if (willBeChecked !== isChecked) {
-      return { isChecked: willBeChecked }
+  static getDerivedStateFromProps(props, { prevProps, isChecked }) {
+    if (!isEqual(prevProps, props)) {
+      const willBeChecked = props.isChecked !== isChecked ? props.isChecked : isChecked
+      return { prevProps: props, isChecked: willBeChecked }
     }
-
     return null
   }
 
@@ -82,7 +88,10 @@ export class Radio extends PureComponent {
 export class RadioGroup extends PureComponent {
   name = this.props.name || Math.random().toString(36).substring(2, 15)
 
-  state = { value: this.props.value }
+  state = {
+    prevProps: this.props,
+    value: this.props.value,
+  }
 
   static propTypes = {
     size: PropTypes.oneOf(['regular', 'small']),
@@ -119,11 +128,11 @@ export class RadioGroup extends PureComponent {
     onChange: () => null,
   }
 
-  static getDerivedStateFromProps({ value: nextValue }, { value }) {
-    if (value !== nextValue) {
-      return { value: nextValue }
+  static getDerivedStateFromProps(props, { prevProps, value }) {
+    if (!isEqual(prevProps, props)) {
+      const nextValue = props.value !== value ? props.value : value
+      return { prevProps: props, value: nextValue }
     }
-
     return null
   }
 

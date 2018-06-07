@@ -38,6 +38,7 @@ const defaultOnFocus = ({ currentTarget: $input }) => (
 
 export class ConfirmInputNumber extends PureComponent {
   state = {
+    prevProps: this.props,
     value: isNumber(Number(this.props.value)) ? Number(this.props.value) : '',
 
     isHover: false,
@@ -106,11 +107,10 @@ export class ConfirmInputNumber extends PureComponent {
     shouldCorrectOnConfirm: false,
   }
 
-  static getDerivedStateFromProps({ value: newValue }, { value }) {
-    if (newValue !== value) {
-      return { value: isNumber(newValue) ? newValue : '' }
+  static getDerivedStateFromProps(props, { prevProps, value }) {
+    if (!isEqual(prevProps, props)) {
+      return { prevProps: props, value: props.value }
     }
-
     return null
   }
 

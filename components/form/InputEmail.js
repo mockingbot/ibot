@@ -2,6 +2,8 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import DocumentEvents from 'react-document-events'
 
+import { isEqual } from 'lodash'
+
 import { trimList, getOtherProps, EMAIL_REGEX } from '../util'
 
 const checkFinishedTyping = v => (
@@ -14,7 +16,9 @@ const checkFinishedTyping = v => (
 
 export class InputEmail extends PureComponent {
   state = {
+    prevProps: this.props,
     value: this.props.value,
+
     isActive: false,
     isValid: true,
     isFinishedTyping: checkFinishedTyping(this.props.value),
@@ -49,9 +53,9 @@ export class InputEmail extends PureComponent {
     readOnly: false,
   }
 
-  static getDerivedStateFromProps({ value: newValue }, { value }) {
-    if (newValue !== value) {
-      return { value: newValue }
+  static getDerivedStateFromProps(props, { prevProps, value }) {
+    if (!isEqual(prevProps, props)) {
+      return { prevProps: props, value: props.value }
     }
     return null
   }
