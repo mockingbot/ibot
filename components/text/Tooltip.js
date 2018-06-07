@@ -10,7 +10,7 @@ import { TYPE_ELEMENT_MAP } from './constants'
 
 const EVENT_NAME_LIST = ['hover', 'click']
 
-const TIP_ROOT_ID = 'MB_TOOLTIP_ROOT'
+const TIP_ROOT_ID = 'IBOT_TOOLTIP_ROOT'
 
 const $tipRoot = (
   document.getElementById(TIP_ROOT_ID)

@@ -15,9 +15,9 @@ import './index.styl'
 const OPEN_MODAL_STACK = []
 const { I18N = {} } = window
 
-const MODAL_ROOT_ID = 'MB_MODAL_ROOT'
+const MODAL_ROOT_ID = 'IBOT_MODAL_ROOT'
 const MODAL_PORTAL_CLASS = 'ModalPortal'
-const CANT_SCROLL_CLASS = 'mb-cant-scroll'
+const CANT_SCROLL_CLASS = 'ibot-cant-scroll'
 
 const stopPropagation = e => e.stopPropagation()
 
@@ -244,7 +244,7 @@ export default class Modal extends PureComponent {
     } = this.props
 
     const { isOpen } = this.state
-    const isSelectMenuOpen = !!$('#MB_SELECT_MENU_ROOT .SelectMenu.is-open')
+    const isSelectMenuOpen = !!$('#IBOT_SELECT_MENU_ROOT .SelectMenu.is-open')
 
     if (
       key === 'Escape'
@@ -284,7 +284,7 @@ export default class Modal extends PureComponent {
     stopPropagation(e)
 
     const { canClose, canCloseOnClickMask } = this.props
-    const isSelectMenuOpen = !!$('#MB_SELECT_MENU_ROOT .SelectMenu.is-open')
+    const isSelectMenuOpen = !!$('#IBOT_SELECT_MENU_ROOT .SelectMenu.is-open')
 
     if (canClose && canCloseOnClickMask && !isSelectMenuOpen) {
       this.close()

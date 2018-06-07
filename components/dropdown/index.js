@@ -10,7 +10,7 @@ import { positionMenu } from './util'
 
 import './index.styl'
 
-const MENU_ROOT_ID = 'MB_DROPDOWN_MENU_ROOT'
+const MENU_ROOT_ID = 'IBOT_DROPDOWN_MENU_ROOT'
 
 const $menuRoot = (
   document.getElementById(MENU_ROOT_ID)

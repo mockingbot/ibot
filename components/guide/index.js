@@ -13,7 +13,7 @@ import './index.styl'
 import { positionMenu } from '../dropdown/util'
 
 const { I18N = {} } = window
-const GUIDE_ROOT_ID = 'MB_GUIDE_GUIDE_ROOT'
+const GUIDE_ROOT_ID = 'IBOT_GUIDE_GUIDE_ROOT'
 
 const $guideRoot = (
   document.getElementById(GUIDE_ROOT_ID)

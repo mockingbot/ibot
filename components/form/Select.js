@@ -15,8 +15,8 @@ import { getOptionLabel, getOptionValue, checkOptionByValue } from './util'
 
 import './index.styl'
 
-const MENU_ROOT_ID = 'MB_SELECT_MENU_ROOT'
-const CANT_SCROLL_CLASS = 'mb-cant-scroll'
+const MENU_ROOT_ID = 'IBOT_SELECT_MENU_ROOT'
+const CANT_SCROLL_CLASS = 'ibot-cant-scroll'
 
 const { I18N = {} } = window
 

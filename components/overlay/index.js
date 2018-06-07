@@ -11,9 +11,9 @@ import { trimList, $, preparePortal } from '../util'
 
 import './index.styl'
 
-const OVERLAY_ROOT_ID = 'MB_OVERLAY_ROOT'
+const OVERLAY_ROOT_ID = 'IBOT_OVERLAY_ROOT'
 const OVERLAY_PORTAL_CLASS = 'OverlayPortal'
-const CANT_SCROLL_CLASS = 'mb-cant-scroll'
+const CANT_SCROLL_CLASS = 'ibot-cant-scroll'
 
 const stopPropagation = e => e.stopPropagation()
 
