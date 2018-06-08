@@ -65,10 +65,12 @@ export default class Overlay extends PureComponent {
     if (!isEqual(prevProps, props)) {
       const { isOpen: willBeOpen } = props
 
-      if (!isOpen && willBeOpen) {
-        return { isOpen: true, prevProps: props }
-      } else if (isOpen && !willBeOpen) {
-        return { isVisible: false, prevProps: props }
+      if (isBoolean(willBeOpen)) {
+        if (!isOpen && willBeOpen) {
+          return { isOpen: true, prevProps: props }
+        } else if (isOpen && !willBeOpen) {
+          return { isVisible: false, prevProps: props }
+        }
       }
       return { prevProps: props }
     }

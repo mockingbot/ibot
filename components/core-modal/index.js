@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom'
 import PropTypes from 'prop-types'
 import DocumentEvents from 'react-document-events'
 
-import { isEqual } from 'lodash'
+import { isBoolean, isEqual } from 'lodash'
 
 import { Button } from '../button'
 import SVG from '../svg'
@@ -95,13 +95,6 @@ export default class CoreModal extends PureComponent {
     isVisible: this.props.isOpen,
   }
 
-  static getDerivedStateFromProps(props, { prevProps }) {
-    if (!isEqual(prevProps, props)) {
-      return { prevProps: props, isOpen: props.isOpen }
-    }
-    return null
-  }
-
   portal = preparePortal(
     $modalRoot,
     trimList([MODAL_PORTAL_CLASS, this.props.portalClassName]),
@@ -111,10 +104,12 @@ export default class CoreModal extends PureComponent {
     if (!isEqual(prevProps, props)) {
       const { isOpen: willBeOpen } = props
 
-      if (!isOpen && willBeOpen) {
-        return { isOpen: true, prevProps: props }
-      } else if (isOpen && !willBeOpen) {
-        return { isVisible: false, prevProps: props }
+      if (isBoolean(willBeOpen)) {
+        if (!isOpen && willBeOpen) {
+          return { isOpen: true, prevProps: props }
+        } else if (isOpen && !willBeOpen) {
+          return { isVisible: false, prevProps: props }
+        }
       }
       return { prevProps: props }
     }
