@@ -316,7 +316,7 @@ export default class CoreModal extends PureComponent {
         )}
 
         <div
-          className={trimList(['CoreModal', className, TYPE_CLASS_MAP[type]])}
+          className={trimList(['CoreModal', TYPE_CLASS_MAP[type], className])}
           onTransitionEnd={stopPropagation}
           onClick={stopPropagation}
         >
