@@ -46,8 +46,7 @@ export class Check extends PureComponent {
 
   static getDerivedStateFromProps(props, { prevProps, isChecked }) {
     if (!isEqual(prevProps, props)) {
-      const willBeChecked = props.isChecked !== isChecked ? props.isChecked : isChecked
-      return { prevProps: props, isChecked: willBeChecked }
+      return { prevProps: props, isChecked: props.isChecked }
     }
     return null
   }
@@ -136,8 +135,7 @@ export class CheckGroup extends PureComponent {
 
   static getDerivedStateFromProps(props, { prevProps, valueList }) {
     if (!isEqual(prevProps, props)) {
-      const nextValueList = props.valueList !== valueList ? props.valueList : valueList
-      return { prevProps: props, valueList: nextValueList }
+      return { prevProps: props, valueList: props.valueList }
     }
     return null
   }

@@ -36,8 +36,7 @@ export class Radio extends PureComponent {
 
   static getDerivedStateFromProps(props, { prevProps, isChecked }) {
     if (!isEqual(prevProps, props)) {
-      const willBeChecked = props.isChecked !== isChecked ? props.isChecked : isChecked
-      return { prevProps: props, isChecked: willBeChecked }
+      return { prevProps: props, isChecked: props.isChecked }
     }
     return null
   }
@@ -130,8 +129,7 @@ export class RadioGroup extends PureComponent {
 
   static getDerivedStateFromProps(props, { prevProps, value }) {
     if (!isEqual(prevProps, props)) {
-      const nextValue = props.value !== value ? props.value : value
-      return { prevProps: props, value: nextValue }
+      return { prevProps: props, value: props.value }
     }
     return null
   }

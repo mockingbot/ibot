@@ -3,14 +3,15 @@ import { createPortal } from 'react-dom'
 
 import PropTypes from 'prop-types'
 import DocumentEvents from 'react-document-events'
+import { isEqual } from 'lodash'
 
 import { Button } from '../button'
 import Icon from '../icon'
 
 import { trimList, SVG, preparePortal } from '../util'
+import { positionMenu } from '../dropdown/util'
 
 import './index.styl'
-import { positionMenu } from '../dropdown/util'
 
 const { I18N = {} } = window
 const GUIDE_ROOT_ID = 'IBOT_GUIDE_GUIDE_ROOT'
@@ -28,6 +29,8 @@ if (!$body.contains($guideRoot)) {
 
 export default class GuideBase extends PureComponent {
   state = {
+    prevProps: this.props,
+
     isOpen: this.props.isOpen,
     isDownward: this.props.Y === 'bottom',
   }
@@ -68,12 +71,12 @@ export default class GuideBase extends PureComponent {
     inflexible: false,
   }
 
-  static getDerivedStateFromProps({ isOpen: willBeOpen }, { isOpen }) {
-    return (
-      isOpen !== willBeOpen
-      ? { isOpen: willBeOpen }
-      : null
-    )
+  static getDerivedStateFromProps(props, { prevProps, isOpen }) {
+    if (!isEqual(prevProps, props)) {
+      return { prevProps: props, isOpen: props.isOpen }
+    }
+
+    return null
   }
 
   componentDidMount() {
