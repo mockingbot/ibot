@@ -7,6 +7,7 @@ import {
   PrimaryCoreButton,
   SecondaryCoreButton, RegularCoreButton,
   TertiaryCoreButton,
+  TextCoreButton,
 } from '../components'
 
 storiesOf('Button', module)
@@ -102,6 +103,12 @@ class ButtonExample extends PureComponent {
         <p className="button">
           <TertiaryCoreButton size={size}>Fine</TertiaryCoreButton>
           <TertiaryCoreButton disabled size={size}>Fine</TertiaryCoreButton>
+        </p>
+
+        <h3>Text</h3>
+        <p className="button">
+          <TextCoreButton size={size}>Fine</TextCoreButton>
+          <TextCoreButton disabled size={size}>Fine</TextCoreButton>
         </p>
       </Root>
     )
