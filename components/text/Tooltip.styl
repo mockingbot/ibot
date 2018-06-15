@@ -8,8 +8,9 @@ div.Tooltip
   z-index $z-Tip
   pointer-events none
 
+.CoreTip
 .Tip
-  $cl-bg = rgba($cl-primary-grey, .8)
+  $cl-bg = $cl-primary-grey
   $cl-text = #fff
 
   &
@@ -22,6 +23,7 @@ div.Tooltip
     transition-property opacity, transform
     transition-duration .15s
     user-select none
+    filter opacity(.8)
   &.arrowed
     padding .33em .75em
   > .arrow
@@ -34,7 +36,7 @@ div.Tooltip
     svg
       width 1em
       height .375em
-      fill #616b71 // 20% lighter of $cl-bg
+      fill $cl-bg
 
   // Transition:
   &:not(.is-open)
@@ -110,6 +112,7 @@ div.Tooltip
 
   > .content
     position relative
+    z-index 20
     padding .5em
     width -moz-max-content
     width max-content
@@ -121,3 +124,17 @@ div.Tooltip
     backdrop-filter blur(2px)
     border-radius 2px
     color $cl-text
+
+.CoreTip
+  $cl-bg = $cl-strong-grey
+
+  &
+    filter opacity(.9)
+
+  > .arrow svg
+    fill $cl-bg
+  > .content
+    padding .5em .75em
+    background-color $cl-bg
+    border-radius 4px
+    box-shadow 0 2px 8px 0 rgba(#000,.15)

@@ -1,27 +1,38 @@
 import React, { PureComponent } from 'react'
 
-import { Root, Icon, Button, Textarea, Tooltip } from '../../components'
+import { Root, Icon, Button, Textarea, Tooltip, CoreTooltip } from '../../components'
 
 export default class TooltipExample extends PureComponent {
-  constructor(props) {
-    super(props)
-    this.state = { isArrowed: true }
+  state = {
+    isArrowed: true,
+    isPlain: true,
   }
 
   toggle = () => this.setState({ isArrowed: !this.state.isArrowed })
+  toggleTheme = () => this.setState({ isPlain: !this.state.isPlain })
 
   render() {
-    const { isArrowed } = this.state
+    const { isArrowed, isPlain } = this.state
+    const theme = isPlain ? 'plain' : 'core'
 
     return (
       <Root>
-        <Button
-          type="primary"
-          style={{ position: 'fixed', right: '1em', top: '1em' }}
-          onClick={this.toggle}
-        >
-          Arrowed: { isArrowed ? 'YES' : 'NO' }
-        </Button>
+        <div style={{ position: 'fixed', right: '1em', top: '1em' }}>
+          <Button
+            type="primary"
+            style={{ marginRight: '.5em' }}
+            onClick={this.toggleTheme}
+          >
+            Theme: { isPlain ? 'plain' : 'core' }
+          </Button>
+
+          <Button
+            type="primary"
+            onClick={this.toggle}
+          >
+            Arrowed: { isArrowed ? 'YES' : 'NO' }
+          </Button>
+        </div>
 
         <style>
         {`
@@ -37,12 +48,12 @@ export default class TooltipExample extends PureComponent {
 
         <h2>Tips with regular nodes</h2>
         <p>
-          <Tooltip arrowed={isArrowed} content="How you greet in English.">Hello</Tooltip>
+          <Tooltip arrowed={isArrowed} theme={theme} content="How you greet in English.">Hello</Tooltip>
           <br />
-          <Tooltip arrowed={isArrowed} content={['The apple of Rachel’s ', <Icon name="eye" key="icon" />]}><span>Ross</span></Tooltip>
+          <Tooltip arrowed={isArrowed} theme={theme} content={['The apple of Rachel’s ', <Icon name="eye" key="icon" />]}><span>Ross</span></Tooltip>
           <br />
           <Tooltip
-            arrowed={isArrowed}
+            arrowed={isArrowed} theme={theme}
             id="tt_test"
             content={<ul><li>LOL</li><li>233</li><li>www</li><li>廠廠</li><li>555</li></ul>}
             tipClassName="ul-tip"
@@ -51,72 +62,82 @@ export default class TooltipExample extends PureComponent {
           </Tooltip>
         </p>
 
+        <h2>Plain Tooltip</h2>
+        <p>
+          <Tooltip content="LOL">Plain Tooltip</Tooltip>
+        </p>
+
+        <h2>Core Tooltip</h2>
+        <p>
+          <CoreTooltip content="LOL">Core Tooltip</CoreTooltip>
+        </p>
+
         <h2>Flexible positioning</h2>
         <h3>On top</h3>
         <p className="three">
-          <Tooltip arrowed={isArrowed} position="top" content="漢語的問候方式">你好</Tooltip>
-          <Tooltip arrowed={isArrowed} position="top" content="漢語的問候方式">你好</Tooltip>
-          <Tooltip arrowed={isArrowed} position="top" content="漢語的問候方式">你好</Tooltip>
+          <Tooltip arrowed={isArrowed} theme={theme} position="top" content="漢語的問候方式">你好</Tooltip>
+          <Tooltip arrowed={isArrowed} theme={theme} position="top" content="漢語的問候方式">你好</Tooltip>
+          <Tooltip arrowed={isArrowed} theme={theme} position="top" content="漢語的問候方式">你好</Tooltip>
         </p>
 
         <h3>On left</h3>
         <p className="three">
-          <Tooltip arrowed={isArrowed} position="left" content="How to laugh subculturally in Chinese">233</Tooltip>
-          <Tooltip arrowed={isArrowed} position="left" content="How to laugh subculturally in Chinese">233</Tooltip>
-          <Tooltip arrowed={isArrowed} position="left" content="How to laugh subculturally in Chinese">233</Tooltip>
+          <Tooltip arrowed={isArrowed} theme={theme} position="left" content="How to laugh subculturally in Chinese">233</Tooltip>
+          <Tooltip arrowed={isArrowed} theme={theme} position="left" content="How to laugh subculturally in Chinese">233</Tooltip>
+          <Tooltip arrowed={isArrowed} theme={theme} position="left" content="How to laugh subculturally in Chinese">233</Tooltip>
         </p>
 
         <h3>On right</h3>
         <p className="three">
-          <Tooltip arrowed={isArrowed} position="right" content="How to laugh subculturally in English">LOL</Tooltip>
-          <Tooltip arrowed={isArrowed} position="right" content="How to laugh subculturally in English">LOL</Tooltip>
-          <Tooltip arrowed={isArrowed} position="right" content="How to laugh subculturally in English">LOL</Tooltip>
+          <Tooltip arrowed={isArrowed} theme={theme} position="right" content="How to laugh subculturally in English">LOL</Tooltip>
+          <Tooltip arrowed={isArrowed} theme={theme} position="right" content="How to laugh subculturally in English">LOL</Tooltip>
+          <Tooltip arrowed={isArrowed} theme={theme} position="right" content="How to laugh subculturally in English">LOL</Tooltip>
         </p>
 
         <h3>On bottom</h3>
         <p className="three">
-          <Tooltip arrowed={isArrowed} position="bottom" inflexible={false} content="How to laugh subculturally in Thai">555</Tooltip>
-          <Tooltip arrowed={isArrowed} position="bottom" inflexible={false} content="How to laugh subculturally in Thai">555</Tooltip>
-          <Tooltip arrowed={isArrowed} position="bottom" inflexible={false} content="How to laugh subculturally in Thai">555</Tooltip>
+          <Tooltip arrowed={isArrowed} theme={theme} position="bottom" inflexible={false} content="How to laugh subculturally in Thai">555</Tooltip>
+          <Tooltip arrowed={isArrowed} theme={theme} position="bottom" inflexible={false} content="How to laugh subculturally in Thai">555</Tooltip>
+          <Tooltip arrowed={isArrowed} theme={theme} position="bottom" inflexible={false} content="How to laugh subculturally in Thai">555</Tooltip>
         </p>
 
         <h2>Inflexible positioning</h2>
         <h3>On top</h3>
         <p className="three">
-          <Tooltip arrowed={isArrowed} position="top" inflexible={true} content="How to luagh subculturally in Chinese">廠廠</Tooltip>
-          <Tooltip arrowed={isArrowed} position="top" inflexible={true} content="How to luagh subculturally in Chinese">廠廠</Tooltip>
-          <Tooltip arrowed={isArrowed} position="top" inflexible={true} content="How to luagh subculturally in Chinese">廠廠</Tooltip>
+          <Tooltip arrowed={isArrowed} theme={theme} position="top" inflexible={true} content="How to luagh subculturally in Chinese">廠廠</Tooltip>
+          <Tooltip arrowed={isArrowed} theme={theme} position="top" inflexible={true} content="How to luagh subculturally in Chinese">廠廠</Tooltip>
+          <Tooltip arrowed={isArrowed} theme={theme} position="top" inflexible={true} content="How to luagh subculturally in Chinese">廠廠</Tooltip>
         </p>
 
         <h3>On left</h3>
         <p className="three">
-          <Tooltip arrowed={isArrowed} position="left" inflexible content="How to laugh subculturally in Japanese">www</Tooltip>
-          <Tooltip arrowed={isArrowed} position="left" inflexible content="How to laugh subculturally in Japanese">www</Tooltip>
-          <Tooltip arrowed={isArrowed} position="left" inflexible content="How to laugh subculturally in Japanese">www</Tooltip>
+          <Tooltip arrowed={isArrowed} theme={theme} position="left" inflexible content="How to laugh subculturally in Japanese">www</Tooltip>
+          <Tooltip arrowed={isArrowed} theme={theme} position="left" inflexible content="How to laugh subculturally in Japanese">www</Tooltip>
+          <Tooltip arrowed={isArrowed} theme={theme} position="left" inflexible content="How to laugh subculturally in Japanese">www</Tooltip>
         </p>
 
         <h3>On right</h3>
         <p className="three">
-          <Tooltip arrowed={isArrowed} position="right" inflexible content="How to laugh in Español">Jaja</Tooltip>
-          <Tooltip arrowed={isArrowed} position="right" inflexible content="How to laugh in Español">Jaja</Tooltip>
-          <Tooltip arrowed={isArrowed} position="right" inflexible content="How to laugh in Español">Jaja</Tooltip>
+          <Tooltip arrowed={isArrowed} theme={theme} position="right" inflexible content="How to laugh in Español">Jaja</Tooltip>
+          <Tooltip arrowed={isArrowed} theme={theme} position="right" inflexible content="How to laugh in Español">Jaja</Tooltip>
+          <Tooltip arrowed={isArrowed} theme={theme} position="right" inflexible content="How to laugh in Español">Jaja</Tooltip>
         </p>
 
         <h3>On bottom</h3>
         <p className="three">
-          <Tooltip arrowed={isArrowed} position="bottom" inflexible content="How to laugh in Korean">ㅎㅎㅎ</Tooltip>
-          <Tooltip arrowed={isArrowed} position="bottom" inflexible content="How to laugh in Korean">ㅎㅎㅎ</Tooltip>
-          <Tooltip arrowed={isArrowed} position="bottom" inflexible content="How to laugh in Korean">ㅎㅎㅎ</Tooltip>
+          <Tooltip arrowed={isArrowed} theme={theme} position="bottom" inflexible content="How to laugh in Korean">ㅎㅎㅎ</Tooltip>
+          <Tooltip arrowed={isArrowed} theme={theme} position="bottom" inflexible content="How to laugh in Korean">ㅎㅎㅎ</Tooltip>
+          <Tooltip arrowed={isArrowed} theme={theme} position="bottom" inflexible content="How to laugh in Korean">ㅎㅎㅎ</Tooltip>
         </p>
 
         <h2>Tips with regular nodes</h2>
         <p>
-          <Tooltip arrowed={isArrowed} content="Am an idiot sandwich." position="left">What are you?</Tooltip>
+          <Tooltip arrowed={isArrowed} theme={theme} content="Am an idiot sandwich." position="left">What are you?</Tooltip>
         </p>
 
         <p className="button">
           <Tooltip
-            arrowed={isArrowed}
+            arrowed={isArrowed} theme={theme}
             content="三维/三D/three dimensional"
             position="left"
             duration={2000}
@@ -125,7 +146,7 @@ export default class TooltipExample extends PureComponent {
           </Tooltip>
 
           <Tooltip
-            arrowed={isArrowed}
+            arrowed={isArrowed} theme={theme}
             content={{
               hover: '点选复制一个神祕的东西送你哟～',
               click: '已复制！',
@@ -136,7 +157,7 @@ export default class TooltipExample extends PureComponent {
           </Tooltip>
 
           <Tooltip
-            arrowed={isArrowed}
+            arrowed={isArrowed} theme={theme}
             content={{ click: '已复制！' }}
             duration={1000}
             position="right"
@@ -146,7 +167,7 @@ export default class TooltipExample extends PureComponent {
         </p>
 
         <Tooltip
-          arrowed={isArrowed}
+          arrowed={isArrowed} theme={theme}
           type="block"
           content={<ul><li>LOL</li><li>233</li><li>www</li><li>廠廠</li><li>555</li></ul>}
           tipClassName="ul-tip"

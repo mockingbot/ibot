@@ -43,6 +43,7 @@ export default class Tooltip extends PureComponent {
   static propTypes = {
     type: PropTypes.oneOf(Object.keys(TYPE_ELEMENT_MAP)).isRequired,
 
+    theme: PropTypes.oneOf(['core', 'plain']),
     position: PropTypes.oneOf(['top', 'right', 'bottom', 'left']).isRequired,
     arrowed: PropTypes.bool,
     inflexible: PropTypes.bool,
@@ -74,6 +75,7 @@ export default class Tooltip extends PureComponent {
   static defaultProps = {
     type: 'inline',
 
+    theme: 'plain',
     position: 'right',
     arrowed: true,
     inflexible: false,
@@ -129,7 +131,7 @@ export default class Tooltip extends PureComponent {
 
   render() {
     const {
-      type,
+      type, theme,
       position, inflexible, arrowed,
       className, tipClassName,
       content,
@@ -173,6 +175,7 @@ export default class Tooltip extends PureComponent {
           className={tipClassName}
           eventName={eventName}
 
+          theme={theme}
           position={position}
           inflexible={inflexible}
           arrowed={arrowed}
@@ -198,6 +201,7 @@ class Tip extends PureComponent {
     eventName: PropTypes.oneOf(EVENT_NAME_LIST),
     $text: PropTypes.instanceOf(Element),
 
+    theme: PropTypes.oneOf(['plain', 'core']),
     position: PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
     inflexible: PropTypes.bool,
     arrowed: PropTypes.bool,
@@ -230,7 +234,7 @@ class Tip extends PureComponent {
 
   set$tipBase = $tipBase => Object.assign(this, {
     $tipBase,
-    $tip: $tipBase && $tipBase.querySelector('.Tip'),
+    $tip: $tipBase && $tipBase.querySelector('.Tip, .CoreTip'),
   })
 
   position = () => {
@@ -338,11 +342,11 @@ class Tip extends PureComponent {
   }
 
   renderTip() {
-    const { className, inflexible, arrowed, children } = this.props
+    const { className, theme, inflexible, arrowed, children } = this.props
     const { isOpen, position } = this.state
 
     const klass = trimList([
-      'Tip',
+      theme === 'core' ? 'CoreTip' : 'Tip',
       className,
       `on-${position}`,
       inflexible && 'inflexible',
@@ -367,4 +371,8 @@ class Tip extends PureComponent {
       </div>
     )
   }
+}
+
+export function CoreTooltip(props) {
+  return <Tooltip {...props} theme="core" />
 }
