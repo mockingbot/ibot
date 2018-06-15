@@ -7,8 +7,8 @@ import { isBoolean, isEqual } from 'lodash'
 
 import { Button } from '../button'
 import SVG from '../svg'
-import Switch from '../switch'
 import Icon from '../icon'
+import Switch from '../switch'
 import { trimList, $, preparePortal } from '../util'
 
 import './index.styl'
@@ -284,6 +284,7 @@ export default class CoreModal extends PureComponent {
       type,
       maskClassName,
       className,
+      title,
 
       children,
 
@@ -303,19 +304,25 @@ export default class CoreModal extends PureComponent {
         onClick={this.onClickMask}
         onTransitionEnd={this.onTransitionEnd}
       >
-        {/* Close button */}
-        { canClose && (
-          <Button type="text" className="close-btn" onClick={this.close}>
-            <SVG name="close" label="Close the Modal" />
-          </Button>
-        )}
-
         <div
           className={trimList(['CoreModal', TYPE_CLASS_MAP[type], className])}
           onTransitionEnd={stopPropagation}
           onClick={stopPropagation}
         >
-          { children }
+          <header>
+            { title }
+
+            {/* Close button */}
+            { canClose && (
+              <Button type="text" className="close-btn" onClick={this.close}>
+                <SVG name="times" label="Close the Modal" />
+              </Button>
+            )}
+          </header>
+
+          <div className="content">
+            { children }
+          </div>
         </div>
 
         <DocumentEvents onKeyDown={this.onKeyDown} />

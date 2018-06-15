@@ -16,7 +16,8 @@ body.ibot-cant-scroll
     height 100vh
     overflow-x hidden 
     overflow-y auto
-    background-color rgba($cl-strong-grey, .8)
+    font-size 14px
+    background-color rgba($cl-strong-grey, .5)
     transition all .2s ease-in
   &.can-close
     cursor pointer
@@ -27,33 +28,12 @@ body.ibot-cant-scroll
   &.is-open
     opacity 1
 
-  .close-btn
-    &
-      position fixed 
-      top 16px
-      right @top
-      font-size 32px
-      color $cl-light-grey
-      opacity .8
-      transition all .2s ease-in
-    .fore
-      fill $cl-tertiary-grey
-      transition all .2s ease-in
-    &:hover
-      &
-        color $cl-core
-        opacity 1
-        transition-delay .2s
-      .fore
-        fill #fff
-
 .CoreModal
   &
     margin-top calc(20vh - 50px)
-    padding 1.5em 1em
     height -webkit-fit-content
     height fit-content
-    min-height 120px
+    min-height 12em
     background-color #fff
     border-radius 4px
     box-shadow 0 3px 10px 0 rgba(#000,.1)
@@ -69,6 +49,26 @@ body.ibot-cant-scroll
   &.is-v-centered
     margin auto
 
+  > header
+    display flex
+    align-items center
+    padding 0 1.5em
+    height 60px
+    border-bottom 1px solid $cl-light-grey
+  > .content
+    padding 1.5em
+
+  .close-btn
+    &
+      margin-left auto
+      font-size 1em
+      color $cl-tertiary-grey
+      transition all .2s ease-in
+    &:hover
+      color $cl-core
+      transition-delay .2s
+
+
 .AlertCoreModal
 .FormCoreModal
   &
@@ -83,9 +83,9 @@ body.ibot-cant-scroll
       flex-basis 7em
     > .val
       max-width calc(100% - 7em)
-
+.FormCoreModal
+  width 420px
 .FunctionalCoreModal
   width 590px
-
 .DisplayCoreModal
   width 640px
