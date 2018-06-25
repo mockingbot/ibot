@@ -71,8 +71,12 @@
     position absolute
     top calc(-.375em + 1px)
     left calc(50% - .5em)
+    width 1em
+    height .375em
     font-size $arrow-size
     line-height 0
+    fill currentColor
+    fill-rule evenodd
     color #fff
   &.x-left .arrow
     left .5em
@@ -80,11 +84,6 @@
   &.x-right .arrow
     left initial
     right .5em
-  svg
-    width 1em
-    height .375em
-    fill currentColor
-    fill-rule evenodd
   &.is-upward .arrow
     transform rotate(180deg)
     top initial
