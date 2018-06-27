@@ -2,13 +2,14 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import DocumentEvents from 'react-document-events'
 
-import { isNumber, isEqual } from 'lodash'
+import { isEqual } from 'lodash'
 
 import { Button } from '../button'
 import { SelectMenu } from './Select'
 import SVG from '../svg'
 
 import { trimList, getOtherProps } from '../util'
+import { setNumberValue } from './util'
 
 const LONG_PRESSED_THRESHOLD = 500
 const LONG_PRESSED_STEPPING_INTERVAL = 30
@@ -39,7 +40,7 @@ const defaultOnFocus = ({ currentTarget: $input }) => (
 export class ConfirmInputNumber extends PureComponent {
   state = {
     prevProps: this.props,
-    value: isNumber(Number(this.props.value)) ? Number(this.props.value) : '',
+    value: setNumberValue(this.props.value),
 
     isHover: false,
     isActive: false,
@@ -50,6 +51,7 @@ export class ConfirmInputNumber extends PureComponent {
 
   static propTypes = {
     size: PropTypes.oneOf(['regular', 'small']),
+    theme: PropTypes.oneOf(['core', 'plain']),
     unstyled: PropTypes.bool,
 
     step: PropTypes.number,
@@ -86,6 +88,7 @@ export class ConfirmInputNumber extends PureComponent {
 
   static defaultProps = {
     size: 'regular',
+    theme: 'plain',
     unstyled: false,
 
     value: '',
@@ -109,7 +112,7 @@ export class ConfirmInputNumber extends PureComponent {
 
   static getDerivedStateFromProps(props, { prevProps, value }) {
     if (!isEqual(prevProps, props)) {
-      return { prevProps: props, value: props.value }
+      return { prevProps: props, value: setNumberValue(props.value) }
     }
     return null
   }
@@ -408,7 +411,7 @@ export class ConfirmInputNumber extends PureComponent {
   render() {
     const {
       className,
-      size, unstyled,
+      size, theme, unstyled,
       readOnly, placeholder,
 
       prefix, suffix,
@@ -428,7 +431,7 @@ export class ConfirmInputNumber extends PureComponent {
     const isDisabled = this.props.isDisabled || this.props.disabled
 
     const klass = trimList([
-      'Input InputNumber ConfirmInputNumber',
+      theme === 'core' ? 'CoreInput CoreInputNumber CoreConfirmInputNumber' : 'Input InputNumber ConfirmInputNumber',
       size,
       unstyled && 'unstyled',
       className,
@@ -549,6 +552,10 @@ export class ConfirmInputNumber extends PureComponent {
       </label>
     )
   }
+}
+
+export function CoreConfirmInputNumber(props) {
+  return <ConfirmInputNumber {...props} theme="core" />
 }
 
 export function PanelInputNumber({ className, ...others }) {

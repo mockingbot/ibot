@@ -23,6 +23,7 @@
 
   > .val >
     .Input
+    .CoreInput
       &
         display block
         width 100%
@@ -30,11 +31,16 @@
         margin-top (($FormEntry-min-height - $Input-small-height)/2)
         margin-bottom @margin-top
     .Textarea
+    .CoreTextarea
       display block
       width 100%
 
     .Check
+    .CoreCheck
     .Radio
+    .CoreRadio
     .CheckGroup
+    .CoreCheckGroup
     .RadioGroup
+    .CoreRadioGroup
         margin-top s('calc((%s - %sem)/2)', $FormEntry-min-height, $FormEntry-line-height)

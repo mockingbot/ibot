@@ -27,9 +27,14 @@ export class Check extends PureComponent {
 
   static propTypes = {
     size: PropTypes.oneOf(['regular', 'small']),
+    theme: PropTypes.oneOf(['core', 'plain']),
+
     isChecked: PropTypes.bool,
     isDisabled: PropTypes.bool,
-    onChange: PropTypes.func,
+
+    onChange: PropTypes.func.isRequired,
+    onToggle: PropTypes.func.isRequired,
+
     label: PropTypes.any,
     name: PropTypes.string,
     value: PropTypes.any,
@@ -38,10 +43,13 @@ export class Check extends PureComponent {
 
   static defaultProps = {
     size: 'regular',
+    theme: 'plain',
     isChecked: false,
     label: '',
     className: '',
+
     onChange: () => null,
+    onToggle: () => null,
   }
 
   static getDerivedStateFromProps(props, { prevProps, isChecked }) {
@@ -56,18 +64,23 @@ export class Check extends PureComponent {
 
     this.setState(
       { isChecked: !this.state.isChecked },
-      () => this.props.onChange(name, value || label, this.state.isChecked),
+      () => {
+        const { onChange, onToggle } = this.props
+
+        onToggle(this.state.isChecked, name, value || label)
+        onChange(name, value || label, this.state.isChecked)
+      }
     )
   }
 
   render() {
-    const { size, className, label, name, isDisabled } = this.props
+    const { size, theme, className, label, name, isDisabled } = this.props
     const { isChecked } = this.state
 
     return (
       <label
         className={trimList([
-          'Check',
+          theme === 'core' ? 'CoreCheck' : 'Check',
           size,
           className,
           isChecked ? 'is-checked' : '',
@@ -102,8 +115,11 @@ export class CheckGroup extends PureComponent {
   static propTypes = {
     name: PropTypes.string,
     size: PropTypes.oneOf(['regular', 'small']),
+    theme: PropTypes.oneOf(['core', 'plain']),
     className: PropTypes.string,
+
     onChange: PropTypes.func.isRequired,
+    onToggle: PropTypes.func.isRequired,
 
     optionList: PropTypes.arrayOf(
       PropTypes.oneOfType([
@@ -127,9 +143,11 @@ export class CheckGroup extends PureComponent {
 
   static defaultProps = {
     size: 'regular',
+    theme: 'plain',
     className: '',
     optionList: [],
     onChange: () => null,
+    onToggle: () => null,
     isDisabled: false,
   }
 
@@ -141,7 +159,7 @@ export class CheckGroup extends PureComponent {
   }
 
   createOnChangeHandler = (name, opt) => () => {
-    const { optionList, onChange } = this.props
+    const { optionList } = this.props
     const { valueList } = this.state
 
     const resultValueList = new Set(valueList)
@@ -155,7 +173,12 @@ export class CheckGroup extends PureComponent {
 
     this.setState(
       { valueList: resultValueList },
-      () => onChange({ name, valueList: nextValueList, idxList: nextIdxList }),
+      () => {
+        const { onChange, onToggle } = this.props
+
+        onToggle(nextValueList, name)
+        onChange({ name, valueList: nextValueList, idxList: nextIdxList })
+      },
     )
   }
 
@@ -163,7 +186,7 @@ export class CheckGroup extends PureComponent {
     const { name } = this
 
     const {
-      size,
+      size, theme,
       className,
       optionList,
       isDisabled,
@@ -172,7 +195,7 @@ export class CheckGroup extends PureComponent {
     const { valueList } = this.state
 
     const klass = trimList([
-      'CheckGroup',
+      theme === 'core' ? 'CoreCheckGroup' : 'CheckGroup',
       size,
       className,
       isDisabled && 'is-disabled',
@@ -185,10 +208,14 @@ export class CheckGroup extends PureComponent {
           <Check
             key={idx}
             name={name}
+            label={getOptionLabel(opt)}
+
             size={size}
+            theme={theme}
+
             isDisabled={isDisabled || opt.isDisabled}
             isChecked={checkOptionByValueList(opt, valueList)}
-            label={getOptionLabel(opt)}
+
             onChange={
               !(isDisabled || opt.isDisabled)
               ? this.createOnChangeHandler(name, opt)
@@ -200,4 +227,12 @@ export class CheckGroup extends PureComponent {
       </span>
     )
   }
+}
+
+export function CoreCheck(props) {
+  return <Check {...props} theme="core" />
+}
+
+export function CoreCheckGroup(props) {
+  return <CheckGroup {...props} theme="core" />
 }

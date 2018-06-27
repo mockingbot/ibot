@@ -54,9 +54,12 @@ export class Select extends PureComponent {
 
   static propTypes = {
     size: PropTypes.oneOf(['regular', 'small']),
+    theme: PropTypes.oneOf(['core', 'plain']),
     unstyled: PropTypes.bool,
+
     className: PropTypes.string,
     menuClassName: PropTypes.string,
+
     placeholder: PropTypes.string,
 
     /**
@@ -119,12 +122,16 @@ export class Select extends PureComponent {
 
   static defaultProps = {
     size: 'regular',
+    theme: 'plain',
+
     className: '',
     menuClassName: '',
+
     placeholder: I18N.select_placeholder || 'Choose one…',
     emptyMsg: I18N.select_empty_msg || 'Nothing to display…',
     optionList: [],
     isDisabled: false,
+
     onChange: () => null,
     menuX: 'left',
   }
@@ -178,7 +185,7 @@ export class Select extends PureComponent {
 
   render() {
     const {
-      size, unstyled,
+      size, theme, unstyled,
       className,
       menuX,
       isDisabled,
@@ -188,7 +195,7 @@ export class Select extends PureComponent {
 
 
     const klass = trimList([
-      'Select',
+      theme === 'core' ? 'CoreSelect' : 'Select',
       size,
       unstyled && 'unstyled',
       className,
@@ -488,6 +495,10 @@ Option.propTypes = {
   ]),
   isDisabled: PropTypes.bool,
   onChange: PropTypes.func,
+}
+
+export function CoreSelect(props) {
+  return <Select {...props} theme="core" />
 }
 
 export function PanelSelect({ className, ...others }) {

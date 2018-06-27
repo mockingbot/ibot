@@ -17,21 +17,30 @@ export class Radio extends PureComponent {
 
   static propTypes = {
     size: PropTypes.oneOf(['regular', 'small']),
-    isChecked: PropTypes.bool,
-    onChange: PropTypes.func.isRequired,
+    theme: PropTypes.oneOf(['core', 'plain']),
+    className: PropTypes.string,
+
     label: PropTypes.any,
     name: PropTypes.string,
     value: PropTypes.any,
-    className: PropTypes.string,
+
+    isChecked: PropTypes.bool,
     isDisabled: PropTypes.bool,
+
+    onChange: PropTypes.func.isRequired,
+    onToggle: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
     size: 'regular',
+    theme: 'plain',
+
     isChecked: false,
     label: '',
     className: '',
+
     onChange: () => null,
+    onToggle: () => null,
   }
 
   static getDerivedStateFromProps(props, { prevProps, isChecked }) {
@@ -41,24 +50,28 @@ export class Radio extends PureComponent {
     return null
   }
 
-  onChange = () => {
+  onToggle = () => {
     const { name, value, label } = this.props
 
     this.setState(
       { isChecked: true },
-      () => this.props.onChange(name, value || label, true),
+      () => {
+        const { onToggle, onChange } = this.props
+        onToggle(true, name, value || label)
+        onChange(name, value || label, true)
+      },
     )
   }
 
   render() {
-    const { size, className, label, name, isDisabled } = this.props
+    const { size, theme, className, label, name, isDisabled } = this.props
     const { isChecked } = this.state
 
     return (
       <label
         className={
           trimList([
-            'Radio',
+            theme === 'core' ? 'CoreRadio' : 'Radio',
             size,
             className,
             isChecked ? 'is-checked' : '',
@@ -71,7 +84,7 @@ export class Radio extends PureComponent {
           defaultChecked={isChecked}
           disabled={isDisabled}
           name={name}
-          onClick={this.onChange}
+          onClick={this.onToggle}
         />
 
         <span className="Check-state" />
@@ -94,6 +107,7 @@ export class RadioGroup extends PureComponent {
 
   static propTypes = {
     size: PropTypes.oneOf(['regular', 'small']),
+    theme: PropTypes.oneOf(['core', 'plain']),
     className: PropTypes.string,
 
     name: PropTypes.string,
@@ -116,15 +130,21 @@ export class RadioGroup extends PureComponent {
     ]),
 
     isDisabled: PropTypes.bool,
+
     onChange: PropTypes.func.isRequired,
+    onToggle: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
     size: 'regular',
+    theme: 'plain',
+
     className: '',
     optionList: [],
     isDisabled: false,
+
     onChange: () => null,
+    onToggle: () => null,
   }
 
   static getDerivedStateFromProps(props, { prevProps, value }) {
@@ -137,7 +157,12 @@ export class RadioGroup extends PureComponent {
   createOnChangeHandler = (name, value, idx) => () => (
     this.setState(
       { value },
-      () => this.props.onChange({ name, value, idx }),
+      () => {
+        const { onToggle, onChange } = this.props
+
+        onToggle(value, name)
+        onChange({ name, value, idx })
+      },
     )
   )
 
@@ -145,7 +170,7 @@ export class RadioGroup extends PureComponent {
     const { name } = this
 
     const {
-      size,
+      size, theme,
       className,
       optionList,
       isDisabled,
@@ -154,7 +179,7 @@ export class RadioGroup extends PureComponent {
     const { value } = this.state
 
     const klass = trimList([
-      'RadioGroup',
+      theme === 'core' ? 'CoreRadioGroup' : 'RadioGroup',
       size,
       className,
       isDisabled && 'is-disabled',
@@ -169,10 +194,13 @@ export class RadioGroup extends PureComponent {
             key={idx}
             name={name}
             size={size}
+            theme={theme}
+
             label={getOptionLabel(opt)}
             type="radio"
             isChecked={checkOptionByValue(opt, value)}
             isDisabled={isDisabled || opt.isDisabled}
+
             onChange={
               !(isDisabled || opt.isDisabled)
               ? this.createOnChangeHandler(name, getOptionValue(opt), idx)
@@ -184,4 +212,12 @@ export class RadioGroup extends PureComponent {
       </span>
     )
   }
+}
+
+export function CoreRadio(props) {
+  return <Radio {...props} theme="core" />
+}
+
+export function CoreRadioGroup(props) {
+  return <RadioGroup {...props} theme="core" />
 }

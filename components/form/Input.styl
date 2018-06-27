@@ -40,6 +40,7 @@ $Input
           box-shadow $cl-Input-active-shadow
 
 .Input
+.CoreInput
   &
     @extends $Input
   &.regular
@@ -54,6 +55,7 @@ $Input
     height 100%
 
 .Textarea
+.CoreTextarea
   &
     @extends $Input
   &.regular
@@ -70,3 +72,9 @@ $Input
     &[disabled]
     &[readonly]
       resize none
+
+.CoreInput:not(.unstyled) input
+.CoreTextarea:not(.unstyled) textarea
+  background-color $cl-CoreInput-bg
+  border-color $cl-CoreInput-border
+  border-radius 4px

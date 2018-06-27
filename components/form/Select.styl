@@ -2,6 +2,7 @@
   overflow hidden !important
 
 .Select
+.CoreSelect
   $padding-left = .5em
 
   &
@@ -60,6 +61,11 @@
   &.is-disabled
     cursor not-allowed
     opacity .6
+
+.CoreSelect:not(.unstyled)
+  background-color $cl-CoreInput-bg
+  border 1px solid $cl-CoreInput-border
+  border-radius 4px
 
 .SelectMenuBase
   position fixed

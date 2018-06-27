@@ -10,6 +10,8 @@ import {
 
 export default class InputNumberExample extends React.PureComponent {
   state = {
+    isCore: false,
+
     formData: {
       x: 5,
       y: -20,
@@ -21,9 +23,9 @@ export default class InputNumberExample extends React.PureComponent {
       rotate: 0,
       opacity: 100,
     },
-
-    isSmall: false,
   }
+
+  toggleCore = () => this.setState({ isCore: !this.state.isCore })
 
   onChange = (name, value, e) => this.setState(
     ({ formData }) => ({formData: { ...formData, [name]: value }}),
@@ -41,8 +43,9 @@ export default class InputNumberExample extends React.PureComponent {
   }
 
   render() {
-    const { formData, isSmall } = this.state
-    const size = isSmall ? 'small' : 'regular'
+    const { isCore, formData } = this.state
+
+    const theme = isCore ? 'core' : 'plain'
 
     return (
       <Root>
@@ -50,7 +53,7 @@ export default class InputNumberExample extends React.PureComponent {
         {`
           .FormEntry { width: 16rem; }
           .FormEntry .val { display: flex; justify-content: space-between; }
-          .FormEntry .InputNumber { width: 48% !important; }
+          .FormEntry .InputNumber, .FormEntry .CoreInputNumber { width: 48% !important; }
 
           .canvas {
             position: absolute;
@@ -62,6 +65,22 @@ export default class InputNumberExample extends React.PureComponent {
           }
          `}
         </style>
+
+        <div
+          style={{
+            position: 'fixed',
+            bottom: '1em',
+            right: '1em',
+          }}
+        >
+          <Button
+            type="primary"
+            onClick={this.toggleCore}
+            style={{ marginRight: '.5em' }}
+          >
+            Theme: {theme}
+          </Button>
+        </div>
 
         <div className="canvas">
           <div
@@ -89,6 +108,7 @@ export default class InputNumberExample extends React.PureComponent {
         <h2>General Panel</h2>
         <FormEntry name="X/Y">
           <PanelInputNumber
+            theme={theme}
             precision={0}
             min={-99999}
             max={99999}
@@ -98,6 +118,7 @@ export default class InputNumberExample extends React.PureComponent {
             dontSelectOnFocus
           />
           <PanelInputNumber
+            theme={theme}
             precision={0}
             min={-99999}
             max={99999}
@@ -110,6 +131,7 @@ export default class InputNumberExample extends React.PureComponent {
 
         <FormEntry name="W/H">
           <PanelInputNumber
+            theme={theme}
             precision={0}
             title="W"
             min={1}
@@ -119,6 +141,7 @@ export default class InputNumberExample extends React.PureComponent {
             dontSelectOnFocus
           />
           <PanelInputNumber
+            theme={theme}
             precision={0}
             title="H"
             min={1}
@@ -131,6 +154,7 @@ export default class InputNumberExample extends React.PureComponent {
 
         <FormLabel name="Font Size">
           <PanelSelectNumber
+            theme={theme}
             precision={0}
             min={8}
             value={formData.fontSize}
@@ -141,6 +165,7 @@ export default class InputNumberExample extends React.PureComponent {
 
         <FormLabel name="Rotate">
           <PanelInputNumber
+            theme={theme}
             title={<Icon name="degree" type="dora" />}
             precision={0}
             min={-360}
@@ -154,6 +179,7 @@ export default class InputNumberExample extends React.PureComponent {
 
         <FormLabel name="Opacity">
           <PanelInputNumber
+            theme={theme}
             precision={1}
             suffix="%"
             max={100}
@@ -165,6 +191,7 @@ export default class InputNumberExample extends React.PureComponent {
 
         <FormEntry name="Paragraph">
           <PanelInputNumber
+            theme={theme}
             desc="Line-height"
             precision={2}
             suffix="em"
@@ -173,6 +200,7 @@ export default class InputNumberExample extends React.PureComponent {
             dontSelectOnFocus
           />
           <PanelInputNumber
+            theme={theme}
             desc="Text-spacing"
             precision={0}
             max={100}
@@ -185,6 +213,7 @@ export default class InputNumberExample extends React.PureComponent {
 
         <FormEntry name="Disabled">
           <PanelInputNumber
+            theme={theme}
             desc="Disabled"
             isDisabled
             precision={2}

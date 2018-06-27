@@ -8,10 +8,15 @@ import {
 } from '../../components'
 
 export default class InputEmailExample extends React.PureComponent {
-  constructor(props) {
-    super(props)
-    this.state = { formData: {}, isSmall: false }
+  state = {
+    isSmall: false,
+    isCore: false,
+
+    formData: {},
   }
+
+  toggleSize = () => this.setState({ isSmall: !this.state.isSmall })
+  toggleCore = () => this.setState({ isCore: !this.state.isCore })
 
   onChange = (name, value, e) => this.setState(
     ({ formData }) => ({formData: { ...formData, [name]: value }}),
@@ -28,28 +33,47 @@ export default class InputEmailExample extends React.PureComponent {
     )
   }
 
-  toggleSize = () => this.setState({ isSmall: !this.state.isSmall })
-
   render() {
-    const { formData, isSmall } = this.state
+    const { isSmall, isCore, formData } = this.state
+
     const size = isSmall ? 'small' : 'regular'
+    const theme = isCore ? 'core' : 'plain'
 
     return (
       <Root>
         <style>
         {`
-          .toggle-size { position: fixed; top: 1em; right: 1em; }
           .FormEntry { width: 20rem; }
-          .InputEmail { width: 100%; }
+          .InputEmail, .CoreInputEmail { width: 100%; }
          `}
         </style>
 
-        <Button type="primary" onClick={this.toggleSize} className="toggle-size">
-          Toggle Size
-        </Button>
+        <div
+          style={{
+            position: 'fixed',
+            top: '1em',
+            right: '1em',
+          }}
+        >
+          <Button
+            type="primary"
+            onClick={this.toggleCore}
+            style={{ marginRight: '.5em' }}
+          >
+            Theme: {theme}
+          </Button>
+
+          <Button
+            type="primary"
+            onClick={this.toggleSize}
+          >
+            Toggle Size
+          </Button>
+        </div>
 
         <FormLabel name="Regular">
           <InputEmail
+            theme={theme}
             value={formData.a}
             onChange={this.onChange.bind(this, 'a')}
           />
@@ -58,6 +82,7 @@ export default class InputEmailExample extends React.PureComponent {
         <FormLabel name="Small">
           <InputEmail
             size="small"
+            theme={theme}
             value={formData.a}
             onChange={this.onChange.bind(this, 'a')}
           />
@@ -65,6 +90,7 @@ export default class InputEmailExample extends React.PureComponent {
 
         <FormLabel name="Unstyled">
           <InputEmail
+            theme={theme}
             unstyled
             value={formData.a}
             onChange={this.onChange.bind(this, 'a')}
@@ -82,7 +108,7 @@ export default class InputEmailExample extends React.PureComponent {
         <h2>Information</h2>
         <FormLabel name="Placeholder">
           <InputEmail
-            size={size}
+            {...{ size, theme }}
             placeholder="Company Email"
             value={formData.aaa}
             onChange={this.onChange.bind(this, 'aaa')}
@@ -91,7 +117,7 @@ export default class InputEmailExample extends React.PureComponent {
 
         <FormLabel name="Disabled">
           <InputEmail
-            size={size}
+            {...{ size, theme }}
             disabled
             value="hi@example.com"
             onChange={this.onChange.bind(this, 'aaa')}
@@ -100,7 +126,7 @@ export default class InputEmailExample extends React.PureComponent {
 
         <FormLabel name="Read-only">
           <InputEmail
-            size={size}
+            {...{ size, theme }}
             readOnly
             value="hi@hello.com"
             onChange={this.onChange.bind(this, 'aaa')}
@@ -110,7 +136,7 @@ export default class InputEmailExample extends React.PureComponent {
         <h2>Data binding</h2>
         <FormLabel name="Check below">
           <InputEmail
-            size={size}
+            {...{ size, theme }}
             value={this.getFormData('m', 233.666)}
             onChange={this.onChange.bind(this, 'm')}
           />
@@ -118,7 +144,7 @@ export default class InputEmailExample extends React.PureComponent {
 
         <FormLabel name="Check above">
           <InputEmail
-            size={size}
+            {...{ size, theme }}
             value={this.getFormData('m', 233.666)}
             onChange={this.onChange.bind(this, 'm')}
           />

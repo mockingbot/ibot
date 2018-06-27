@@ -4,11 +4,16 @@ export { FormEntry, FormLabel } from './FormEntry'
 
 export {
   Input, PanelInput, Textarea, PanelTextarea,
-  InputEmail, PanelInputEmail,
-  InputNumber, SelectNumber,
-  ConfirmInputNumber, PanelInputNumber, PanelSelectNumber,
+  CoreInput, CoreTextarea,
+
+  InputEmail, PanelInputEmail, CoreInputEmail,
+
+  InputNumber, SelectNumber, CoreInputNumber, CoreSelectNumber,
+
+  ConfirmInputNumber, CoreConfirmInputNumber,
+  PanelInputNumber, PanelSelectNumber,
 } from './Input'
 
-export { Check, CheckGroup } from './Check'
-export { Radio, RadioGroup } from './Radio'
-export { Select, PanelSelect } from './Select'
+export { Check, CheckGroup, CoreCheck, CoreCheckGroup } from './Check'
+export { Radio, RadioGroup, CoreRadio, CoreRadioGroup } from './Radio'
+export { Select, PanelSelect, CoreSelect } from './Select'

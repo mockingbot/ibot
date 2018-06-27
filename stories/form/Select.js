@@ -6,11 +6,14 @@ import { Root, Icon, Button, Select } from '../../components'
 export default class SelectExample extends React.PureComponent {
   state = {
     isSmall: false,
+    isCore: false,
+
     forcedChangingValue: 5,
     longerSelectValue: 'Taller Men',
   }
 
   toggleSize = () => this.setState({ isSmall: !this.state.isSmall })
+  toggleCore = () => this.setState({ isCore: !this.state.isCore })
 
   onChangeForcedChangingSelect = forcedChangingValue => this.setState(
     { forcedChangingValue },
@@ -23,63 +26,84 @@ export default class SelectExample extends React.PureComponent {
   )
 
   render() {
-    const { isSmall } = this.state
+    const { isSmall, isCore } = this.state
+
     const size = isSmall ? 'small' : 'regular'
+    const theme = isCore ? 'core' : 'plain'
 
     return (
       <Root>
         <style>
         {`
-          .toggle-size { position: fixed; top: 1em; right: 1em; }
-
           .Select > button .icon,
+          .CoreSelect > button .icon,
           .select-menu-with-icons .icon {
             margin-right: .25em;
             font-size: 1.2em;
             vertical-align: -.1em;
           }
 
-          p .Select {
+          p .Select,
+          p .CoreSelect {
             margin-right: 1em;
             margin-bottom: .5em;
           }
         `}
         </style>
 
-        <Button type="primary" onClick={this.toggleSize} className="toggle-size">
-          Toggle Size
-        </Button>
+        <div
+          style={{
+            position: 'fixed',
+            top: '1em',
+            right: '1em',
+          }}
+        >
+          <Button
+            type="primary"
+            onClick={this.toggleCore}
+            style={{ marginRight: '.5em' }}
+          >
+            Theme: {theme}
+          </Button>
+
+          <Button
+            type="primary"
+            onClick={this.toggleSize}
+          >
+            Toggle Size
+          </Button>
+        </div>
 
         <h2>Select with empty option list</h2>
         <p>
-          <Select size={size} optionList={[]} />
-          <Select size={size} isDisabled={false} optionList={[]} />
+          <Select {...{ size, theme }} optionList={[]} />
+          <Select {...{ size, theme }} isDisabled={false} optionList={[]} />
           <br />
-          <Select size={size} isDisabled={true} optionList={[]} />
-          <Select size={size} isDisabled optionList={[]} />
+          <Select {...{ size, theme }} isDisabled={true} optionList={[]} />
+          <Select {...{ size, theme }} isDisabled optionList={[]} />
         </p>
 
         <h2>Regular node options</h2>
         <p>
-          <Select size={size} menuX="center" placeholder="Long long long placeholder" optionList={['Apple', 'Pencil']} onChange={action('Select changed')} />
+          <Select {...{ size, theme }} menuX="center" placeholder="Long long long placeholder" optionList={['Apple', 'Pencil']} onChange={action('Select changed')} />
           <br />
-          <Select size={size} optionList={['Apple', 'Pencil']} onChange={action('Select changed')} />
+          <Select {...{ size, theme }} optionList={['Apple', 'Pencil']} onChange={action('Select changed')} />
           <br />
-          <Select size={size} optionList={['Apple', 'Pencil']} value="Apple" onChange={action('Select changed')} />
+          <Select {...{ size, theme }} optionList={['Apple', 'Pencil']} value="Apple" onChange={action('Select changed')} />
           <br />
-          <Select size={size} optionList={['Apple', 'Pencil']}  value="Apple" onChange={action('Select changed')} />
+          <Select {...{ size, theme }} optionList={['Apple', 'Pencil']}  value="Apple" onChange={action('Select changed')} />
           <br />
-          <Select size={size} optionList={['Apple', 'Pencil', { label: <span><Icon name="apple" /> Apple</span>, value: 'Apple with Icon' }]} value="Pencil" onChange={action('Select changed')} />
+          <Select {...{ size, theme }} optionList={['Apple', 'Pencil', { label: <span><Icon name="apple" /> Apple</span>, value: 'Apple with Icon' }]} value="Pencil" onChange={action('Select changed')} />
           <br />
-          <Select size={size} optionList={[1, 2, 3, 4, 5]} value={2} onChange={action('Select changed')} />
-          <Select size={size} optionList={[1, 2, 3, 4, 5]} value="2" onChange={action('Select changed')} />
-          <Select size={size} optionList={['1', '2', '3', '4', '5']} value={2} onChange={action('Select changed')} />
-          <Select size={size} optionList={['1', '2', '3', '4', '5']} value="2" onChange={action('Select changed')} />
+          <Select {...{ size, theme }} optionList={[1, 2, 3, 4, 5]} value={2} onChange={action('Select changed')} />
+          <Select {...{ size, theme }} optionList={[1, 2, 3, 4, 5]} value="2" onChange={action('Select changed')} />
+          <Select {...{ size, theme }} optionList={['1', '2', '3', '4', '5']} value={2} onChange={action('Select changed')} />
+          <Select {...{ size, theme }} optionList={['1', '2', '3', '4', '5']} value="2" onChange={action('Select changed')} />
           <br />
-          <Select size={size} optionList={['Apple', 'Pencil']} isDisabled={true} onChange={action('Select changed')} />
+          <Select {...{ size, theme }} optionList={['Apple', 'Pencil']} isDisabled={true} onChange={action('Select changed')} />
           <br />
           <Select
-            size={size}
+            {...{ size, theme }}
             menuClassName="select-menu-with-icons"
             optionList={[
               { label: <span><Icon name="apple" /> Apple</span>, value: 'apple' },
@@ -91,32 +115,32 @@ export default class SelectExample extends React.PureComponent {
 
         <h3>Disabled option</h3>
         <p>
-          <Select size={size} optionList={[{ label: 'Apple', value: 'apple', isDisabled: true }, 'Pencil']} onChange={action('Select changed')} />
+          <Select {...{ size, theme }} optionList={[{ label: 'Apple', value: 'apple', isDisabled: true }, 'Pencil']} onChange={action('Select changed')} />
         </p>
 
         <h2>Long lists (10+ options)</h2>
         <p>
           <Select
-            size={size}
+            {...{ size, theme }}
             optionList={['Yirgacheffe', 'Harrar', 'Kenya AA', 'Antiqua Flora', 'Huehuetenango', 'Tanzania AA', 'Cerrado', 'Bucaramanga Supremo', 'Tarrazu', 'Hawaii Kona', 'Blue Mountain', 'Mandheling']}
             onChange={action('Select changed')}
           />
           <br />
           <Select
-            size={size}
+            {...{ size, theme }}
             value="Tanzania AA"
             optionList={['Yirgacheffe', 'Harrar', 'Kenya AA', 'Antiqua Flora', 'Huehuetenango', 'Tanzania AA', 'Cerrado', 'Bucaramanga Supremo', 'Tarrazu', 'Hawaii Kona', 'Blue Mountain', 'Mandheling']}
             onChange={action('Select changed')}
           />
           <Select
-            size={size}
+            {...{ size, theme }}
             isDisabled={false}
             value="Blue Mountain"
             optionList={['Yirgacheffe', 'Harrar', 'Kenya AA', 'Antiqua Flora', 'Huehuetenango', 'Tanzania AA', 'Cerrado', 'Bucaramanga Supremo', 'Tarrazu', 'Hawaii Kona', 'Blue Mountain', 'Mandheling']}
             onChange={action('Select changed')}
           />
           <Select
-            size={size}
+            {...{ size, theme }}
             isDisabled
             optionList={['Yirgacheffe', 'Harrar', 'Kenya AA', 'Antiqua Flora', 'Huehuetenango', 'Tanzania AA', 'Cerrado', 'Bucaramanga Supremo', 'Tarrazu', 'Hawaii Kona', 'Blue Mountain', 'Mandheling']}
             onChange={action('Select changed')}
@@ -126,7 +150,7 @@ export default class SelectExample extends React.PureComponent {
         <h2>Selects of grouped options</h2>
         <p>
           <Select
-            size={size}
+            {...{ size, theme }}
             optionList={[
               ['Fruit', 'Apples', 'Blackberries', 'Blueberries', 'Bananas', 'Pitayas', 'Mangos'],
               ['Cheese', 'Blue Cheese', 'Parmesan', 'Ricotta', 'Benedictine', 'Brie', { label: 'Cheddar', value: 'cheddar' }, { label: 'Cream Cheese', isDisabled: true }],
@@ -136,7 +160,7 @@ export default class SelectExample extends React.PureComponent {
           />
           <br />
           <Select
-            size={size}
+            {...{ size, theme }}
             value="Blackberries"
             optionList={[
               ['Fruit', 'Apples', 'Blackberries', 'Blueberries', 'Bananas', 'Pitayas', 'Mangos'],
@@ -147,7 +171,7 @@ export default class SelectExample extends React.PureComponent {
           />
           <br />
           <Select
-            size={size}
+            {...{ size, theme }}
             value="Brie"
             optionList={[
               ['Fruit', 'Apples', 'Blackberries', 'Blueberries', 'Bananas', 'Pitayas', 'Mangos'],
@@ -158,7 +182,7 @@ export default class SelectExample extends React.PureComponent {
           />
           <br />
           <Select
-            size={size}
+            {...{ size, theme }}
             value="Rib Eye Steak"
             optionList={[
               ['Fruit', 'Apples', 'Blackberries', 'Blueberries', 'Bananas', 'Pitayas', 'Mangos'],
@@ -169,7 +193,7 @@ export default class SelectExample extends React.PureComponent {
           />
           <br />
           <Select
-            size={size}
+            {...{ size, theme }}
             isDisabled
             value="cheddar"
             optionList={[
@@ -180,7 +204,7 @@ export default class SelectExample extends React.PureComponent {
             onChange={action('Select changed')}
           />
           <Select
-            size={size}
+            {...{ size, theme }}
             isDisabled
             optionList={[
               ['Fruit', 'Apples', 'Blackberries', 'Blueberries', 'Bananas', 'Pitayas', 'Mangos'],
@@ -194,7 +218,7 @@ export default class SelectExample extends React.PureComponent {
         <h2>Changing the `value` in `props`</h2>
         <p style={{ maxWidth: '20em' }}>
           <Select
-            size={size}
+            {...{ size, theme }}
             placeholder="选择一个项目"
             optionList={[1,2,3,4,5]}
             value={this.state.forcedChangingValue}
@@ -214,7 +238,7 @@ export default class SelectExample extends React.PureComponent {
         <h2>Longer options</h2>
         <p style={{ maxWidth: '20em' }}>
           <Select
-            size={size}
+            {...{ size, theme }}
             placeholder="选择一个项目"
             value={this.state.longerSelectValue}
             optionList={[
@@ -228,7 +252,7 @@ export default class SelectExample extends React.PureComponent {
           />
           <br />
           <Select
-            size={size}
+            {...{ size, theme }}
             placeholder="选择一个项目"
             value={this.state.longerSelectValue}
             optionList={[

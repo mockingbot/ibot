@@ -9,6 +9,7 @@ import { SelectMenu } from './Select'
 import SVG from '../svg'
 
 import { trimList, getOtherProps } from '../util'
+import { setNumberValue } from './util'
 
 const LONG_PRESSED_THRESHOLD = 500
 const LONG_PRESSED_STEPPING_INTERVAL = 30
@@ -27,7 +28,6 @@ const getStep = ({ shiftKey, metaKey }, step = 1) => (
   shiftKey ? step*10 : metaKey ? step*100 : step
 )
 
-
 const checkSettability = value => (
   value === ''
   || /^0?[\+\-]0*$/.test(value)   // Starting with a plus/minus
@@ -41,7 +41,7 @@ const defaultOnFocus = ({ currentTarget: $input }) => (
 export class InputNumber extends PureComponent {
   state = {
     prevProps: this.props,
-    value: isNumber(Number(this.props.value)) ? Number(this.props.value) : '',
+    value: setNumberValue(this.props.value),
 
     isActive: false,
     isValid: true,
@@ -50,12 +50,13 @@ export class InputNumber extends PureComponent {
 
   static propTypes = {
     size: PropTypes.oneOf(['regular', 'small']),
+    theme: PropTypes.oneOf(['core', 'plain']),
     unstyled: PropTypes.bool,
 
     step: PropTypes.number,
-    precision: PropTypes.number, // 数值精度
-    formatter: PropTypes.func, // 输入框展示值的格式
-    parser: PropTypes.func, // 从formatter里转换回数字的方式
+    precision: PropTypes.number,
+    formatter: PropTypes.func,
+    parser: PropTypes.func,
 
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     placeholder: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -85,6 +86,7 @@ export class InputNumber extends PureComponent {
 
   static defaultProps = {
     size: 'regular',
+    theme: 'plain',
     unstyled: false,
 
     value: '',
@@ -108,7 +110,7 @@ export class InputNumber extends PureComponent {
   static getDerivedStateFromProps(props, { prevProps, value }) {
     if (!isEqual(prevProps, props)) {
       const { value: newValue } = props
-      return { prevProps: props, value: isNumber(newValue) ? newValue : '' }
+      return { prevProps: props, value: setNumberValue(newValue) }
     }
     return null
   }
@@ -301,7 +303,7 @@ export class InputNumber extends PureComponent {
   render() {
     const {
       className,
-      size, unstyled,
+      size, theme, unstyled,
       readOnly, placeholder,
 
       prefix, suffix,
@@ -321,7 +323,7 @@ export class InputNumber extends PureComponent {
     const isDisabled = this.props.isDisabled || this.props.disabled
 
     const klass = trimList([
-      'Input InputNumber',
+      theme === 'core' ? 'CoreInput CoreInputNumber' : 'Input InputNumber',
       size,
       unstyled && 'unstyled',
       className,
@@ -453,4 +455,12 @@ SelectNumber.propTypes = {
 
 SelectNumber.defaultProps = {
   optionList: [1, 2, 3],
+}
+
+export function CoreInputNumber(props) {
+  return <InputNumber {...props} theme="core" />
+}
+
+export function CoreSelectNumber(props) {
+  return <SelectNumber {...props} theme="core" />
 }

@@ -8,7 +8,14 @@ import {
 } from '../../components'
 
 export default class InputNumberExample extends React.PureComponent {
-  state = { formData: { a: 0 }, isSmall: false }
+  state = {
+    isSmall: false,
+    isCore: false,
+    formData: { a: 0 },
+  }
+
+  toggleSize = () => this.setState({ isSmall: !this.state.isSmall })
+  toggleCore = () => this.setState({ isCore: !this.state.isCore })
 
   onChange = (name, value, e) => this.setState(
     ({ formData }) => ({formData: { ...formData, [name]: value }}),
@@ -25,28 +32,47 @@ export default class InputNumberExample extends React.PureComponent {
     )
   }
 
-  toggleSize = () => this.setState({ isSmall: !this.state.isSmall })
-
   render() {
-    const { formData, isSmall } = this.state
+    const { isSmall, isCore, formData } = this.state
+
     const size = isSmall ? 'small' : 'regular'
+    const theme = isCore ? 'core' : 'plain'
 
     return (
       <Root>
         <style>
         {`
-          .toggle-size { position: fixed; top: 1em; right: 1em; }
           .FormEntry { width: 12rem; }
-          .InputNumber { width: 100%; }
+          .InputNumber, .CoreInputNumber { width: 100%; }
          `}
         </style>
 
-        <Button type="primary" onClick={this.toggleSize} className="toggle-size">
-          Toggle Size
-        </Button>
+        <div
+          style={{
+            position: 'fixed',
+            top: '1em',
+            right: '1em',
+          }}
+        >
+          <Button
+            type="primary"
+            onClick={this.toggleCore}
+            style={{ marginRight: '.5em' }}
+          >
+            Theme: {theme}
+          </Button>
+
+          <Button
+            type="primary"
+            onClick={this.toggleSize}
+          >
+            Toggle Size
+          </Button>
+        </div>
 
         <FormLabel name="Regular">
           <InputNumber
+            theme={theme}
             precision={2}
             value={formData.a}
             onChange={this.onChange.bind(this, 'a')}
@@ -57,6 +83,7 @@ export default class InputNumberExample extends React.PureComponent {
         <FormLabel name="Small">
           <InputNumber
             size="small"
+            theme={theme}
             precision={2}
             value={formData.a}
             onChange={this.onChange.bind(this, 'a')}
@@ -65,6 +92,7 @@ export default class InputNumberExample extends React.PureComponent {
 
         <FormLabel name="Unstyled">
           <InputNumber
+            theme={theme}
             unstyled
             precision={2}
             value={formData.a}
@@ -92,6 +120,7 @@ export default class InputNumberExample extends React.PureComponent {
 
         <FormLabel name="With options">
           <SelectNumber
+            theme={theme}
             optionList={[8, 9, 10, 11, 12, 14, 16, 18, 20, 24, 28, 32, 64, 128, 256]}
             precision={2}
             value={formData.a}
@@ -102,7 +131,7 @@ export default class InputNumberExample extends React.PureComponent {
         <h2>Information</h2>
         <FormLabel name="Placeholder">
           <InputNumber
-            size={size}
+            {...{ size, theme }}
             min={1}
             max={200}
             precision={2}
@@ -114,7 +143,7 @@ export default class InputNumberExample extends React.PureComponent {
 
         <FormLabel name="With title">
           <InputNumber
-            size={size}
+            {...{ size, theme }}
             title="W"
             precision={1}
             suffix="px"
@@ -123,7 +152,7 @@ export default class InputNumberExample extends React.PureComponent {
 
         <FormLabel name="Icon title">
           <InputNumber
-            size={size}
+            {...{ size, theme }}
             className="degree-input-number"
             title={<Icon name="degree" type="dora" />}
             precision={1}
@@ -133,7 +162,7 @@ export default class InputNumberExample extends React.PureComponent {
 
         <FormLabel name="Title & prefix">
           <InputNumber
-            size={size}
+            {...{ size, theme }}
             title="US"
             prefix="$"
           />
@@ -141,7 +170,7 @@ export default class InputNumberExample extends React.PureComponent {
 
         <FormLabel name="Title, prefix, suffix">
           <InputNumber
-            size={size}
+            {...{ size, theme }}
             title="US"
             prefix="$"
             suffix="刀"
@@ -150,7 +179,7 @@ export default class InputNumberExample extends React.PureComponent {
 
         <FormLabel name="With desc">
           <InputNumber
-            size={size}
+            {...{ size, theme }}
             desc="Tracking"
             suffix="em"
             step={.125}
@@ -164,7 +193,7 @@ export default class InputNumberExample extends React.PureComponent {
 
         <FormLabel name="With prefix">
           <InputNumber
-            size={size}
+            {...{ size, theme }}
             precision={2}
             value={formData.b}
             prefix="¥"
@@ -175,7 +204,7 @@ export default class InputNumberExample extends React.PureComponent {
 
         <FormLabel name="With suffix">
           <InputNumber
-            size={size}
+            {...{ size, theme }}
             precision={2}
             min={-Infinity}
             value={formData.c}
@@ -186,7 +215,7 @@ export default class InputNumberExample extends React.PureComponent {
 
         <FormLabel name="Prefix & suffix">
           <InputNumber
-            size={size}
+            {...{ size, theme }}
             precision={2}
             value={formData.d}
             prefix="+"
@@ -198,7 +227,7 @@ export default class InputNumberExample extends React.PureComponent {
 
         <FormLabel name="Disabled">
           <InputNumber
-            size={size}
+            {...{ size, theme }}
             disabled
             value={formData.d}
             precision={2}
@@ -211,7 +240,7 @@ export default class InputNumberExample extends React.PureComponent {
 
         <FormLabel name="Read-only">
           <InputNumber
-            size={size}
+            {...{ size, theme }}
             readOnly
             value={formData.d}
             precision={2}
@@ -225,7 +254,7 @@ export default class InputNumberExample extends React.PureComponent {
         <h2>Precision</h2>
         <FormLabel name="Integer">
           <InputNumber
-            size={size}
+            {...{ size, theme }}
             precision={0}
             max={100}
             step={2}
@@ -237,7 +266,7 @@ export default class InputNumberExample extends React.PureComponent {
 
         <FormLabel name="1">
           <InputNumber
-            size={size}
+            {...{ size, theme }}
             precision={1}
             value={this.getFormData('g', 1.1)}
             onChange={this.onChange.bind(this, 'g')}
@@ -246,7 +275,7 @@ export default class InputNumberExample extends React.PureComponent {
 
         <FormLabel name="2">
           <InputNumber
-            size={size}
+            {...{ size, theme }}
             precision={2}
             value={this.getFormData('h', 2.33)}
             onChange={this.onChange.bind(this, 'h')}
@@ -256,7 +285,7 @@ export default class InputNumberExample extends React.PureComponent {
         <h2>Step</h2>
         <FormLabel name="Regular">
           <InputNumber
-            size={size}
+            {...{ size, theme }}
             value={this.getFormData('i', 58)}
             min={-Infinity}
             onChange={this.onChange.bind(this, 'i')}
@@ -265,7 +294,7 @@ export default class InputNumberExample extends React.PureComponent {
 
         <FormLabel name="0.1">
           <InputNumber
-            size={size}
+            {...{ size, theme }}
             precision={1}
             min={-Infinity}
             step={0.1}
@@ -276,7 +305,7 @@ export default class InputNumberExample extends React.PureComponent {
 
         <FormLabel name="0.01">
           <InputNumber
-            size={size}
+            {...{ size, theme }}
             precision={2}
             min={-Infinity}
             step={0.01}
@@ -287,7 +316,7 @@ export default class InputNumberExample extends React.PureComponent {
 
         <FormLabel name="3">
           <InputNumber
-            size={size}
+            {...{ size, theme }}
             precision={2}
             min={-Infinity}
             step={3}
@@ -299,7 +328,7 @@ export default class InputNumberExample extends React.PureComponent {
         <h2>Data binding</h2>
         <FormLabel name="Check below">
           <InputNumber
-            size={size}
+            {...{ size, theme }}
             precision={3}
             min={-Infinity}
             step={2}
@@ -310,7 +339,7 @@ export default class InputNumberExample extends React.PureComponent {
 
         <FormLabel name="Check above">
           <InputNumber
-            size={size}
+            {...{ size, theme }}
             precision={3}
             min={-Infinity}
             step={2}
@@ -322,7 +351,7 @@ export default class InputNumberExample extends React.PureComponent {
         <h2>Parser: angle</h2>
         <FormLabel name="Degree">
           <InputNumber
-            size={size}
+            {...{ size, theme }}
             precision={2}
             suffix="°"
             min={-Infinity}
@@ -335,7 +364,7 @@ export default class InputNumberExample extends React.PureComponent {
         <h2>Formatter: thousands separator</h2>
         <FormLabel name="Dollars">
           <InputNumber
-            size={size}
+            {...{ size, theme }}
             precision={2}
             max={10000000}
             min={22000}
@@ -350,7 +379,7 @@ export default class InputNumberExample extends React.PureComponent {
         <h2>Max/min</h2>
         <FormLabel name="Max. 10">
           <InputNumber
-            size={size}
+            {...{ size, theme }}
             precision={2}
             max={10}
             min={-Infinity}
@@ -362,7 +391,7 @@ export default class InputNumberExample extends React.PureComponent {
 
         <FormLabel name="Min. 10">
           <InputNumber
-            size={size}
+            {...{ size, theme }}
             precision={2}
             min={10}
             step={.75}
@@ -373,7 +402,7 @@ export default class InputNumberExample extends React.PureComponent {
 
         <FormLabel name="10-20">
           <InputNumber
-            size={size}
+            {...{ size, theme }}
             precision={0}
             min={10}
             max={20}

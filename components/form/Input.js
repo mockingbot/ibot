@@ -11,7 +11,7 @@ function createOnChangeHandler(onChange) {
  * <Input>
  */
 export function Input({
-  size,
+  size, theme,
   unstyled,
   className,
   value,
@@ -19,8 +19,15 @@ export function Input({
   onChange,
   ...others
 }) {
+  const klass = trimList([
+    theme === 'core' ? 'CoreInput' : 'Input',
+    size,
+    unstyled && 'unstyled',
+    className,
+  ])
+
   return (
-    <label className={trimList(['Input', size, unstyled && 'unstyled', className])}>
+    <label className={klass}>
       <input
         type={type}
         value={value}
@@ -34,6 +41,7 @@ export function Input({
 Input.propTypes = {
   type: PropTypes.string,
   size: PropTypes.oneOf(['regular', 'small']),
+  theme: PropTypes.oneOf(['core', 'plain']),
   unstyled: PropTypes.bool,
   className: PropTypes.string,
   value: PropTypes.string,
@@ -43,7 +51,12 @@ Input.propTypes = {
 Input.defaultProps = {
   type: 'text',
   size: 'regular',
+  theme: 'plain',
   onChange: () => null,
+}
+
+export function CoreInput(props) {
+  return <Input {...props} theme="core" />
 }
 
 export function PanelInput({ className, ...others }) {
@@ -64,14 +77,21 @@ PanelInput.propTypes = {
  * <Textarea>
  */
 export function Textarea({
-  size,
+  size, theme,
   unstyled,
   className,
   value, onChange,
   ...others
 }) {
+  const klass = trimList([
+    theme === 'core' ? 'CoreTextarea' : 'Textarea',
+    size,
+    unstyled && 'unstyled',
+    className,
+  ])
+
   return (
-    <label className={trimList(['Textarea', size, unstyled && 'unstyled', className])}>
+    <label className={klass}>
       <textarea
         value={value}
         onChange={createOnChangeHandler(onChange)}
@@ -84,6 +104,7 @@ export function Textarea({
 Textarea.propTypes = {
   className: PropTypes.string,
   size: PropTypes.oneOf(['regular', 'small']),
+  theme: PropTypes.oneOf(['core', 'plain']),
   unstyled: PropTypes.bool,
   value: PropTypes.string,
   onChange: PropTypes.func,
@@ -91,7 +112,12 @@ Textarea.propTypes = {
 
 Textarea.defaultProps = {
   size: 'regular',
+  theme: 'plain',
   onChange: () => null,
+}
+
+export function CoreTextarea(props) {
+  return <Input {...props} theme="core" />
 }
 
 export function PanelTextarea({ className, ...others }) {

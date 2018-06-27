@@ -26,6 +26,7 @@ export class InputEmail extends PureComponent {
 
   static propTypes = {
     size: PropTypes.oneOf(['regular', 'small']),
+    theme: PropTypes.oneOf(['core', 'plain']),
     unstyled: PropTypes.bool,
 
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -43,6 +44,7 @@ export class InputEmail extends PureComponent {
 
   static defaultProps = {
     size: 'regular',
+    theme: 'plain',
     unstyled: false,
 
     value: '',
@@ -51,6 +53,8 @@ export class InputEmail extends PureComponent {
     isDisabled: false,
     disabled: false,
     readOnly: false,
+
+    onChange: () => null,
   }
 
   static getDerivedStateFromProps(props, { prevProps, value }) {
@@ -100,7 +104,7 @@ export class InputEmail extends PureComponent {
   render() {
     const {
       className,
-      size, unstyled,
+      size, theme, unstyled,
       readOnly, placeholder,
 
       onFocus,
@@ -110,7 +114,7 @@ export class InputEmail extends PureComponent {
     const isDisabled = this.props.isDisabled || this.props.disabled
 
     const klass = trimList([
-      'Input InputEmail',
+      theme === 'core' ? 'CoreInput CoreInputEmail' : 'Input InputEmail',
       size,
       unstyled && 'unstyled',
       className,
@@ -146,6 +150,10 @@ export class InputEmail extends PureComponent {
       </label>
     )
   }
+}
+
+export function CoreInputEmail(props) {
+  return <InputEmail {...props} theme="core" />
 }
 
 export function PanelInputEmail({ className, ...others }) {

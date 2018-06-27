@@ -34,3 +34,7 @@ export function checkOptionByValue(it, value) {
 export function checkOptionByValueList(it, valueList) {
   return convertValueListToSet(valueList).has(getOptionValue(it))
 }
+
+export function setNumberValue(value) {
+  return value !== '' && isNumber(Number(value)) ? Number(value) : ''
+}
