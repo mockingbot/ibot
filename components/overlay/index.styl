@@ -9,9 +9,12 @@ body.ibot-cant-scroll
     z-index $z-Overlay
     top 0
     left 0
+    display flex
+    justify-content center
     width 100vw
     height 100vh
-    overflow hidden
+    overflow-x hidden
+    overflow-y auto
     background-color rgba(#fff, .98)
     transition all .3s ease-in
   &:not(.is-open)
@@ -21,7 +24,7 @@ body.ibot-cant-scroll
   .close-btn
     &
       position fixed
-      top 16px
+      top 1.5em
       right @top
       font-size 32px
       color $cl-light-grey
@@ -39,18 +42,17 @@ body.ibot-cant-scroll
         fill #fff
 
   .content
-    display flex
-    flex-wrap wrap
-    justify-content center
-    padding 50px
-    width 100%
-    height 100%
-    overflow-y auto
+    padding 80px 48px
+    width -webkit-fit-content
+    width fit-content
+    height -webkit-fit-content
+    height fit-content
+    min-height 100%
     transition all .3s cubic-bezier(.18,.89,.32,1.28)
 
   &:not(.is-open) .content
     opacity 0
-    transform translateY(-10%)
+    transform translateY(-10vh)
   &.is-open .content
     opacity 1
     transform none

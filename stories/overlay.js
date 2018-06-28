@@ -36,6 +36,8 @@ storiesOf('Overlay', module)
         onToggle={action('Overlay toggled, `isOpen`')}
       >
         Overlay!
+        <div style={{ height: 1000, backgroundColor: '#eee' }} />
+        Overlay!
       </Overlay>
     </p>
 
