@@ -63,6 +63,15 @@ class ButtonExample extends PureComponent {
           <Button type="text" size={size} icon="play" disabled>Text w/ icon</Button>
         </p>
 
+        <h3>Loading</h3>
+        <p className="button">
+          <Button type="primary" size={size} isLoading>Primary</Button>
+          <Button loading isLoading size={size}>Default (regular)</Button>
+          <Button type="regular" size={size} icon="save" loading>Regular w/ icon</Button>
+          <Button type="text" size={size} loading>Text</Button>
+          <Button type="text" size={size} icon="play" loading>Text w/ icon</Button>
+        </p>
+
         <h2>Example</h2>
         <p className="button same-width">
           <Button type="primary" size={size}>Done</Button>
@@ -109,6 +118,15 @@ class ButtonExample extends PureComponent {
         <p className="button">
           <TextCoreButton size={size}>Fine</TextCoreButton>
           <TextCoreButton disabled size={size}>Fine</TextCoreButton>
+        </p>
+
+        <h3>Loading</h3>
+        <p className="button">
+          <CoreButton type="primary" size={size} isLoading>Primary</CoreButton>
+          <CoreButton loading isLoading size={size}>Default (regular)</CoreButton>
+          <CoreButton type="regular" size={size} icon="save" loading>Regular w/ icon</CoreButton>
+          <CoreButton type="text" size={size} loading>Text</CoreButton>
+          <CoreButton type="text" size={size} icon="play" loading>Text w/ icon</CoreButton>
         </p>
       </Root>
     )

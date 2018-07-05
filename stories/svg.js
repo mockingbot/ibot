@@ -24,11 +24,11 @@ storiesOf('SVG', module)
     </p>
 
     <h2>General</h2>
-    <style>{`.svg-close .fore { fill: #fff; }`}</style>
+    <style>{`.svg-icon.close .fore { fill: #fff; }`}</style>
     <p>
     {
       ['alarm', 'close', 'ellipsis']
-      .map(it => <SVG key={it} className={`svg-${it}`} name={it} />)
+      .map(it => <SVG key={it} name={it} />)
     }
     </p>
 

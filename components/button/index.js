@@ -20,10 +20,16 @@ export class Button extends PureComponent {
     type: PropTypes.oneOf(['primary', 'regular', 'secondary', 'tertiary', 'text']),
     size: PropTypes.oneOf(['regular', 'small']),
     theme: PropTypes.oneOf(['core', 'plain']),
+
     iconType: PropTypes.oneOf(['svg', 'dora', 'mb','icon', 'fa', 'md']),
     icon: PropTypes.string,
+
     className: PropTypes.string,
     isDisabled: PropTypes.bool,
+    disabled: PropTypes.bool,
+    isLoading: PropTypes.bool,
+    loading: PropTypes.bool,
+
     children: PropTypes.any,
     html: PropTypes.string,
   }
@@ -37,19 +43,31 @@ export class Button extends PureComponent {
     isDisabled: false,
   }
 
+  get isDisabled() {
+    const { isDisabled, disabled } = this.props
+    return isDisabled || disabled
+  }
+
+  get isLoading() {
+    const { isLoading, loading } = this.props
+    return isLoading || loading
+  }
+
   render () {
     const {
       type, size, theme,
-      isDisabled,
       icon, iconType,
       className,
       children, html,
       ...others
     } = this.props
 
+    const { isDisabled, isLoading } = this
+
     const klass = trimList([
       `${CLASS_MAP[type]}${theme === 'core' ? 'CoreButton' : 'Button'}`,
       size !== 'regular' && size,
+      isLoading && 'is-loading',
       className,
     ])
 
@@ -58,6 +76,8 @@ export class Button extends PureComponent {
       ? { dangerouslySetInnerHTML: { __html: html } }
       : { children: (
           <Fragment>
+            { isLoading && <SVG name="loading" /> }
+
             { icon && (
               iconType === 'svg'
               ? <SVG name={icon} />
@@ -67,6 +87,11 @@ export class Button extends PureComponent {
           </Fragment>
       )}
     )
+
+    delete others.isDisabled
+    delete others.disabled
+    delete others.isLoading
+    delete others.loading
 
     return (
       <button

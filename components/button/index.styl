@@ -24,6 +24,16 @@ $cl-PrimaryButton-hover-bg = $cl-secondary-grey
 $cl-TextButton-text = $cl-active
 $cl-TextButton-hover-text = darken($cl-active, 10%)
 
+@keyframes rotate
+  from
+    transform rotate(0)
+  to
+    transform rotate(359deg)
+
+$loading-svg
+  vertical-align text-top
+  animation rotate 1.5s infinite linear
+
 $Button
   &
     padding 0 .5em
@@ -44,6 +54,9 @@ $Button
   &.small
     height $Button-small-height
     font-size $Button-small-font-size
+  .svg-icon.loading
+    margin-right .75em
+    @extends $loading-svg
 
 $CoreButton
   &
@@ -130,9 +143,11 @@ $CoreButton
   &:not([disabled]):hover
     color $cl-TextButton-hover-text
     text-decoration underline
+  .svg-icon.loading
+    margin-right .25em
+    @extends $loading-svg
   .icon
     @extends $Button .icon
-
   &.small
     height $Button-small-height
     font-size $Button-small-font-size
