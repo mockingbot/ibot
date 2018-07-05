@@ -123,5 +123,20 @@ storiesOf('Overlay', module)
         </Overlay>
       </Overlay>
     </p>
+
+    <p>
+      Opening an inclosable overlay:{' '}
+      <Overlay
+        openerType="switch"
+
+        isOpen={false}
+        title="Overlay’s Title"
+        canClose={false}
+
+        onToggle={action('Overlay toggled, `isOpen`')}
+      >
+        This overlay is inclosable.
+      </Overlay>
+    </p>
   </Root>
 ))

@@ -48,6 +48,8 @@ export default class Overlay extends PureComponent {
     portalClassName: PropTypes.string,
     className: PropTypes.string,
 
+    canClose: PropTypes.bool,
+
     onOpen: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
     onToggle: PropTypes.func.isRequired,
@@ -55,6 +57,7 @@ export default class Overlay extends PureComponent {
 
   static defaultProps = {
     openerType: 'none',
+    canClose: true,
 
     onOpen: () => null,
     onClose: () => null,
@@ -136,7 +139,7 @@ export default class Overlay extends PureComponent {
   renderOpener() {
     const { opener, openerType } = this.props
     const { isOpen } = this.state
-    const overlay = this.renderOverlay()
+    const overlay = createPortal(this.overlay, this.portal)
 
     return (
       openerType === 'none'
@@ -164,12 +167,8 @@ export default class Overlay extends PureComponent {
     )
   }
 
-  renderOverlay() {
-    return createPortal(this.renderOverlayDOM(), this.portal)
-  }
-
-  renderOverlayDOM() {
-    const { children, className } = this.props
+  get overlay() {
+    const { canClose, className, children } = this.props
     const { isVisible, isOpen } = this.state
 
     const klass = trimList([
@@ -185,9 +184,11 @@ export default class Overlay extends PureComponent {
         onClick={stopPropagation}
       >
         {/* Close button */}
-        <Button type="text" className="close-btn" onClick={this.close}>
-          <SVG name="close" label="Close the Overlay" />
-        </Button>
+        { canClose && (
+          <Button type="text" className="close-btn" onClick={this.close}>
+            <SVG name="close" label="Close the Overlay" />
+          </Button>
+        )}
 
         <div className="content">
           { children }
