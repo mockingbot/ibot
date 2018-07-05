@@ -125,7 +125,7 @@ class ButtonExample extends PureComponent {
           <CoreButton type="primary" size={size} isLoading>Primary</CoreButton>
           <CoreButton loading isLoading size={size}>Default (regular)</CoreButton>
           <CoreButton type="regular" size={size} icon="save" loading>Regular w/ icon</CoreButton>
-          <CoreButton type="text" size={size} loading>Text</CoreButton>
+          <CoreButton type="text" size={size} isLoading>Text</CoreButton>
           <CoreButton type="text" size={size} icon="play" loading>Text w/ icon</CoreButton>
         </p>
       </Root>
