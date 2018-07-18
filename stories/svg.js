@@ -27,7 +27,7 @@ storiesOf('SVG', module)
     <style>{`.svg-icon.close .fore { fill: #fff; }`}</style>
     <p>
     {
-      ['alarm', 'close', 'ellipsis']
+      ['alarm', 'close', 'ellipsis', 'group']
       .map(it => <SVG key={it} name={it} />)
     }
     </p>
@@ -46,7 +46,9 @@ storiesOf('SVG', module)
       [
         'pin', 'duplicate', 'move', 'trash',
         'code', 'play', 'share', 'workflow', 'setting',
-        'loading', 'scale_enlarge', 'scale_reduce',
+        'loading',
+        'lock', 'invisible',
+        'scale_enlarge', 'scale_reduce',
       ]
       .map(it => <SVG key={it} name={it} />)
     }
