@@ -512,7 +512,7 @@ class NewMasterModal extends PureComponent {
               display: flex;
               align-items: baseline;
             }
-            .master-modal .times {
+            .master-modal span.times {
               width: 3em;
               text-align: center;
             }
