@@ -4,8 +4,6 @@ import { trimList } from '../util'
 
 import * as ICON_MAP from './icons'
 
-console.log(ICON_MAP)
-
 import './index.styl'
 
 function getIcon(name) {

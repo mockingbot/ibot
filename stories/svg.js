@@ -63,14 +63,15 @@ storiesOf('SVG', module)
       {`.svg-icon .fore { fill: #FF7100; }`}
 
       {`.alignment .svg-icon .main { fill: #298df8; }`}
-      {`.alignment .svg-icon .secondary { fill: #8d9ea7; }`}
-      {`.alignment .svg-icon .tertiary { fill: #5b6b73; }`}
+      {`.alignment .svg-icon .secondary { fill: #5b6b73; }`}
+      {`.alignment .svg-icon .tertiary { fill: #8d9ea7; }`}
 
       {`.text-alignment .svg-icon .main { fill: #8d9ea7; }`}
       {`.text-alignment .svg-icon .secondary { fill: #5b6b73; }`}
 
       {`.widget { display: flex; align-items: center; flex-wrap: wrap; }`}
-      {`.widget .svg-icon { font-size: 1.5rem; }`}
+      {`.widget .svg-icon { font-size: 2.125rem; }`}
+      {`.widget.shortcut .svg-icon { font-size: 1.5rem; }`}
 
       {`.panel .svg-icon { color: #5b6b73; }`}
       {`.panel .svg-icon .fore { fill: #8d9ea7; }`}
@@ -78,7 +79,7 @@ storiesOf('SVG', module)
 
     <h2>Design</h2>
     <h3>Alignment</h3>
-    <p class="alignment">
+    <p className="alignment">
     {
       [
         'align_left', 'align_center_h', 'align_right',
@@ -90,7 +91,7 @@ storiesOf('SVG', module)
     </p>
 
     <h3>Text alignment</h3>
-    <p class="text-alignment">
+    <p className="text-alignment">
     {
       [
         'text_align_left',
@@ -103,21 +104,28 @@ storiesOf('SVG', module)
     </p>
 
     <h3>Widgets</h3>
-    <p class="widget">
+    <p className="widget">
     {
       [
         'note', 'button', 'gesture',
         'webpage', 'dialog', 'linkarea',
         'file', 'input', 'textarea',
         'map', 'select', 'topbar',
-        'text', 'rectangle', 'circle', 'line', 'image',
       ]
       .map(it => <SVG key={it} name={`design/${it}`} />)
     }
     </p>
 
+    <h4>Shortcut widgets</h4>
+    <p className="widget shortcut">
+    {
+      ['text', 'rectangle', 'circle', 'line', 'image']
+      .map(it => <SVG key={it} name={`design/${it}`} />)
+    }
+    </p>
+
     <h3>Panel</h3>
-    <p class="panel">
+    <p className="panel">
     {
       ['common_widget', 'platform_widget', 'smiley', 'screen', 'layer', 'master']
       .map(it => <SVG key={it} name={`design/${it}`} />)
