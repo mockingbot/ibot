@@ -84,8 +84,6 @@ export default class Dropdown extends PureComponent {
   }
 
   static defaultProps = {
-    isOpen: false,
-
     arrowed: false,
     openerType: 'button',
 

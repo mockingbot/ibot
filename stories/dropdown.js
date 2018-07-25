@@ -2,21 +2,23 @@ import React, { PureComponent } from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 
-import { Root, Icon, Dropdown, Select, Check, Tooltip } from '../components'
+import { Root, Icon, Dropdown, Input, Select, Check, Tooltip } from '../components'
 
 storiesOf('Dropdown', module)
 .add('Default', () => <DropdownExample />)
 
 class DropdownExample extends PureComponent {
-  state = { isSettingOpen: true }
+  state = { isSettingOpen: true, inputValue: '' }
 
   onToggleSetting = isSettingOpen => this.setState(
     { isSettingOpen },
     () => action('Dropdown `isOpen`')(isSettingOpen),
   )
 
+  onChangeInput = inputValue => this.setState({ inputValue })
+
   render() {
-    const { isSettingOpen } = this.state
+    const { isSettingOpen, inputValue } = this.state
 
     return (
       <Root>
@@ -89,6 +91,14 @@ class DropdownExample extends PureComponent {
         </style>
 
         <h2 style={{ marginTop: '70vh' }}>Default</h2>
+        <p className="dropdown">
+          <Dropdown
+            opener="Type Something"
+            menu={<Input style={{ width: '10rem' }} value={inputValue} placeholder="Type something here." onChange={this.onChangeInput} />}
+            menuX="left"
+          />
+        </p>
+
         <p className="dropdown">
           <Dropdown
             isOpen={isSettingOpen}
