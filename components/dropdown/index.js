@@ -106,7 +106,10 @@ export default class Dropdown extends PureComponent {
 
   static getDerivedStateFromProps(props, { prevProps, isOpen }) {
     if (!isEqual(props, prevProps)) {
-      return { prevProps: props, isOpen: props.isOpen }
+      if (isBoolean(props.isOpen)) {
+        return { prevProps: props, isOpen: props.isOpen }
+      }
+      return { prevProps: props }
     }
     return null
   }
