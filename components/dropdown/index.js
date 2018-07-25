@@ -43,7 +43,10 @@ export default class Dropdown extends PureComponent {
     openerType: PropTypes.oneOf(['button', 'custom']),
     className: PropTypes.string,
 
+    portalClassName: PropTypes.string,
+    menuBaseClassName: PropTypes.string,
     menuClassName: PropTypes.string,
+
     menu: PropTypes.node,
     menuList: PropTypes.arrayOf(
       PropTypes.oneOfType([
@@ -259,7 +262,10 @@ export default class Dropdown extends PureComponent {
 class DropdownMenu extends PureComponent {
   state = { isDownward: this.props.position === 'bottom' }
 
-  portal = preparePortal($menuRoot, 'DropdownMenuPortal')
+  portal = preparePortal(
+    $menuRoot,
+    trimList(['DropdownMenuPortal', this.props.portalClassName]),
+  )
 
   static propTypes = {
     ...Dropdown.propTypes,
@@ -320,7 +326,11 @@ class DropdownMenu extends PureComponent {
 
   renderMenu() {
     const {
-      isOpen, menuClassName,
+      isOpen,
+
+      menuBaseClassName,
+      menuClassName,
+
       menu, menuList,
       arrowed, menuX, menuY, menuBasedX,
       currentMenuListItemIdx,
@@ -339,7 +349,7 @@ class DropdownMenu extends PureComponent {
     ])
 
     return (
-      <div ref={this.set$menuBase} className="DropdownMenuBase">
+      <div ref={this.set$menuBase} className={trimList(['DropdownMenuBase', menuBaseClassName])}>
         <div className={klass}>
           { arrowed && (
             <span className="arrow" dangerouslySetInnerHTML={{ __html: SVG.DROPDOWN_ARROW }} />
