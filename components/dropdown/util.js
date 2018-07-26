@@ -1,5 +1,5 @@
 /**
- * Position menu according to where its opener is and returns
+ * Position menu according to where its opener is and return
  * corresponding information.
  *
  * @param {Object}
