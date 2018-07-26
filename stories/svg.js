@@ -50,6 +50,7 @@ storiesOf('SVG', module)
         'loading',
         'lock', 'invisible',
         'scale_enlarge', 'scale_reduce',
+        'pen',
       ]
       .map(it => <SVG key={it} name={it} />)
     }
