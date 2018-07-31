@@ -7,6 +7,7 @@
  *  @prop {Element} $menuBase
  *  @prop {String} [menuX="left"]
  *  @prop {String} [menuY="bottom"]
+ *  @prop {Object} [menuBaseStyle={}]
  *  @prop {String} [inflexible=false]
  *  @prop {Boolean} [shouldSetMaxHeight=false]
  *@return {Object}
@@ -19,6 +20,7 @@ export function positionMenu({
 
   menuX = 'left',
   menuY = 'bottom',
+  menuBaseStyle = {},
 
   inflexible = false,
   shouldSetMaxHeight = false,
@@ -32,8 +34,20 @@ export function positionMenu({
   const setStyleFor$menu = style => Object.assign(result.styleFor$menu, style)
 
   const { offsetWidth: wOf$menu, offsetHeight: hOf$menu } = $menu
-  const { offsetWidth: wOf$opener, offsetHeight: hOf$opener } = $opener
-  const { top, bottom, left, right } = $opener.getBoundingClientRect()
+  const wOf$opener = menuBaseStyle.width || $opener.offsetWidth
+  const hOf$opener = menuBaseStyle.height || $opener.offsetHeight
+
+  const rect = $opener.getBoundingClientRect()
+
+  const { top, right, bottom, left } = Object.assign(
+    {
+      top: rect.top,
+      right: rect.right,
+      bottom: rect.bottom,
+      left: rect.left,
+    },
+    menuBaseStyle,
+  )
 
   // Copy positioning info of $opener to $menuBase:
   setStyleFor$menuBase({

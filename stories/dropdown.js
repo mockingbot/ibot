@@ -96,6 +96,7 @@ class DropdownExample extends PureComponent {
             opener="Type Something"
             menu={<Input style={{ width: '10rem' }} value={inputValue} placeholder="Type something here." onChange={this.onChangeInput} />}
             menuX="left"
+            menuBaseStyle={{ left: 50 }}
           />
         </p>
 

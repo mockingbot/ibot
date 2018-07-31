@@ -47,6 +47,16 @@ export default class Dropdown extends PureComponent {
     menuBaseClassName: PropTypes.string,
     menuClassName: PropTypes.string,
 
+    menuBaseStyle: PropTypes.shape({
+      top: PropTypes.number,
+      right: PropTypes.number,
+      bottom: PropTypes.number,
+      top: PropTypes.number,
+
+      width: PropTypes.number,
+      height: PropTypes.number,
+    }),
+
     menu: PropTypes.node,
     menuList: PropTypes.arrayOf(
       PropTypes.oneOfType([
@@ -313,10 +323,15 @@ class DropdownMenu extends PureComponent {
   }
 
   position = () => {
+    const { $opener, menuX, menuY, menuBaseStyle, inflexible } = this.props
     const { $menuBase } = this
-    const { $opener, menuX, menuY, inflexible } = this.props
 
-    const { isDownward } = positionMenu({ $menuBase, $opener, menuX, menuY, inflexible })
+    const { isDownward } = positionMenu({
+      $menuBase, $opener,
+      menuX, menuY, menuBaseStyle,
+      inflexible,
+    })
+
     this.setState({ isDownward })
   }
 
