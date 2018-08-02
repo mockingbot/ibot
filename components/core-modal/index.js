@@ -92,7 +92,7 @@ export default class CoreModal extends PureComponent {
   state = {
     prevProps: this.props,
     isOpen: this.props.isOpen,
-    isVisible: this.props.isOpen,
+    isVisible: false,
   }
 
   portal = preparePortal(
@@ -122,7 +122,10 @@ export default class CoreModal extends PureComponent {
     const { isOpen } = this.state
 
     if (isOpen) {
-      this.didOpen()
+      setTimeout(() => this.setState(
+        { isVisible: true },
+        this.didOpen,
+      ))
     }
 
     window.addEventListener('resize', this.positionY)

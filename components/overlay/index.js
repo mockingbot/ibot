@@ -32,7 +32,7 @@ export default class Overlay extends PureComponent {
   state = {
     prevProps: this.props,
     isOpen: this.props.isOpen,
-    isVisible: this.props.isOpen,
+    isVisible: false,
   }
 
   portal = preparePortal(
@@ -102,9 +102,14 @@ export default class Overlay extends PureComponent {
     const { isOpen } = this.state
 
     if (isOpen) {
-      $body.classList.add(CANT_SCROLL_CLASS)
-      onOpen()
-      onToggle(true)
+      setTimeout(() => this.setState(
+        { isVisible: true },
+        () => {
+          $body.classList.add(CANT_SCROLL_CLASS)
+          onOpen()
+          onToggle(true)
+        },
+      ))
     }
   }
 
