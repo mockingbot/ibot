@@ -16,6 +16,7 @@ body.ibot-cant-scroll
     overflow-x hidden
     overflow-y auto
     background-color rgba(#fff, .98)
+    color $cl-secondary-text
     transition opacity .3s ease-in
   &:not(.is-open)
     opacity 0
@@ -41,6 +42,12 @@ body.ibot-cant-scroll
       .fore
         fill #fff
 
+  h1
+    margin .5em 0 1.5em
+    font-size 1.5rem
+    font-weight 500
+    color $cl-primary-text
+
   .content
     display flex
     flex-direction column
@@ -52,6 +59,12 @@ body.ibot-cant-scroll
     height fit-content
     min-height 100%
     transition all .3s cubic-bezier(.18,.89,.32,1.28)
+
+  footer
+    &
+      margin-top 4em
+    button:not(:last-child)
+      margin-right 1em
 
   &:not(.is-open) .content
     opacity 0

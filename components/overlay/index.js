@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import DocumentEvents from 'react-document-events'
 import { isBoolean, isEqual } from 'lodash'
 
-import { Button } from '../button'
+import { PrimaryCoreButton, TertiaryCoreButton, Button } from '../button'
 import Switch from '../switch'
 import SVG from '../svg'
 import { trimList, $, preparePortal } from '../util'
@@ -42,17 +42,27 @@ export default class Overlay extends PureComponent {
 
   static propTypes = {
     isOpen: PropTypes.bool,
-    children: PropTypes.node,
     openerType: PropTypes.oneOf(['primary', 'regular', 'text', 'switch', 'custom', 'none']),
 
     portalClassName: PropTypes.string,
     className: PropTypes.string,
 
     canClose: PropTypes.bool,
+    canConfirm: PropTypes.bool,
+    canCancel: PropTypes.bool,
 
     onOpen: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
     onToggle: PropTypes.func.isRequired,
+
+    onConfirm: PropTypes.func,
+    onCancel: PropTypes.func,
+
+    confirmText: PropTypes.string,
+    cancelText: PropTypes.string,
+
+    title: PropTypes.node,
+    children: PropTypes.node,
   }
 
   static defaultProps = {
@@ -62,6 +72,12 @@ export default class Overlay extends PureComponent {
     onOpen: () => null,
     onClose: () => null,
     onToggle: () => null,
+
+    onConfirm: () => null,
+    onCancel: () => null,
+
+    confirmText: 'Confirm',
+    cancelText: 'Cancel',
   }
 
   static getDerivedStateFromProps(props, { prevProps, isOpen }) {
@@ -124,6 +140,18 @@ export default class Overlay extends PureComponent {
     willBeOpen ? this.open() : this.close()
   )
 
+  confirm = () => {
+    const { onConfirm } = this.props
+    onConfirm()
+    this.close()
+  }
+
+  cancel = () => {
+    const { onCancel } = this.props
+    onCancel()
+    this.close()
+  }
+
   onTransitionEnd = ({ target }) => {
     const { isVisible } = this.state
 
@@ -168,7 +196,13 @@ export default class Overlay extends PureComponent {
   }
 
   get overlay() {
-    const { canClose, className, children } = this.props
+    const {
+      className,
+      canClose, canConfirm, canCancel,
+      confirmText, cancelText,
+      title, children,
+    } = this.props
+
     const { isVisible, isOpen } = this.state
 
     const klass = trimList([
@@ -176,6 +210,8 @@ export default class Overlay extends PureComponent {
       isVisible && 'is-open',
       className,
     ])
+
+    const shouldShowFooter = canConfirm || canCancel
 
     return isOpen && (
       <div
@@ -191,7 +227,15 @@ export default class Overlay extends PureComponent {
         )}
 
         <div className="content">
+          { title && <h1>{ title }</h1> }
           { children }
+
+          { shouldShowFooter && (
+            <footer>
+              { canConfirm && <PrimaryCoreButton onClick={this.confirm}>{ confirmText }</PrimaryCoreButton> }
+              { canCancel && <TertiaryCoreButton onClick={this.cancel}>{ cancelText }</TertiaryCoreButton> }
+            </footer>
+          )}
         </div>
       </div>
     )

@@ -138,5 +138,24 @@ storiesOf('Overlay', module)
         This overlay is inclosable.
       </Overlay>
     </p>
+
+    <p>
+      Confirm/cancel:{' '}
+
+      <Overlay
+        openerType="switch"
+
+        isOpen={false}
+        title="Are you sure?"
+
+        canClose={true}
+        canConfirm={true}
+        canCancel={true}
+
+        onToggle={action('Overlay toggled, `isOpen`')}
+      >
+        您确定要删除「这是一个测试」吗？
+      </Overlay>
+    </p>
   </Root>
 ))
