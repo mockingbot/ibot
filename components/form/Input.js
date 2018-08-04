@@ -117,7 +117,7 @@ Textarea.defaultProps = {
 }
 
 export function CoreTextarea(props) {
-  return <Input {...props} theme="core" />
+  return <Textarea {...props} theme="core" />
 }
 
 export function PanelTextarea({ className, ...others }) {
