@@ -55,6 +55,14 @@ storiesOf('SVG', module)
       .map(it => <SVG key={it} name={it} />)
     }
     </p>
+
+    <h3>Logos</h3>
+    <p>
+    {
+      ['antd']
+      .map(it => <SVG key={it} name={it} />)
+    }
+    </p>
   </Root>
 ))
 .add('Design', () => (
