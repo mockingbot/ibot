@@ -73,9 +73,6 @@ export default class Overlay extends PureComponent {
     onClose: () => null,
     onToggle: () => null,
 
-    onConfirm: () => null,
-    onCancel: () => null,
-
     confirmText: 'Confirm',
     cancelText: 'Cancel',
   }
@@ -203,9 +200,11 @@ export default class Overlay extends PureComponent {
   get overlay() {
     const {
       className,
-      canClose, canConfirm, canCancel,
-      confirmText, cancelText,
       title, children,
+
+      canClose, canConfirm, canCancel,
+      onConfirm, onCancel,
+      confirmText, cancelText,
     } = this.props
 
     const { isVisible, isOpen } = this.state
@@ -216,7 +215,7 @@ export default class Overlay extends PureComponent {
       className,
     ])
 
-    const shouldShowFooter = canConfirm || canCancel
+    const shouldShowFooter = onConfirm || onCancel
 
     return isOpen && (
       <div
@@ -237,8 +236,8 @@ export default class Overlay extends PureComponent {
 
           { shouldShowFooter && (
             <footer>
-              { canConfirm && <PrimaryCoreButton onClick={this.confirm}>{ confirmText }</PrimaryCoreButton> }
-              { canCancel && <TertiaryCoreButton onClick={this.cancel}>{ cancelText }</TertiaryCoreButton> }
+              { onConfirm && <PrimaryCoreButton onClick={this.confirm} isDisabled={!canConfirm}>{ confirmText }</PrimaryCoreButton> }
+              { onCancel && <TertiaryCoreButton onClick={this.cancel} isDisabled={!canCancel}>{ cancelText }</TertiaryCoreButton> }
             </footer>
           )}
         </div>

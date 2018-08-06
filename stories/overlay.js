@@ -153,6 +153,24 @@ storiesOf('Overlay', module)
         canCancel={true}
 
         onToggle={action('Overlay toggled, `isOpen`')}
+        onConfirm={action('Overlay confirmed')}
+        onCancel={action('Overlay cancelled')}
+      >
+        您确定要删除「这是一个测试」吗？
+      </Overlay>
+
+      <Overlay
+        openerType="switch"
+
+        isOpen={false}
+        title="Are you sure?"
+
+        canConfirm={false}
+        canCancel={false}
+
+        onToggle={action('Overlay toggled, `isOpen`')}
+        onConfirm={action('Overlay confirmed')}
+        onCancel={action('Overlay cancelled')}
       >
         您确定要删除「这是一个测试」吗？
       </Overlay>
