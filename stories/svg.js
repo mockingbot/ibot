@@ -56,11 +56,11 @@ storiesOf('SVG', module)
     }
     </p>
 
-    <h3>Logos</h3>
+    <h3>Brand</h3>
     <p>
     {
-      ['antd']
-      .map(it => <SVG key={it} name={it} />)
+      ['antd', 'sketch']
+      .map(it => <SVG key={it} name={`brand/${it}`} />)
     }
     </p>
   </Root>
