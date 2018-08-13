@@ -55,6 +55,8 @@ export class Select extends PureComponent {
   static propTypes = {
     size: PropTypes.oneOf(['regular', 'small']),
     theme: PropTypes.oneOf(['core', 'plain']),
+    menuTheme: PropTypes.oneOf(['core', 'plain']),
+
     unstyled: PropTypes.bool,
 
     className: PropTypes.string,
@@ -123,6 +125,7 @@ export class Select extends PureComponent {
   static defaultProps = {
     size: 'regular',
     theme: 'plain',
+    menuTheme: 'plain',
 
     className: '',
     menuClassName: '',
@@ -279,7 +282,7 @@ export class SelectMenu extends PureComponent {
     const { isDownward } = this.state
 
     const $opt = e.currentTarget
-    const $menuBase = $opt.closest('.SelectMenu')
+    const $menuBase = $opt.closest('.SelectMenu, .CoreSelectMenu')
 
     if (!$opt || !$menuBase) {
       return this.onlose()
@@ -358,6 +361,7 @@ export class SelectMenu extends PureComponent {
     const {
       isOpen,
       isDisabled,
+      menuTheme,
       menuClassName,
       optionList,
       emptyMsg,
@@ -370,7 +374,7 @@ export class SelectMenu extends PureComponent {
     const isEmpty = optionList.length === 0
 
     const klass = trimList([
-      'SelectMenu',
+      menuTheme === 'core' ? 'CoreSelectMenu' : 'SelectMenu',
       menuClassName,
       `x-${menuX}`,
       isOpen && 'is-open',

@@ -72,7 +72,8 @@
   pointer-events none
   z-index $z-SelectMenu
 
-ul.SelectMenu
+.SelectMenu
+.CoreSelectMenu
   &
     position absolute
     margin 2px 0
@@ -106,7 +107,8 @@ ul.SelectMenu
     background-color rgba(#fff, .5)
 
   &.is-empty
-    min-height $Select-option-height
+    width -webkit-fit-content
+    width fit-content
   &:not(.is-open)
     opacity 0
     transform scale(.8)
@@ -129,18 +131,18 @@ ul.SelectMenu
     opacity 1
     pointer-events initial
 
-  li.SelectGroup
+  .SelectGroup
     > .title
       padding 0 .75em
       width 100%
       height $Select-option-height
-      line-height $Select-option-height
+      line-height @height
       font-weight bold
     > ul
       margin 0
       padding 0
 
-  li.SelectOption
+  .SelectOption
     &
       display flex
       align-items center
@@ -161,3 +163,16 @@ ul.SelectMenu
       padding 0 .5em
       color $cl-tertiary-grey
       cursor not-allowed
+
+.CoreSelectMenu
+  &
+    margin 4px 0
+  &:not(.is-empty)
+    padding 8px
+    min-height ($CoreSelect-option-height + @padding * 2)
+    max-height (10 * $CoreSelect-option-height + @padding * 2)
+  .SelectGroup > .title
+  .SelectOption
+    height $CoreSelect-option-height
+    line-height @height
+    border-radius 2px
