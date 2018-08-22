@@ -397,7 +397,7 @@ class DropdownMenu extends PureComponent {
 
           <DocumentEvents
             enabled={isOpen}
-            onMouseDown={this.onClickOutside}
+            onClick={this.onClickOutside}
           />
 
           <DocumentEvents

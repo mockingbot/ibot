@@ -546,7 +546,7 @@ export class ConfirmInputNumber extends PureComponent {
 
         <DocumentEvents
           enabled={isActive || isMenuOpen}
-          onMouseDown={this.onClickOutside}
+          onClick={this.onClickOutside}
           onKeyDown={this.onKeyDown}
         />
       </label>

@@ -145,7 +145,7 @@ export class InputEmail extends PureComponent {
 
         <DocumentEvents
           enabled={isActive}
-          onMouseDown={this.onClickOutside}
+          onClick={this.onClickOutside}
         />
       </label>
     )
