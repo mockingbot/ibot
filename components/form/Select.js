@@ -316,7 +316,7 @@ export class SelectMenu extends PureComponent {
     const $current = $('li[role=option].is-active', this.$menuBase)
 
     if ($current) {
-      $current.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      $current.scrollIntoView({ block: 'start' })
     }
   }
 
