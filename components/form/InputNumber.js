@@ -433,7 +433,7 @@ export class InputNumber extends PureComponent {
 
         <DocumentEvents
           enabled={isActive || isMenuOpen}
-          onMouseDown={this.onClickOutside}
+          onClick={this.onClickOutside}
         />
       </label>
     )
