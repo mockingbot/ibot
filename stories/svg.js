@@ -25,10 +25,14 @@ storiesOf('SVG', module)
     </p>
 
     <h3>General</h3>
-    <style>{`.svg-icon.close .fore { fill: #fff; }`}</style>
+    <style>
+    {`.svg-icon.close .fore { fill: #fff; }`}
+    {`.svg-icon.info .fore { fill: #8D9EA7; }`}
+    {`.svg-icon.info .main { fill: #fff; }`}
+    </style>
     <p>
     {
-      ['alarm', 'close', 'ellipsis', 'group']
+      ['alarm', 'close', 'ellipsis', 'group','info']
       .map(it => <SVG key={it} name={it} />)
     }
     </p>
@@ -81,9 +85,25 @@ storiesOf('SVG', module)
       {`.widget { display: flex; align-items: center; flex-wrap: wrap; }`}
       {`.widget .svg-icon { font-size: 2.125rem; }`}
       {`.widget.shortcut .svg-icon { font-size: 1.5rem; }`}
+      {`.widget .svg-icon .main { fill: #8D9EA7; }`}
 
       {`.panel .svg-icon { color: #5b6b73; }`}
       {`.panel .svg-icon .fore { fill: #8d9ea7; }`}
+
+      {`.gird .svg-icon .main { fill: #7D8694; }`}
+      {`.gird .svg-icon .secondary { fill: #C8CDD0; }`}
+
+      {`.select .svg-icon .main { fill: #5B6B73; }`}
+      {`.select .svg-icon .fore { fill: #298DF8; }`}
+
+      {`.setting .svg-icon .main { fill: #5B6B73; }`}
+      {`.setting .svg-icon .secondary { fill: #8D9EA7; }`}
+
+      {`.mouse .svg-icon .red { fill: #FF6161; }`}
+      {`.mouse .svg-icon .blue { fill: #298DF8; }`}
+      {`.mouse .svg-icon .main { fill: #5B6B73; }`}
+      {`.mouse .svg-icon .secondary { fill: #C8CDD0; }`}
+      {`.mouse .svg-icon .fore { fill: #FFF; }`}
     </style>
 
     <h2>Design</h2>
@@ -120,6 +140,8 @@ storiesOf('SVG', module)
         'webpage', 'dialog', 'linkarea',
         'file', 'input', 'textarea',
         'map', 'select', 'topbar',
+        'eq_triangle', 'triangle', 'topbar_copy',
+        'topbar_copy1'
       ]
       .map(it => <SVG key={it} name={`design/${it}`} />)
     }
@@ -136,13 +158,66 @@ storiesOf('SVG', module)
     <h3>Panel</h3>
     <p className="panel">
     {
-      ['common_widget', 'platform_widget', 'smiley', 'screen', 'layer', 'master']
+      ['common_widget', 'platform_widget', 'smiley', 'screen', 'layer', 'master', 'dynamic_widget', 'my_widget']
+      .map(it => <SVG key={it} name={`design/${it}`} />)
+    }
+    </p>
+
+    <h3>Font size</h3>
+    <p className="size">
+    {
+      ['font_bold', 'font_italic', 'font_underline', 'font_line_through']
       .map(it => <SVG key={it} name={`design/${it}`} />)
     }
     </p>
 
     <h3>Misc.</h3>
-    <p><SVG name="design/settings" /></p>
+    <p>
+    {
+      ['settings', 'edit', 'deletes', 'copy', 'enchase', 'search']
+      .map(it => <SVG key={it} name={`design/${it}`} />)
+    }
+    </p>
+
+    <h3>Word align</h3>
+    <p>
+    {
+      ['word_bottom', 'word_middle', 'word_top']
+      .map(it => <SVG key={it} name={`design/${it}`} />)
+    }
+    </p>
+
+    <h3>Grid size</h3>
+    <p className="gird">
+    {
+      ['grid_column', 'grid_row', 'grid']
+      .map(it => <SVG key={it} name={`design/${it}`} />)
+    }
+    </p>
+
+    <h3>Select</h3>
+    <p className="select">
+    {
+      ['intersect_select', 'intersect_select1', 'include_select', 'include_select1']
+      .map(it => <SVG key={it} name={`design/${it}`} />)
+    }
+    </p>
+
+    <h3>Setting</h3>
+    <p className="setting">
+    {
+      ['screen_column', 'screen_row', 'preference_setting', 'new_widgets']
+      .map(it => <SVG key={it} name={`design/${it}`} />)
+    }
+    </p>
+
+      <h3>Mouse operate</h3>
+      <p className="mouse">
+    {
+      ['normal', 'check', 'radio_normal', 'radio_checked', 'arrow1', 'arrow2']
+      .map(it => <SVG key={it} name={`design/${it}`} />)
+    }
+  </p>
   </Root>
 ))
 .add('Preview', () => (
