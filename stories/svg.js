@@ -37,10 +37,10 @@ storiesOf('SVG', module)
     }
     </p>
 
-    <h3>Math</h3>
+    <h3>Symbols</h3>
     <p>
     {
-      ['plus', 'times']
+      ['plus', 'times', 'check_filled']
       .map(it => <SVG key={it} name={it} />)
     }
     </p>
@@ -54,7 +54,7 @@ storiesOf('SVG', module)
         'loading',
         'lock', 'invisible',
         'scale_enlarge', 'scale_reduce',
-        'pen',
+        'search', 'pen',
       ]
       .map(it => <SVG key={it} name={it} />)
     }
@@ -98,12 +98,6 @@ storiesOf('SVG', module)
 
       {`.setting .svg-icon .main { fill: #5B6B73; }`}
       {`.setting .svg-icon .secondary { fill: #8D9EA7; }`}
-
-      {`.mouse .svg-icon .red { fill: #FF6161; }`}
-      {`.mouse .svg-icon .blue { fill: #298DF8; }`}
-      {`.mouse .svg-icon .main { fill: #5B6B73; }`}
-      {`.mouse .svg-icon .secondary { fill: #C8CDD0; }`}
-      {`.mouse .svg-icon .fore { fill: #FFF; }`}
     </style>
 
     <h2>Design</h2>
@@ -123,10 +117,8 @@ storiesOf('SVG', module)
     <p className="text-alignment">
     {
       [
-        'text_align_left',
-        'text_align_center',
-        'text_align_right',
-        'text_align_justify',
+        'text_align_left', 'text_align_center', 'text_align_right', 'text_align_justify',
+        'text_align_v_bottom', 'text_align_v_center', 'text_align_v_top',
       ]
       .map(it => <SVG key={it} name={`design/${it}`} />)
     }
@@ -140,8 +132,8 @@ storiesOf('SVG', module)
         'webpage', 'dialog', 'linkarea',
         'file', 'input', 'textarea',
         'map', 'select', 'topbar',
-        'eq_triangle', 'triangle', 'topbar_copy',
-        'topbar_copy1'
+        'eq_triangle', 'triangle',
+        'carousel', 'dropdown'
       ]
       .map(it => <SVG key={it} name={`design/${it}`} />)
     }
@@ -174,15 +166,7 @@ storiesOf('SVG', module)
     <h3>Misc.</h3>
     <p>
     {
-      ['settings', 'edit', 'deletes', 'copy', 'enchase', 'search']
-      .map(it => <SVG key={it} name={`design/${it}`} />)
-    }
-    </p>
-
-    <h3>Word align</h3>
-    <p>
-    {
-      ['word_bottom', 'word_middle', 'word_top']
+      ['settings', 'trash', 'copy', 'enchase']
       .map(it => <SVG key={it} name={`design/${it}`} />)
     }
     </p>
@@ -190,7 +174,7 @@ storiesOf('SVG', module)
     <h3>Grid size</h3>
     <p className="gird">
     {
-      ['grid_column', 'grid_row', 'grid']
+      ['grid', 'grid_column', 'grid_row']
       .map(it => <SVG key={it} name={`design/${it}`} />)
     }
     </p>
@@ -198,7 +182,7 @@ storiesOf('SVG', module)
     <h3>Select</h3>
     <p className="select">
     {
-      ['intersect_select', 'intersect_select1', 'include_select', 'include_select1']
+      ['intersect_select', 'include_select']
       .map(it => <SVG key={it} name={`design/${it}`} />)
     }
     </p>
@@ -206,18 +190,10 @@ storiesOf('SVG', module)
     <h3>Setting</h3>
     <p className="setting">
     {
-      ['screen_column', 'screen_row', 'preference_setting', 'new_widgets']
+      ['screen_portrait', 'screen_landscape', 'preference', 'new_widgets']
       .map(it => <SVG key={it} name={`design/${it}`} />)
     }
     </p>
-
-      <h3>Mouse operate</h3>
-      <p className="mouse">
-    {
-      ['normal', 'check', 'radio_normal', 'radio_checked', 'arrow1', 'arrow2']
-      .map(it => <SVG key={it} name={`design/${it}`} />)
-    }
-  </p>
   </Root>
 ))
 .add('Preview', () => (
