@@ -12,7 +12,7 @@ export class Ellipsis extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
 
-    type: PropTypes.oneOf(['user', 'id', 'email', 'team', 'app', 'widget']),
+    type: PropTypes.oneOf(['user', 'id', 'email', 'org', 'team', 'app', 'widget']),
     max: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     display: PropTypes.oneOf(['inline-block', 'block']),
 
@@ -146,6 +146,14 @@ User.propTypes = {
   name: PropTypes.node,
   id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   email: PropTypes.string,
+}
+
+export function OrgName({ name, ...others }) {
+  return <Ellipsis type="org" {...others}>{ name }</Ellipsis>
+}
+
+OrgName.propTypes = {
+  name: PropTypes.node,
 }
 
 export function TeamName({ name, ...others }) {
