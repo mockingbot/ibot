@@ -49,7 +49,7 @@ storiesOf('SVG', module)
     <p>
     {
       [
-        'pin', 'duplicate', 'move', 'trash', 'edit',
+        'pin', 'duplicate', 'move', 'trash', 'edit', 'new_trash',
         'code', 'play', 'share', 'workflow', 'setting',
         'loading',
         'lock', 'invisible',
@@ -150,7 +150,9 @@ storiesOf('SVG', module)
     <h3>Panel</h3>
     <p className="panel">
     {
-      ['common_widget', 'platform_widget', 'smiley', 'screen', 'layer', 'master', 'dynamic_widget', 'my_widget']
+      ['common_widget', 'platform_widget', 'smiley', 'screen',
+      'layer', 'master', 'dynamic_widget',
+      'my_widget', 'attribute_setting', 'link', 'list', 'thumbnail', 'onekey_recovery']
       .map(it => <SVG key={it} name={`design/${it}`} />)
     }
     </p>
