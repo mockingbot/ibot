@@ -49,7 +49,7 @@ storiesOf('SVG', module)
     <p>
     {
       [
-        'pin', 'duplicate', 'move', 'trash', 'edit', 'new_trash',
+        'pin', 'duplicate', 'move', 'trash', 'edit', 'recycle',
         'code', 'play', 'share', 'workflow', 'setting',
         'loading',
         'lock', 'invisible',
