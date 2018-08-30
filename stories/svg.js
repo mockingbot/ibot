@@ -40,7 +40,7 @@ storiesOf('SVG', module)
     <h3>Symbols</h3>
     <p>
     {
-      ['plus', 'times', 'check_filled']
+      ['plus', 'minus', 'times', 'check_filled']
       .map(it => <SVG key={it} name={it} />)
     }
     </p>
