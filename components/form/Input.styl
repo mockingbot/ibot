@@ -16,11 +16,15 @@ $Input
       cursor not-allowed
     &:focus
       outline 0
-    &:not([type=email]):invalid
-      border-color $cl-Input-invalid-border !important
-      box-shadow $cl-Input-invalid-shadow !important
     &::placeholder
       color $cl-Input-placeholder-text
+
+  &.is-invalid input
+  &.is-invalid textarea
+  input:not([type=email]):invalid
+  textarea:invalid
+    border-color $cl-Input-invalid-border !important
+    box-shadow $cl-Input-invalid-shadow !important
   &:not(.unstyled)
     input
     textarea

@@ -63,6 +63,8 @@ export default class InputExample extends PureComponent {
         <p>
           <Input {...{ size, theme }} placeholder="Type something here…" onChange={onTypingChange} />
           <br />
+          <Input {...{ size, theme }} isInvalid placeholder="This is invalid…" onChange={onTypingChange} />
+          <br />
           <Input {...{ size, theme }} defaultValue="A text input with initial value." onChange={onTypingChange} />
           <br />
           <Input {...{ size, theme }} disabled placeholder="A disabled text input" onChange={onTypingChange} />

@@ -12,6 +12,7 @@ function createOnChangeHandler(onChange) {
  */
 export function Input({
   size, theme,
+  isInvalid,
   unstyled,
   className,
   value,
@@ -23,6 +24,7 @@ export function Input({
     theme === 'core' ? 'CoreInput' : 'Input',
     size,
     unstyled && 'unstyled',
+    isInvalid && 'is-invalid',
     className,
   ])
 
@@ -43,6 +45,7 @@ Input.propTypes = {
   size: PropTypes.oneOf(['regular', 'small']),
   theme: PropTypes.oneOf(['core', 'plain']),
   unstyled: PropTypes.bool,
+  isInvalid: PropTypes.bool,
   className: PropTypes.string,
   value: PropTypes.string,
   onChange: PropTypes.func,
