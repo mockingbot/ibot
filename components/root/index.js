@@ -1,4 +1,4 @@
-import { PureComponent } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 
 import './index.styl'
@@ -13,6 +13,10 @@ export default class Root extends PureComponent {
   }
 
   render() {
-    return this.props.children
+    return (
+      <div className="iBotRoot">
+        { this.props.children }
+      </div>
+    )
   }
 }

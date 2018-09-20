@@ -1,5 +1,4 @@
 export * from './button'
-//export { default as ColorPicker } from './color-picker'
 export { default as Dropdown } from './dropdown'
 export * from './form'
 export { default as Guide } from './guide'
