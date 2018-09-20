@@ -96,7 +96,7 @@ export default class SelectExample extends React.PureComponent {
 
         <h2>Regular node options</h2>
         <p>
-          <Select {...{ size, theme, menuTheme }} menuX="center" placeholder="Long long long placeholder" optionList={['Apple', 'Pencil']} onChange={action('Select changed')} />
+          <Select {...{ size, theme, menuTheme }} placeholder="Long long long placeholder" optionList={['Apple', 'Pencil']} onChange={action('Select changed')} />
           <br />
           <Select {...{ size, theme, menuTheme }} optionList={['Apple', 'Pencil']} onChange={action('Select changed')} />
           <br />
@@ -153,6 +153,32 @@ export default class SelectExample extends React.PureComponent {
           <Select
             {...{ size, theme, menuTheme }}
             isDisabled
+            optionList={['Yirgacheffe', 'Harrar', 'Kenya AA', 'Antiqua Flora', 'Huehuetenango', 'Tanzania AA', 'Cerrado', 'Bucaramanga Supremo', 'Tarrazu', 'Hawaii Kona', 'Blue Mountain', 'Mandheling']}
+            onChange={action('Select changed')}
+          />
+        </p>
+
+        <h2>`menuX` (left/center/right)</h2>
+        <p>
+          <Select
+            {...{ size, theme, menuTheme }}
+            menuX="left"
+            value="Tanzania AA"
+            optionList={['Yirgacheffe', 'Harrar', 'Kenya AA', 'Antiqua Flora', 'Huehuetenango', 'Tanzania AA', 'Cerrado', 'Bucaramanga Supremo', 'Tarrazu', 'Hawaii Kona', 'Blue Mountain', 'Mandheling']}
+            onChange={action('Select changed')}
+          />
+          <Select
+            {...{ size, theme, menuTheme }}
+            menuX="center"
+            value="Tanzania AA"
+            optionList={['Yirgacheffe', 'Harrar', 'Kenya AA', 'Antiqua Flora', 'Huehuetenango', 'Tanzania AA', 'Cerrado', 'Bucaramanga Supremo', 'Tarrazu', 'Hawaii Kona', 'Blue Mountain', 'Mandheling']}
+            onChange={action('Select changed')}
+          />
+          <Select
+            {...{ size, theme, menuTheme }}
+            menuX="right"
+            isDisabled={false}
+            value="Blue Mountain"
             optionList={['Yirgacheffe', 'Harrar', 'Kenya AA', 'Antiqua Flora', 'Huehuetenango', 'Tanzania AA', 'Cerrado', 'Bucaramanga Supremo', 'Tarrazu', 'Hawaii Kona', 'Blue Mountain', 'Mandheling']}
             onChange={action('Select changed')}
           />

@@ -118,7 +118,7 @@ export class Select extends PureComponent {
     isDisabled: PropTypes.bool,
     onChange: PropTypes.func,
 
-    menuX: PropTypes.oneOf(['left', 'center']),
+    menuX: PropTypes.oneOf(['left', 'center', 'right']),
   }
 
   static defaultProps = {
