@@ -54,7 +54,7 @@ export class Button extends PureComponent {
     const { to, nativeLink, isDisabled } = this.props
 
     return (
-      to && !isDisabled
+      to
       ? nativeLink ? 'a' : Link
       : 'button'
     )
