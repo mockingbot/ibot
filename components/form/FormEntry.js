@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 
 import { trimList } from '../util'
@@ -15,13 +15,15 @@ export function FormEntry({
   return React.createElement(
     isLabel ? 'label' : 'div',
     { className: trimList(['FormEntry', className]), type },
-    key && (
-      <span className="key">
-        {key}
-        { isRequired && <span className="required-sign">*</span> }
-      </span>
-    ),
-    <span className="val">{val}</span>,
+    <Fragment>
+      { key && (
+        <span className="FormEntry-Key key">
+          {key}
+          { isRequired && <span className="required-sign">*</span> }
+        </span>
+      )}
+      <span className="FormEntry-Val val">{val}</span>
+    </Fragment>,
   )
 }
 
@@ -43,5 +45,5 @@ FormEntry.defaultProps = {
  * <FormLabel>
  */
 export function FormLabel(props) {
-  return <FormEntry{...props} isLabel={true} />
+  return <FormEntry {...props} isLabel={true} />
 }

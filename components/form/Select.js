@@ -9,14 +9,13 @@ import Dropdown from '../dropdown'
 import { Input } from './Input'
 import { Ellipsis } from '../text'
 
-import { trimList, $, $$, SVG, preparePortal } from '../util'
+import { CANT_SCROLL_CLASS, trimList, $, $$, SVG, preparePortal } from '../util'
 import { positionMenu } from '../dropdown/util'
 import { getOptionLabel, getOptionValue, checkOptionByValue } from './util'
 
 import './index.styl'
 
 const MENU_ROOT_ID = 'IBOT_SELECT_MENU_ROOT'
-const CANT_SCROLL_CLASS = 'ibot-cant-scroll'
 
 const { I18N = {} } = window
 

@@ -5,23 +5,21 @@
     margin .5em 0
     min-height $FormEntry-min-height
 
-  > .key
+  .FormEntry-Key
     align-self flex-start
     display flex
     align-items center
     flex-basis $FormEntry-key-width
     height $FormEntry-min-height
 
-  > .val
+  .FormEntry-Val
     flex 1
-    margin-left auto
-    max-width s('calc(100% - %s)', $FormEntry-key-width)
 
   .required-sign
     margin 0 .25em
     color $cl-core
 
-  > .val >
+  .FormEntryVal >
     .Input
     .CoreInput
       &

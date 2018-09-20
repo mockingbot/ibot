@@ -9,7 +9,7 @@ import { Button } from '../button'
 import SVG from '../svg'
 import Icon from '../icon'
 import Switch from '../switch'
-import { trimList, $, preparePortal } from '../util'
+import { CANT_SCROLL_CLASS, trimList, $, preparePortal } from '../util'
 
 import './index.styl'
 
@@ -18,7 +18,6 @@ const stopPropagation = e => e.stopPropagation()
 
 const MODAL_ROOT_ID = 'IBOT_MODAL_ROOT'
 const MODAL_PORTAL_CLASS = 'CoreModalPortal'
-const CANT_SCROLL_CLASS = 'ibot-cant-scroll'
 
 const $body = document.body
 

@@ -7,13 +7,12 @@ import { isBoolean, isEqual } from 'lodash'
 import { PrimaryCoreButton, TertiaryCoreButton, Button } from '../button'
 import Switch from '../switch'
 import SVG from '../svg'
-import { trimList, $, preparePortal } from '../util'
+import { CANT_SCROLL_CLASS, trimList, $, preparePortal } from '../util'
 
 import './index.styl'
 
 const OVERLAY_ROOT_ID = 'IBOT_OVERLAY_ROOT'
 const OVERLAY_PORTAL_CLASS = 'OverlayPortal'
-const CANT_SCROLL_CLASS = 'ibot-cant-scroll'
 
 const stopPropagation = e => e.stopPropagation()
 

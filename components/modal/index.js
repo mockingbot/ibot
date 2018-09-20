@@ -8,7 +8,7 @@ import { isEqual } from 'lodash'
 import { Button } from '../button'
 import Switch from '../switch'
 import Icon from '../icon'
-import { trimList, $, preparePortal } from '../util'
+import { CANT_SCROLL_CLASS, trimList, $, preparePortal } from '../util'
 
 import './index.styl'
 
@@ -17,7 +17,6 @@ const { I18N = {} } = window
 
 const MODAL_ROOT_ID = 'IBOT_MODAL_ROOT'
 const MODAL_PORTAL_CLASS = 'ModalPortal'
-const CANT_SCROLL_CLASS = 'ibot-cant-scroll'
 
 const stopPropagation = e => e.stopPropagation()
 

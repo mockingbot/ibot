@@ -6,6 +6,7 @@ import './index.styl'
 export * as SVG from './svg'
 
 export const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+export const CANT_SCROLL_CLASS = 'ibot-cant-scroll'
 
 export function trimList(list) {
   return compact(list).join(' ')
