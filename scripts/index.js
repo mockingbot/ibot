@@ -11,7 +11,7 @@ const builds = fs.readdirSync('./components').filter((fileOrFolder) => {
 }).map((component) => {
   const componentSrcDir = path.resolve(__dirname, `../components/${component}`)
   const componentDestDir = path.resolve(__dirname, `../lib/${component}`)
-  return getOptions(path.join(componentSrcDir, 'index.js'), componentDestDir, component === 'color-picker')
+  return getOptions(path.join(componentSrcDir, 'index.js'), componentDestDir)
     .then(options => rollup.rollup(options))
     .then(function (bundle) {
       return bundle.write({

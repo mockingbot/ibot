@@ -10,7 +10,6 @@ const postcss = require('@plrthink/rollup-plugin-postcss')
 
 const url = require('postcss-url')
 
-const sassLoader = require('./sass-loader')
 const stylusLoader = require('./stylus-loader')
 
 // used to track the cache for subsequent bundles
@@ -31,8 +30,8 @@ async function getOptions (input, dest, useModules = false) {
         plugins: [
           url({ url: 'copy', assetsPath: assetsOutputPath }),
         ],
-        use: ['sass', 'stylus'],
-        loaders: [sassLoader, stylusLoader],
+        use: ['stylus'],
+        loaders: [stylusLoader],
         modules: useModules,
         extract: styleOutputPath,
       }),
