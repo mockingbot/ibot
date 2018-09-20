@@ -49,6 +49,7 @@ $Button
     align-items center
   &[disabled]
     cursor not-allowed
+    opacity .6
   .icon
     margin-right .125em
   &.small
@@ -69,16 +70,21 @@ $CoreButton
     background-color $cl-lightest-grey
     border-color $cl-light-grey
     color $cl-quaternary-grey
+    opacity 1
 
 .PrimaryCoreButton
   &
     @extends $CoreButton
     background-color $cl-core
+  &
+  &:link
+  &:visited
     color #fff
   &:not([disabled])
     border 0
   &:hover:not([disabled])
     background-color $cl-core-hover
+    color #fff
   &:active:not([disabled])
     background-color $cl-core-active
     color #e4b4b0
@@ -88,6 +94,9 @@ $CoreButton
   &
     @extends $CoreButton
     background-color #fff
+  &
+  &:link
+  &:visited
     color $cl-core
   &:hover:not([disabled])
     border-color #ffa39e
@@ -101,6 +110,9 @@ $CoreButton
     @extends $CoreButton
     background-color #fff
     border-color $cl-quaternary-grey
+  &
+  &:link
+  &:visited
     color $cl-primary-grey
   &:hover:not([disabled])
     background-color $cl-tertiary-grey
@@ -113,6 +125,9 @@ $CoreButton
 .RegularButton
   &
     @extends $Button
+  &
+  &:link
+  &:visited
     color $cl-Button-text
   &:hover:not([disabled])
     color $cl-Button-hover-text
@@ -124,6 +139,9 @@ $CoreButton
     @extends $Button
     background-color $cl-PrimaryButton-bg
     border-color transparent
+  &
+  &:link
+  &:visited
     color $cl-PrimaryButton-text
   &:hover:not([disabled])
     background-color $cl-PrimaryButton-hover-bg
@@ -134,8 +152,11 @@ $CoreButton
 .TextButton
 .TextCoreButton
   &
-    color $cl-TextButton-text
     transition all .1s ease-out
+  &
+  &:link
+  &:visited
+    color $cl-TextButton-text
   &[disabled]
     @extends $Button[disabled]
     opacity .6
@@ -153,6 +174,8 @@ $CoreButton
 
 .TextCoreButton
   &
+  &:link
+  &:visited
     color $cl-core
   &:not([disabled]):hover
     color $cl-core-hover

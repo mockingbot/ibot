@@ -22,9 +22,10 @@ a:link
 a:visited
   text-decoration none
   color $cl-link
-a:hover
+  transition all .15s ease-out
+a:not([disabled]):hover
   color $cl-link-hover
-a:active
+a:not([disabled]):active
   color $cl-link-active
 
 button

@@ -1,6 +1,9 @@
 import React, { Fragment, PureComponent } from 'react'
 import PropTypes from 'prop-types'
 
+import { Link } from 'react-router-dom'
+import { omit } from 'lodash'
+
 import Icon from '../icon'
 import SVG from '../svg'
 import { trimList } from '../util'
@@ -30,6 +33,9 @@ export class Button extends PureComponent {
     isLoading: PropTypes.bool,
     loading: PropTypes.bool,
 
+    to: PropTypes.string,
+    nativeLink: PropTypes.bool,
+
     children: PropTypes.any,
     html: PropTypes.string,
   }
@@ -41,6 +47,30 @@ export class Button extends PureComponent {
     icon: '',
     className: '',
     isDisabled: false,
+    nativeLink: false,
+  }
+
+  get name() {
+    const { to, nativeLink, isDisabled } = this.props
+
+    return (
+      to && !isDisabled
+      ? nativeLink ? 'a' : Link
+      : 'button'
+    )
+  }
+
+  get className() {
+    const { type, theme, size, className } = this.props
+    const { isLoading } = this
+
+    return trimList([
+      'Button',
+      `${CLASS_MAP[type]}${theme === 'core' ? 'CoreButton' : 'Button'}`,
+      size !== 'regular' && size,
+      isLoading && 'is-loading',
+      className,
+    ])
   }
 
   get isDisabled() {
@@ -53,23 +83,26 @@ export class Button extends PureComponent {
     return isLoading || loading
   }
 
+  get to() {
+    const { to, nativeLink } = this.props
+
+    return nativeLink ? undefined : to
+  }
+
+  get href() {
+    const { to, nativeLink } = this.props
+
+    return nativeLink ? to : undefined
+  }
+
   render () {
     const {
-      type, size, theme,
       icon, iconType,
-      className,
       children, html,
       ...others
     } = this.props
 
-    const { isDisabled, isLoading } = this
-
-    const klass = trimList([
-      `${CLASS_MAP[type]}${theme === 'core' ? 'CoreButton' : 'Button'}`,
-      size !== 'regular' && size,
-      isLoading && 'is-loading',
-      className,
-    ])
+    const { name, className, isDisabled, isLoading, to, href } = this
 
     const contentProp = (
       html
@@ -88,19 +121,17 @@ export class Button extends PureComponent {
       )}
     )
 
-    delete others.isDisabled
-    delete others.disabled
-    delete others.isLoading
-    delete others.loading
+    const props = {
+      className, to, href,
 
-    return (
-      <button
-        className={klass}
-        disabled={isDisabled}
-        {...others}
-        {...contentProp}
-      />
-    )
+      disabled: isDisabled,
+      onClick: e => isDisabled && e.preventDefault(),
+
+      ...omit(others, ['className', 'type', 'theme', 'isDisabled', 'disabled', 'isLoading', 'loading', 'to', 'nativeLink']),
+      ...contentProp,
+    }
+
+    return React.createElement(name, props)
   }
 }
 
