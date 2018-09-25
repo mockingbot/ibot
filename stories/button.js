@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react'
 import { storiesOf } from '@storybook/react'
 
+import { BrowserRouter } from 'react-router-dom'
+
 import {
   Root,
   Button, CoreButton,
@@ -26,6 +28,7 @@ class ButtonExample extends PureComponent {
     const size = isSmall ? 'small' : 'regular'
 
     return (
+      <BrowserRouter>
       <Root>
         <Button
           type="primary"
@@ -65,11 +68,13 @@ class ButtonExample extends PureComponent {
 
         <h3>Links</h3>
         <p className="button">
-          <Button type="primary" size={size} to="/" nativeLink >Primary</Button>
+          <Button type="primary" size={size} to="/" nativeLink>Primary</Button>
           <Button size={size} to="/" nativeLink>Default (regular)</Button>
           <Button type="regular" size={size} icon="save" to="/" nativeLink>Regular w/ icon</Button>
           <Button type="text" size={size} to="/" nativeLink>Text</Button>
           <Button type="text" size={size} icon="play" to="/" nativeLink>Text w/ icon</Button>
+
+          <Button type="primary" size={size} to="/">Router Link</Button>
         </p>
         <p className="button">
           <Button type="primary" size={size} to="/" nativeLink isDisabled>Primary</Button>
@@ -77,6 +82,8 @@ class ButtonExample extends PureComponent {
           <Button type="regular" size={size} icon="save" disabled to="/" nativeLink>Regular w/ icon</Button>
           <Button type="text" size={size} disabled to="/" nativeLink>Text</Button>
           <Button type="text" size={size} icon="play" disabled to="/" nativeLink>Text w/ icon</Button>
+
+          <Button type="primary" size={size} to="/" disabled>Router Link</Button>
         </p>
 
         <h3>Loading</h3>
@@ -147,11 +154,13 @@ class ButtonExample extends PureComponent {
 
         <h3>Links</h3>
         <p className="button">
-          <CoreButton theme="core" type="primary" size={size} to="/" nativeLink >Primary</CoreButton>
+          <CoreButton theme="core" type="primary" size={size} to="/" nativeLink>Primary</CoreButton>
           <CoreButton size={size} to="/" nativeLink>Default (regular)</CoreButton>
           <CoreButton type="regular" size={size} icon="save" to="/" nativeLink>Regular w/ icon</CoreButton>
           <CoreButton type="text" size={size} to="/" nativeLink>Text</CoreButton>
           <CoreButton type="text" size={size} icon="play" to="/" nativeLink>Text w/ icon</CoreButton>
+
+          <CoreButton theme="core" type="primary" size={size} to="/">Router Link</CoreButton>
         </p>
         <p className="button">
           <CoreButton type="primary" size={size} to="/" nativeLink isDisabled>Primary</CoreButton>
@@ -159,8 +168,11 @@ class ButtonExample extends PureComponent {
           <CoreButton type="regular" size={size} icon="save" disabled to="/" nativeLink>Regular w/ icon</CoreButton>
           <CoreButton type="text" size={size} disabled to="/" nativeLink>Text</CoreButton>
           <CoreButton type="text" size={size} icon="play" disabled to="/" nativeLink>Text w/ icon</CoreButton>
+
+          <CoreButton theme="core" type="primary" size={size} to="/" disabled>Router Link</CoreButton>
         </p>
       </Root>
+      </BrowserRouter>
     )
   }
 }
