@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { createRef, Fragment, PureComponent } from 'react'
 import { createPortal } from 'react-dom'
 import PropTypes from 'prop-types'
 import DocumentEvents from 'react-document-events'
@@ -9,7 +9,8 @@ import { Button } from '../button'
 import SVG from '../svg'
 import Icon from '../icon'
 import Switch from '../switch'
-import { CANT_SCROLL_CLASS, trimList, $, preparePortal } from '../util'
+
+import { toggleGlobalScroll, trimList, $, preparePortal } from '../util'
 
 import './index.styl'
 
@@ -99,6 +100,8 @@ export default class CoreModal extends PureComponent {
     trimList([MODAL_PORTAL_CLASS, this.props.portalClassName]),
   )
 
+  maskRef = createRef()
+
   static getDerivedStateFromProps(props, { prevProps, isOpen }) {
     if (!isEqual(prevProps, props)) {
       const { isOpen: willBeOpen } = props
@@ -145,18 +148,20 @@ export default class CoreModal extends PureComponent {
 
   componentWillUnmount() {
     if (this.portal) this.portal.remove()
-    $body.classList.remove(CANT_SCROLL_CLASS)
 
     window.removeEventListener('resize', this.positionY)
+    toggleGlobalScroll()
   }
 
   didOpen = () => {
     const { onOpen, onToggle } = this.props
+    const { maskRef: { current: $mask } } = this
 
     OPEN_MODAL_STACK.unshift(this)
 
     this.positionY()
-    $body.classList.add(CANT_SCROLL_CLASS)
+
+    toggleGlobalScroll()
 
     onOpen()
     onToggle(true)
@@ -168,8 +173,7 @@ export default class CoreModal extends PureComponent {
     // Remove from the stack in the next round:
     const idx = OPEN_MODAL_STACK.indexOf(this)
     setTimeout(() => OPEN_MODAL_STACK.splice(idx, 1))
-
-    $body.classList.remove(CANT_SCROLL_CLASS)
+    toggleGlobalScroll()
 
     onClose()
     onToggle(false)
@@ -197,7 +201,7 @@ export default class CoreModal extends PureComponent {
     if (!$modal || type === 'alert') return
 
     const { innerHeight: vh } = window
-    const { offsetHeight: h } = $modal
+    const { height: h } = $modal.getBoundingClientRect()
 
     const action = (vh <= h || ((vh - h)/2) < (vh * .2)) ? 'add' : 'remove'
     $modal.classList[action]('is-v-centered')
@@ -296,16 +300,19 @@ export default class CoreModal extends PureComponent {
     const { isOpen, isVisible } = this.state
 
     return isOpen && (
-      <div
-        className={trimList([
-          'CoreModalMask',
-          maskClassName,
-          isVisible && 'is-open',
-          canClose && canCloseOnClickMask ? 'can-close' : 'cant-close',
-        ])}
-        onClick={this.onClickMask}
-        onTransitionEnd={this.onTransitionEnd}
-      >
+      <Fragment>
+        <div
+          ref={this.maskRef}
+          className={trimList([
+            'CoreModalMask',
+            maskClassName,
+            isVisible && 'is-open',
+            canClose && canCloseOnClickMask ? 'can-close' : 'cant-close',
+          ])}
+          onClick={this.onClickMask}
+          onTransitionEnd={this.onTransitionEnd}
+        />
+
         <div
           className={trimList(['CoreModal', TYPE_CLASS_MAP[type], className])}
           onTransitionEnd={stopPropagation}
@@ -328,7 +335,7 @@ export default class CoreModal extends PureComponent {
         </div>
 
         <DocumentEvents onKeyDown={this.onKeyDown} />
-      </div>
+      </Fragment>
     )
   }
 }

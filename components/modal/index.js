@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { createRef, Fragment, PureComponent } from 'react'
 import { createPortal } from 'react-dom'
 import PropTypes from 'prop-types'
 import DocumentEvents from 'react-document-events'
@@ -8,7 +8,7 @@ import { isEqual } from 'lodash'
 import { Button } from '../button'
 import Switch from '../switch'
 import Icon from '../icon'
-import { CANT_SCROLL_CLASS, trimList, $, preparePortal } from '../util'
+import { toggleGlobalScroll, trimList, $, preparePortal } from '../util'
 
 import './index.styl'
 
@@ -135,9 +135,8 @@ export default class Modal extends PureComponent {
   componentWillUnmount() {
     if (this.portal) this.portal.remove()
 
-    $body.classList.remove(CANT_SCROLL_CLASS)
-
     window.removeEventListener('resize', this.positionY)
+    toggleGlobalScroll(false)
   }
 
   open = () => this.setState({ isOpen: true }, this.didOpen)
@@ -148,15 +147,14 @@ export default class Modal extends PureComponent {
   )
 
   didOpen = () => {
+    const { portal } = this
+
     // Store in the modal stack to monitor:
     OPEN_MODAL_STACK.unshift(this)
 
     // Reassign Y position of the modal:
     this.positionY()
     this.focusOnInput()
-
-    // Disable scrolling:
-    $body.classList.add(CANT_SCROLL_CLASS)
 
     // Transition:
     setTimeout(() => this.portal.classList.add('is-open'))
@@ -167,8 +165,7 @@ export default class Modal extends PureComponent {
     const idx = OPEN_MODAL_STACK.indexOf(this)
     setTimeout(() => OPEN_MODAL_STACK.splice(idx, 1))
 
-    // Enable scrolling:
-    $body.classList.remove(CANT_SCROLL_CLASS)
+    toggleGlobalScroll(false)
   }
 
   onTransitionEnd = () => {
@@ -177,6 +174,7 @@ export default class Modal extends PureComponent {
     if (isOpen) {
       this.props.onOpen()
       this.props.onToggle(true)
+      toggleGlobalScroll(true)
     } else {
       this.setState({ isOpen: false }, this.didClose)
       this.props.onClose()
@@ -360,15 +358,16 @@ export default class Modal extends PureComponent {
     )
 
     return isOpen && (
-      <div
-        className={trimList([
-          'ModalMask',
-          maskClassName,
-          canClose && canCloseOnClickMask ? 'can-close' : 'cant-close',
-        ])}
-        onClick={this.onClickMask}
-        onTransitionEnd={this.onTransitionEnd}
-      >
+      <Fragment>
+        <div
+          className={trimList([
+            'ModalMask',
+            maskClassName,
+            canClose && canCloseOnClickMask ? 'can-close' : 'cant-close',
+          ])}
+          onClick={this.onClickMask}
+          onTransitionEnd={this.onTransitionEnd}
+        />
         <div
           className={trimList(['Modal', TYPE_CLASS_MAP[type], className])}
           onClick={stopPropagation}
@@ -420,7 +419,7 @@ export default class Modal extends PureComponent {
         <DocumentEvents
           onKeyDown={this.onKeyDown}
         />
-      </div>
+      </Fragment>
     )
   }
 }

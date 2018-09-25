@@ -1,11 +1,11 @@
-import React, { PureComponent, cloneElement, isValidElement } from 'react'
+import React, { cloneElement, createRef, isValidElement, PureComponent } from 'react'
 import { createPortal } from 'react-dom'
 import PropTypes from 'prop-types'
 import DocumentEvents from 'react-document-events'
 
 import { isBoolean, isEqual } from 'lodash'
 
-import { trimList, $, SVG, preparePortal } from '../util'
+import { preventScrollingPropagation, trimList, $, SVG, preparePortal } from '../util'
 import { positionMenu } from './util'
 
 import './index.styl'
@@ -287,10 +287,13 @@ class DropdownMenu extends PureComponent {
 
   componentDidMount() {
     const { isOpen } = this.props
+    const { menuBaseRef: { current: $menuBase } } = this
 
     if (isOpen) {
       setTimeout(this.position)
     }
+
+    preventScrollingPropagation($('.content', $menuBase))
   }
 
   componentDidUpdate({ isOpen: wasOpen }) {
@@ -306,7 +309,7 @@ class DropdownMenu extends PureComponent {
     if (this.portal) this.portal.remove()
   }
 
-  set$menuBase = $menuBase => Object.assign(this, { $menuBase })
+  menuBaseRef = createRef()
 
   onClickOutside = ({ target }) => {
     const { $opener, onClose } = this.props
@@ -324,7 +327,7 @@ class DropdownMenu extends PureComponent {
 
   position = () => {
     const { $opener, menuX, menuY, menuBaseStyle, inflexible } = this.props
-    const { $menuBase } = this
+    const { menuBaseRef: { current: $menuBase } } = this
 
     const { isDownward } = positionMenu({
       $menuBase, $opener,
@@ -336,10 +339,11 @@ class DropdownMenu extends PureComponent {
   }
 
   render() {
-    return createPortal(this.renderMenu(), this.portal)
+    const { portal, menu } = this
+    return createPortal(menu, portal)
   }
 
-  renderMenu() {
+  get menu() {
     const {
       isOpen,
 
@@ -364,7 +368,7 @@ class DropdownMenu extends PureComponent {
     ])
 
     return (
-      <div ref={this.set$menuBase} className={trimList(['DropdownMenuBase', menuBaseClassName])}>
+      <div ref={this.menuBaseRef} className={trimList(['DropdownMenuBase', menuBaseClassName])}>
         <div className={klass}>
           { arrowed && (
             <span className="arrow" dangerouslySetInnerHTML={{ __html: SVG.DROPDOWN_ARROW }} />

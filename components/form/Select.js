@@ -1,15 +1,15 @@
-import React, { PureComponent } from 'react'
+import React, { createRef, PureComponent } from 'react'
 import { createPortal } from 'react-dom'
 import PropTypes from 'prop-types'
 import DocumentEvents from 'react-document-events'
 
-import { get, isArray, isEqual } from 'lodash'
+import { get, isArray, isEqual, isElement } from 'lodash'
 
 import Dropdown from '../dropdown'
 import { Input } from './Input'
 import { Ellipsis } from '../text'
 
-import { CANT_SCROLL_CLASS, trimList, $, $$, SVG, preparePortal } from '../util'
+import { preventScrollingPropagation, trimList, $, $$, SVG, preparePortal } from '../util'
 import { positionMenu } from '../dropdown/util'
 import { getOptionLabel, getOptionValue, checkOptionByValue } from './util'
 
@@ -28,19 +28,6 @@ const $body = document.body
 
 if (!$body.contains($menuRoot)) {
   $body.appendChild($menuRoot)
-}
-
-function controlScrolling({ target, canScroll = false }) {
-  const classList = target.classList || document.body.classList
-  const action = canScroll ? 'remove' : 'add'
-  return classList[action](CANT_SCROLL_CLASS)
-}
-
-function enableScrolling() {
-  $$(`.${CANT_SCROLL_CLASS}`)
-  .forEach($elmt => (
-    $elmt.classList.remove(CANT_SCROLL_CLASS)
-  ))
 }
 
 export class Select extends PureComponent {
@@ -250,27 +237,46 @@ export class SelectMenu extends PureComponent {
     isOpen: false,
   }
 
-  componentDidUpdate({ isOpen: wasOpen, $select }) {
-    const { $menuBase } = this
-    const { isOpen, menuX } = this.props
+
+  menuBaseRef = createRef()
+
+  componentDidMount() {
+    const { menuBaseRef: { current: $menuBase } } = this
+    preventScrollingPropagation($('.SelectMenu', $menuBase))
+  }
+
+  componentDidUpdate({ isOpen: wasOpen }) {
+    const { isOpen } = this.props
 
     // Set up the position of the <SelectMenu> once opened:
     if (!wasOpen && isOpen) {
-      const { isDownward } = positionMenu({
-        $menuBase,
-        $opener: $select,
-
-        menuX,
-        shouldSetMaxHeight: true,
-      })
-
-      this.setState({ isDownward })
+      this.position()
       this.scrollIntoActive()
     }
   }
 
   componentWillUnmount() {
     if (this.portal) this.portal.remove()
+  }
+
+  position = e => {
+    const { $select, menuX } = this.props
+    const { menuBaseRef: { current: $menuBase } } = this
+
+    if (e) {
+      const $target = get(e, 'target')
+      if ($target && isElement($target) && $target.matches('.SelectMenu')) return
+    }
+
+    const { isDownward } = positionMenu({
+      $menuBase,
+      $opener: $select,
+
+      menuX,
+      shouldSetMaxHeight: true,
+    })
+
+    this.setState({ isDownward })
   }
 
   /**
@@ -306,13 +312,11 @@ export class SelectMenu extends PureComponent {
     const { onClose } = this.props
 
     onClose()
-    enableScrolling()
   }
 
-  set$menuBase = $menuBase => Object.assign(this, { $menuBase })
-
   scrollIntoActive = () => {
-    const $current = $('li[role=option].is-active', this.$menuBase)
+    const { menuBaseRef: { current: $menuBase } } = this
+    const $current = $('li[role=option].is-active', $menuBase)
 
     if ($current) {
       $current.scrollIntoView({ block: 'start' })
@@ -331,26 +335,6 @@ export class SelectMenu extends PureComponent {
       this.onClose()
     }
   }
-
-  onScrollWhileOpen = ({ target }) => {
-    const { $menuBase } = this
-    const { $select } = this.props
-    if (!$menuBase) return
-
-    const isScrollingMenu = $menuBase.contains(target)
-    const isCursorOnMenu = $menuBase.matches(':hover')
-    const isCursorOnOpener = $select.matches(':hover')
-
-    if (!isScrollingMenu && isCursorOnMenu) {
-      controlScrolling({ target, canScroll: false })
-
-    } else if (!isScrollingMenu && !isCursorOnMenu && !isCursorOnOpener) {
-      this.onClose()
-      controlScrolling({ target, canScroll: true })
-    }
-  }
-
-  onMouseLeave = () => setTimeout(enableScrolling, 300)
 
   render() {
     return createPortal(this.renderMenu(), this.portal)
@@ -383,11 +367,10 @@ export class SelectMenu extends PureComponent {
     ])
 
     return (
-      <div ref={this.set$menuBase} className="SelectMenuBase">
+      <div ref={this.menuBaseRef} className="SelectMenuBase">
         <ul
           className={klass}
           onTransitionEnd={this.onTransitionEnd}
-          onMouseLeave={this.onMouseLeave}
         >
           {
             isEmpty
@@ -422,7 +405,7 @@ export class SelectMenu extends PureComponent {
           <DocumentEvents
             enabled={isOpen}
             capture={true}
-            onScroll={this.onScrollWhileOpen}
+            onScroll={this.position}
           />
         </ul>
       </div>

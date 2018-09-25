@@ -1,19 +1,24 @@
 @import '../util/index'
 
+.CoreModalPortal:not(:empty)
+  position absolute
+  top 0
+  left 0
+  z-index $z-Modal
+  padding 50px 25px
+  width 100vw
+  min-width 64rem
+  height auto
+  min-height 100vh
+
 .CoreModalMask
   &
     position fixed
     top 0
     left 0
-    z-index $z-Modal
-    display flex 
-    justify-content center
-    padding 50px
+    right 0
     width 100vw
     height 100vh
-    overflow-x hidden 
-    overflow-y auto
-    font-size 14px
     background-color rgba($cl-strong-grey, .5)
     transition all .2s ease-in
   &.can-close
@@ -27,24 +32,27 @@
 
 .CoreModal
   &
-    margin-top calc(20vh - 50px)
+    position relative
+    margin 20vh auto 50px
+    height -moz-fit-content
     height -webkit-fit-content
     height fit-content
     min-height 12em
+    font-size .875rem
     background-color #fff
     border-radius 4px
     box-shadow 0 3px 10px 0 rgba(#000,.1)
     cursor initial
     transition all .3s cubic-bezier(.18,.89,.32,1.1)
-  .CoreModalMask:not(.is-open) &
+  .CoreModalMask:not(.is-open) + &
     opacity 0
     transform translateY(-100%)
-  .CoreModalMask.is-open &
+  .CoreModalMask.is-open + &
     opacity 1
     transform none
     transition-delay .2s
   &.is-v-centered
-    margin auto
+    margin 50px auto
 
   > header
     display flex
@@ -81,8 +89,6 @@
       margin-bottom -.5em
     > .key
       flex-basis 7em
-    > .val
-      max-width calc(100% - 7em)
 .FormCoreModal
   width 420px
 .FunctionalCoreModal

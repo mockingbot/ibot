@@ -1,13 +1,14 @@
-import React, { PureComponent } from 'react'
+import React, { Fragment, PureComponent } from 'react'
 import { createPortal } from 'react-dom'
 import PropTypes from 'prop-types'
 import DocumentEvents from 'react-document-events'
+
 import { isBoolean, isEqual } from 'lodash'
 
 import { PrimaryCoreButton, TertiaryCoreButton, Button } from '../button'
 import Switch from '../switch'
 import SVG from '../svg'
-import { CANT_SCROLL_CLASS, trimList, $, preparePortal } from '../util'
+import { toggleGlobalScroll, trimList, $, preparePortal } from '../util'
 
 import './index.styl'
 
@@ -44,6 +45,7 @@ export default class Overlay extends PureComponent {
     openerType: PropTypes.oneOf(['primary', 'regular', 'text', 'switch', 'custom', 'none']),
 
     portalClassName: PropTypes.string,
+    maskClassName: PropTypes.string,
     className: PropTypes.string,
 
     canClose: PropTypes.bool,
@@ -100,11 +102,7 @@ export default class Overlay extends PureComponent {
     if (isOpen) {
       setTimeout(() => this.setState(
         { isVisible: true },
-        () => {
-          $body.classList.add(CANT_SCROLL_CLASS)
-          onOpen()
-          onToggle(true)
-        },
+        this.didOpen,
       ))
     }
   }
@@ -116,26 +114,39 @@ export default class Overlay extends PureComponent {
     if (!wasOpen && isOpen) {
       setTimeout(() => this.setState(
         { isVisible: true },
-        () => {
-          $body.classList.add(CANT_SCROLL_CLASS)
-          onOpen()
-          onToggle(true)
-        },
+        this.didOpen,
       ))
     } else if (wasOpen && !isOpen) {
-      $body.classList.remove(CANT_SCROLL_CLASS)
-      onClose()
-      onToggle(false)
+      this.didClose()
     }
   }
 
   componentWillUnmount() {
     if (this.portal) this.portal.remove()
-    $body.classList.remove(CANT_SCROLL_CLASS)
+    toggleGlobalScroll(false)
   }
 
   open = () => this.setState({ isOpen: true })
   close = () => this.setState({ isVisible: false })
+
+  didOpen = () => {
+    const { onOpen, onToggle } = this.props
+    const { portal } = this
+
+    onOpen()
+    onToggle(true)
+
+    toggleGlobalScroll()
+  }
+
+  didClose = () => {
+    const { onClose, onToggle } = this.props
+
+    onClose()
+    onToggle(false)
+
+    toggleGlobalScroll()
+  }
 
   toggle = (willBeOpen = !this.state.isOpen) => (
     willBeOpen ? this.open() : this.close()
@@ -156,16 +167,16 @@ export default class Overlay extends PureComponent {
   onTransitionEnd = ({ target }) => {
     const { isVisible } = this.state
 
-    if (!isVisible && target.matches('.Overlay')) {
+    if (!isVisible && target.matches('.OverlayMask')) {
       this.setState({ isOpen: false })
     }
   }
 
   render() {
-    return this.renderOpener()
+    return this.opener
   }
 
-  renderOpener() {
+  get opener() {
     const { opener, openerType } = this.props
     const { isOpen } = this.state
     const overlay = createPortal(this.overlay, this.portal)
@@ -198,7 +209,9 @@ export default class Overlay extends PureComponent {
 
   get overlay() {
     const {
+      maskClassName,
       className,
+
       title, children,
 
       canClose, canConfirm, canCancel,
@@ -208,28 +221,24 @@ export default class Overlay extends PureComponent {
 
     const { isVisible, isOpen } = this.state
 
-    const klass = trimList([
-      'Overlay',
-      isVisible && 'is-open',
-      className,
-    ])
-
     const shouldShowFooter = onConfirm || onCancel
 
     return isOpen && (
-      <div
-        className={klass}
-        onTransitionEnd={this.onTransitionEnd}
-        onClick={stopPropagation}
-      >
+      <Fragment>
+        <div
+          className={trimList(['OverlayMask', isVisible && 'is-open', maskClassName])}
+          onTransitionEnd={this.onTransitionEnd}
+          onClick={stopPropagation}
+        />
+
         {/* Close button */}
         { canClose && (
-          <Button type="text" className="close-btn" onClick={this.close}>
+          <Button type="text" className="OverlayCloseButton" onClick={this.close}>
             <SVG name="close" label="Close the Overlay" />
           </Button>
         )}
 
-        <div className="content">
+        <div className={trimList(['Overlay', className])}>
           { title && <h1>{ title }</h1> }
           { children }
 
@@ -240,7 +249,7 @@ export default class Overlay extends PureComponent {
             </footer>
           )}
         </div>
-      </div>
+      </Fragment>
     )
   }
 }

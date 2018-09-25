@@ -14,7 +14,7 @@ export default class Root extends PureComponent {
 
   render() {
     return (
-      <div className="iBotRoot">
+      <div className="iBotRoot ContentRoot">
         { this.props.children }
       </div>
     )

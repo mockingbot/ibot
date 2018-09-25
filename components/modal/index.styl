@@ -2,14 +2,15 @@
 
 .ModalPortal
   &
-    position fixed
-    z-index $z-Modal
+    position absolute
     top 0
     left 0
+    z-index $z-Modal
+    padding 50px 25px
     width 100vw
-    height 100vh
-    overflow-x hidden
-    overflow-y auto
+    min-width 64rem
+    height auto
+    min-height 100vh
   &:not(.is-open)
     &
       pointer-events none
@@ -24,10 +25,12 @@
 
 .ModalMask
   &
-    display flex
-    padding 50px 25px
+    position fixed
+    top 0
+    left 0
+    right 0
     width 100vw
-    min-height 100vh
+    height 100vh
     background-color rgba(#000, .4)
     transition background .2s
   &.can-close
@@ -36,8 +39,10 @@
 .Modal
   &
     position relative
-    z-index 20
-    margin calc(20vh - 50px) auto auto
+    margin 20vh auto auto
+    height -moz-fit-content
+    height -webkit-fit-content
+    height fit-content
     min-height 150px
     transform translateY(0)
     font-size 14px
@@ -48,7 +53,7 @@
     cursor initial
     transition transform .3s, opacity .2s
   &.is-v-centered
-    margin auto
+    margin 50px auto
 
   // Header:
   header

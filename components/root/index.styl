@@ -12,11 +12,19 @@ html
 *:before
 *:after
   box-sizing inherit
+
 body
   &
+    margin 0
+    padding 0
+    overflow-x hidden
+    overflow-y auto
     font-size .875rem
-  &.ibot-cant-scroll
-    overflow hidden !important
+  @media (max-width: 64rem)
+    overflow-x auto
+  &.is-content-fixed .ContentRoot
+    position fixed
+    width 100vw
 
 a:link
 a:visited
@@ -43,7 +51,12 @@ input
   border 0
   outline 0
 
+.ContentRoot
+  padding 1rem
+
 .iBotRoot
+  &
+    min-width 64rem
   h2
   h3
   h4
