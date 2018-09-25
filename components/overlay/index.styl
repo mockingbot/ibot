@@ -35,28 +35,30 @@
     font-size 48px
     color $cl-light-grey
     opacity .8
-    transition all .2s ease-in
+    transition all .2s ease-out
   .OverlayMask:not(.is-open) ~ &
     opacity 0
   .OverlayMask.is-open ~ &
     opacity 1
-    transition-delay .4s
 
   .fore
     fill $cl-tertiary-grey
-    transition all .2s ease-in
+    transition all .2s ease-out
+    transition-duration .3s
+
   &:hover
-    &
+    &:not([disabled])
       color $cl-core
       opacity 1
-      transition-delay .2s
     .fore
       fill #fff
+      transition-duration .1s
 
 .Overlay
   &
     position relative
     margin auto
+    padding 0 3rem
     transition all .3s cubic-bezier(.18,.89,.32,1.28)
   .OverlayMask:not(.is-open) ~ &
     opacity 0
