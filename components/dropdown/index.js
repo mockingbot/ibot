@@ -75,6 +75,7 @@ export default class Dropdown extends PureComponent {
       PropTypes.string,
     ]),
 
+    shouldPreventScrollingPropagation: PropTypes.bool,
     shouldOpenOnHover: PropTypes.bool,
     hoverDelay: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
@@ -100,6 +101,7 @@ export default class Dropdown extends PureComponent {
     arrowed: false,
     openerType: 'button',
 
+    shouldPreventScrollingPropagation: true,
     shouldCloseOnSelect: true,
     shouldOpenOnHover: false,
     hoverDelay: 200,
@@ -286,14 +288,16 @@ class DropdownMenu extends PureComponent {
   }
 
   componentDidMount() {
-    const { isOpen } = this.props
+    const { isOpen, shouldPreventScrollingPropagation } = this.props
     const { menuBaseRef: { current: $menuBase } } = this
 
     if (isOpen) {
       setTimeout(this.position)
     }
 
-    preventScrollingPropagation($('.content', $menuBase))
+    if (shouldPreventScrollingPropagation) {
+      preventScrollingPropagation($('.content', $menuBase))
+    }
   }
 
   componentDidUpdate({ isOpen: wasOpen }) {
