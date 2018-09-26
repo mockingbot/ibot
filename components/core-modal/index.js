@@ -150,7 +150,7 @@ export default class CoreModal extends PureComponent {
     if (this.portal) this.portal.remove()
 
     window.removeEventListener('resize', this.positionY)
-    toggleGlobalScroll()
+    toggleGlobalScroll(false)
   }
 
   didOpen = () => {
@@ -161,7 +161,7 @@ export default class CoreModal extends PureComponent {
 
     this.positionY()
 
-    toggleGlobalScroll()
+    toggleGlobalScroll(true)
 
     onOpen()
     onToggle(true)
@@ -173,7 +173,7 @@ export default class CoreModal extends PureComponent {
     // Remove from the stack in the next round:
     const idx = OPEN_MODAL_STACK.indexOf(this)
     setTimeout(() => OPEN_MODAL_STACK.splice(idx, 1))
-    toggleGlobalScroll()
+    toggleGlobalScroll(false)
 
     onClose()
     onToggle(false)

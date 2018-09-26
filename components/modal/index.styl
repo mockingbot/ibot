@@ -6,9 +6,9 @@
     top 0
     left 0
     z-index $z-Modal
-    padding 50px 25px
+    padding 3rem 1.5rem
     width 100vw
-    min-width 64rem
+    min-width $min-vw
     height auto
     min-height 100vh
   &:not(.is-open)
@@ -43,9 +43,9 @@
     height -moz-fit-content
     height -webkit-fit-content
     height fit-content
-    min-height 150px
+    min-height 9.5rem
     transform translateY(0)
-    font-size 14px
+    font-size .875rem
     background-color #fff
     box-shadow 0 2px 8px 0 rgba(#000,.1)
     border-radius 1px // To make modals less aggressive
@@ -53,7 +53,7 @@
     cursor initial
     transition transform .3s, opacity .2s
   &.is-v-centered
-    margin 50px auto
+    margin 3rem auto
 
   // Header:
   header
@@ -62,7 +62,6 @@
     align-items center
     padding 0 20px
     height 55px
-    font-size 14px
     border-bottom 1px solid $cl-divider
     color $cl-header-text
 
@@ -76,7 +75,6 @@
       width 54px
       height 100%
       transform translateY(-50%)
-      font-size 14px
       line-height 1
       color $cl-tertiary-grey
     &:hover
@@ -120,7 +118,7 @@
   &
     display flex
     flex-direction column
-    width 380px
+    width 23.75rem
     line-height 1.5
   .FormEntry
     &:last-child
@@ -131,7 +129,7 @@
       max-width calc(100% - 7em)
 
 .FunctionalModal
-  width 500px
+  width 31.25rem
 
 .DisplayModal
-  width 640px
+  width 40rem

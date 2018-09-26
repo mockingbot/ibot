@@ -136,7 +136,7 @@ export default class Overlay extends PureComponent {
     onOpen()
     onToggle(true)
 
-    toggleGlobalScroll()
+    toggleGlobalScroll(true)
   }
 
   didClose = () => {
@@ -145,7 +145,7 @@ export default class Overlay extends PureComponent {
     onClose()
     onToggle(false)
 
-    toggleGlobalScroll()
+    toggleGlobalScroll(false)
   }
 
   toggle = (willBeOpen = !this.state.isOpen) => (
