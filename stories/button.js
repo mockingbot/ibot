@@ -43,6 +43,7 @@ class ButtonExample extends PureComponent {
         </Button>
 
         <style scoped>
+        {`p.button { display: flex; align-items: center; }`}
         {`p.button .Button { margin-right: 1em; }`}
         {`p.button .icon { font-size: 1.1em; vertical-align: -.1em }`}
         {`p.button.same-width button:not(.text) { min-width: 5em; }`}

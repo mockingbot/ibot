@@ -11,7 +11,7 @@ $Input
       //background-color rgba($cl-warning, .3)
     &::-moz-selection
       //background-color rgba($cl-warning, .3)
-    &[disabled]
+    &:disabled
       opacity .5
       cursor not-allowed
     &:focus
@@ -35,7 +35,7 @@ $Input
         caret-color $cl-active
         transition .2s ease-out
         transition-property background, border, box-shadow, opacity
-      &:not([disabled]):not([readonly])
+      &:enabled:not([readonly])
         &:hover
           border-color $cl-Input-hover-border
         &:focus
@@ -73,7 +73,7 @@ $Input
       min-height 5em
       max-height 10em
       resize vertical
-    &[disabled]
+    &:disabled
     &[readonly]
       resize none
 

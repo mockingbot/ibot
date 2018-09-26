@@ -10,7 +10,7 @@ import { trimList } from '../util'
 
 import './index.styl'
 
-const CLASS_MAP = {
+const TYPE_MAP = {
   primary: 'Primary',
   regular: 'Regular',
   secondary: 'Regular',
@@ -51,10 +51,11 @@ export class Button extends PureComponent {
   }
 
   get name() {
-    const { to, nativeLink, isDisabled } = this.props
+    const { to, nativeLink } = this.props
+    const { isDisabled } = this
 
     return (
-      to
+      to && !isDisabled
       ? nativeLink ? 'a' : Link
       : 'button'
     )
@@ -62,13 +63,14 @@ export class Button extends PureComponent {
 
   get className() {
     const { type, theme, size, className } = this.props
-    const { isLoading } = this
+    const { isDisabled, isLoading } = this
 
     return trimList([
       'Button',
-      `${CLASS_MAP[type]}${theme === 'core' ? 'CoreButton' : 'Button'}`,
+      `${TYPE_MAP[type]}${theme === 'core' ? 'CoreButton' : 'Button'}`,
       size !== 'regular' && size,
       isLoading && 'is-loading',
+      isDisabled && 'is-disabled',
       className,
     ])
   }
@@ -85,14 +87,16 @@ export class Button extends PureComponent {
 
   get to() {
     const { to, nativeLink } = this.props
+    const { isDisabled } = this
 
-    return nativeLink ? undefined : to
+    return isDisabled ? undefined : nativeLink ? undefined : to
   }
 
   get href() {
     const { to, nativeLink } = this.props
+    const { isDisabled } = this
 
-    return nativeLink ? to : undefined
+    return isDisabled ? undefined : nativeLink ? to : undefined
   }
 
   render () {

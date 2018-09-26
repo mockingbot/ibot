@@ -31,9 +31,9 @@ a:visited
   text-decoration none
   color $cl-link
   transition all .15s ease-out
-a:not([disabled]):hover
+a:hover
   color $cl-link-hover
-a:not([disabled]):active
+a:active
   color $cl-link-active
 
 button
@@ -67,3 +67,15 @@ input
       margin-top -.75em
   h2 + h3
     margin-top -.75em
+
+@keyframes ibot-ani-spinning
+  0%
+    transform rotate(0deg)
+  100%
+    transform rotate(359deg)
+
+@keyframes ibot-ani-spinning-reverse
+  0%
+    transform rotate(359deg)
+  100%
+    transform rotate(0deg)

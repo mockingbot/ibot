@@ -101,16 +101,16 @@
       height 34px
       color $cl-tertiary-text
       transition color ease-in-out .1s
-    &[disabled]
+    &:enabled:hover
+      color $cl-secondary-text
+    &:disabled
       opacity .5
       cursor not-allowed
-    &:not([disabled]):hover
-      color $cl-secondary-text
   .confirm-btn
     &
       font-weight bold
       color $cl-core
-    &:not([disabled]):hover
+    &:enabled:hover
       color darken($cl-core, 20%)
 
 .AlertModal
