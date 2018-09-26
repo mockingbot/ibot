@@ -1,16 +1,20 @@
 @import '../util/index'
 
-.OverlayPortal:not(:empty)
-  position absolute
-  top 0
-  left 0
-  z-index $z-Overlay
-  display flex
-  padding 5rem 3rem
-  width 100vw
-  min-width 64rem
-  height auto
-  min-height 100vh
+.OverlayPortal
+  &:empty
+    display none
+    pointer-events none
+  &
+    position absolute
+    top 0
+    left 0
+    z-index $z-Overlay
+    display flex
+    padding 5rem 3rem
+    width 100vw
+    min-width 64rem
+    height auto
+    min-height 100vh
 
 .OverlayMask
   &
@@ -31,7 +35,8 @@
   &
     position fixed
     top 1em
-    right @top
+    left 100vw
+    transform s('translateX(calc(-100% - %s))', @top)
     font-size 48px
     color $cl-light-grey
     opacity .8

@@ -1,15 +1,19 @@
 @import '../util/index'
 
-.CoreModalPortal:not(:empty)
-  position absolute
-  top 0
-  left 0
-  z-index $z-Modal
-  padding 50px 25px
-  width 100vw
-  min-width 64rem
-  height auto
-  min-height 100vh
+.CoreModalPortal
+  &:empty
+    display none
+    pointer-events none
+  &
+    position absolute
+    top 0
+    left 0
+    z-index $z-Modal
+    padding 50px 25px
+    width 100vw
+    min-width 64rem
+    height auto
+    min-height 100vh
 
 .CoreModalMask
   &
