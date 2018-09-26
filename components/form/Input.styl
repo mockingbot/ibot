@@ -2,6 +2,8 @@ $Input
   &
     display inline-block
     color $cl-Input-text
+  &.is-readonly
+    color $cl-tertiary-text
   input
   textarea
     &
@@ -14,6 +16,8 @@ $Input
     &:disabled
       opacity .5
       cursor not-allowed
+    &[readonly]
+      color $cl-tertiary-text
     &:focus
       outline 0
     &::placeholder
