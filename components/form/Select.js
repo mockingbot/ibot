@@ -182,7 +182,6 @@ export class Select extends PureComponent {
 
     const { isOpen, $select, value } = this.state
 
-
     const klass = trimList([
       theme === 'core' ? 'CoreSelect' : 'Select',
       size,
