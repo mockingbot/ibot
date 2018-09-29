@@ -46,38 +46,33 @@ export function preparePortal($root, className) {
 export function preventScrollingPropagation($elmt) {
   if (!$elmt || !($elmt instanceof Element)) return
 
-  const callback =  e => {
-    const { scrollTop, scrollHeight } = $elmt
-    const { height } = $elmt.getBoundingClientRect()
+  $elmt.addEventListener(
+    'wheel',
+    e => {
+      const { scrollTop, scrollHeight } = $elmt
+      const { height } = $elmt.getBoundingClientRect()
 
-    const delta = (
-      e.type === 'DOMMouseScroll'
-      ? e.detail * -40
-      : e.wheelDelta
-    )
+      const delta = e.deltaY * -1
+      const isUp = delta > 0
 
-    const isUp = delta > 0
+      const prevent = () => {
+        e.stopPropagation()
+        e.preventDefault()
+        return false
+      }
 
-    const prevent = () => {
-      e.stopPropagation()
-      e.preventDefault()
-      return false
-    }
+      // Scrolling down, but this will take us past the bottom.
+      if (!isUp && -delta > scrollHeight - height - scrollTop) {
+          $elmt.scrollTop = scrollHeight
+          return prevent()
 
-    // Scrolling down, but this will take us past the bottom.
-    if (!isUp && -delta > scrollHeight - height - scrollTop) {
-        $elmt.scrollTop = scrollHeight
-        return prevent()
-
-    // Scrolling up, but this will take us past the top.
-    } else if (isUp && delta > scrollTop) {
-        $elmt.scrollTop = 0
-        return prevent()
-    }
-  }
-
-  $elmt.addEventListener('mousewheel', callback)
-  $elmt.addEventListener('DOMMouseScroll', callback)
+      // Scrolling up, but this will take us past the top.
+      } else if (isUp && delta > scrollTop) {
+          $elmt.scrollTop = 0
+          return prevent()
+      }
+    },
+  )
 }
 
 export function toggleGlobalScroll(expected) {
