@@ -126,6 +126,7 @@ export class Button extends PureComponent {
     )
 
     const props = {
+      type: name === 'button' ? 'button' : undefined,
       className, to, href,
 
       disabled: isDisabled,
