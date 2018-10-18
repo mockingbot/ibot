@@ -59,6 +59,7 @@ export class InputNumber extends PureComponent {
     parser: PropTypes.func,
 
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    valueForEmptyInput: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     placeholder: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 
     optionList: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
@@ -80,6 +81,7 @@ export class InputNumber extends PureComponent {
 
     onChange: PropTypes.func.isRequired,
     onFocus: PropTypes.func,
+    onBlur: PropTypes.func,
 
     className: PropTypes.string,
   }
@@ -90,6 +92,7 @@ export class InputNumber extends PureComponent {
     unstyled: false,
 
     value: '',
+    valueForEmptyInput: null,
     placeholder: '',
 
     step: 1,
@@ -105,6 +108,7 @@ export class InputNumber extends PureComponent {
     readOnly: false,
 
     onChange: () => null,
+    onBlur: () => null,
   }
 
   static getDerivedStateFromProps(props, { prevProps, value }) {
@@ -300,6 +304,17 @@ export class InputNumber extends PureComponent {
     }
   }
 
+  onBlur = e => {
+    const { valueForEmptyInput, onBlur } = this.props
+    const { value } = this.state
+
+    onBlur(e)
+
+    if (!value && isNumber(valueForEmptyInput)) {
+      this.setValue(valueForEmptyInput, e)
+    }
+  }
+
   render() {
     const {
       className,
@@ -369,7 +384,9 @@ export class InputNumber extends PureComponent {
 
           onChange={this.onChange}
           onKeyDown={this.onKeyDown}
+
           onFocus={onFocus}
+          onBlur={this.onBlur}
           {...getOtherProps(this.constructor, this.props)}
         />
 

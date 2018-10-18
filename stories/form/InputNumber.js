@@ -11,7 +11,7 @@ export default class InputNumberExample extends React.PureComponent {
   state = {
     isSmall: false,
     isCore: false,
-    formData: { a: 0 },
+    formData: { a: 0, notEmpty: 5 },
   }
 
   toggleSize = () => this.setState({ isSmall: !this.state.isSmall })
@@ -97,6 +97,16 @@ export default class InputNumberExample extends React.PureComponent {
             precision={2}
             value={formData.a}
             onChange={this.onChange.bind(this, 'a')}
+          />
+        </FormLabel>
+
+        <FormLabel name="Not empty">
+          <InputNumber
+            theme={theme}
+            precision={0}
+            value={formData.notEmpty}
+            valueForEmptyInput={1024}
+            onChange={this.onChange.bind(this, 'notEmpty')}
           />
         </FormLabel>
 
