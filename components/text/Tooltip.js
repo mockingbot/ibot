@@ -2,7 +2,7 @@ import React, { PureComponent, Fragment, isValidElement } from 'react'
 import { createPortal } from 'react-dom'
 import PropTypes from 'prop-types'
 
-import { isArray, isEqual, isString } from 'lodash'
+import { isArray, isEqual, isString, isObject } from 'lodash'
 
 import { trimList, getOtherProps, SVG } from '../util'
 
@@ -27,7 +27,7 @@ function parseContent(content, eventName = 'hover') {
   return (
     isString(content) || isArray(content) || isValidElement(content)
     ? content
-    : EVENT_NAME_LIST.includes(eventName)
+    : EVENT_NAME_LIST.includes(eventName) && isObject(content)
     ? content[eventName] || content.hover
     : null
   )

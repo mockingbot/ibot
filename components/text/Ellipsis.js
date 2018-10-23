@@ -7,11 +7,12 @@ import { trimList } from '../util'
 import { TYPE_ELEMENT_MAP } from './constants'
 
 export class Ellipsis extends PureComponent {
-  state = { isTruncated: false }
+  state = { isTruncated: false, isDetected: false }
 
   static propTypes = {
     className: PropTypes.string,
 
+    theme: PropTypes.oneOf(['core', 'plain']),
     type: PropTypes.oneOf(['user', 'id', 'email', 'org', 'team', 'app', 'widget']),
     max: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     display: PropTypes.oneOf(['inline-block', 'block']),
@@ -33,21 +34,25 @@ export class Ellipsis extends PureComponent {
 
   static defaultProps = {
     lang: 'en',
+    theme: 'core',
   }
 
   componentDidMount() {
     if (this.detectTruncation()) {
       this.setState({ isTruncated: true })
     }
+
+    this.setState({ isDetected: true })
   }
 
   componentDidUpdate({ children: prevChildren, html: prevHTML }) {
     const { children, html } = this.props
 
     if (!isEqual(prevChildren, children) || !isEqual(prevHTML, html)) {
-      this.setState({
-        isTruncated: this.detectTruncation(),
-      })
+      this.setState(
+        { isDetected: false },
+        () => this.setState({ isTruncated: this.detectTruncation(), isDetected: true }),
+      )
     }
   }
 
@@ -68,7 +73,7 @@ export class Ellipsis extends PureComponent {
       ...others
     } = this.props
 
-    const { isTruncated } = this.state
+    const { isTruncated, isDetected } = this.state
 
     const elementType = to ? 'link' : 'inline'
 
@@ -78,13 +83,15 @@ export class Ellipsis extends PureComponent {
       : { children }
     )
 
+    const truncationClassName = isTruncated ? 'is-truncated' : isDetected ? 'isnt-truncated': null
+
     const attr = {
       ref: this.set$ellipsis,
 
       className: trimList([
         'Ellipsis',
+        truncationClassName,
         className,
-        isTruncated && 'is-truncated',
       ]),
 
       href: to,
@@ -120,9 +127,10 @@ export class Ellipsis extends PureComponent {
             withPeriod && 'with-period',
             withComma && 'with-comma',
             withQuestionMark && 'with-question-mark',
+            truncationClassName,
           ])}
         >
-          {ellipsis}
+          { ellipsis }
         </span>
       : ellipsis
     )

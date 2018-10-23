@@ -50,6 +50,8 @@ export default class TooltipExample extends PureComponent {
         <p>
           <Tooltip arrowed={isArrowed} theme={theme} content="How you greet in English.">Hello</Tooltip>
           <br />
+          <Tooltip arrowed={isArrowed} theme={theme} content={null}>Null</Tooltip>
+          <br />
           <Tooltip arrowed={isArrowed} theme={theme} content={['The apple of Rachel’s ', <Icon name="eye" key="icon" />]}><span>Ross</span></Tooltip>
           <br />
           <Tooltip

@@ -6,11 +6,14 @@
     display inline-block
     max-width 100%
     vertical-align bottom
+  &.isnt-truncated
+    display inline
+    max-width initial !important
 
   // Styles for the :before pseudo element is a workaround to prevent
   // Safari from showing browser’s native hover titles:
   // https://stackoverflow.com/questions/20974276/prevent-safari-from-showing-tooltip-when-text-overflow-is-hidden-with-ellipsis
-  &:before
+  &.is-truncated:before
     content ''
     display block
 
@@ -35,6 +38,8 @@
   &
     display inline-flex
     align-items baseline
+  &.isnt-truncated
+    display inline
   &.with-period
     &:after
       content '. '
