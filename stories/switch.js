@@ -14,6 +14,12 @@ storiesOf('Switch', module)
     </p>
 
     <p>
+      Read-only{' '}
+      <Switch readOnly isChecked={true} onChange={action('Switch `isChecked`')} />
+      <Switch readOnly onChange={action('Switch `isChecked`')} />
+    </p>
+
+    <p>
       跟汉字搭配{' '}
       <Switch onChange={action('Switch `isChecked`')} />
     </p>
@@ -37,6 +43,12 @@ storiesOf('Switch', module)
       On/off: {' '}
       <Switch size="small" isChecked={true} onChange={action('Switch `isChecked`')} icon="pencil" />
       <Switch size="small" isChecked={false} onChange={action('Switch `isChecked`')} icon="single-comment" />
+    </p>
+
+    <p>
+      Read-only{' '}
+      <Switch size="small" readOnly isChecked={true} onChange={action('Switch `isChecked`')} />
+      <Switch size="small" readOnly onChange={action('Switch `isChecked`')} />
     </p>
 
     <p>
