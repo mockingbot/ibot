@@ -3,9 +3,9 @@ import { createPortal } from 'react-dom'
 import PropTypes from 'prop-types'
 import DocumentEvents from 'react-document-events'
 
-import { isBoolean, isEqual } from 'lodash'
+import { get, isBoolean, isEqual } from 'lodash'
 
-import { Button } from '../button'
+import { Button, PrimaryCoreButton, TertiaryCoreButton } from '../button'
 import SVG from '../svg'
 import Icon from '../icon'
 import Switch from '../switch'
@@ -19,6 +19,8 @@ const stopPropagation = e => e.stopPropagation()
 
 const MODAL_ROOT_ID = 'IBOT_MODAL_ROOT'
 const MODAL_PORTAL_CLASS = 'CoreModalPortal'
+
+const I18N = get(window, 'I18N', {})
 
 const $body = document.body
 
@@ -87,6 +89,9 @@ export default class CoreModal extends PureComponent {
     shouldCloseOnAction: true,
     canCloseOnEsc: true,
     canConfirmOnEnter: true,
+
+    cancelText: I18N.cancel || 'Cancel',
+    confirmText: I18N.confirm || 'Confirm',
   }
 
   state = {
@@ -189,10 +194,7 @@ export default class CoreModal extends PureComponent {
 
   open = () => this.setState({ isOpen: true })
   close = () => this.setState({ isVisible: false })
-
-  toggle = (willBeOpen = !this.state.isOpen) => (
-    willBeOpen ? this.open() : this.close()
-  )
+  toggle = (willBeOpen = !this.state.isOpen) => willBeOpen ? this.open() : this.close()
 
   positionY = () => setTimeout(() => {
     const { type } = this.props
@@ -218,12 +220,36 @@ export default class CoreModal extends PureComponent {
     }
   }
 
+  confirm = () => {
+    const { onConfirm, shouldCloseOnAction } = this.props
+
+    if (onConfirm) {
+      onConfirm()
+    }
+
+    if (shouldCloseOnAction) {
+      this.close()
+    }
+  }
+
+  cancel = () => {
+    const { onCancel, shouldCloseOnAction } = this.props
+
+    if (onCancel) {
+      onCancel()
+    }
+
+    if (shouldCloseOnAction) {
+      this.close()
+    }
+  }
+
   onKeyDown = ({ key, target: $elmt }) => {
     const {
       type,
       canClose, canCloseOnEsc,
       canConfirmOnEnter,
-      onConfirm,
+      onConfirm, onCancel,
     } = this.props
 
     const { isOpen } = this.state
@@ -241,7 +267,30 @@ export default class CoreModal extends PureComponent {
       // Only work on the toppest modal:
       && this === OPEN_MODAL_STACK[0]
     ) {
-      this.close()
+
+      if (onCancel) {
+        this.cancel()
+      }
+
+      return this.close()
+    }
+
+    if (
+      key === 'Enter'
+
+      // Not focus on form elements:
+      && !$elmt.matches('textarea, button') && !isSelectMenuOpen
+
+      // Current modal is open and can confirm via enter:
+      && isOpen && canConfirmOnEnter
+
+      // Only work on the toppest modal:
+      && this === OPEN_MODAL_STACK[0]
+
+      // Only work whilst `onConfirm` callback is provided:
+      && !!onConfirm
+    ) {
+      return this.confirm()
     }
   }
 
@@ -285,6 +334,32 @@ export default class CoreModal extends PureComponent {
     return createPortal(this.modalDOM, this.portal)
   }
 
+  get footer() {
+    const {
+      onConfirm, onCancel,
+      confirmText, cancelText,
+      isConfirmDisabled, isCancelDisabled,
+    } = this.props
+
+    const shouldRender = onConfirm || onCancel
+
+    return shouldRender && (
+      <footer>
+        { onConfirm && (
+          <PrimaryCoreButton onClick={this.confirm} isDisabled={isConfirmDisabled}>
+            { confirmText }
+          </PrimaryCoreButton>
+        )}
+
+        { onCancel && (
+          <TertiaryCoreButton onClick={this.cancel} isDisabled={isCancelDisabled}>
+            { cancelText }
+          </TertiaryCoreButton>
+        )}
+      </footer>
+    )
+  }
+
   get modalDOM() {
     const {
       type,
@@ -298,6 +373,7 @@ export default class CoreModal extends PureComponent {
     } = this.props
 
     const { isOpen, isVisible } = this.state
+    const { footer } = this
 
     return isOpen && (
       <Fragment>
@@ -332,6 +408,8 @@ export default class CoreModal extends PureComponent {
           <div className="content">
             { children }
           </div>
+
+          { footer }
         </div>
 
         <DocumentEvents onKeyDown={this.onKeyDown} />
