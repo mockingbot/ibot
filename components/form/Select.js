@@ -153,7 +153,7 @@ export class Select extends PureComponent {
 
   get canSelect() {
     const { isDisabled, readOnly } = this
-    return !isDisabled & !readOnly
+    return !isDisabled && !readOnly
   }
 
   set$select = $select => this.setState({ $select })
