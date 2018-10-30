@@ -205,7 +205,7 @@ export default class CoreModal extends PureComponent {
     const { innerHeight: vh } = window
     const { height: h } = $modal.getBoundingClientRect()
 
-    const action = (vh <= h || ((vh - h)/2) < (vh * .2)) ? 'add' : 'remove'
+    const action = (vh <= h || ((vh - h)/2) < (vh * .15)) ? 'add' : 'remove'
     $modal.classList[action]('is-v-centered')
   })
 
