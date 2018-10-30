@@ -44,7 +44,7 @@
     .caret
       margin-right .5em
 
-  &:not(.is-disabled):not(.unstyled):hover
+  &:not(.is-disabled):not(.readonly):not(.unstyled):hover
   &:not(.unstyled).is-open
     border-color $cl-active
 
@@ -58,6 +58,8 @@
   &.is-disabled
     cursor not-allowed
     opacity .6
+  &.readonly
+    cursor default
 
 .CoreSelect:not(.unstyled)
   background-color $cl-CoreInput-bg

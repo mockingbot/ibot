@@ -92,6 +92,7 @@ export default class SelectExample extends React.PureComponent {
           <br />
           <Select {...{ size, theme, menuTheme }} isDisabled={true} optionList={[]} />
           <Select {...{ size, theme, menuTheme }} isDisabled optionList={[]} />
+          <Select {...{ size, theme, menuTheme }} readOnly optionList={[]} />
         </p>
 
         <h2>Regular node options</h2>
@@ -150,9 +151,20 @@ export default class SelectExample extends React.PureComponent {
             optionList={['Yirgacheffe', 'Harrar', 'Kenya AA', 'Antiqua Flora', 'Huehuetenango', 'Tanzania AA', 'Cerrado', 'Bucaramanga Supremo', 'Tarrazu', 'Hawaii Kona', 'Blue Mountain', 'Mandheling']}
             onChange={action('Select changed')}
           />
+        </p>
+
+        <h3>Disabled/read-only long lists</h3>
+        <p>
           <Select
             {...{ size, theme, menuTheme }}
             isDisabled
+            optionList={['Yirgacheffe', 'Harrar', 'Kenya AA', 'Antiqua Flora', 'Huehuetenango', 'Tanzania AA', 'Cerrado', 'Bucaramanga Supremo', 'Tarrazu', 'Hawaii Kona', 'Blue Mountain', 'Mandheling']}
+            onChange={action('Select changed')}
+          />
+          <Select
+            {...{ size, theme, menuTheme }}
+            readOnly
+            value="Harrar"
             optionList={['Yirgacheffe', 'Harrar', 'Kenya AA', 'Antiqua Flora', 'Huehuetenango', 'Tanzania AA', 'Cerrado', 'Bucaramanga Supremo', 'Tarrazu', 'Hawaii Kona', 'Blue Mountain', 'Mandheling']}
             onChange={action('Select changed')}
           />

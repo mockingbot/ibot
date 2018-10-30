@@ -10,11 +10,6 @@ import isEqual from 'lodash/isEqual'
  * <Radio>
  */
 export class Radio extends PureComponent {
-  state = {
-    prevProps: this.props,
-    isChecked: this.props.isChecked,
-  }
-
   static propTypes = {
     size: PropTypes.oneOf(['regular', 'small']),
     theme: PropTypes.oneOf(['core', 'plain']),
@@ -26,6 +21,8 @@ export class Radio extends PureComponent {
 
     isChecked: PropTypes.bool,
     isDisabled: PropTypes.bool,
+    disabled: PropTypes.bool,
+    readOnly: PropTypes.bool,
 
     onChange: PropTypes.func.isRequired,
     onToggle: PropTypes.func.isRequired,
@@ -43,11 +40,25 @@ export class Radio extends PureComponent {
     onToggle: () => null,
   }
 
+  state = {
+    prevProps: this.props,
+    isChecked: this.props.isChecked,
+  }
+
   static getDerivedStateFromProps(props, { prevProps, isChecked }) {
     if (!isEqual(prevProps, props)) {
       return { prevProps: props, isChecked: props.isChecked }
     }
     return null
+  }
+
+  get isDisabled() {
+    const { isDisabled, disabled } = this.props
+    return isDisabled || disabled
+  }
+
+  get readOnly() {
+    return this.props.readOnly
   }
 
   onToggle = () => {
@@ -64,8 +75,9 @@ export class Radio extends PureComponent {
   }
 
   render() {
-    const { size, theme, className, label, name, isDisabled } = this.props
+    const { size, theme, className, label, name } = this.props
     const { isChecked } = this.state
+    const { isDisabled, readOnly } = this
 
     return (
       <label
@@ -74,15 +86,16 @@ export class Radio extends PureComponent {
             theme === 'core' ? 'CoreRadio' : 'Radio',
             size,
             className,
-            isChecked ? 'is-checked' : '',
-            isDisabled ? 'is-disabled' : '',
+            isChecked && 'is-checked',
+            isDisabled && 'is-disabled',
+            readOnly && 'readonly',
           ])
         }
       >
         <input
           type="radio"
           defaultChecked={isChecked}
-          disabled={isDisabled}
+          disabled={isDisabled || readOnly}
           name={name}
           onClick={this.onToggle}
         />
@@ -130,6 +143,8 @@ export class RadioGroup extends PureComponent {
     ]),
 
     isDisabled: PropTypes.bool,
+    disabled: PropTypes.bool,
+    readOnly: PropTypes.bool,
 
     onChange: PropTypes.func.isRequired,
     onToggle: PropTypes.func.isRequired,
@@ -141,7 +156,6 @@ export class RadioGroup extends PureComponent {
 
     className: '',
     optionList: [],
-    isDisabled: false,
 
     onChange: () => null,
     onToggle: () => null,
@@ -152,6 +166,15 @@ export class RadioGroup extends PureComponent {
       return { prevProps: props, value: props.value }
     }
     return null
+  }
+
+  get isDisabled() {
+    const { isDisabled, disabled } = this.props
+    return isDisabled || disabled
+  }
+
+  get readOnly() {
+    return this.props.readOnly
   }
 
   createOnChangeHandler = (name, value, idx) => () => (
@@ -167,22 +190,16 @@ export class RadioGroup extends PureComponent {
   )
 
   render() {
-    const { name } = this
-
-    const {
-      size, theme,
-      className,
-      optionList,
-      isDisabled,
-    } = this.props
-
+    const { size, theme, className, optionList } = this.props
     const { value } = this.state
+    const { name, isDisabled, readOnly } = this
 
     const klass = trimList([
       theme === 'core' ? 'CoreRadioGroup' : 'RadioGroup',
       size,
       className,
       isDisabled && 'is-disabled',
+      readOnly && 'readonly',
     ])
 
     return (
@@ -200,6 +217,7 @@ export class RadioGroup extends PureComponent {
             type="radio"
             isChecked={checkOptionByValue(opt, value)}
             isDisabled={isDisabled || opt.isDisabled}
+            readOnly={readOnly}
 
             onChange={
               !(isDisabled || opt.isDisabled)

@@ -93,6 +93,13 @@ export default class RadioCheckExample extends PureComponent {
           <button onClick={this.onChangeLang.bind(this, true, 'lang', 'zh')}>Change back to 汉语</button>
         </p>
 
+        <h3>Read-only</h3>
+        <p className="check">
+          <Radio {...{ size, theme }} name="lang" label="汉语" isChecked={true} readOnly onToggle={action('Check toggled')} />
+          <Radio {...{ size, theme }} name="lang" label="日本語" isChecked={false} readOnly onToggle={action('Check toggled')} />
+          <Radio {...{ size, theme }} name="lang" value="en" label="English" isDisabled readOnly isChecked={'en' === langValue}  onToggle={this.onChangeLang} />
+        </p>
+
         <style>
         {`p.radio-group { display: flex; }`}
         {`p.radio-group label { flex: 100%; }`}
@@ -171,7 +178,22 @@ export default class RadioCheckExample extends PureComponent {
             value="tokyo"
             onToggle={action('Radio toggled')}
           />
+        </p>
 
+        <h3>Read-only</h3>
+        <p className="radio-group">
+          <RadioGroup
+            {...{ size, theme }}
+            readOnly
+            optionList={[
+              { label: 'Běijīng, China', value: 'beijing' },
+              { label: 'Tōkyō, Japan', value: 'tokyo' },
+              { label: 'Krung-dēvamahānagara amararatanakosindra mahindrayudhyā mahātilakabhava navaratanarājadhānī purīrāmasya utamarājanivēsana mahāsthāna amaravimāna avatārasthitya shakrasdattiya vishnukarmaprasiddhi, Thailand', value: 'bangkok' },
+              { label: 'New York, USA', value: 'newyork', isDisabled: true },
+            ]}
+            value="tokyo"
+            onToggle={action('Radio toggled')}
+          />
         </p>
 
         <h2>Check</h2>
@@ -184,6 +206,13 @@ export default class RadioCheckExample extends PureComponent {
           <Check {...{ size, theme }} name="lang" label="日本語" isChecked={true} onToggle={action('Check toggled')} />
           <Check {...{ size, theme }} name="lang" label="English" onToggle={action('Check toggled')} />
           <Check {...{ size, theme }} name="lang" label="Klingon" isDisabled={true} onToggle={action('Check toggled')} />
+        </p>
+
+        <h3>Read-only</h3>
+        <p className="check">
+          <Check {...{ size, theme }} name="lang" label="汉语" isChecked={true} readOnly onToggle={action('Check toggled')} />
+          <Check {...{ size, theme }} name="lang" label="日本語" isChecked={false} readOnly onToggle={action('Check toggled')} />
+          <Check {...{ size, theme }} name="lang" label="日本語" isChecked={false} isDisabled readOnly onToggle={action('Check toggled')} />
         </p>
 
         <style>
@@ -266,6 +295,21 @@ export default class RadioCheckExample extends PureComponent {
           <CheckGroup
             {...{ size, theme }}
             isDisabled={true}
+            optionList={[
+              { label: 'Běijīng, China', value: 'beijing', isDisabled: true },
+              { label: 'Tōkyō, Japan', value: 'tokyo' },
+              { label: 'Krung-dēvamahānagara amararatanakosindra mahindrayudhyā mahātilakabhava navaratanarājadhānī purīrāmasya utamarājanivēsana mahāsthāna amaravimāna avatārasthitya shakrasdattiya vishnukarmaprasiddhi, Thailand', value: 'bangkok', isDisabled: true },
+              { label: 'New York, USA', value: 'newyork' },
+            ]}
+            valueList={['beijing', 'newyork']}
+          />
+        </p>
+
+        <h3>Read-only</h3>
+        <p className="check-group">
+          <CheckGroup
+            {...{ size, theme }}
+            readOnly
             optionList={[
               { label: 'Běijīng, China', value: 'beijing', isDisabled: true },
               { label: 'Tōkyō, Japan', value: 'tokyo' },

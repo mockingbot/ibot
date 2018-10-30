@@ -31,6 +31,8 @@ export class Check extends PureComponent {
 
     isChecked: PropTypes.bool,
     isDisabled: PropTypes.bool,
+    disabled: PropTypes.bool,
+    readOnly: PropTypes.bool,
 
     onChange: PropTypes.func.isRequired,
     onToggle: PropTypes.func.isRequired,
@@ -59,6 +61,15 @@ export class Check extends PureComponent {
     return null
   }
 
+  get isDisabled() {
+    const { isDisabled, disabled } = this.props
+    return isDisabled || disabled
+  }
+
+  get readOnly() {
+    return this.props.readOnly
+  }
+
   onToggle = () => {
     const { name, value, label } = this.props
 
@@ -74,8 +85,9 @@ export class Check extends PureComponent {
   }
 
   render() {
-    const { size, theme, className, label, name, isDisabled } = this.props
+    const { size, theme, className, label, name } = this.props
     const { isChecked } = this.state
+    const { isDisabled, readOnly } = this
 
     return (
       <label
@@ -83,14 +95,15 @@ export class Check extends PureComponent {
           theme === 'core' ? 'CoreCheck' : 'Check',
           size,
           className,
-          isChecked ? 'is-checked' : '',
-          isDisabled ? 'is-disabled' : '',
+          isChecked && 'is-checked',
+          isDisabled && 'is-disabled',
+          readOnly && 'readonly',
         ])}
       >
         <input
           type="checkbox"
           defaultChecked={isChecked}
-          disabled={isDisabled}
+          disabled={isDisabled || readOnly}
           name={name}
           onChange={this.onToggle}
         />
@@ -139,6 +152,8 @@ export class CheckGroup extends PureComponent {
     ]),
 
     isDisabled: PropTypes.bool,
+    disabled: PropTypes.bool,
+    readOnly: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -156,6 +171,15 @@ export class CheckGroup extends PureComponent {
       return { prevProps: props, valueList: props.valueList }
     }
     return null
+  }
+
+  get isDisabled() {
+    const { isDisabled, disabled } = this.props
+    return isDisabled || disabled
+  }
+
+  get readOnly() {
+    return this.props.readOnly
   }
 
   createOnChangeHandler = (name, opt) => () => {
@@ -183,22 +207,16 @@ export class CheckGroup extends PureComponent {
   }
 
   render() {
-    const { name } = this
-
-    const {
-      size, theme,
-      className,
-      optionList,
-      isDisabled,
-    } = this.props
-
+    const { size, theme, className, optionList } = this.props
     const { valueList } = this.state
+    const { name, isDisabled, readOnly } = this
 
     const klass = trimList([
       theme === 'core' ? 'CoreCheckGroup' : 'CheckGroup',
       size,
       className,
       isDisabled && 'is-disabled',
+      readOnly && 'readonly',
     ])
 
     return (
@@ -214,6 +232,7 @@ export class CheckGroup extends PureComponent {
             theme={theme}
 
             isDisabled={isDisabled || opt.isDisabled}
+            readOnly={readOnly}
             isChecked={checkOptionByValueList(opt, valueList)}
 
             onChange={

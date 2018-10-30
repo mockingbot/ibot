@@ -103,6 +103,9 @@ export class Select extends PureComponent {
     ]),
 
     isDisabled: PropTypes.bool,
+    disabled: PropTypes.bool,
+    readOnly: PropTypes.bool,
+
     onChange: PropTypes.func,
 
     menuX: PropTypes.oneOf(['left', 'center', 'right']),
@@ -135,6 +138,15 @@ export class Select extends PureComponent {
 
   componentDidMount() {
     window.addEventListener('resize', this.onResizeWindow)
+  }
+
+  get isDisabled() {
+    const { isDisabled, disabled } = this.props
+    return isDisabled || disabled
+  }
+
+  get readOnly() {
+    return this.props.readOnly
   }
 
   set$select = $select => this.setState({ $select })
@@ -173,14 +185,9 @@ export class Select extends PureComponent {
   }
 
   render() {
-    const {
-      size, theme, unstyled,
-      className,
-      menuX,
-      isDisabled,
-    } = this.props
-
+    const { size, theme, unstyled, className, menuX } = this.props
     const { isOpen, $select, value } = this.state
+    const { isDisabled, readOnly } = this
 
     const klass = trimList([
       theme === 'core' ? 'CoreSelect' : 'Select',
@@ -189,6 +196,7 @@ export class Select extends PureComponent {
       className,
       isOpen && 'is-open',
       isDisabled && 'is-disabled',
+      readOnly && 'readonly',
     ])
 
     return (
@@ -197,7 +205,7 @@ export class Select extends PureComponent {
         role="listbox"
         ref={this.set$select}
       >
-        <button type="button" onClick={this.toggle} disabled={isDisabled}>
+        <button type="button" onClick={this.toggle} disabled={isDisabled || readOnly}>
           <Ellipsis>{ this.displayText }</Ellipsis>
         </button>
 
