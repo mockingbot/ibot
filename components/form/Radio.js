@@ -61,17 +61,22 @@ export class Radio extends PureComponent {
     return this.props.readOnly
   }
 
-  onToggle = () => {
-    const { name, value, label } = this.props
+  get canToggle() {
+    const { isDisabled, readOnly } = this
+    return !isDisabled && !readOnly
+  }
 
-    this.setState(
-      { isChecked: true },
-      () => {
-        const { onToggle, onChange } = this.props
-        onToggle(true, name, value || label)
-        onChange(name, value || label, true)
-      },
-    )
+  onToggle = () => {
+    const { name, value, label, onToggle, onChange } = this.props
+    const { isChecked } = this.state
+    const { canToggle } = this
+
+    const result = canToggle ? true : isChecked
+
+    this.setState({ isChecked: result })
+
+    onToggle(result, name, value || label)
+    onChange(name, value || label, result)
   }
 
   render() {
@@ -95,7 +100,7 @@ export class Radio extends PureComponent {
         <input
           type="radio"
           defaultChecked={isChecked}
-          disabled={isDisabled || readOnly}
+          disabled={isDisabled}
           name={name}
           onClick={this.onToggle}
         />
@@ -177,17 +182,22 @@ export class RadioGroup extends PureComponent {
     return this.props.readOnly
   }
 
-  createOnChangeHandler = (name, value, idx) => () => (
-    this.setState(
-      { value },
-      () => {
-        const { onToggle, onChange } = this.props
+  get canToggle() {
+    const { isDisabled, readOnly } = this
+    return !isDisabled && !readOnly
+  }
 
-        onToggle(value, name)
-        onChange({ name, value, idx })
-      },
-    )
-  )
+  createOnChangeHandler = (name, value, idx) => () => {
+    const { onToggle, onChange } = this.props
+    const { value: originalValue } = this.state
+    const { canToggle } = this
+
+    const result = canToggle ? value : originalValue
+
+    this.setState({ value: result })
+    onToggle(result, name)
+    onChange({ name, value: result, idx })
+  }
 
   render() {
     const { size, theme, className, optionList } = this.props

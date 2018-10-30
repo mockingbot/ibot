@@ -125,6 +125,7 @@ export class Select extends PureComponent {
     isDisabled: false,
 
     onChange: () => null,
+
     menuX: 'left',
   }
 
@@ -149,6 +150,11 @@ export class Select extends PureComponent {
     return this.props.readOnly
   }
 
+  get canSelect() {
+    const { isDisabled, readOnly } = this
+    return !isDisabled & !readOnly
+  }
+
   set$select = $select => this.setState({ $select })
 
   open = () => this.setState({ isOpen: true })
@@ -165,9 +171,12 @@ export class Select extends PureComponent {
     },
   )
 
-  onSelect = ({ currentTarget: $opt }) => (
-    this.onChange($opt.dataset.value)
-  )
+  onSelect = ({ currentTarget: $opt }) => {
+    const { value } = this.props
+    const { canSelect } = this
+
+    return this.onChange(canSelect ? $opt.dataset.value : value)
+  }
 
   get displayText() {
     const { optionList, placeholder } = this.props
@@ -187,7 +196,7 @@ export class Select extends PureComponent {
   render() {
     const { size, theme, unstyled, className, menuX } = this.props
     const { isOpen, $select, value } = this.state
-    const { isDisabled, readOnly } = this
+    const { isDisabled, readOnly, canSelect } = this
 
     const klass = trimList([
       theme === 'core' ? 'CoreSelect' : 'Select',
@@ -205,7 +214,7 @@ export class Select extends PureComponent {
         role="listbox"
         ref={this.set$select}
       >
-        <button type="button" onClick={this.toggle} disabled={isDisabled || readOnly}>
+        <button type="button" onClick={this.toggle} disabled={isDisabled}>
           <Ellipsis>{ this.displayText }</Ellipsis>
         </button>
 
@@ -216,6 +225,8 @@ export class Select extends PureComponent {
           {...this.props}
           value={value}
           $select={$select}
+
+          canSelect={canSelect}
           onChange={this.onSelect}
           onClose={this.close}
           menuX={menuX}
@@ -235,6 +246,8 @@ export class SelectMenu extends PureComponent {
   static propTypes = {
     ...Select.propTypes,
     isOpen: PropTypes.bool,
+
+    canSelect: PropTypes.bool,
     onChange: PropTypes.func,
     onClose: PropTypes.func,
     $select: PropTypes.instanceOf(Element),
@@ -243,7 +256,6 @@ export class SelectMenu extends PureComponent {
   static defaultProps = {
     isOpen: false,
   }
-
 
   menuBaseRef = createRef()
 
@@ -290,7 +302,7 @@ export class SelectMenu extends PureComponent {
    * Workaround for Safari where options in invisible areas are still clickable.
    */
   onChange = e => {
-    const { onChange } = this.props
+    const { canSelect, onChange } = this.props
     const { isDownward } = this.state
 
     const $opt = e.currentTarget
@@ -350,13 +362,12 @@ export class SelectMenu extends PureComponent {
   renderMenu() {
     const {
       isOpen,
-      isDisabled,
-      menuTheme,
-      menuClassName,
+      isDisabled, readOnly,
+      menuTheme, menuClassName, menuX,
       optionList,
       emptyMsg,
       value,
-      menuX,
+      canSelect,
     } = this.props
 
     const { isDownward } = this.state
@@ -371,14 +382,12 @@ export class SelectMenu extends PureComponent {
       isDownward ? 'is-downward' : 'is-upward',
       isDisabled && 'is-disabled',
       isEmpty && 'is-empty',
+      canSelect ? 'can-select' : 'cant-select',
     ])
 
     return (
       <div ref={this.menuBaseRef} className="SelectMenuBase">
-        <ul
-          className={klass}
-          onTransitionEnd={this.onTransitionEnd}
-        >
+        <ul className={klass} onTransitionEnd={this.onTransitionEnd}>
           {
             isEmpty
             ? <li className="SelectOption empty-msg">{ emptyMsg }</li>

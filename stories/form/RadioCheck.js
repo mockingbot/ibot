@@ -302,6 +302,7 @@ export default class RadioCheckExample extends PureComponent {
               { label: 'New York, USA', value: 'newyork' },
             ]}
             valueList={['beijing', 'newyork']}
+            onToggle={action('CheckGroup toggled')}
           />
         </p>
 
@@ -317,6 +318,7 @@ export default class RadioCheckExample extends PureComponent {
               { label: 'New York, USA', value: 'newyork' },
             ]}
             valueList={['beijing', 'newyork']}
+            onToggle={action('CheckGroup toggled')}
           />
         </p>
       </Root>

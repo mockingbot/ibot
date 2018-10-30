@@ -167,6 +167,7 @@ export default class SelectExample extends React.PureComponent {
             value="Harrar"
             optionList={['Yirgacheffe', 'Harrar', 'Kenya AA', 'Antiqua Flora', 'Huehuetenango', 'Tanzania AA', 'Cerrado', 'Bucaramanga Supremo', 'Tarrazu', 'Hawaii Kona', 'Blue Mountain', 'Mandheling']}
             onChange={action('Select changed')}
+            onClick={action('Select clicked')}
           />
         </p>
 

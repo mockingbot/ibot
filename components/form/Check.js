@@ -70,18 +70,21 @@ export class Check extends PureComponent {
     return this.props.readOnly
   }
 
+  get canToggle() {
+    const { isDisabled, readOnly } = this
+    return !isDisabled && !readOnly
+  }
+
   onToggle = () => {
-    const { name, value, label } = this.props
+    const { name, value, label, onChange, onToggle } = this.props
+    const { isChecked } = this.state
+    const { canToggle } = this
 
-    this.setState(
-      { isChecked: !this.state.isChecked },
-      () => {
-        const { onChange, onToggle } = this.props
+    const willBeChecked =  canToggle ? !isChecked : isChecked
 
-        onToggle(this.state.isChecked, name, value || label)
-        onChange(name, value || label, this.state.isChecked)
-      }
-    )
+    this.setState({ isChecked: willBeChecked })
+    onToggle(willBeChecked, name, value || label)
+    onChange(name, value || label, willBeChecked)
   }
 
   render() {
@@ -103,7 +106,7 @@ export class Check extends PureComponent {
         <input
           type="checkbox"
           defaultChecked={isChecked}
-          disabled={isDisabled || readOnly}
+          disabled={isDisabled}
           name={name}
           onChange={this.onToggle}
         />
@@ -182,9 +185,24 @@ export class CheckGroup extends PureComponent {
     return this.props.readOnly
   }
 
+  get canToggle() {
+    const { isDisabled, readOnly } = this
+    return !isDisabled && !readOnly
+  }
+
   createOnChangeHandler = (name, opt) => () => {
-    const { optionList } = this.props
+    const { optionList, onToggle, onChange } = this.props
     const { valueList } = this.state
+    const { canToggle } = this
+
+
+    if (!canToggle) {
+      const currentValueList = Array.from(valueList)
+      const currentIdxList = currentValueList.map(v => optionList.findIndex(o => getOptionValue(o) === v))
+      onToggle(currentValueList, name)
+      onChange({ name, valueList: currentValueList, idxList: currentIdxList  })
+      return
+    }
 
     const resultValueList = new Set(valueList)
     const optionValue = getOptionValue(opt)
@@ -195,15 +213,10 @@ export class CheckGroup extends PureComponent {
     const nextValueList = Array.from(resultValueList)
     const nextIdxList = nextValueList.map(v => optionList.findIndex(o => getOptionValue(o) === v))
 
-    this.setState(
-      { valueList: resultValueList },
-      () => {
-        const { onChange, onToggle } = this.props
+    this.setState({ valueList: resultValueList })
 
-        onToggle(nextValueList, name)
-        onChange({ name, valueList: nextValueList, idxList: nextIdxList })
-      },
-    )
+    onToggle(nextValueList, name)
+    onChange({ name, valueList: nextValueList, idxList: nextIdxList })
   }
 
   render() {
