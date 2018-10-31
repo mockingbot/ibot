@@ -5,7 +5,8 @@ import DocumentEvents from 'react-document-events'
 
 import { isBoolean, isEqual } from 'lodash'
 
-import { preventScrollingPropagation, trimList, $, SVG, preparePortal } from '../util'
+import { preventScrollingPropagation, trimList, $, preparePortal } from '../util'
+import { DROPDOWN_ARROW } from '../util/svg'
 import { positionMenu } from './util'
 
 import './index.styl'
@@ -375,7 +376,7 @@ class DropdownMenu extends PureComponent {
       <div ref={this.menuBaseRef} className={trimList(['DropdownMenuBase', menuBaseClassName])}>
         <div className={klass}>
           { arrowed && (
-            <span className="arrow" dangerouslySetInnerHTML={{ __html: SVG.DROPDOWN_ARROW }} />
+            <span className="arrow" dangerouslySetInnerHTML={{ __html: DROPDOWN_ARROW }} />
           )}
 
           <div className="content">
