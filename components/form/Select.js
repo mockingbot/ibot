@@ -9,7 +9,8 @@ import Dropdown from '../dropdown'
 import { Input } from './Input'
 import { Ellipsis } from '../text'
 
-import { preventScrollingPropagation, trimList, $, $$, SVG, preparePortal } from '../util'
+import { preventScrollingPropagation, trimList, $, $$, preparePortal } from '../util'
+import { INPUT_ARROW } from '../util/svg'
 import { positionMenu } from '../dropdown/util'
 import { getOptionLabel, getOptionValue, checkOptionByValue } from './util'
 
@@ -218,7 +219,7 @@ export class Select extends PureComponent {
           <Ellipsis>{ this.displayText }</Ellipsis>
         </button>
 
-        <span className="caret" dangerouslySetInnerHTML={{ __html: SVG.INPUT_ARROW }} />
+        <span className="caret" dangerouslySetInnerHTML={{ __html: INPUT_ARROW }} />
 
         <SelectMenu
           isOpen={isOpen}
