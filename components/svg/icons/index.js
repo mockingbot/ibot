@@ -1,4 +1,5 @@
 export * as general from './general'
 export * as design from './design'
 export * as preview from './preview'
+export * as misc from './misc'
 export * as brand from './brand'

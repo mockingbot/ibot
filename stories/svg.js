@@ -60,6 +60,14 @@ storiesOf('SVG', module)
     }
     </p>
 
+    <h3>Misc.</h3>
+    <p>
+    {
+      ['rocket', 'gift']
+      .map(it => <SVG key={it} name={`misc/${it}`} />)
+    }
+    </p>
+
     <h3>Brand</h3>
     <p>
     {
