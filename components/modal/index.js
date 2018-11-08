@@ -8,11 +8,10 @@ import { isEqual } from 'lodash'
 import { Button } from '../button'
 import Switch from '../switch'
 import Icon from '../icon'
-import { toggleGlobalScroll, trimList, $, preparePortal } from '../util'
+import { OPEN_MODAL_STACK, toggleGlobalScroll, trimList, $, preparePortal } from '../util'
 
 import './index.styl'
 
-const OPEN_MODAL_STACK = []
 const { I18N = {} } = window
 
 const MODAL_ROOT_ID = 'IBOT_MODAL_ROOT'
@@ -135,8 +134,8 @@ export default class Modal extends PureComponent {
   componentWillUnmount() {
     if (this.portal) this.portal.remove()
 
+    this.didClose()
     window.removeEventListener('resize', this.positionY)
-    toggleGlobalScroll(false)
   }
 
   open = () => this.setState({ isOpen: true }, this.didOpen)
@@ -160,13 +159,16 @@ export default class Modal extends PureComponent {
     setTimeout(() => this.portal.classList.add('is-open'))
   }
 
-  didClose = () => {
+  didClose = () => setTimeout(() => {
     // Remove from the stack in the next round:
     const idx = OPEN_MODAL_STACK.indexOf(this)
-    setTimeout(() => OPEN_MODAL_STACK.splice(idx, 1))
 
-    toggleGlobalScroll(false)
-  }
+    OPEN_MODAL_STACK.splice(idx, 1)
+
+    if (OPEN_MODAL_STACK.every(modal => !modal.state.isOpen)) {
+      toggleGlobalScroll(false)
+    }
+  })
 
   onTransitionEnd = () => {
     const isOpen = this.portal.classList.contains('is-open')

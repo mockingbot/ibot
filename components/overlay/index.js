@@ -8,7 +8,7 @@ import { isBoolean, isEqual } from 'lodash'
 import { PrimaryCoreButton, TertiaryCoreButton, Button } from '../button'
 import Switch from '../switch'
 import SVG from '../svg'
-import { toggleGlobalScroll, trimList, $, preparePortal } from '../util'
+import { OPEN_MODAL_STACK, toggleGlobalScroll, trimList, $, preparePortal } from '../util'
 
 import './index.styl'
 
@@ -123,7 +123,8 @@ export default class Overlay extends PureComponent {
 
   componentWillUnmount() {
     if (this.portal) this.portal.remove()
-    toggleGlobalScroll(false)
+
+    this.didClose()
   }
 
   open = () => this.setState({ isOpen: true })
@@ -132,6 +133,9 @@ export default class Overlay extends PureComponent {
   didOpen = () => {
     const { onOpen, onToggle } = this.props
     const { portal } = this
+
+    // Store in the modal stack to monitor:
+    OPEN_MODAL_STACK.unshift(this)
 
     onOpen()
     onToggle(true)
@@ -145,7 +149,16 @@ export default class Overlay extends PureComponent {
     onClose()
     onToggle(false)
 
-    toggleGlobalScroll(false)
+   setTimeout(() => {
+      // Remove from the stack in the next round:
+      const idx = OPEN_MODAL_STACK.indexOf(this)
+
+      OPEN_MODAL_STACK.splice(idx, 1)
+
+      if (OPEN_MODAL_STACK.every(modal => !modal.state.isOpen)) {
+        toggleGlobalScroll(false)
+      }
+    })
   }
 
   toggle = (willBeOpen = !this.state.isOpen) => (

@@ -10,11 +10,10 @@ import SVG from '../svg'
 import Icon from '../icon'
 import Switch from '../switch'
 
-import { toggleGlobalScroll, trimList, $, preparePortal } from '../util'
+import { OPEN_MODAL_STACK, toggleGlobalScroll, trimList, $, preparePortal } from '../util'
 
 import './index.styl'
 
-const OPEN_MODAL_STACK = []
 const stopPropagation = e => e.stopPropagation()
 
 const MODAL_ROOT_ID = 'IBOT_MODAL_ROOT'
@@ -154,8 +153,8 @@ export default class CoreModal extends PureComponent {
   componentWillUnmount() {
     if (this.portal) this.portal.remove()
 
+    this.didClose()
     window.removeEventListener('resize', this.positionY)
-    toggleGlobalScroll(false)
   }
 
   didOpen = () => {
@@ -175,13 +174,19 @@ export default class CoreModal extends PureComponent {
   didClose = () => {
     const { onClose, onToggle } = this.props
 
-    // Remove from the stack in the next round:
-    const idx = OPEN_MODAL_STACK.indexOf(this)
-    setTimeout(() => OPEN_MODAL_STACK.splice(idx, 1))
-    toggleGlobalScroll(false)
-
     onClose()
     onToggle(false)
+
+    setTimeout(() => {
+      // Remove from the stack in the next round:
+      const idx = OPEN_MODAL_STACK.indexOf(this)
+
+      OPEN_MODAL_STACK.splice(idx, 1)
+
+      if (OPEN_MODAL_STACK.every(modal => !modal.state.isOpen)) {
+        toggleGlobalScroll(false)
+      }
+    })
   }
 
   onTransitionEnd = ({ target }) => {
