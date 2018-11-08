@@ -8,7 +8,11 @@ import { isEqual } from 'lodash'
 import { Button } from '../button'
 import Switch from '../switch'
 import Icon from '../icon'
-import { OPEN_MODAL_STACK, toggleGlobalScroll, trimList, $, preparePortal } from '../util'
+
+import {
+  addModalToStack, deleteModalFromStack, checkNoOpenModalInStack, checkModalIndexInStack,
+  toggleGlobalScroll, trimList, $, preparePortal,
+} from '../util'
 
 import './index.styl'
 
@@ -149,7 +153,7 @@ export default class Modal extends PureComponent {
     const { portal } = this
 
     // Store in the modal stack to monitor:
-    OPEN_MODAL_STACK.unshift(this)
+    addModalToStack(this)
 
     // Reassign Y position of the modal:
     this.positionY()
@@ -161,11 +165,10 @@ export default class Modal extends PureComponent {
 
   didClose = () => setTimeout(() => {
     // Remove from the stack in the next round:
-    const idx = OPEN_MODAL_STACK.indexOf(this)
+    deleteModalFromStack(this)
 
-    OPEN_MODAL_STACK.splice(idx, 1)
 
-    if (OPEN_MODAL_STACK.every(modal => !modal.state.isOpen)) {
+    if (checkNoOpenModalInStack()) {
       toggleGlobalScroll(false)
     }
   })
@@ -255,7 +258,7 @@ export default class Modal extends PureComponent {
       && isOpen && canClose && canCloseOnEsc && !isSelectMenuOpen
 
       // Only work on the toppest modal:
-      && this === OPEN_MODAL_STACK[0]
+      && checkModalIndexInStack(this) === 0
     ) {
       this.close()
     }
@@ -270,7 +273,7 @@ export default class Modal extends PureComponent {
       && isOpen && canConfirmOnEnter
 
       // Only work on the toppest modal:
-      && this === OPEN_MODAL_STACK[0]
+      && checkModalIndexInStack(this) === 0
 
       // Only work whilst `onConfirm` callback is provided:
       && (!!onConfirm || type === 'alert')

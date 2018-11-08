@@ -6,7 +6,24 @@ import './index.styl'
 
 export const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
-export const OPEN_MODAL_STACK = []
+const IBOT = { OPEN_MODAL_STACK: [] }
+
+export function checkModalIndexInStack(modal) {
+  return IBOT.OPEN_MODAL_STACK.indexOf(modal)
+}
+
+export function checkNoOpenModalInStack() {
+  const { OPEN_MODAL_STACK } = IBOT
+  return OPEN_MODAL_STACK.length === 0 || OPEN_MODAL_STACK.every(modal => !modal.state.isOpen)
+}
+
+export function addModalToStack(modal) {
+  return Object.assign(IBOT, { OPEN_MODAL_STACK: [modal, ...IBOT.OPEN_MODAL_STACK] })
+}
+
+export function deleteModalFromStack(modal) {
+  return Object.assign(IBOT, { OPEN_MODAL_STACK: IBOT.OPEN_MODAL_STACK.filter(it => it !== modal) })
+}
 
 export function trimList(list) {
   return compact(list).join(' ')

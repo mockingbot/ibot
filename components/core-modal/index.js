@@ -10,7 +10,10 @@ import SVG from '../svg'
 import Icon from '../icon'
 import Switch from '../switch'
 
-import { OPEN_MODAL_STACK, toggleGlobalScroll, trimList, $, preparePortal } from '../util'
+import {
+  addModalToStack, deleteModalFromStack, checkNoOpenModalInStack, checkModalIndexInStack,
+  toggleGlobalScroll, trimList, $, preparePortal,
+} from '../util'
 
 import './index.styl'
 
@@ -161,7 +164,7 @@ export default class CoreModal extends PureComponent {
     const { onOpen, onToggle } = this.props
     const { maskRef: { current: $mask } } = this
 
-    OPEN_MODAL_STACK.unshift(this)
+    addModalToStack(this)
 
     this.positionY()
 
@@ -179,11 +182,9 @@ export default class CoreModal extends PureComponent {
 
     setTimeout(() => {
       // Remove from the stack in the next round:
-      const idx = OPEN_MODAL_STACK.indexOf(this)
+      deleteModalFromStack(this)
 
-      OPEN_MODAL_STACK.splice(idx, 1)
-
-      if (OPEN_MODAL_STACK.every(modal => !modal.state.isOpen)) {
+      if (checkNoOpenModalInStack()) {
         toggleGlobalScroll(false)
       }
     })
@@ -270,7 +271,7 @@ export default class CoreModal extends PureComponent {
       && isOpen && canClose && canCloseOnEsc && !isSelectMenuOpen
 
       // Only work on the toppest modal:
-      && this === OPEN_MODAL_STACK[0]
+      && checkModalIndexInStack(this) === 0
     ) {
 
       if (onCancel) {
@@ -290,7 +291,7 @@ export default class CoreModal extends PureComponent {
       && isOpen && canConfirmOnEnter
 
       // Only work on the toppest modal:
-      && this === OPEN_MODAL_STACK[0]
+      && checkModalIndexInStack(this) === 0
 
       // Only work whilst `onConfirm` callback is provided:
       && !!onConfirm
