@@ -49,6 +49,8 @@ export class Ellipsis extends PureComponent {
     const { children, html } = this.props
 
     if (!isEqual(prevChildren, children) || !isEqual(prevHTML, html)) {
+      console.log({ prevChildren, children, prevHTML, html })
+
       this.setState(
         { isDetected: false },
         () => this.setState({ isTruncated: this.detectTruncation(), isDetected: true }),
