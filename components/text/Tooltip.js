@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 import { isArray, isEqual, isString, isObject } from 'lodash'
 
-import { trimList, getOtherProps } from '../util'
+import { trimList, getOtherProps, $ } from '../util'
 import { DROPDOWN_ARROW } from '../util/svg'
 
 import { TYPE_ELEMENT_MAP } from './constants'
@@ -71,6 +71,8 @@ export default class Tooltip extends PureComponent {
 
     children: PropTypes.node,
     html: PropTypes.string,
+
+    setRef: PropTypes.func,
   }
 
   static defaultProps = {
@@ -85,6 +87,14 @@ export default class Tooltip extends PureComponent {
 
     className: '',
     tipClassName: '',
+
+    setRef: () => null,
+  }
+
+  ref = React.createRef()
+
+  componentDidMount() {
+    this.props.setRef(this.ref.current)
   }
 
   componentDidUpdate(_, { isOpen: wasOpen }) {
@@ -100,8 +110,6 @@ export default class Tooltip extends PureComponent {
     clearTimeout(this.timeout)
     clearTimeout(this.hoverTimeout)
   }
-
-  set$text = $text => this.setState({ $text })
 
   onClick = () => this.setState(
     {
@@ -141,7 +149,7 @@ export default class Tooltip extends PureComponent {
       children,
     } = this.props
 
-    const { isOpen, isClicked, $text } = this.state
+    const { isOpen, isClicked } = this.state
 
     const klass = trimList([
       'Tooltip',
@@ -158,7 +166,7 @@ export default class Tooltip extends PureComponent {
 
       // Props:
       {
-        ref: this.set$text,
+        ref: this.ref,
         className: klass,
         onMouseEnter: this.onMouseEnter,
         onClick: this.onClick,
@@ -171,7 +179,7 @@ export default class Tooltip extends PureComponent {
         { html ? <span dangerouslySetInnerHTML={{ __html: html }} /> : children }
 
         <Tip
-          $text={$text}
+          $text={this.ref.current}
           isOpen={isOpen}
           className={tipClassName}
           eventName={eventName}
@@ -221,6 +229,8 @@ class Tip extends PureComponent {
     return null
   }
 
+  ref = React.createRef()
+
   componentDidUpdate({ isOpen: wasOpen }) {
     const { isOpen } = this.props
 
@@ -233,14 +243,17 @@ class Tip extends PureComponent {
     }
   }
 
-  set$tipBase = $tipBase => Object.assign(this, {
-    $tipBase,
-    $tip: $tipBase && $tipBase.querySelector('.Tip, .CoreTip'),
-  })
+  get $tipBase() {
+    return this.ref.current
+  }
+
+  get $tip() {
+    return this.$tipBase && $('.Tip', this.$tipBase)
+  }
 
   position = () => {
-    const { $tipBase, $tip } = this
     const { $text, position, inflexible } = this.props
+    const { $tipBase, $tip } = this
 
     if (!$text || !$tipBase || !$tip) return
 
@@ -324,7 +337,7 @@ class Tip extends PureComponent {
     }
 
     Object.assign($tipBase.style, baseStyle)
-    Object.assign($tip.querySelector('.content').style, tipStyle)
+    Object.assign($('.content', $tip).style, tipStyle)
     $tip.classList.add('is-open')
   }
 
@@ -339,15 +352,15 @@ class Tip extends PureComponent {
   }
 
   render() {
-    return createPortal(this.renderTip(), $tipRoot)
+    return createPortal(this.tip, $tipRoot)
   }
 
-  renderTip() {
+  get tip() {
     const { className, theme, inflexible, arrowed, children } = this.props
     const { isOpen, position } = this.state
 
     const klass = trimList([
-      theme === 'core' ? 'CoreTip' : 'Tip',
+      theme === 'core' ? 'Tip CoreTip' : 'Tip',
       className,
       `on-${position}`,
       inflexible && 'inflexible',
@@ -355,7 +368,7 @@ class Tip extends PureComponent {
     ])
 
     return isOpen && (
-      <div className="TipBase" ref={this.set$tipBase}>
+      <div className="TipBase" ref={this.ref}>
         <div
           className={klass}
           onTransitionEnd={this.onTransitionEnd}

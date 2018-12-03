@@ -49,9 +49,7 @@ export class Ellipsis extends PureComponent {
     const { children, html } = this.props
 
     if (!isEqual(prevChildren, children) || !isEqual(prevHTML, html)) {
-      console.log({ prevChildren, children, prevHTML, html })
-
-      this.setState(
+      return this.setState(
         { isDetected: false },
         () => this.setState({ isTruncated: this.detectTruncation(), isDetected: true }),
       )
@@ -59,12 +57,11 @@ export class Ellipsis extends PureComponent {
   }
 
   set$ellipsis = $ellipsis => Object.assign(this, { $ellipsis })
-
   detectTruncation = ($e = this.$ellipsis) => $e.offsetWidth < $e.scrollWidth
 
   render() {
     const {
-      className, to, type, max, display, lang,
+      className, to, type, max, display, lang, theme,
       noTooltip, withTooltip,
 
       withQuote,
@@ -77,18 +74,17 @@ export class Ellipsis extends PureComponent {
 
     const { isTruncated, isDetected } = this.state
 
-    const elementType = to ? 'link' : 'inline'
-
     const contentProp = (
       html
       ? { dangerouslySetInnerHTML: { __html: html } }
       : { children }
     )
 
-    const truncationClassName = isTruncated ? 'is-truncated' : isDetected ? 'isnt-truncated': null
+    const truncationClassName = isTruncated ? 'is-truncated' : isDetected ? 'isnt-truncated' : null
 
-    const attr = {
-      ref: this.set$ellipsis,
+    const tooltipProps = {
+      type: to ? 'link' : 'inline',
+      theme,
 
       className: trimList([
         'Ellipsis',
@@ -105,20 +101,16 @@ export class Ellipsis extends PureComponent {
         maxWidth: isFinite(max) ? `${max}em` : max,
       },
 
+      content: (withTooltip || isTruncated && !noTooltip) && <div lang={lang} className="EllipsisTip" {...contentProp} />,
+
       html,
       children,
+      setRef: this.set$ellipsis,
+
       ...others,
     }
 
-    const tip = (
-      <div lang={lang} className="EllipsisTip" {...contentProp}></div>
-    )
-
-    const ellipsis = (
-     withTooltip || isTruncated && !noTooltip
-      ? <Tooltip type={elementType} content={tip} {...attr} />
-      : React.createElement(TYPE_ELEMENT_MAP[elementType], {...attr, ...contentProp})
-    )
+    const tooltip = <Tooltip {...tooltipProps} />
 
     return (
       withQuote || withPeriod || withComma || withQuestionMark
@@ -132,9 +124,9 @@ export class Ellipsis extends PureComponent {
             truncationClassName,
           ])}
         >
-          { ellipsis }
+          { tooltip }
         </span>
-      : ellipsis
+      : tooltip
     )
   }
 }
@@ -145,11 +137,7 @@ export function User({
   const result = name || (id ? `@${id}` : email)
   const resultType = name ? 'user' : id ? 'id' : email ? 'email' : null
 
-  return (
-    <Ellipsis type={resultType} {...others}>
-    { result }
-    </Ellipsis>
-  )
+  return <Ellipsis type={resultType} {...others}>{ result }</Ellipsis>
 }
 
 User.propTypes = {

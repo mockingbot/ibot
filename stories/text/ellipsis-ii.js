@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 
-import { Root, Button, User, TeamName, AppName, WidgetName } from '../../components'
+import { Root, Button, User, OrgName, TeamName, AppName, WidgetName } from '../../components'
 
 const shortName = 'Vincent'
 const longName = 'Mitchell Vincent Pritchett'
@@ -93,15 +93,22 @@ export default class EllipsisII extends PureComponent {
         <ToggleName />
         <ToggleName isLong={true} />
 
+        <h2>Organisation</h2>
+        <p>
+          <OrgName name="Beijing Sharpening Stone Ltd." />
+          <br />
+          <OrgName name="北京磨刀刻石科技有限公司" />
+          <br />
+          <OrgName name="Loooooooooooong Name Ltd., Bankok" />
+          <br />
+          <OrgName name="天使之城名字很長很長很長的一間有限公司" />
+        </p>
+
         <h2>Team</h2>
         <p>
-          <TeamName name="MockingBot" />
+          <TeamName name="MockingBot Dev Team" />
           <br />
-          <TeamName name="Beijing Sharpening Stone Ltd." />
-          <br />
-          <TeamName name="墨刀" />
-          <br />
-          <TeamName name="北京磨刀刻石科技有限公司" />
+          <TeamName name="墨刀开发团队" />
         </p>
 
         <h2>App</h2>
