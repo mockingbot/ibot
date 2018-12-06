@@ -14,12 +14,14 @@ class ToggleName extends PureComponent {
   onToggle = () => this.setState({ isLong: !this.state.isLong })
 
   render() {
+    const { withSpan } = this.props
     const { isLong } = this.state
     const name = isLong ? longName : shortName
+    const content = withSpan ? <span>{ name }</span> : name
 
     return (
       <p>
-        <User name={name} />
+        <User name={content} />
         {' '}
         <Button type="text" onClick={this.onToggle}>Toggle</Button>
       </p>
@@ -92,6 +94,8 @@ export default class EllipsisII extends PureComponent {
         <h3>Toggle</h3>
         <ToggleName />
         <ToggleName isLong={true} />
+        <ToggleName withSpan />
+        <ToggleName withSpan isLong={true} />
 
         <h2>Organisation</h2>
         <p>

@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import isEqual from 'lodash/isEqual'
 
 import Tooltip from './Tooltip'
 import { trimList } from '../util'
@@ -38,21 +37,19 @@ export class Ellipsis extends PureComponent {
   }
 
   componentDidMount() {
-    if (this.detectTruncation()) {
-      this.setState({ isTruncated: true })
-    }
-
-    this.setState({ isDetected: true })
+    return this.setState({ isDetected: true, isTruncated: this.detectTruncation() })
   }
 
   componentDidUpdate({ children: prevChildren, html: prevHTML }) {
     const { children, html } = this.props
+    const { isDetected } = this.state
 
-    if (!isEqual(prevChildren, children) || !isEqual(prevHTML, html)) {
-      return this.setState(
-        { isDetected: false },
-        () => this.setState({ isTruncated: this.detectTruncation(), isDetected: true }),
-      )
+    if (prevChildren !== children || prevHTML !== html) {
+      return this.setState({ isDetected: false })
+    }
+
+    if (!isDetected) {
+      return this.setState({ isDetected: true, isTruncated: this.detectTruncation() })
     }
   }
 
@@ -80,7 +77,7 @@ export class Ellipsis extends PureComponent {
       : { children }
     )
 
-    const truncationClassName = isTruncated ? 'is-truncated' : isDetected ? 'isnt-truncated' : null
+    const truncationClassName = isDetected && (isTruncated ? 'is-truncated' : 'isnt-truncated')
 
     const tooltipProps = {
       type: to ? 'link' : 'inline',
