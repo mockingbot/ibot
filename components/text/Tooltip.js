@@ -111,13 +111,15 @@ export default class Tooltip extends PureComponent {
     clearTimeout(this.hoverTimeout)
   }
 
-  onClick = e => this.setState(
-    {
+  onClick = e => {
+    this.setState({
       isOpen: !!parseContent(this.props.content, 'click'),
       isClicked: true,
-    },
-    () => this.props.onClick(e),
-  )
+    })
+
+    e.persist()
+    this.props.onClick(e)
+  }
 
   onMouseEnter = () => Object.assign(this, {
     hoverTimeout: setTimeout(
