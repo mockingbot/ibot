@@ -42,6 +42,7 @@ export class Ellipsis extends PureComponent {
 
   componentDidUpdate({ children: prevChildren, html: prevHTML }) {
     const { children, html } = this.props
+
     const { isDetected } = this.state
 
     if (prevChildren !== children || prevHTML !== html) {
