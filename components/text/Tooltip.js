@@ -89,6 +89,7 @@ export default class Tooltip extends PureComponent {
     tipClassName: '',
 
     setRef: () => null,
+    onClick: () => null,
   }
 
   ref = React.createRef()
