@@ -8,17 +8,22 @@ storiesOf('Dropdown', module)
 .add('Default', () => <DropdownExample />)
 
 class DropdownExample extends PureComponent {
-  state = { isSettingOpen: true, inputValue: '' }
+  state = { isSettingOpen: true, isSecondSettingOpen: false, inputValue: '' }
 
   onToggleSetting = isSettingOpen => this.setState(
     { isSettingOpen },
     () => action('Dropdown `isOpen`')(isSettingOpen),
   )
 
+  onToggleSecondSetting = isSecondSettingOpen => this.setState(
+    { isSecondSettingOpen },
+    () => action('Dropdown `isOpen`')(isSecondSettingOpen),
+  )
+
   onChangeInput = inputValue => this.setState({ inputValue })
 
   render() {
-    const { isSettingOpen, inputValue } = this.state
+    const { isSettingOpen, isSecondSettingOpen, inputValue } = this.state
 
     return (
       <Root>
@@ -105,6 +110,23 @@ class DropdownExample extends PureComponent {
           <Dropdown
             isOpen={isSettingOpen}
             onToggle={this.onToggleSetting}
+
+            opener={<div><Icon type="dora" name="cog" /> Settings</div>}
+            menuClassName="preview-option"
+            menu={
+              <div>
+                <Select size="small" optionList={['真实设备边框', '墨刀黑', '无边框']} value="真实设备边框" size="small" unstyled />
+                <hr />
+                <Check size="small" label="高亮链接区域" />
+              </div>
+            }
+            menuX="left"
+          />
+
+          <Dropdown
+            isOpen={isSecondSettingOpen}
+            onToggle={this.onToggleSecondSetting}
+            shouldCloseOnClickOutside={false}
 
             opener={<div><Icon type="dora" name="cog" /> Settings</div>}
             menuClassName="preview-option"

@@ -78,6 +78,7 @@ export default class Dropdown extends PureComponent {
 
     shouldPreventScrollingPropagation: PropTypes.bool,
     shouldOpenOnHover: PropTypes.bool,
+    shouldCloseOnClickOutside: PropTypes.bool,
     hoverDelay: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
     arrowed: PropTypes.bool,
@@ -105,6 +106,7 @@ export default class Dropdown extends PureComponent {
     shouldPreventScrollingPropagation: true,
     shouldCloseOnSelect: true,
     shouldOpenOnHover: false,
+    shouldCloseOnClickOutside: true,
     hoverDelay: 200,
 
     menuX: 'center',
@@ -224,7 +226,7 @@ export default class Dropdown extends PureComponent {
   }
 
   render() {
-    const { className, opener, openerType } = this.props
+    const { className, opener, openerType, shouldCloseOnClickOutside } = this.props
     const { isOpen, $opener, currentMenuListItemIdx } = this.state
     const isDisabled = this.props.isDisabled || this.props.disabled
 
@@ -260,6 +262,7 @@ export default class Dropdown extends PureComponent {
           $opener={$opener}
           onSelect={this.onSelect}
           onClose={this.close}
+          shouldCloseOnClickOutside={shouldCloseOnClickOutside}
           currentMenuListItemIdx={currentMenuListItemIdx}
         />
 
@@ -317,7 +320,9 @@ class DropdownMenu extends PureComponent {
   menuBaseRef = createRef()
 
   onClickOutside = ({ target }) => {
-    const { $opener, onClose } = this.props
+    const { $opener, onClose, shouldCloseOnClickOutside } = this.props
+
+    if (!shouldCloseOnClickOutside) return
 
     const isOutsideMenu = !$menuRoot.contains(target)
 
