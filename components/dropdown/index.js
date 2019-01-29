@@ -130,10 +130,6 @@ export default class Dropdown extends PureComponent {
     return null
   }
 
-  componentDidMount() {
-    window.addEventListener('resize', this.onResizeWindow)
-  }
-
   componentDidUpdate(_, { isOpen: wasOpen }) {
     const { onOpen, onClose, onToggle } = this.props
     const { isOpen } = this.state
@@ -147,10 +143,6 @@ export default class Dropdown extends PureComponent {
         onToggle(false)
       }
     }
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.onResizeWindow)
   }
 
   toggle = willBeOpen => this.setState(
@@ -206,7 +198,6 @@ export default class Dropdown extends PureComponent {
   }
 
   set$opener = $opener => this.setState({ $opener })
-  onResizeWindow = () => this.state.isOpen && this.close()
 
   onSelect = ({ currentTarget }) => {
     const { menuList, onSelect, shouldCloseOnSelect } = this.props
@@ -302,6 +293,8 @@ class DropdownMenu extends PureComponent {
     if (shouldPreventScrollingPropagation) {
       preventScrollingPropagation($('.content', $menuBase))
     }
+
+    window.addEventListener('resize', this.onResizeWindow)
   }
 
   componentDidUpdate({ isOpen: wasOpen }) {
@@ -315,9 +308,13 @@ class DropdownMenu extends PureComponent {
 
   componentWillUnmount() {
     if (this.portal) this.portal.remove()
+
+    window.removeEventListener('resize', this.onResizeWindow)
   }
 
   menuBaseRef = createRef()
+
+  onResizeWindow = () => this.props.isOpen && this.position()
 
   onClickOutside = ({ target }) => {
     const { $opener, onClose, shouldCloseOnClickOutside } = this.props
