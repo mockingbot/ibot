@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import DocumentEvents from 'react-document-events'
+import EventListener from 'react-event-listener'
 
 import { isEqual } from 'lodash'
 
@@ -512,11 +512,13 @@ export class ConfirmInputNumber extends PureComponent {
           />
         )}
 
-        <DocumentEvents
-          enabled={isActive || isMenuOpen}
-          onClick={this.onClickOutside}
-          onKeyDown={this.onKeyDown}
-        />
+        { (isActive || isMenuOpen) && (
+          <EventListener
+            target={document}
+            onClick={this.onClickOutside}
+            onKeyDown={this.onKeyDown}
+          />
+        )}
       </label>
     )
   }

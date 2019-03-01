@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import DocumentEvents from 'react-document-events'
+import EventListener from 'react-event-listener'
 
 import { isEqual } from 'lodash'
 
@@ -143,10 +143,12 @@ export class InputEmail extends PureComponent {
           {...getOtherProps(this.constructor, this.props)}
         />
 
-        <DocumentEvents
-          enabled={isActive}
-          onClick={this.onClickOutside}
-        />
+        { isActive && (
+          <EventListener
+            target={document}
+            onClick={this.onClickOutside}
+          />
+        )}
       </label>
     )
   }

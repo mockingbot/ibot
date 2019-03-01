@@ -1,7 +1,7 @@
 import React, { cloneElement, createRef, isValidElement, PureComponent } from 'react'
 import { createPortal } from 'react-dom'
 import PropTypes from 'prop-types'
-import DocumentEvents from 'react-document-events'
+import EventListener, { withOptions } from 'react-event-listener'
 
 import { isBoolean, isEqual } from 'lodash'
 
@@ -257,10 +257,12 @@ export default class Dropdown extends PureComponent {
           currentMenuListItemIdx={currentMenuListItemIdx}
         />
 
-        <DocumentEvents
-          enabled={isOpen}
-          onMouseMove={this.onMouseMove}
-        />
+        { isOpen && (
+          <EventListener
+            target={document}
+            onMouseMove={this.onMouseMove}
+          />
+        )}
       </label>
     )
   }
@@ -406,16 +408,19 @@ class DropdownMenu extends PureComponent {
           }
           </div>
 
-          <DocumentEvents
-            enabled={isOpen}
-            onClick={this.onClickOutside}
-          />
+          { isOpen && (
+            <EventListener
+              target={document}
+              onClick={this.onClickOutside}
+            />
+          )}
 
-          <DocumentEvents
-            enabled={isOpen}
-            capture={true}
-            onScroll={this.position}
-          />
+          { isOpen && (
+            <EventListener
+              target={document}
+              onScroll={withOptions(this.position, { capture: true })}
+            />
+          )}
         </div>
       </div>
     )
