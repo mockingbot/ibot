@@ -4,9 +4,8 @@ import DocumentEvents from 'react-document-events'
 
 import { isEqual } from 'lodash'
 
-import { Button } from '../button'
 import { SelectMenu } from './Select'
-import SVG from '../svg'
+import { InputActionButton } from './InputNumber'
 
 import { trimList, getOtherProps } from '../util'
 import { setNumberValue } from './util'
@@ -496,38 +495,7 @@ export class ConfirmInputNumber extends PureComponent {
           </span>
         )}
 
-        {
-          hasMenu
-          ? <div className="action caret">
-              <Button type="text" tabIndex="-1" onClick={this.toggleMenu}>
-                <SVG name="triangle_down" />
-              </Button>
-            </div>
-
-          : <div className="action">
-              <Button
-                type="text"
-                tabIndex="-1"
-                data-action="up"
-                onMouseDown={this.onStep}
-                onMouseLeave={this.onRelease}
-                onMouseUp={this.onRelease}
-              >
-                <SVG name="triangle_up" />
-              </Button>
-
-              <Button
-                type="text"
-                tabIndex="-1"
-                data-action="down"
-                onMouseDown={this.onStep}
-                onMouseLeave={this.onRelease}
-                onMouseUp={this.onRelease}
-              >
-                <SVG name="triangle_down" />
-              </Button>
-            </div>
-        }
+        <InputActionButton hasMenu={hasMenu} onToggleMenu={this.toggleMenu} onStep={this.onStep} onRelease={this.onRelease} />
 
         { hasMenu && (
           <SelectMenu
