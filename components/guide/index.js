@@ -2,7 +2,7 @@ import React, { PureComponent, Fragment, isValidElement, cloneElement } from 're
 import { createPortal } from 'react-dom'
 
 import PropTypes from 'prop-types'
-import DocumentEvents from 'react-document-events'
+import EventListener, { withOptions } from 'react-event-listener'
 import { isEqual } from 'lodash'
 
 import { Button } from '../button'
@@ -188,11 +188,12 @@ export default class GuideBase extends PureComponent {
             )}
           </div>
 
-          <DocumentEvents
-            enabled={isOpen}
-            capture={true}
-            onScroll={this.onScrollOutside}
-          />
+          { isOpen && (
+            <EventListener
+              target={document}
+              onScroll={withOptions(this.onScrollOutside, { capture: true })}
+            />
+          )}
         </div>
       </div>
     )

@@ -1,7 +1,7 @@
 import React, { Fragment, PureComponent } from 'react'
 import { createPortal } from 'react-dom'
 import PropTypes from 'prop-types'
-import DocumentEvents from 'react-document-events'
+import EventListener from 'react-event-listener'
 
 import { isEqual } from 'lodash'
 
@@ -421,7 +421,8 @@ export default class Modal extends PureComponent {
           )}
         </div>
 
-        <DocumentEvents
+        <EventListener
+          target={document}
           onKeyDown={this.onKeyDown}
         />
       </Fragment>

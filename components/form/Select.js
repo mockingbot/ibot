@@ -1,7 +1,7 @@
 import React, { createRef, PureComponent } from 'react'
 import { createPortal } from 'react-dom'
 import PropTypes from 'prop-types'
-import DocumentEvents from 'react-document-events'
+import EventListener, { withOptions } from 'react-event-listener'
 
 import { get, isArray, isEqual, isElement } from 'lodash'
 
@@ -413,17 +413,19 @@ export class SelectMenu extends PureComponent {
             )
           }
 
-          <DocumentEvents
-            enabled={isOpen}
-            capture={false}
-            onClick={this.onClickOutside}
-          />
+          { isOpen && (
+            <EventListener
+              target={document}
+              onClick={this.onClickOutside}
+            />
+          )}
 
-          <DocumentEvents
-            enabled={isOpen}
-            capture={true}
-            onScroll={this.position}
-          />
+          { isOpen && (
+            <EventListener
+              target={document}
+              onScroll={withOptions(this.position, { capture: true })}
+            />
+          )}
         </ul>
       </div>
     )

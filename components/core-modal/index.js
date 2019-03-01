@@ -1,7 +1,7 @@
 import React, { createRef, Fragment, PureComponent } from 'react'
 import { createPortal } from 'react-dom'
 import PropTypes from 'prop-types'
-import DocumentEvents from 'react-document-events'
+import EventListener from 'react-event-listener'
 
 import { get, isBoolean, isEqual } from 'lodash'
 
@@ -418,7 +418,7 @@ export default class CoreModal extends PureComponent {
           { footer }
         </div>
 
-        <DocumentEvents onKeyDown={this.onKeyDown} />
+        <EventListener target={document} onKeyDown={this.onKeyDown} />
       </Fragment>
     )
   }

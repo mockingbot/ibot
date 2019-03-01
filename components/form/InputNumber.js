@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import DocumentEvents from 'react-document-events'
+import EventListener from 'react-event-listener'
 
 import { isNumber, isEqual } from 'lodash'
 
@@ -400,38 +400,7 @@ export class InputNumber extends PureComponent {
           </span>
         )}
 
-        {
-          hasMenu
-          ? <div className="action caret">
-              <Button type="text" tabIndex="-1" onClick={this.toggleMenu}>
-                <SVG name="triangle_down" />
-              </Button>
-            </div>
-
-          : <div className="action">
-              <Button
-                type="text"
-                tabIndex="-1"
-                data-action="up"
-                onMouseDown={this.onStep}
-                onMouseLeave={this.onRelease}
-                onMouseUp={this.onRelease}
-              >
-                <SVG name="triangle_up" />
-              </Button>
-
-              <Button
-                type="text"
-                tabIndex="-1"
-                data-action="down"
-                onMouseDown={this.onStep}
-                onMouseLeave={this.onRelease}
-                onMouseUp={this.onRelease}
-              >
-                <SVG name="triangle_down" />
-              </Button>
-            </div>
-        }
+        <InputActionButton hasMenu={hasMenu} onToggleMenu={this.toggleMenu} onStep={this.onStep} onRelease={this.onRelease} />
 
         { hasMenu && (
           <SelectMenu
@@ -448,11 +417,63 @@ export class InputNumber extends PureComponent {
           />
         )}
 
-        <DocumentEvents
-          enabled={isActive || isMenuOpen}
-          onClick={this.onClickOutside}
-        />
+        { (isActive || isMenuOpen) && (
+          <EventListener
+            target={document}
+            onClick={this.onClickOutside}
+          />
+        )}
       </label>
+    )
+  }
+}
+
+export class InputActionButton extends PureComponent {
+  static propTypes = {
+    hasMenu: PropTypes.bool,
+    onStep: PropTypes.func,
+    onToggleMenu: PropTypes.func,
+    onRelease: PropTypes.func,
+  }
+
+  render () {
+    const { hasMenu, onToggleMenu, onStep, onRelease } = this.props
+
+    return (
+      <React.Fragment>
+        {
+          hasMenu
+          ? <div className="action caret">
+              <Button type="text" tabIndex="-1" onClick={onToggleMenu} >
+                <SVG name="triangle_down" />
+              </Button>
+            </div>
+
+          : <div className="action">
+              <Button
+                type="text"
+                tabIndex="-1"
+                data-action="up"
+                onMouseDown={onStep}
+                onMouseLeave={onRelease}
+                onMouseUp={onRelease}
+              >
+                <SVG name="triangle_up" />
+              </Button>
+
+              <Button
+                type="text"
+                tabIndex="-1"
+                data-action="down"
+                onMouseDown={onStep}
+                onMouseLeave={onRelease}
+                onMouseUp={onRelease}
+              >
+                <SVG name="triangle_down" />
+              </Button>
+            </div>
+        }
+      </React.Fragment>
     )
   }
 }
