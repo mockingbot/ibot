@@ -32,7 +32,7 @@ storiesOf('SVG', module)
     </style>
     <p>
     {
-      ['alarm', 'close', 'ellipsis', 'group','info']
+      ['alarm', 'close', 'ellipsis', 'group','info', 'question']
       .map(it => <SVG key={it} name={it} />)
     }
     </p>
