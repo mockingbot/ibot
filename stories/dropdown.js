@@ -2,13 +2,21 @@ import React, { PureComponent } from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 
-import { Root, Icon, Dropdown, Input, Select, Check, Tooltip } from '../components'
+import { Root, Button, Icon, Dropdown, Input, Select, Check, Tooltip } from '../components'
 
 storiesOf('Dropdown', module)
 .add('Default', () => <DropdownExample />)
 
 class DropdownExample extends PureComponent {
-  state = { isSettingOpen: true, isSecondSettingOpen: false, inputValue: '' }
+  state = {
+    isDark: false,
+
+    isSettingOpen: true,
+    isSecondSettingOpen: false,
+    inputValue: '',
+  }
+
+  toggleMode = () => this.setState({ isDark: !this.state.isDark })
 
   onToggleSetting = isSettingOpen => this.setState(
     { isSettingOpen },
@@ -23,10 +31,22 @@ class DropdownExample extends PureComponent {
   onChangeInput = inputValue => this.setState({ inputValue })
 
   render() {
-    const { isSettingOpen, isSecondSettingOpen, inputValue } = this.state
+    const { isDark, isSettingOpen, isSecondSettingOpen, inputValue } = this.state
 
     return (
       <Root>
+        <Button
+          type="primary"
+          onClick={this.toggleMode}
+          style={{
+            position: 'fixed',
+            right: '1em',
+            top: '1em',
+          }}
+        >
+          Toggle Mode
+        </Button>
+
         <style>
         {`
           .dropdown {
@@ -99,6 +119,8 @@ class DropdownExample extends PureComponent {
         <p className="dropdown">
           <Dropdown
             opener="Type Something"
+            mode={isDark ? 'dark' : 'light'}
+
             menu={<Input style={{ width: '10rem' }} value={inputValue} placeholder="Type something here." onChange={this.onChangeInput} />}
             menuX="left"
             menuBaseStyle={{ left: 50 }}
@@ -108,6 +130,8 @@ class DropdownExample extends PureComponent {
 
         <p className="dropdown">
           <Dropdown
+            mode={isDark ? 'dark' : 'light'}
+
             isOpen={isSettingOpen}
             onToggle={this.onToggleSetting}
 
@@ -124,6 +148,8 @@ class DropdownExample extends PureComponent {
           />
 
           <Dropdown
+            mode={isDark ? 'dark' : 'light'}
+
             isOpen={isSecondSettingOpen}
             onToggle={this.onToggleSecondSetting}
             shouldCloseOnClickOutside={false}
@@ -141,7 +167,10 @@ class DropdownExample extends PureComponent {
           />
 
           <Dropdown
+            mode={isDark ? 'dark' : 'light'}
+
             opener={<Icon type="dora" name="cog" />}
+
             menuClassName="preview-option"
             menu={
               <div>
@@ -153,6 +182,8 @@ class DropdownExample extends PureComponent {
           />
 
           <Dropdown
+            mode={isDark ? 'dark' : 'light'}
+
             opener={<div><Icon type="dora" name="cog" /> Settings</div>}
             menuClassName="preview-option"
             menu={
@@ -170,6 +201,8 @@ class DropdownExample extends PureComponent {
         <h3>Arrow-based X</h3>
         <p className="dropdown">
           <Dropdown
+            mode={isDark ? 'dark' : 'light'}
+
             opener={<Icon type="dora" name="cog" />}
             arrowed
             menuX="left"
@@ -179,6 +212,8 @@ class DropdownExample extends PureComponent {
           />
 
           <Dropdown
+            mode={isDark ? 'dark' : 'light'}
+
             opener={<Icon type="dora" name="cog" />}
             arrowed
             menuX="center"
@@ -189,6 +224,8 @@ class DropdownExample extends PureComponent {
           />
 
           <Dropdown
+            mode={isDark ? 'dark' : 'light'}
+
             opener={<Icon type="dora" name="cog" />}
             arrowed
             menuX="right"
@@ -202,6 +239,8 @@ class DropdownExample extends PureComponent {
         <h3>menu-based X</h3>
         <p className="dropdown">
           <Dropdown
+            mode={isDark ? 'dark' : 'light'}
+
             opener={<div><Icon type="dora" name="cog" /> Settings</div>}
             arrowed menuBasedX
             menuX="left"
@@ -211,6 +250,8 @@ class DropdownExample extends PureComponent {
           />
 
           <Dropdown
+            mode={isDark ? 'dark' : 'light'}
+
             opener={<Icon type="dora" name="cog" />}
             arrowed
             menuX="center"
@@ -221,6 +262,8 @@ class DropdownExample extends PureComponent {
           />
 
           <Dropdown
+            mode={isDark ? 'dark' : 'light'}
+
             opener={<div><Icon type="dora" name="cog" /> Settings</div>}
             arrowed menuBasedX
             menuX="right"
@@ -234,6 +277,8 @@ class DropdownExample extends PureComponent {
         <h2>Preferred-top & arrowed</h2>
         <p className="dropdown">
           <Dropdown
+            mode={isDark ? 'dark' : 'light'}
+
             menuY="top"
             opener={<Icon type="dora" name="cog" />}
             arrowed
@@ -243,6 +288,8 @@ class DropdownExample extends PureComponent {
           />
 
           <Dropdown
+            mode={isDark ? 'dark' : 'light'}
+
             menuY="top"
             opener={<Icon type="dora" name="cog" />}
             arrowed
@@ -252,6 +299,8 @@ class DropdownExample extends PureComponent {
           />
 
           <Dropdown
+            mode={isDark ? 'dark' : 'light'}
+
             menuY="top"
             opener={<Icon type="dora" name="cog" />}
             arrowed
@@ -265,6 +314,8 @@ class DropdownExample extends PureComponent {
         <h3>Hover to open</h3>
         <p className="dropdown palette">
           <Dropdown
+            mode={isDark ? 'dark' : 'light'}
+
             inflexible
             menuY="top"
             menuX="left"
@@ -294,6 +345,7 @@ class DropdownExample extends PureComponent {
             }
           />
           <Dropdown
+            mode={isDark ? 'dark' : 'light'}
             inflexible
             menuY="top"
             menuX="left"
@@ -319,6 +371,7 @@ class DropdownExample extends PureComponent {
             }
           />
           <Dropdown
+            mode={isDark ? 'dark' : 'light'}
             inflexible
             menuY="top"
             menuX="left"
@@ -344,6 +397,7 @@ class DropdownExample extends PureComponent {
             }
           />
           <Dropdown
+            mode={isDark ? 'dark' : 'light'}
             inflexible
             menuY="top"
             menuX="left"
@@ -369,6 +423,7 @@ class DropdownExample extends PureComponent {
             }
           />
           <Dropdown
+            mode={isDark ? 'dark' : 'light'}
             inflexible
             menuY="top"
             arrowed
@@ -393,6 +448,7 @@ class DropdownExample extends PureComponent {
             }
           />
           <Dropdown
+            mode={isDark ? 'dark' : 'light'}
             inflexible
             menuY="top"
             menuX="right"
@@ -421,13 +477,14 @@ class DropdownExample extends PureComponent {
 
         <h2>Disabled</h2>
         <p className="dropdown">
-          <Dropdown opener={<Icon type="dora" name="cog" />} disabled />
-          <Dropdown opener={<Icon type="dora" name="cog" />} isDisabled />
+          <Dropdown mode={isDark ? 'dark' : 'light'} opener={<Icon type="dora" name="cog" />} disabled />
+          <Dropdown mode={isDark ? 'dark' : 'light'} opener={<Icon type="dora" name="cog" />} isDisabled />
         </p>
 
         <h2>Not closing after selected</h2>
         <p className="dropdown">
           <Dropdown
+            mode={isDark ? 'dark' : 'light'}
             opener={<Icon type="dora" name="cog" />}
             arrowed
             menuX="left"
@@ -437,6 +494,7 @@ class DropdownExample extends PureComponent {
           />
 
           <Dropdown
+            mode={isDark ? 'dark' : 'light'}
             opener={<Icon type="dora" name="cog" />}
             arrowed
             menuX="center"
@@ -446,6 +504,7 @@ class DropdownExample extends PureComponent {
           />
 
           <Dropdown
+            mode={isDark ? 'dark' : 'light'}
             opener={<Icon type="dora" name="cog" />}
             arrowed
             menuX="right"
@@ -459,18 +518,21 @@ class DropdownExample extends PureComponent {
         <h2>Custom content</h2>
         <p className="dropdown">
           <Dropdown
+            mode={isDark ? 'dark' : 'light'}
             menuX="left"
             opener={<Icon type="dora" name="cube" />}
             menu={<div>Your own content, whatever you like.</div>}
             menuClassName="custom-dropdown-menu"
           />
           <Dropdown
+            mode={isDark ? 'dark' : 'light'}
             menuX="center"
             opener={<Icon type="dora" name="comment" />}
             menu={<div>Your own content, whatever you like.</div>}
             menuClassName="custom-dropdown-menu"
           />
           <Dropdown
+            mode={isDark ? 'dark' : 'light'}
             menuX="right"
             opener={<Icon type="dora" name="arrow_down" />}
             arrowed

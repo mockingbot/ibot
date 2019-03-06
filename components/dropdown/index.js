@@ -1,9 +1,9 @@
+import { get, isBoolean, isEqual } from 'lodash'
+
 import React, { cloneElement, createRef, isValidElement, PureComponent } from 'react'
 import { createPortal } from 'react-dom'
 import PropTypes from 'prop-types'
 import EventListener, { withOptions } from 'react-event-listener'
-
-import { isBoolean, isEqual } from 'lodash'
 
 import { preventScrollingPropagation, trimList, $, preparePortal } from '../util'
 import { DROPDOWN_ARROW } from '../util/svg'
@@ -39,6 +39,8 @@ export default class Dropdown extends PureComponent {
 
   static propTypes = {
     isOpen: PropTypes.bool,
+
+    mode: PropTypes.oneOf(['light', 'dark']),
 
     opener: PropTypes.node,
     openerType: PropTypes.oneOf(['button', 'custom']),
@@ -102,6 +104,8 @@ export default class Dropdown extends PureComponent {
   static defaultProps = {
     arrowed: false,
     openerType: 'button',
+
+    mode: 'light',
 
     shouldPreventScrollingPropagation: true,
     shouldCloseOnSelect: true,
@@ -338,6 +342,7 @@ class DropdownMenu extends PureComponent {
     const { $opener, menuX, menuY, menuBaseStyle, inflexible } = this.props
     const { menuBaseRef: { current: $menuBase } } = this
 
+
     const { isDownward } = positionMenu({
       $menuBase, $opener,
       menuX, menuY, menuBaseStyle,
@@ -355,6 +360,7 @@ class DropdownMenu extends PureComponent {
   get menu() {
     const {
       isOpen,
+      mode,
 
       menuBaseClassName,
       menuClassName,
@@ -369,6 +375,7 @@ class DropdownMenu extends PureComponent {
 
     const klass = trimList([
       'DropdownMenu',
+      mode,
       isOpen && 'is-open',
       isDownward ? 'is-downward' : 'is-upward',
       `x-${menuX}`,
