@@ -1,4 +1,4 @@
-import { get, isBoolean, isEqual } from 'lodash'
+import { isBoolean, isEqual } from 'lodash'
 
 import React, { cloneElement, createRef, isValidElement, PureComponent } from 'react'
 import { createPortal } from 'react-dom'
