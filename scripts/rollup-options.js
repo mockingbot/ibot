@@ -21,7 +21,7 @@ async function getOptions (input, dest, useModules = false) {
   const base = {
     cache,
     external: (id) => {
-      return (id !== input && minimatch(id, '**/ibot/components/*/index.js')) || ['react', 'react-dom', 'prop-types', 'lodash'].includes(id)
+      return (id !== input && minimatch(id, '**/ibot/components/*/index.js')) || ['react', 'react-dom', 'prop-types', 'lodash', 'react-router', 'react-router-dom'].includes(id)
     },
     plugins: [
       // the order is fucking important
