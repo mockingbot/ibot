@@ -1,5 +1,3 @@
-import { $ } from '../util'
-
 const MARGIN = 9
 
 /**
