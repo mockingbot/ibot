@@ -6,6 +6,7 @@ import EventListener, { withOptions } from 'react-event-listener'
 import { get, isArray, isEqual, isElement } from 'lodash'
 
 import Dropdown from '../dropdown'
+import Icon from '../icon'
 import { Input } from './Input'
 import { Ellipsis } from '../text'
 
@@ -43,6 +44,7 @@ export class Select extends PureComponent {
     size: PropTypes.oneOf(['regular', 'small']),
     theme: PropTypes.oneOf(['core', 'plain']),
     menuTheme: PropTypes.oneOf(['core', 'plain']),
+    withActiveCheck: PropTypes.bool,
 
     unstyled: PropTypes.bool,
 
@@ -116,6 +118,8 @@ export class Select extends PureComponent {
     size: 'regular',
     theme: 'plain',
     menuTheme: 'plain',
+
+    withActiveCheck: false,
 
     className: '',
     menuClassName: '',
@@ -357,10 +361,10 @@ export class SelectMenu extends PureComponent {
   }
 
   render() {
-    return createPortal(this.renderMenu(), this.portal)
+    return createPortal(this.menu, this.portal)
   }
 
-  renderMenu() {
+  get menu() {
     const {
       isOpen,
       isDisabled, readOnly,
@@ -369,6 +373,7 @@ export class SelectMenu extends PureComponent {
       emptyMsg,
       value,
       canSelect,
+      withActiveCheck,
     } = this.props
 
     const { isDownward } = this.state
@@ -398,12 +403,14 @@ export class SelectMenu extends PureComponent {
                 isArray(option)
                 ? <Group
                     key={idx}
+                    withActiveCheck={withActiveCheck}
                     optionList={option}
                     value={value}
                     onChange={this.onChange}
                   />
                 : <Option
                     key={idx}
+                    withActiveCheck={withActiveCheck}
                     isActive={checkOptionByValue(option, value)}
                     option={option}
                     isDisabled={option.isDisabled}
@@ -435,6 +442,7 @@ export class SelectMenu extends PureComponent {
 function Group({
   value,
   optionList: [title, ...optionList],
+  withActiveCheck,
   onChange,
 }) {
   return (
@@ -451,6 +459,7 @@ function Group({
             isActive={checkOptionByValue(option, value)}
             isDisabled={option.isDisabled}
             onChange={onChange}
+            withActiveCheck={withActiveCheck}
           />
         ))
       }
@@ -463,12 +472,14 @@ Group.propTypes = {
   idx: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   optionList: PropTypes.array,
   onChange: PropTypes.func,
+  withActiveCheck: PropTypes.bool,
 }
 
 function Option({
   option,
   isActive,
   isDisabled,
+  withActiveCheck,
   onChange,
 }) {
   const className = trimList([
@@ -488,6 +499,7 @@ function Option({
       onClick={isDisabled ? undefined : onChange}
     >
       <Ellipsis>{ label }</Ellipsis>
+      { withActiveCheck && isActive && <Icon name="check" type="dora" /> }
     </li>
   )
 }
@@ -499,6 +511,7 @@ Option.propTypes = {
     PropTypes.object,
   ]),
   isDisabled: PropTypes.bool,
+  withActiveCheck: PropTypes.bool,
   onChange: PropTypes.func,
 }
 
