@@ -384,6 +384,7 @@ export class SelectMenu extends PureComponent {
       menuTheme === 'core' ? 'CoreSelectMenu' : 'SelectMenu',
       menuClassName,
       `x-${menuX}`,
+      withActiveCheck && 'with-active-check',
       isOpen && 'is-open',
       isDownward ? 'is-downward' : 'is-upward',
       isDisabled && 'is-disabled',
