@@ -72,6 +72,7 @@
 
 .SelectMenu
 .CoreSelectMenu
+.CheckSelectMenu
   &
     position absolute
     margin 2px 0
@@ -169,10 +170,21 @@
       padding 0 .5em
       color $cl-tertiary-grey
       cursor not-allowed
-  &.with-active-check .SelectOption
+
+.CheckSelectMenu
+  &:not(.is-empty)
+    padding 6px 0
+  .SelectOption
+    &
+      height 32px
+    .Ellipsis
+      padding 0 16px
+    .Ellipsis + .icon
+     margin-right 10px
     &:hover
       color $cl-active
     &.is-active
+      background none
       color inherit
 
 .CoreSelectMenu

@@ -43,8 +43,7 @@ export class Select extends PureComponent {
   static propTypes = {
     size: PropTypes.oneOf(['regular', 'small']),
     theme: PropTypes.oneOf(['core', 'plain']),
-    menuTheme: PropTypes.oneOf(['core', 'plain']),
-    withActiveCheck: PropTypes.bool,
+    menuTheme: PropTypes.oneOf(['core', 'plain', 'check']),
 
     unstyled: PropTypes.bool,
 
@@ -118,8 +117,6 @@ export class Select extends PureComponent {
     size: 'regular',
     theme: 'plain',
     menuTheme: 'plain',
-
-    withActiveCheck: false,
 
     className: '',
     menuClassName: '',
@@ -311,7 +308,7 @@ export class SelectMenu extends PureComponent {
     const { isDownward } = this.state
 
     const $opt = e.currentTarget
-    const $menuBase = $opt.closest('.SelectMenu, .CoreSelectMenu')
+    const $menuBase = $opt.closest('.SelectMenu, .CoreSelectMenu, .CheckSelectMenu')
 
     if (!$opt || !$menuBase) {
       return this.onlose()
@@ -373,7 +370,6 @@ export class SelectMenu extends PureComponent {
       emptyMsg,
       value,
       canSelect,
-      withActiveCheck,
     } = this.props
 
     const { isDownward } = this.state
@@ -381,10 +377,9 @@ export class SelectMenu extends PureComponent {
     const isEmpty = optionList.length === 0
 
     const klass = trimList([
-      menuTheme === 'core' ? 'CoreSelectMenu' : 'SelectMenu',
+      menuTheme === 'core' ? 'CoreSelectMenu' : menuTheme === 'check' ? 'CheckSelectMenu' : 'SelectMenu',
       menuClassName,
       `x-${menuX}`,
-      withActiveCheck && 'with-active-check',
       isOpen && 'is-open',
       isDownward ? 'is-downward' : 'is-upward',
       isDisabled && 'is-disabled',
@@ -404,14 +399,14 @@ export class SelectMenu extends PureComponent {
                 isArray(option)
                 ? <Group
                     key={idx}
-                    withActiveCheck={withActiveCheck}
+                    menuTheme={menuTheme}
                     optionList={option}
                     value={value}
                     onChange={this.onChange}
                   />
                 : <Option
                     key={idx}
-                    withActiveCheck={withActiveCheck}
+                    menuTheme={menuTheme}
                     isActive={checkOptionByValue(option, value)}
                     option={option}
                     isDisabled={option.isDisabled}
@@ -443,7 +438,7 @@ export class SelectMenu extends PureComponent {
 function Group({
   value,
   optionList: [title, ...optionList],
-  withActiveCheck,
+  menuTheme,
   onChange,
 }) {
   return (
@@ -456,11 +451,11 @@ function Group({
         .map((option, idx) => (
           <Option
             key={idx}
+            menuTheme={menuTheme}
             option={option}
             isActive={checkOptionByValue(option, value)}
             isDisabled={option.isDisabled}
             onChange={onChange}
-            withActiveCheck={withActiveCheck}
           />
         ))
       }
@@ -473,14 +468,14 @@ Group.propTypes = {
   idx: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   optionList: PropTypes.array,
   onChange: PropTypes.func,
-  withActiveCheck: PropTypes.bool,
+  menuTheme: PropTypes.string,
 }
 
 function Option({
   option,
   isActive,
   isDisabled,
-  withActiveCheck,
+  menuTheme,
   onChange,
 }) {
   const className = trimList([
@@ -500,7 +495,7 @@ function Option({
       onClick={isDisabled ? undefined : onChange}
     >
       <Ellipsis>{ label }</Ellipsis>
-      { withActiveCheck && isActive && <Icon name="check" type="dora" /> }
+      { menuTheme === 'check' && isActive && <Icon name="check" type="dora" /> }
     </li>
   )
 }
@@ -512,7 +507,7 @@ Option.propTypes = {
     PropTypes.object,
   ]),
   isDisabled: PropTypes.bool,
-  withActiveCheck: PropTypes.bool,
+  menuTheme: PropTypes.string,
   onChange: PropTypes.func,
 }
 
