@@ -68,16 +68,22 @@
       margin-right -($arrow-size)
 
   .arrow
-    position absolute
-    top calc(-.375em + 1px)
-    left calc(50% - .5em)
-    width 1em
-    height .375em
-    font-size $arrow-size
-    line-height 0
-    fill currentColor
-    fill-rule evenodd
-    color #fff
+    &
+      position absolute
+      top 0
+      left calc(50% - .5em)
+      width 1em
+      height .375em
+      font-size $arrow-size
+      line-height 0
+      fill currentColor
+      fill-rule evenodd
+      color #fff
+    svg
+      position absolute
+      width auto
+      height 5px
+      transform translateY(-100%)
 
   &.dark .arrow
     color rgba($cl-strong-grey, .9)
@@ -91,7 +97,7 @@
   &.is-upward .arrow
     transform rotate(180deg)
     top initial
-    bottom calc(-.375em + 1px)
+    bottom 0
 
   .content
     padding .75em .5em
