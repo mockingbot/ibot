@@ -1,5 +1,5 @@
 const { rollup } = require('rollup')
-const { fromRoot, writeFileSync, mkdirP } = require('./function')
+const { fromRoot } = require('./function')
 
 const commonjs = require('rollup-plugin-commonjs')
 const nodeResolvePlugin = require('rollup-plugin-node-resolve')
@@ -9,14 +9,12 @@ const json = require('rollup-plugin-json')
 // https://rollupjs.org/guide/en#cache
 let rollUpCache // The cache property of a previous bundle. Use it to speed up subsequent builds in watch mode
 
-const buildWithRollup = async ({
-  componentName,
-  componentNameList = [],
-}) => {
-  const inputFile = fromRoot('components/', componentName, 'index.js')
-  const outputFileJS = fromRoot('lib/', componentName, 'index.js')
-  const outputFileCSS = fromRoot('lib/', componentName, 'style/index.css')
-  const outputPathPostcssAsset = fromRoot('lib/', componentName, 'assets/')
+const buildWithRollup = async ({ componentName, componentNameList = [] }) => {
+  const sourceRoot = fromRoot('components/', componentName)
+  const outputRoot = fromRoot('lib/', componentName)
+
+  const inputFile = fromRoot(sourceRoot, 'index.js')
+  const outputFileJS = fromRoot(outputRoot, 'index.js')
 
   const externalPackageList = [
     'react', 'react-dom', 'prop-types',
@@ -39,13 +37,26 @@ const buildWithRollup = async ({
     plugins: [
       // the order is fucking important
       nodeResolvePlugin(),
-      require('rollup-plugin-postcss')({
-        plugins: [ require('postcss-url')({ url: 'copy', assetsPath: outputPathPostcssAsset }) ],
-        use: [ 'stylus' ],
-        loaders: [ require('./stylus-loader') ],
-        modules: false,
-        extract: outputFileCSS,
+      require('rollup-plugin-postcss')({ // default support Stylus // https://github.com/egoist/rollup-plugin-postcss#with-sassstylusless
+        extract: true,
+        plugins: [
+          (() => {
+            const { relative } = require('path')
+            const { normalize } = require('postcss-url/src/lib/paths')
+            const postcssUrlCopy = require('postcss-url/src/type/copy')
+            return require('postcss-url')({
+              assetsPath: outputRoot,
+              url: (...args) => { // TODO: HACK: postcss-url will return asset-url relative to process.cwd(), so calc the relative asset-url again
+                // console.log('HACK:', args)
+                const remappedUrl = postcssUrlCopy(...args)
+                // console.log('HACK:', { remappedUrl, hackedUrl: remappedUrl && normalize(relative(outputRoot, remappedUrl)) })
+                return remappedUrl && normalize(relative(outputRoot, remappedUrl))
+              },
+            })
+          })(),
+        ],
       }),
+
       json(),
       babel({ exclude: 'node_modules/**' }),
       commonjs({
@@ -59,10 +70,6 @@ const buildWithRollup = async ({
   rollUpCache = bundle.cache // store the cache object of the previous build
 
   await bundle.write({ format: 'es', file: outputFileJS })
-
-  mkdirP(fromRoot('lib/', componentName, 'style/'))
-  writeFileSync(fromRoot('lib/', componentName, 'style/index.js'), 'import "./index.css"')
-  writeFileSync(fromRoot('lib/', componentName, 'style/css.js'), 'import "./index.css"')
 }
 
 module.exports = { buildWithRollup }

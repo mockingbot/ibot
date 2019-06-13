@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 /* eslint-disable no-console */
 
+const rimraf = require('rimraf') // borrow from npm
 const { fromRoot, mkdirP, copyFileSync } = require('./function')
 
 const copyList = [
@@ -18,6 +19,7 @@ const copyList = [
   [ 'node_modules/mb-icons/mb/icon-list.json', 'stories/json/mb.json' ],
 ]
 
+rimraf.sync(fromRoot('lib/'))
 mkdirP(fromRoot('stories/json/'))
 for (const [ fromFile, toFile ] of copyList) {
   copyFileSync(fromRoot(fromFile), fromRoot(toFile))
