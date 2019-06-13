@@ -4,8 +4,7 @@ import PropTypes from 'prop-types'
 
 import { isArray, isEqual, isString, isObject } from 'lodash'
 
-import { trimList, getOtherProps, $ } from '../util'
-import { DROPDOWN_ARROW } from '../util/svg'
+import { trimList, getOtherProps, $, SVG } from '../util'
 
 import { TYPE_ELEMENT_MAP } from './constants'
 
@@ -379,7 +378,7 @@ class Tip extends PureComponent {
           { arrowed && (
             <div
               className="arrow"
-              dangerouslySetInnerHTML={{ __html: DROPDOWN_ARROW }}
+              dangerouslySetInnerHTML={{ __html: SVG.DROPDOWN_ARROW }}
             />
           )}
 

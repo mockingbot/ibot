@@ -5,11 +5,12 @@ import { createPortal } from 'react-dom'
 import PropTypes from 'prop-types'
 import EventListener, { withOptions } from 'react-event-listener'
 
-import { preventScrollingPropagation, trimList, $, preparePortal } from '../util'
-import { DROPDOWN_ARROW } from '../util/svg'
+import { preventScrollingPropagation, trimList, $, preparePortal, SVG } from '../util'
 import { positionMenu } from './util'
 
 import './index.styl'
+
+export { positionMenu }
 
 const MENU_ROOT_ID = 'IBOT_DROPDOWN_MENU_ROOT'
 
@@ -387,7 +388,7 @@ class DropdownMenu extends PureComponent {
       <div ref={this.menuBaseRef} className={trimList(['DropdownMenuBase', menuBaseClassName])}>
         <div className={klass}>
           { arrowed && (
-            <span className="arrow" dangerouslySetInnerHTML={{ __html: DROPDOWN_ARROW }} />
+            <span className="arrow" dangerouslySetInnerHTML={{ __html: SVG.DROPDOWN_ARROW }} />
           )}
 
           <div className="content">

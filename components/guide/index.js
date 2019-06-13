@@ -8,9 +8,8 @@ import { isEqual } from 'lodash'
 import { Button } from '../button'
 import Icon from '../icon'
 
-import { trimList, preparePortal } from '../util'
-import { GUIDE_ARROW } from '../util/svg'
-import { positionMenu } from '../dropdown/util'
+import { trimList, preparePortal, SVG } from '../util'
+import { positionMenu } from '../dropdown'
 
 import './index.styl'
 
@@ -165,7 +164,7 @@ export default class GuideBase extends PureComponent {
     return (
       <div className="GuideBase" ref={this.set$guide}>
         <div className={klass}>
-          <span className="arrow" dangerouslySetInnerHTML={{ __html: GUIDE_ARROW }} />
+          <span className="arrow" dangerouslySetInnerHTML={{ __html: SVG.GUIDE_ARROW }} />
 
           <div className="content">
             { header && <header>{ header }</header> }
