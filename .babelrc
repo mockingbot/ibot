@@ -1,7 +1,11 @@
 {
   "presets": [
-    ["es2015", { "modules": false }],
-    "stage-0",
-    "react"
+    [ "@babel/env", { "forceAllTransforms": true, "modules": false } ],
+    [ "@babel/react" ]
+  ],
+  "plugins": [
+    [ "@babel/proposal-class-properties" ],
+    [ "@babel/proposal-export-default-from" ],
+    [ "@babel/proposal-export-namespace-from" ]
   ]
 }
