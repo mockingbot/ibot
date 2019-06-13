@@ -2,16 +2,24 @@
 
 /coverage
 node_modules
-npm-debug.log*
+*.log*
 *.tgz
-lerna-debug.log*
-package-lock.json
+
+# Ignore webstorm config file
+.idea
+
+# handy for ignore folder of file ends with `-gitignore`
+**/*-gitignore/**
+**/*-gitignore*
+
 dest/
 lib/
+
 storybook-static/*
 !storybook-static/CNAME
-yarn-error.log*
 
 stories/json/
 components/icon/fonts/dora.*
 components/icon/fonts/mb-icons.*
+
+package-lock.json

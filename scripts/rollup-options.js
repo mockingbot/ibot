@@ -1,54 +1,68 @@
-const path = require('path')
-const minimatch = require('minimatch')
+const { rollup } = require('rollup')
+const { fromRoot, writeFileSync, mkdirP } = require('./function')
 
 const commonjs = require('rollup-plugin-commonjs')
 const nodeResolvePlugin = require('rollup-plugin-node-resolve')
 const babel = require('rollup-plugin-babel')
 const json = require('rollup-plugin-json')
 
-const postcss = require('@plrthink/rollup-plugin-postcss')
+// https://rollupjs.org/guide/en#cache
+let rollUpCache // The cache property of a previous bundle. Use it to speed up subsequent builds in watch mode
 
-const url = require('postcss-url')
+const buildWithRollup = async ({
+  componentName,
+  componentNameList = [],
+}) => {
+  const inputFile = fromRoot('components/', componentName, 'index.js')
+  const outputFileJS = fromRoot('lib/', componentName, 'index.js')
+  const outputFileCSS = fromRoot('lib/', componentName, 'style/index.css')
+  const outputPathPostcssAsset = fromRoot('lib/', componentName, 'assets/')
 
-const stylusLoader = require('./stylus-loader')
+  const externalPackageList = [
+    'react', 'react-dom', 'prop-types',
+    'react-router', 'react-router-dom',
+    'lodash',
+  ]
+  const externalComponentPrefixList = componentNameList // mark cross component import as external
+    .filter((name) => name !== componentName)
+    .map((name) => fromRoot(`components/${name}`))
 
-// used to track the cache for subsequent bundles
-let cache
-
-async function getOptions (input, dest, useModules = false) {
-  const styleOutputPath = path.join(dest, 'style/index.css')
-  const assetsOutputPath = path.join(dest, 'assets/')
-  const base = {
-    cache,
-    external: (id) => {
-      return (id !== input && minimatch(id, '**/ibot/components/*/index.js')) || ['react', 'react-dom', 'prop-types', 'lodash', 'react-router', 'react-router-dom'].includes(id)
+  const bundle = await rollup({
+    input: inputFile,
+    external: (id, parent, isResolved) => {
+      const isExternal = (id[ 0 ] !== '.')
+        ? externalPackageList.includes(id) // from another package (`import ... from 'react'`)
+        : externalComponentPrefixList.some((prefix) => fromRoot(parent, '../', id).startsWith(prefix)) // from relative file (`import ... from './script.js'`)
+      // console.log(JSON.stringify({ isExternal, id, parent, isResolved })) // debug id filter
+      return isExternal
     },
     plugins: [
       // the order is fucking important
       nodeResolvePlugin(),
-      postcss({
-        plugins: [
-          url({ url: 'copy', assetsPath: assetsOutputPath }),
-        ],
-        use: ['stylus'],
-        loaders: [stylusLoader],
-        modules: useModules,
-        extract: styleOutputPath,
+      require('rollup-plugin-postcss')({
+        plugins: [ require('postcss-url')({ url: 'copy', assetsPath: outputPathPostcssAsset }) ],
+        use: [ 'stylus' ],
+        loaders: [ require('./stylus-loader') ],
+        modules: false,
+        extract: outputFileCSS,
       }),
       json(),
-      babel({
-        exclude: 'node_modules/**',
-        plugins: ['external-helpers'],
-      }),
+      babel({ exclude: 'node_modules/**' }),
       commonjs({
         namedExports: {
-          'node_modules/react/index.js': ['Component', 'PureComponent', 'Children', 'createElement'],
+          'node_modules/react/index.js': [ 'Component', 'PureComponent', 'Children', 'createElement' ],
         },
-    }),
+      }),
     ],
-  }
+    cache: rollUpCache,
+  })
+  rollUpCache = bundle.cache // store the cache object of the previous build
 
-  return { ...base, input }
+  await bundle.write({ format: 'es', file: outputFileJS })
+
+  mkdirP(fromRoot('lib/', componentName, 'style/'))
+  writeFileSync(fromRoot('lib/', componentName, 'style/index.js'), 'import "./index.css"')
+  writeFileSync(fromRoot('lib/', componentName, 'style/css.js'), 'import "./index.css"')
 }
 
-module.exports = getOptions
+module.exports = { buildWithRollup }

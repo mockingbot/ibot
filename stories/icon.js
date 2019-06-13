@@ -10,10 +10,7 @@ storiesOf('Icon', module)
 .add('Dora & MockingBot', () => <IconPreview />)
 
 class IconPreview extends PureComponent {
-  constructor(props) {
-    super(props)
-    this.state = { dora: [], mb: [], duo: [] }
-  }
+  state = { dora: [], mb: [], duo: [] }
 
   fetch = () => (
     Promise.all([
@@ -21,7 +18,11 @@ class IconPreview extends PureComponent {
       import('./json/mb'),
       import('./json/duo'),
     ])
-    .then(([dora, mb, duo]) => this.setState({ dora, mb, duo }))
+    .then(([dora, mb, duo]) => this.setState({
+      dora: Array.from(dora.default),
+      mb: Array.from(mb.default),
+      duo: Array.from(duo.default),
+    }))
   )
 
   componentDidMount() {
