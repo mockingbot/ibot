@@ -44,35 +44,35 @@
     &:after
       content '. '
     &:lang(zh):after
-      content '。'
+      content '\3002' // '。'
   &.with-comma
     &:after
       content ', '
     &:lang(zh):after
-      content '，'
+      content '\FF0C' // '，'
   &.with-question-mark
     &:after
       content '? '
     &:lang(zh):after
-      content '？'
+      content '\FF1F' // '？'
   &.with-quote
     &:before
-      content '“'
+      content '\201C' // '“'
     &:after
-      content '”'
+      content '\201D' // '”'
     &.with-period:after
-      content '”. '
+      content '\201D. ' // '”. '
     &.with-comma:after
-      content '”, '
+      content '\201D, ' // '”, '
     &.with-question-mark:after
-      content '”? '
+      content '\201D? ' // '”? '
     &:lang(zh):before
-      content '「'
+      content '\300C' // '「'
     &:lang(zh):after
-      content '」'
+      content '\300D' // '」'
     &.with-period:lang(zh):after
-      content '」。'
+      content '\300D\3002' // '」。'
     &.with-comma:lang(zh):after
-      content '」，'
+      content '\300D\FF0C' // '」，'
     &.with-question-mark:lang(zh):after
-      content '」？'
+      content '\300D\FF1F' // '」？'
