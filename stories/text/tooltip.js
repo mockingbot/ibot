@@ -1,6 +1,10 @@
 import React, { PureComponent } from 'react'
 
-import { Root, Icon, Button, Textarea, Tooltip, CoreTooltip } from '../../components'
+import Root from '../../components/root'
+import Button from '../../components/button'
+import { Textarea } from '../../components/input'
+import Icon from '../../components/icon'
+import Tooltip, { CoreTooltip } from '../../components/tooltip'
 
 export default class TooltipExample extends PureComponent {
   state = {

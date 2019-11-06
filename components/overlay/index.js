@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 import { isBoolean, isEqual } from 'lodash'
 
-import { PrimaryCoreButton, TertiaryCoreButton, Button } from '../button'
+import Button, { PrimaryCoreButton, TertiaryCoreButton } from '../button'
 import Switch from '../switch'
 import SVG from '../svg'
 

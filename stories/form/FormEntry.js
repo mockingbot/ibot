@@ -1,15 +1,15 @@
 import React, { PureComponent } from 'react'
 import { action } from '@storybook/addon-actions'
 
-import {
-  Root, Icon, Switch,
-  Button,
-  FormLabel, FormEntry,
-  Input, PanelInput, Textarea, PanelTextarea, InputNumber,
-  Check,
-  RadioGroup, CheckGroup,
-  Select,
-} from '../../components'
+import Root from '../../components/root'
+import Button from '../../components/button'
+import Select from '../../components/select'
+import Check, { CheckGroup } from '../../components/check'
+import { RadioGroup } from '../../components/radio'
+import FormEntry, { FormLabel } from '../../components/formEntry'
+import Input, { Textarea } from '../../components/input'
+import Switch from '../../components/switch'
+import Icon from '../../components/icon'
 
 export default class FormEntryExample extends PureComponent {
   state = {

@@ -1,12 +1,14 @@
 import React, { PureComponent } from 'react'
 import { action } from '@storybook/addon-actions'
 
-import {
-  Root, Button,
-  Input, PanelInput,
-  InputNumber, InputEmail,
+import Root from '../../components/root'
+import Button from '../../components/button'
+import Input, {
+  PanelInput,
   Textarea, PanelTextarea,
-} from '../../components'
+} from '../../components/input'
+import InputNumber from '../../components/numberInput'
+import InputEmail from '../../components/emailInput'
 
 const onTypingChange = action('Typing changed')
 

@@ -2,14 +2,9 @@ import React, { PureComponent } from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 
-import {
-  Root, Icon, Switch, Overlay,
-  FormLabel, FormEntry,
-  InputNumber, Textarea, Input,
-  RadioGroup, CheckGroup,
-  Select,
-  WidgetName,
-} from '../components'
+import Root from '../components/root'
+import Icon from '../components/icon'
+import Overlay from '../components/overlay'
 
 storiesOf('Overlay', module)
 .add('Default', () => (

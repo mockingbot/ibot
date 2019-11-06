@@ -5,9 +5,9 @@ import EventListener from 'react-event-listener'
 
 import { get, isBoolean, isEqual } from 'lodash'
 
-import { Button, PrimaryCoreButton, TertiaryCoreButton } from '../button'
+import Button, { PrimaryCoreButton, TertiaryCoreButton } from '../button'
 import SVG from '../svg'
-import Icon from '../icon'
+// import Icon from '../icon'
 import Switch from '../switch'
 
 import {

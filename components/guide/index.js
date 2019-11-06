@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import EventListener, { withOptions } from 'react-event-listener'
 import { isEqual } from 'lodash'
 
-import { Button } from '../button'
+import Button from '../button'
 import Icon from '../icon'
 
 import { trimList, preparePortal, SVG } from '../util'

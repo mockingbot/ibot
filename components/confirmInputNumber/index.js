@@ -4,11 +4,12 @@ import EventListener from 'react-event-listener'
 
 import { isEqual } from 'lodash'
 
-import { SelectMenu } from './Select'
-import { InputActionButton } from './InputNumber'
+import { SelectMenu } from '../select'
+import { InputActionButton } from '../numberInput'
 
-import { trimList, getOtherProps } from '../util'
-import { setNumberValue } from './util'
+import { trimList, getOtherProps, setNumberValue } from '../util'
+
+import './index.styl'
 
 const LONG_PRESSED_THRESHOLD = 500
 const LONG_PRESSED_STEPPING_INTERVAL = 30
@@ -36,7 +37,7 @@ const defaultOnFocus = ({ currentTarget: $input }) => (
   setTimeout(() => $input.select(), 50)
 )
 
-export class ConfirmInputNumber extends PureComponent {
+export default class ConfirmInputNumber extends PureComponent {
   state = {
     prevProps: this.props,
     value: setNumberValue(this.props.value),

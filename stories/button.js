@@ -3,14 +3,14 @@ import { storiesOf } from '@storybook/react'
 
 import { BrowserRouter } from 'react-router-dom'
 
-import {
-  Root,
-  Button, CoreButton,
+import Root from '../components/root'
+
+import Button, { CoreButton,
   PrimaryCoreButton,
   SecondaryCoreButton, RegularCoreButton,
   TertiaryCoreButton,
   TextCoreButton,
-} from '../components'
+} from '../components/button'
 
 storiesOf('Button', module)
 .add('default', () => <ButtonExample />)

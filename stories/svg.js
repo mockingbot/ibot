@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react'
 import { storiesOf } from '@storybook/react'
 
-import { Root, SVG } from '../components'
+import Root from '../components/root'
+import SVG from '../components/svg'
 
 storiesOf('SVG', module)
 .add('General', () => (

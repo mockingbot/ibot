@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 
-import { Root, Ellipsis } from '../../components'
+import Root from '../../components/root'
+import Ellipsis from '../../components/ellipsis'
 
 export default class EllipsisI extends PureComponent {
   render() {
@@ -91,7 +92,7 @@ export default class EllipsisI extends PureComponent {
           <li>Without: <Ellipsis max="8" noTooltip>Lick The Palm Of The Burning Handshake</Ellipsis></li>
           <li>Without: <Ellipsis max="8" noTooltip={true}>Lick The Palm Of The Burning Handshake</Ellipsis></li>
         </ul>
-     </Root>
+      </Root>
     )
   }
 }

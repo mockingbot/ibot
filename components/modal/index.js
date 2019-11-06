@@ -5,7 +5,7 @@ import EventListener from 'react-event-listener'
 
 import { isEqual } from 'lodash'
 
-import { Button } from '../button'
+import Button from '../button'
 import Switch from '../switch'
 import Icon from '../icon'
 

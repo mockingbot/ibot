@@ -8,6 +8,8 @@ import { trimList, getOtherProps, $, SVG } from '../util'
 
 import { TYPE_ELEMENT_MAP } from './constants'
 
+import './index.styl'
+
 const EVENT_NAME_LIST = ['hover', 'click']
 
 const TIP_ROOT_ID = 'IBOT_TOOLTIP_ROOT'

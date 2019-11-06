@@ -1,11 +1,11 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 
-import Tooltip from './Tooltip'
+import Tooltip from '../tooltip'
 import { trimList } from '../util'
-import { TYPE_ELEMENT_MAP } from './constants'
 
-export class Ellipsis extends PureComponent {
+import './index.styl'
+export default class Ellipsis extends PureComponent {
   state = { isTruncated: false, isDetected: false }
 
   static propTypes = {

@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react'
 
-import { Root, Button, User, OrgName, TeamName, AppName, WidgetName } from '../../components'
+import Root from '../../components/root'
+import Button from '../../components/button'
+import { User, OrgName, TeamName, AppName, WidgetName } from '../../components/ellipsis'
 
 const shortName = 'Vincent'
 const longName = 'Mitchell Vincent Pritchett'

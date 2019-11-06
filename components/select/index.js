@@ -5,14 +5,14 @@ import EventListener, { withOptions } from 'react-event-listener'
 
 import { get, isArray, isEqual, isElement } from 'lodash'
 
-import Dropdown from '../dropdown'
+// import Dropdown from '../dropdown'
 import Icon from '../icon'
-import { Input } from './Input'
-import { Ellipsis } from '../text'
+import Input from '../input'
+import Ellipsis from '../ellipsis'
 
-import { preventScrollingPropagation, trimList, $, $$, preparePortal, SVG } from '../util'
+import { preventScrollingPropagation, trimList, $, $$, preparePortal, SVG,
+  getOptionLabel, getOptionValue, checkOptionByValue } from '../util'
 import { positionMenu } from '../dropdown'
-import { getOptionLabel, getOptionValue, checkOptionByValue } from './util'
 
 import './index.styl'
 
@@ -31,7 +31,7 @@ if (!$body.contains($menuRoot)) {
   $body.appendChild($menuRoot)
 }
 
-export class Select extends PureComponent {
+export default class Select extends PureComponent {
   state = {
     isOpen: false,
 

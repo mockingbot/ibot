@@ -2,14 +2,17 @@ import React, { PureComponent } from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 
-import {
-  Root, Icon, Switch, Modal, text,
-  FormLabel, FormEntry,
-  InputNumber, Textarea, Input,
-  RadioGroup, CheckGroup,
-  Select,
-  WidgetName,
-} from '../components'
+import Root from '../components/root'
+import InputNumber from '../components/numberInput'
+import Input, { Textarea } from '../components/input'
+import Select from '../components/select'
+import { CheckGroup } from '../components/check'
+import { RadioGroup } from '../components/radio'
+import FormEntry, { FormLabel } from '../components/formEntry'
+import Icon from '../components/icon'
+import Modal from '../components/modal'
+import Switch from '../components/switch'
+import { WidgetName } from '../components/ellipsis'
 
 storiesOf('Modal', module)
 .add('Default', () => (

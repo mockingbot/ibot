@@ -6,6 +6,8 @@ import { isEqual } from 'lodash'
 
 import { trimList, getOtherProps, EMAIL_REGEX } from '../util'
 
+import './index.styl'
+
 const checkFinishedTyping = v => (
   /^@/.test(v)
   || /@\./.test(v)
@@ -14,7 +16,7 @@ const checkFinishedTyping = v => (
   || /@\w*@/.test(v)
 )
 
-export class InputEmail extends PureComponent {
+export default class InputEmail extends PureComponent {
   state = {
     prevProps: this.props,
     value: this.props.value,

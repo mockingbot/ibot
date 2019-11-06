@@ -1,11 +1,10 @@
 import React, { PureComponent } from 'react'
 import { action } from '@storybook/addon-actions'
 
-import {
-  Root, Button,
-  Radio, Check,
-  RadioGroup, CheckGroup,
-} from '../../components'
+import Root from '../../components/root'
+import Button from '../../components/button'
+import Radio, { RadioGroup } from '../../components/radio'
+import Check, { CheckGroup } from '../../components/check'
 
 export default class RadioCheckExample extends PureComponent {
   state = {

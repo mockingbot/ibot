@@ -1,11 +1,10 @@
 import React from 'react'
 import { action } from '@storybook/addon-actions'
 
-import {
-  Root, Button,
-  FormLabel,
-  InputEmail, PanelInputEmail,
-} from '../../components'
+import Root from '../../components/root'
+import Button from '../../components/button'
+import { FormLabel } from '../../components/formEntry'
+import InputEmail, { PanelInputEmail } from '../../components/emailInput'
 
 export default class InputEmailExample extends React.PureComponent {
   state = {

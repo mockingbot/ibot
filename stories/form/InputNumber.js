@@ -1,11 +1,11 @@
 import React from 'react'
 import { action } from '@storybook/addon-actions'
 
-import {
-  Root, Icon, Button,
-  FormLabel,
-  InputNumber, SelectNumber, //PanelInputNumber, PanelSelectNumber,
-} from '../../components'
+import Root from '../../components/root'
+import Button from '../../components/button'
+import { FormLabel } from '../../components/formEntry'
+import InputNumber, { SelectNumber } from '../../components/numberInput'
+import Icon from '../../components/icon'
 
 export default class InputNumberExample extends React.PureComponent {
   state = {

@@ -1,5 +1,10 @@
+@import '../util/form'
+
 .Check
 .CoreCheck
+
+.Radio
+.CoreRadio
   &
     &
       position relative
@@ -66,6 +71,7 @@
     opacity 0
 
 .CoreCheck
+.CoreRadio
   .Check-state
     background-color $cl-CoreCheck-bg
     border-color $cl-CoreCheck-border
@@ -74,6 +80,9 @@
 
 .CheckGroup
 .CoreCheckGroup
+
+.RadioGroup
+.CoreRadioGroup
   &
     position relative
     display flex

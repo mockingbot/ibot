@@ -18,7 +18,7 @@ const TYPE_MAP = {
   text: 'Text',
 }
 
-export class Button extends PureComponent {
+export default class Button extends PureComponent {
   static propTypes = {
     type: PropTypes.oneOf(['primary', 'regular', 'secondary', 'tertiary', 'text']),
     size: PropTypes.oneOf(['regular', 'small']),

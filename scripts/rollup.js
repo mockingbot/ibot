@@ -11,7 +11,7 @@ const main = async () => {
     await buildWithRollup({ componentName, componentNameList })
     console.log(`  - built component: ${componentName}`)
   }
-  copyFileSync(fromRoot('components/index.js'), fromRoot('lib/index.js'))
+  // copyFileSync(fromRoot('components'), fromRoot('lib'))
   console.log('  - built index file')
 }
 

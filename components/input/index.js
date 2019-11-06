@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 
 import { trimList } from '../util'
 
+import './index.styl'
+
 function createOnChangeHandler(onChange) {
   return e => onChange(e.target.value, e)
 }
@@ -10,7 +12,7 @@ function createOnChangeHandler(onChange) {
 /**
  * <Input>
  */
-export function Input({
+export default function Input({
   size, theme,
   isInvalid,
   unstyled,
@@ -137,6 +139,6 @@ PanelTextarea.propTypes = {
   className: PropTypes.string,
 }
 
-export * from './InputEmail'
-export * from './InputNumber'
-export * from './ConfirmInputNumber'
+export * from '../emailInput'
+export * from '../numberInput'
+export * from '../confirmInputNumber'

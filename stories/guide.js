@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react'
 import { storiesOf } from '@storybook/react'
 
-import { Root, Guide as GuideBase } from '../components'
+import Root from '../components/root'
+import GuideBase from '../components/guide'
 
 storiesOf('Guide', module)
   .add('Default', () => <GuideExample />)
