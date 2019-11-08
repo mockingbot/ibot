@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react'
-import { action } from '@storybook/addon-actions'
 
 import Root from '../../components/root'
 import Button from '../../components/button'
@@ -18,9 +17,10 @@ export default class FormEntryExample extends PureComponent {
   }
 
   toggleSize = () => this.setState({ isSmall: !this.state.isSmall })
+
   toggleCore = () => this.setState({ isCore: !this.state.isCore })
 
-  render() {
+  render () {
     const { isSmall, isCore } = this.state
 
     const size = isSmall ? 'small' : 'regular'
@@ -29,7 +29,7 @@ export default class FormEntryExample extends PureComponent {
     return (
       <Root>
         <style scoped>
-        {`
+          {`
           form { width: 25em; }
           .language-list label { flex: 100%; }
 
@@ -101,7 +101,7 @@ export default class FormEntryExample extends PureComponent {
 
           <FormLabel name="Address">
             <Textarea {...{ size, theme }} defaultValue={
-`1600 Pennsylvania Ave. NW
+              `1600 Pennsylvania Ave. NW
 Washington DC 20006
 USA`
             }>

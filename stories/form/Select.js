@@ -19,6 +19,7 @@ export default class SelectExample extends React.PureComponent {
   }
 
   toggleSize = () => this.setState({ isSmall: !this.state.isSmall })
+
   toggleCore = () => this.setState({ isCore: !this.state.isCore })
 
   toggleCoreMenu = () => this.setState(prevState => {
@@ -38,16 +39,15 @@ export default class SelectExample extends React.PureComponent {
     action('Select changed')(longerSelectValue),
   )
 
-  render() {
+  render () {
     const { isSmall, isCore, menuTheme } = this.state
-
     const size = isSmall ? 'small' : 'regular'
     const theme = isCore ? 'core' : 'plain'
 
     return (
       <Root>
         <style>
-        {`
+          {`
           .Select > button .icon,
           .CoreSelect > button .icon,
           .select-menu-with-icons .icon {
@@ -113,7 +113,7 @@ export default class SelectExample extends React.PureComponent {
           <br />
           <Select {...{ size, theme, menuTheme }} optionList={['Apple', 'Pencil']} value="Apple" onChange={action('Select changed')} />
           <br />
-          <Select {...{ size, theme, menuTheme }} optionList={['Apple', 'Pencil']}  value="Apple" onChange={action('Select changed')} />
+          <Select {...{ size, theme, menuTheme }} optionList={['Apple', 'Pencil']} value="Apple" onChange={action('Select changed')} />
           <br />
           <Select {...{ size, theme, menuTheme }} optionList={['Apple', 'Pencil', { label: <span><Icon name="apple" /> Apple</span>, value: 'Apple with Icon' }]} value="Pencil" onChange={action('Select changed')} />
           <br />
@@ -280,7 +280,7 @@ export default class SelectExample extends React.PureComponent {
           <Select
             {...{ size, theme, menuTheme }}
             placeholder="选择一个项目"
-            optionList={[1,2,3,4,5]}
+            optionList={[1, 2, 3, 4, 5]}
             value={this.state.forcedChangingValue}
             onChange={this.onChangeForcedChangingSelect}
           />

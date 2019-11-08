@@ -2,18 +2,14 @@ import React, { Fragment, PureComponent } from 'react'
 import { createPortal } from 'react-dom'
 import PropTypes from 'prop-types'
 import EventListener from 'react-event-listener'
-
 import { isEqual } from 'lodash'
-
 import Button from '../button'
 import Switch from '../switch'
 import Icon from '../icon'
-
 import {
   addModalToStack, deleteModalFromStack, checkNoOpenModalInStack, checkModalIndexInStack,
   toggleGlobalScroll, trimList, $, preparePortal,
 } from '../util'
-
 import './index.styl'
 
 const { I18N = {} } = window

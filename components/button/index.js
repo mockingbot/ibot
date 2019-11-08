@@ -24,7 +24,7 @@ export default class Button extends PureComponent {
     size: PropTypes.oneOf(['regular', 'small']),
     theme: PropTypes.oneOf(['core', 'plain']),
 
-    iconType: PropTypes.oneOf(['svg', 'dora', 'mb','icon', 'fa', 'md']),
+    iconType: PropTypes.oneOf(['svg', 'dora', 'mb', 'icon', 'fa', 'md']),
     icon: PropTypes.string,
 
     className: PropTypes.string,
@@ -50,18 +50,18 @@ export default class Button extends PureComponent {
     nativeLink: false,
   }
 
-  get name() {
+  get name () {
     const { to, nativeLink } = this.props
     const { isDisabled } = this
 
     return (
       to && !isDisabled
-      ? nativeLink ? 'a' : Link
-      : 'button'
+        ? nativeLink ? 'a' : Link
+        : 'button'
     )
   }
 
-  get className() {
+  get className () {
     const { type, theme, size, className } = this.props
     const { isDisabled, isLoading } = this
 
@@ -75,24 +75,24 @@ export default class Button extends PureComponent {
     ])
   }
 
-  get isDisabled() {
+  get isDisabled () {
     const { isDisabled, disabled } = this.props
     return isDisabled || disabled
   }
 
-  get isLoading() {
+  get isLoading () {
     const { isLoading, loading } = this.props
     return isLoading || loading
   }
 
-  get to() {
+  get to () {
     const { to, nativeLink } = this.props
     const { isDisabled } = this
 
     return isDisabled ? undefined : nativeLink ? undefined : to
   }
 
-  get href() {
+  get href () {
     const { to, nativeLink } = this.props
     const { isDisabled } = this
 
@@ -110,24 +110,26 @@ export default class Button extends PureComponent {
 
     const contentProp = (
       html
-      ? { dangerouslySetInnerHTML: { __html: html } }
-      : { children: (
+        ? { dangerouslySetInnerHTML: { __html: html } }
+        : { children: (
           <Fragment>
             { isLoading && <SVG name="loading" /> }
 
             { icon && (
               iconType === 'svg'
-              ? <SVG name={icon} />
-              : <Icon key="icon" type={iconType} name={icon} />
+                ? <SVG name={icon} />
+                : <Icon key="icon" type={iconType} name={icon} />
             )}
             { children }
           </Fragment>
-      )}
+        ) }
     )
 
     const props = {
       type: name === 'button' ? 'button' : undefined,
-      className, to, href,
+      className,
+      to,
+      href,
 
       disabled: isDisabled,
       onClick: e => isDisabled && e.preventDefault(),
@@ -140,44 +142,14 @@ export default class Button extends PureComponent {
   }
 }
 
-// PLAIN:
-export function PrimaryButton(props) {
-  return <Button {...props} type="primary" />
-}
-
-export function RegularButton(props) {
-  return <Button {...props} type="regular" />
-}
-
-export const SecondaryButton = RegularButton
-
-export function TertiaryButton(props) {
-  return <Button {...props} type="tertiary" />
-}
-
-export function TextButton(props) {
-  return <Button {...props} type="text" />
-}
-
-// CORE:
-export function CoreButton(props) {
+function CoreButton (props) {
   return <Button {...props} theme="core" />
 }
 
-export function PrimaryCoreButton(props) {
+export function PrimaryCoreButton (props) {
   return <CoreButton {...props} type="primary" />
 }
 
-export function RegularCoreButton(props) {
-  return <CoreButton {...props} type="regular" />
-}
-
-export const SecondaryCoreButton = RegularCoreButton
-
-export function TertiaryCoreButton(props) {
+export function TertiaryCoreButton (props) {
   return <CoreButton {...props} type="tertiary" />
-}
-
-export function TextCoreButton(props) {
-  return <CoreButton {...props} type="text" />
 }

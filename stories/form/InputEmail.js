@@ -3,8 +3,9 @@ import { action } from '@storybook/addon-actions'
 
 import Root from '../../components/root'
 import Button from '../../components/button'
+import InputEmail from '../../components/emailInput'
 import { FormLabel } from '../../components/formEntry'
-import InputEmail, { PanelInputEmail } from '../../components/emailInput'
+import { PanelInputEmail } from '../components/Input'
 
 export default class InputEmailExample extends React.PureComponent {
   state = {
@@ -15,10 +16,11 @@ export default class InputEmailExample extends React.PureComponent {
   }
 
   toggleSize = () => this.setState({ isSmall: !this.state.isSmall })
+
   toggleCore = () => this.setState({ isCore: !this.state.isCore })
 
   onChange = (name, value, e) => this.setState(
-    ({ formData }) => ({formData: { ...formData, [name]: value }}),
+    ({ formData }) => ({ formData: { ...formData, [name]: value } }),
     () => action('Email changed')(value, e),
   )
 
@@ -27,12 +29,12 @@ export default class InputEmailExample extends React.PureComponent {
 
     return (
       value === 0 || !!value
-      ? value
-      : defaultValue
+        ? value
+        : defaultValue
     )
   }
 
-  render() {
+  render () {
     const { isSmall, isCore, formData } = this.state
 
     const size = isSmall ? 'small' : 'regular'
@@ -41,7 +43,7 @@ export default class InputEmailExample extends React.PureComponent {
     return (
       <Root>
         <style>
-        {`
+          {`
           .FormEntry { width: 20rem; }
           .InputEmail, .CoreInputEmail { width: 100%; }
          `}
@@ -96,7 +98,6 @@ export default class InputEmailExample extends React.PureComponent {
           />
         </FormLabel>
 
-
         <FormLabel name="Panel Input">
           <PanelInputEmail
             value={formData.a}
@@ -148,7 +149,7 @@ export default class InputEmailExample extends React.PureComponent {
             onChange={this.onChange.bind(this, 'm')}
           />
         </FormLabel>
-     </Root>
+      </Root>
     )
   }
 }

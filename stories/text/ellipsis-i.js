@@ -4,11 +4,11 @@ import Root from '../../components/root'
 import Ellipsis from '../../components/ellipsis'
 
 export default class EllipsisI extends PureComponent {
-  render() {
+  render () {
     return (
       <Root>
         <style>
-        {`#root { line-height: 1.5; }`}
+          {`#root { line-height: 1.5; }`}
         </style>
 
         <h2>Max</h2>

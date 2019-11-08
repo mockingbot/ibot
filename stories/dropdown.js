@@ -12,7 +12,7 @@ import Icon from '../components/icon'
 import Tooltip from '../components/tooltip'
 
 storiesOf('Dropdown', module)
-.add('Default', () => <DropdownExample />)
+  .add('Default', () => <DropdownExample />)
 
 class DropdownExample extends PureComponent {
   state = {
@@ -37,7 +37,7 @@ class DropdownExample extends PureComponent {
 
   onChangeInput = inputValue => this.setState({ inputValue })
 
-  render() {
+  render () {
     const { isDark, isSettingOpen, isSecondSettingOpen, inputValue } = this.state
 
     return (
@@ -55,7 +55,7 @@ class DropdownExample extends PureComponent {
         </Button>
 
         <style>
-        {`
+          {`
           .dropdown {
             display: flex;
             justify-content: space-between;

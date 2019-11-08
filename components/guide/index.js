@@ -1,26 +1,20 @@
 import React, { PureComponent, Fragment, isValidElement, cloneElement } from 'react'
 import { createPortal } from 'react-dom'
-
 import PropTypes from 'prop-types'
 import EventListener, { withOptions } from 'react-event-listener'
 import { isEqual } from 'lodash'
-
 import Button from '../button'
 import Icon from '../icon'
-
 import { trimList, preparePortal, SVG } from '../util'
 import { positionMenu } from '../dropdown'
-
 import './index.styl'
 
 const { I18N = {} } = window
 const GUIDE_ROOT_ID = 'IBOT_GUIDE_GUIDE_ROOT'
-
 const $guideRoot = (
-  document.getElementById(GUIDE_ROOT_ID)
-  || Object.assign(document.createElement('div'), { id: GUIDE_ROOT_ID })
+  document.getElementById(GUIDE_ROOT_ID) ||
+  Object.assign(document.createElement('div'), { id: GUIDE_ROOT_ID })
 )
-
 const $body = document.body
 
 if (!$body.contains($guideRoot)) {
@@ -71,7 +65,7 @@ export default class GuideBase extends PureComponent {
     inflexible: false,
   }
 
-  static getDerivedStateFromProps(props, { prevProps, isOpen }) {
+  static getDerivedStateFromProps (props, { prevProps, isOpen }) {
     if (!isEqual(prevProps, props)) {
       return { prevProps: props, isOpen: props.isOpen }
     }
@@ -79,12 +73,12 @@ export default class GuideBase extends PureComponent {
     return null
   }
 
-  componentDidMount() {
+  componentDidMount () {
     const { isOpen } = this.state
     if (isOpen) this.position()
   }
 
-  componentDidUpdate(_, { isOpen: wasOpen }) {
+  componentDidUpdate (_, { isOpen: wasOpen }) {
     const { isOpen } = this.state
 
     if (!wasOpen && isOpen) {
@@ -92,7 +86,7 @@ export default class GuideBase extends PureComponent {
     }
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     if (this.portal) this.portal.remove()
   }
 
@@ -113,6 +107,7 @@ export default class GuideBase extends PureComponent {
   }
 
   set$base = $base => Object.assign(this, { $base })
+
   set$guide = $guide => Object.assign(this, { $guide })
 
   close = () => this.setState(
@@ -120,13 +115,13 @@ export default class GuideBase extends PureComponent {
     this.props.onClose,
   )
 
-  render() {
+  render () {
     const { children = null } = this.props
 
     const base = (
       isValidElement(children)
-      ? cloneElement(children, { ref: this.set$base })
-      : <span ref={this.set$base}>{ children }</span>
+        ? cloneElement(children, { ref: this.set$base })
+        : <span ref={this.set$base}>{ children }</span>
     )
 
     const guide = createPortal(this.renderGuide(), this.portal)
@@ -141,7 +136,7 @@ export default class GuideBase extends PureComponent {
 
   onScrollOutside = this.position
 
-  renderGuide() {
+  renderGuide () {
     const {
       className,
       noCloseBtn,

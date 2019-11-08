@@ -1,11 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-
 import { isEqual } from 'lodash'
-
-import Icon from '../icon'
 import { trimList } from '../util'
-
 import './index.styl'
 
 export default class Switch extends PureComponent {
@@ -39,23 +35,23 @@ export default class Switch extends PureComponent {
     onChange: () => null,
   }
 
-  static getDerivedStateFromProps(props, { prevProps }) {
+  static getDerivedStateFromProps (props, { prevProps }) {
     if (!isEqual(prevProps, props)) {
       return { prevProps: props, isChecked: props.isChecked }
     }
     return null
   }
 
-  get isDisabled() {
+  get isDisabled () {
     const { isDisabled, disabled } = this.props
     return isDisabled || disabled
   }
 
-  get readOnly() {
+  get readOnly () {
     return this.props.readOnly
   }
 
-  get canToggle() {
+  get canToggle () {
     const { isDisabled, readOnly } = this
     return !isDisabled && !readOnly
   }

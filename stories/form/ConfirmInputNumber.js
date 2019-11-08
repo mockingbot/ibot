@@ -1,12 +1,11 @@
 import React from 'react'
 import { action } from '@storybook/addon-actions'
-
 import Root from '../../components/root'
 import Button from '../../components/button'
-
 import FormEntry, { FormLabel } from '../../components/formEntry'
-import { PanelInputNumber, PanelSelectNumber } from '../../components/confirmInputNumber'
 import Icon from '../../components/icon'
+
+import { PanelInputNumber, PanelSelectNumber } from '../components/ConfirmInputNumber'
 
 export default class InputNumberExample extends React.PureComponent {
   state = {
@@ -28,7 +27,7 @@ export default class InputNumberExample extends React.PureComponent {
   toggleCore = () => this.setState({ isCore: !this.state.isCore })
 
   onChange = (name, value, e) => this.setState(
-    ({ formData }) => ({formData: { ...formData, [name]: value }}),
+    ({ formData }) => ({ formData: { ...formData, [name]: value } }),
     () => action('Number changed')(value, e),
   )
 
@@ -37,12 +36,12 @@ export default class InputNumberExample extends React.PureComponent {
 
     return (
       value === 0 || value === '' || !!value
-      ? value
-      : defaultValue
+        ? value
+        : defaultValue
     )
   }
 
-  render() {
+  render () {
     const { isCore, formData } = this.state
 
     const theme = isCore ? 'core' : 'plain'
@@ -50,7 +49,7 @@ export default class InputNumberExample extends React.PureComponent {
     return (
       <Root>
         <style>
-        {`
+          {`
           .FormEntry { width: 16rem; }
           .FormEntry .val { display: flex; justify-content: space-between; }
           .FormEntry .InputNumber, .FormEntry .CoreInputNumber { width: 48% !important; }
@@ -94,7 +93,7 @@ export default class InputNumberExample extends React.PureComponent {
               fontSize: `${formData.fontSize}px`,
               lineHeight: `${formData.lineHeight}em`,
               letterSpacing: `${formData.textSpacing}px`,
-              opacity: `${formData.opacity/100}`,
+              opacity: `${formData.opacity / 100}`,
               transform: `rotate(${formData.rotate}deg)`,
 
               backgroundColor: `#ccc`,
@@ -172,7 +171,7 @@ export default class InputNumberExample extends React.PureComponent {
             max={360}
             suffix="°"
             value={formData.rotate}
-            parser={v =>isFinite(v) ? v%360 : v}
+            parser={v => isFinite(v) ? v % 360 : v}
             onConfirm={this.onChange.bind(this, 'rotate')}
           />
         </FormLabel>

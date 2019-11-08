@@ -2,33 +2,24 @@ import React, { createRef, Fragment, PureComponent } from 'react'
 import { createPortal } from 'react-dom'
 import PropTypes from 'prop-types'
 import EventListener from 'react-event-listener'
-
 import { get, isBoolean, isEqual } from 'lodash'
-
 import Button, { PrimaryCoreButton, TertiaryCoreButton } from '../button'
 import SVG from '../svg'
-// import Icon from '../icon'
 import Switch from '../switch'
-
 import {
   addModalToStack, deleteModalFromStack, checkNoOpenModalInStack, checkModalIndexInStack,
   toggleGlobalScroll, trimList, $, preparePortal,
 } from '../util'
-
 import './index.styl'
 
 const stopPropagation = e => e.stopPropagation()
-
 const MODAL_ROOT_ID = 'IBOT_MODAL_ROOT'
 const MODAL_PORTAL_CLASS = 'CoreModalPortal'
-
 const I18N = get(window, 'I18N', {})
-
 const $body = document.body
-
 const $modalRoot = (
-  document.getElementById(MODAL_ROOT_ID)
-  || Object.assign(document.createElement('div'), { id: MODAL_ROOT_ID })
+  document.getElementById(MODAL_ROOT_ID) ||
+  Object.assign(document.createElement('div'), { id: MODAL_ROOT_ID })
 )
 
 if (!$body.contains($modalRoot)) {
@@ -109,7 +100,7 @@ export default class CoreModal extends PureComponent {
 
   maskRef = createRef()
 
-  static getDerivedStateFromProps(props, { prevProps, isOpen }) {
+  static getDerivedStateFromProps (props, { prevProps, isOpen }) {
     if (!isEqual(prevProps, props)) {
       const { isOpen: willBeOpen } = props
 
@@ -126,7 +117,7 @@ export default class CoreModal extends PureComponent {
     return null
   }
 
-  componentDidMount() {
+  componentDidMount () {
     const { onOpen, onToggle } = this.props
     const { isOpen } = this.state
 
@@ -140,7 +131,7 @@ export default class CoreModal extends PureComponent {
     window.addEventListener('resize', this.positionY)
   }
 
-  componentDidUpdate(_, { isOpen: wasOpen }) {
+  componentDidUpdate (_, { isOpen: wasOpen }) {
     const { isOpen } = this.state
 
     if (!wasOpen && isOpen) {
@@ -153,7 +144,7 @@ export default class CoreModal extends PureComponent {
     }
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     if (this.portal) this.portal.remove()
 
     this.didClose()
@@ -199,7 +190,9 @@ export default class CoreModal extends PureComponent {
   }
 
   open = () => this.setState({ isOpen: true })
+
   close = () => this.setState({ isVisible: false })
+
   toggle = (willBeOpen = !this.state.isOpen) => willBeOpen ? this.open() : this.close()
 
   positionY = () => setTimeout(() => {
@@ -211,7 +204,7 @@ export default class CoreModal extends PureComponent {
     const { innerHeight: vh } = window
     const { height: h } = $modal.getBoundingClientRect()
 
-    const action = (vh <= h || ((vh - h)/2) < (vh * .15)) ? 'add' : 'remove'
+    const action = (vh <= h || ((vh - h) / 2) < (vh * 0.15)) ? 'add' : 'remove'
     $modal.classList[action]('is-v-centered')
   })
 
@@ -262,18 +255,17 @@ export default class CoreModal extends PureComponent {
     const isSelectMenuOpen = !!$('#IBOT_SELECT_MENU_ROOT .SelectMenu.is-open')
 
     if (
-      key === 'Escape'
+      key === 'Escape' &&
 
       // Not focus on form elements:
-      && !$elmt.matches('input, textarea, select') && !isSelectMenuOpen
+      !$elmt.matches('input, textarea, select') && !isSelectMenuOpen &&
 
       // Current modal is open and can close via esc:
-      && isOpen && canClose && canCloseOnEsc && !isSelectMenuOpen
+      isOpen && canClose && canCloseOnEsc && !isSelectMenuOpen &&
 
       // Only work on the toppest modal:
-      && checkModalIndexInStack(this) === 0
+      checkModalIndexInStack(this) === 0
     ) {
-
       if (onCancel) {
         this.cancel()
       }
@@ -282,29 +274,29 @@ export default class CoreModal extends PureComponent {
     }
 
     if (
-      key === 'Enter'
+      key === 'Enter' &&
 
       // Not focus on form elements:
-      && !$elmt.matches('textarea, button') && !isSelectMenuOpen
+      !$elmt.matches('textarea, button') && !isSelectMenuOpen &&
 
       // Current modal is open and can confirm via enter:
-      && isOpen && canConfirmOnEnter
+      isOpen && canConfirmOnEnter &&
 
       // Only work on the toppest modal:
-      && checkModalIndexInStack(this) === 0
+      checkModalIndexInStack(this) === 0 &&
 
       // Only work whilst `onConfirm` callback is provided:
-      && !!onConfirm
+      !!onConfirm
     ) {
       return this.confirm()
     }
   }
 
-  render() {
+  render () {
     return this.opener
   }
 
-  get opener() {
+  get opener () {
     const { opener, openerType } = this.props
     const { isOpen } = this.state
 
@@ -312,35 +304,35 @@ export default class CoreModal extends PureComponent {
 
     return (
       openerType === 'none'
-      ? modal
+        ? modal
 
-      : openerType === 'custom'
-      ? (
-        opener
-        ? <span onClick={this.toggle}>
-            { opener }
-            { modal }
-          </span>
-        : modal
-      )
+        : openerType === 'custom'
+          ? (
+            opener
+              ? <span onClick={this.toggle}>
+                { opener }
+                { modal }
+              </span>
+              : modal
+          )
 
-      : openerType === 'switch'
-      ? <Switch isChecked={isOpen} onChange={this.toggle}>
-          { modal }
-        </Switch>
+          : openerType === 'switch'
+            ? <Switch isChecked={isOpen} onChange={this.toggle}>
+              { modal }
+            </Switch>
 
-      : <Button type={openerType} onClick={this.open}>
-          { opener }
-          { modal }
-        </Button>
+            : <Button type={openerType} onClick={this.open}>
+              { opener }
+              { modal }
+            </Button>
     )
   }
 
-  get modal() {
+  get modal () {
     return createPortal(this.modalDOM, this.portal)
   }
 
-  get footer() {
+  get footer () {
     const {
       onConfirm, onCancel,
       confirmText, cancelText,
@@ -366,7 +358,7 @@ export default class CoreModal extends PureComponent {
     )
   }
 
-  get modalDOM() {
+  get modalDOM () {
     const {
       type,
       maskClassName,

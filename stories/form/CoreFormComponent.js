@@ -1,16 +1,9 @@
 import React, { PureComponent } from 'react'
 import { action } from '@storybook/react'
-
 import Root from '../../components/root'
-import {
-  CoreInput,
-  CoreInputEmail,
-  CoreInputNumber,
-  CoreConfirmInputNumber,
-} from '../../components/input'
-import { CoreRadio, CoreRadioGroup } from '../../components/radio'
-import { CoreSelect } from '../../components/select'
-import { CoreCheck, CoreCheckGroup } from '../../components/check'
+import { CoreInputEmail, CoreInput, CoreInputNumber } from '../components/Input'
+import { CoreConfirmInputNumber } from '../components/ConfirmInputNumber'
+import { CoreSelect, CoreCheck, CoreCheckGroup, CoreRadio, CoreRadioGroup } from '../components/CheckRadioSelect'
 
 export default class CoreFormComponent extends PureComponent {
   state = {
@@ -22,13 +15,13 @@ export default class CoreFormComponent extends PureComponent {
     () => action('Radio Checked')(isChecked, name, tiangan),
   )
 
-  render() {
+  render () {
     const { tiangan } = this.state
 
     return (
       <Root>
         <style>
-        {`
+          {`
           .single label { margin-right: .5em }
 
           .row { margin-bottom: 1em }

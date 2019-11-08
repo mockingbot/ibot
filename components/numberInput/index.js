@@ -1,13 +1,10 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import EventListener from 'react-event-listener'
-
 import { isNumber, isEqual } from 'lodash'
-
 import Button from '../button'
 import { SelectMenu } from '../select'
 import SVG from '../svg'
-
 import { trimList, getOtherProps, setNumberValue } from '../util'
 
 import './index.styl'
@@ -26,12 +23,12 @@ const toFixed = (num, precision) => Number(Number(num).toFixed(precision))
  * @return {Number} final step
  */
 const getStep = ({ shiftKey, metaKey }, step = 1) => (
-  shiftKey ? step*10 : metaKey ? step*100 : step
+  shiftKey ? step * 10 : metaKey ? step * 100 : step
 )
 
 const checkSettability = value => (
-  value === ''
-  || /^0?[\+\-]0*$/.test(value)   // Starting with a plus/minus
+  value === '' ||
+  /^0?[\+\-]0*$/.test(value) // Starting with a plus/minus
   || /^[\+\-]?\d*\.$/.test(value) // Ending with a dot
 )
 
@@ -112,7 +109,7 @@ export default class InputNumber extends PureComponent {
     onBlur: () => null,
   }
 
-  static getDerivedStateFromProps(props, { prevProps, value }) {
+  static getDerivedStateFromProps (props, { prevProps, value }) {
     if (!isEqual(prevProps, props)) {
       const { value: newValue } = props
       return { prevProps: props, value: setNumberValue(newValue) }
@@ -120,7 +117,7 @@ export default class InputNumber extends PureComponent {
     return null
   }
 
-  componentDidMount() {
+  componentDidMount () {
     const { $label } = this
     const { value, title, prefix, suffix } = this.props
 
@@ -139,7 +136,7 @@ export default class InputNumber extends PureComponent {
     const originalPaddingLeft = parseInt(getComputedStyle($input).getPropertyValue('padding-left'))
 
     if (title || prefix) {
-      const space = ($title ? $title.clientWidth+6 : 0) + ($prefix ? $prefix.clientWidth : 0)
+      const space = ($title ? $title.clientWidth + 6 : 0) + ($prefix ? $prefix.clientWidth : 0)
 
       const style = { paddingLeft: `${space + originalPaddingLeft}px` }
 
@@ -171,10 +168,10 @@ export default class InputNumber extends PureComponent {
   }
 
   checkValidity = number => (
-    number === ''
-    || (
-      isFinite(number)
-      && this.correctNumber(number) === Number(number)
+    number === '' ||
+    (
+      isFinite(number) &&
+      this.correctNumber(number) === Number(number)
     )
   )
 
@@ -209,8 +206,8 @@ export default class InputNumber extends PureComponent {
     } else {
       Object.assign(this, { correctionTimeout: (
         setTimeout(() => (
-          this.state.value === settingNumber
-          && this.setState(
+          this.state.value === settingNumber &&
+          this.setState(
             {
               value: finalNumber,
               isValid: true,
@@ -218,7 +215,7 @@ export default class InputNumber extends PureComponent {
             onChange(finalNumber, e),
           )
         ), CORRECTION_AWAIT)
-      )})
+      ) })
     }
   }
 
@@ -286,9 +283,13 @@ export default class InputNumber extends PureComponent {
   }
 
   set$label = $label => Object.assign(this, { $label })
+
   setActive = () => this.setState({ isActive: true })
+
   setInactive = () => this.setState({ isActive: false })
+
   toggleMenu = () => this.setState({ isMenuOpen: !this.state.isMenuOpen })
+
   closeMenu = () => this.setState({ isMenuOpen: false })
 
   onSelect = e => {
@@ -316,7 +317,7 @@ export default class InputNumber extends PureComponent {
     }
   }
 
-  render() {
+  render () {
     const {
       className,
       size, theme, unstyled,
@@ -391,7 +392,7 @@ export default class InputNumber extends PureComponent {
           {...getOtherProps(this.constructor, this.props)}
         />
 
-      { suffix && (
+        { suffix && (
           <span
             className="suffix"
             data-value={formatter(value)}
@@ -444,13 +445,13 @@ export class InputActionButton extends PureComponent {
       <React.Fragment>
         {
           hasMenu
-          ? <div className="action caret">
+            ? <div className="action caret">
               <Button type="text" tabIndex="-1" onClick={onToggleMenu} >
                 <SVG name="triangle_down" />
               </Button>
             </div>
 
-          : <div className="action">
+            : <div className="action">
               <Button
                 type="text"
                 tabIndex="-1"
@@ -477,29 +478,4 @@ export class InputActionButton extends PureComponent {
       </React.Fragment>
     )
   }
-}
-
-export function SelectNumber({ className, ...others }) {
-  return (
-    <InputNumber
-      className={trimList(['SelectNumber', className])}
-      {...others}
-    />
-  )
-}
-
-SelectNumber.propTypes = {
-  className: PropTypes.string,
-}
-
-SelectNumber.defaultProps = {
-  optionList: [1, 2, 3],
-}
-
-export function CoreInputNumber(props) {
-  return <InputNumber {...props} theme="core" />
-}
-
-export function CoreSelectNumber(props) {
-  return <SelectNumber {...props} theme="core" />
 }

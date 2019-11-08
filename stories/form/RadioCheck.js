@@ -15,6 +15,7 @@ export default class RadioCheckExample extends PureComponent {
   }
 
   toggleSize = () => this.setState({ isSmall: !this.state.isSmall })
+
   toggleCore = () => this.setState({ isCore: !this.state.isCore })
 
   onChangeLang = (isChecked, name, langValue) => this.setState(
@@ -31,13 +32,13 @@ export default class RadioCheckExample extends PureComponent {
     ({ cgValueList: prevList }) => ({
       cgValueList: (
         prevList.includes('Three')
-        ? prevList.filter(v => v !== 'Three')
-        : [...prevList, 'Three']
-      )
+          ? prevList.filter(v => v !== 'Three')
+          : [...prevList, 'Three']
+      ),
     }),
   )
 
-  render() {
+  render () {
     const {
       isSmall, isCore, langValue,
       cgValueList,
@@ -49,7 +50,7 @@ export default class RadioCheckExample extends PureComponent {
     return (
       <Root>
         <style scoped>
-        {`p { width: 15em; }`}
+          {`p { width: 15em; }`}
         </style>
 
         <div
@@ -76,17 +77,17 @@ export default class RadioCheckExample extends PureComponent {
         </div>
 
         <style>
-        {`p.radio { display: flex; flex-wrap: wrap; width: 15em; }`}
-        {`p.radio label { margin-right: .5em; }`}
+          {`p.radio { display: flex; flex-wrap: wrap; width: 15em; }`}
+          {`p.radio label { margin-right: .5em; }`}
         </style>
 
         <h2>Radio</h2>
         <p className="radio">
-          <Radio {...{ size, theme }} name="lang" value="zh" label="汉语" isChecked={'zh' === langValue} onToggle={this.onChangeLang} />
-          <Radio {...{ size, theme }} name="lang" value="ja" label="日本語" isChecked={'ja' === langValue} isDisabled={true}  onToggle={this.onChangeLang} />
-          <Radio {...{ size, theme }} name="lang" value="en" label="English" isChecked={'en' === langValue}  onToggle={this.onChangeLang} />
-          <Radio {...{ size, theme }} name="lang" value="tlh" label="Klingon" isChecked={'tlh' === langValue} isDisabled={true} onToggle={this.onChangeLang} />
-          <Radio {...{ size, theme }} name="lang" value="ava" label="Avarin" isChecked={'ava' === langValue} isDisabled={false} onToggle={this.onChangeLang} />
+          <Radio {...{ size, theme }} name="lang" value="zh" label="汉语" isChecked={langValue === 'zh'} onToggle={this.onChangeLang} />
+          <Radio {...{ size, theme }} name="lang" value="ja" label="日本語" isChecked={langValue === 'ja'} isDisabled={true} onToggle={this.onChangeLang} />
+          <Radio {...{ size, theme }} name="lang" value="en" label="English" isChecked={langValue === 'en'} onToggle={this.onChangeLang} />
+          <Radio {...{ size, theme }} name="lang" value="tlh" label="Klingon" isChecked={langValue === 'tlh'} isDisabled={true} onToggle={this.onChangeLang} />
+          <Radio {...{ size, theme }} name="lang" value="ava" label="Avarin" isChecked={langValue === 'ava'} isDisabled={false} onToggle={this.onChangeLang} />
 
           <br />
           <button onClick={this.onChangeLang.bind(this, true, 'lang', 'zh')}>Change back to 汉语</button>
@@ -96,12 +97,12 @@ export default class RadioCheckExample extends PureComponent {
         <p className="check">
           <Radio {...{ size, theme }} name="lang" label="汉语" isChecked={true} readOnly onToggle={action('Check toggled')} />
           <Radio {...{ size, theme }} name="lang" label="日本語" isChecked={false} readOnly onToggle={action('Check toggled')} />
-          <Radio {...{ size, theme }} name="lang" value="en" label="English" isDisabled readOnly isChecked={'en' === langValue}  onToggle={this.onChangeLang} />
+          <Radio {...{ size, theme }} name="lang" value="en" label="English" isDisabled readOnly isChecked={langValue === 'en'} onToggle={this.onChangeLang} />
         </p>
 
         <style>
-        {`p.radio-group { display: flex; }`}
-        {`p.radio-group label { flex: 100%; }`}
+          {`p.radio-group { display: flex; }`}
+          {`p.radio-group label { flex: 100%; }`}
         </style>
 
         <h2>Radio Group</h2>
@@ -133,31 +134,31 @@ export default class RadioCheckExample extends PureComponent {
         <p className="radio-group">
           <RadioGroup
             {...{ size, theme }}
-            optionList={[1,2,3,4,5]}
+            optionList={[1, 2, 3, 4, 5]}
             value={2}
             onToggle={action('RadioGroup toggled')}
           />
           <RadioGroup
             {...{ size, theme }}
-            optionList={[1,2,3,4,5]}
+            optionList={[1, 2, 3, 4, 5]}
             value="2"
             onToggle={action('RadioGroup toggled')}
           />
           <RadioGroup
             {...{ size, theme }}
-            optionList={['1','2','3','4','5']}
+            optionList={['1', '2', '3', '4', '5']}
             value="2"
             onToggle={action('RadioGroup toggled')}
           />
           <RadioGroup
             {...{ size, theme }}
-            optionList={['1','2','3','4','5']}
+            optionList={['1', '2', '3', '4', '5']}
             value={2}
             onToggle={action('RadioGroup toggled')}
           />
           <RadioGroup
             {...{ size, theme }}
-            optionList={['1','2','3','4','5']}
+            optionList={['1', '2', '3', '4', '5']}
             value={'2'}
             onToggle={action('RadioGroup toggled')}
           />
@@ -197,8 +198,8 @@ export default class RadioCheckExample extends PureComponent {
 
         <h2>Check</h2>
         <style>
-        {`p.check { display: flex; width: 15em; flex-wrap: wrap; }`}
-        {`p.check label { margin-right: .5em; }`}
+          {`p.check { display: flex; width: 15em; flex-wrap: wrap; }`}
+          {`p.check label { margin-right: .5em; }`}
         </style>
         <p className="check">
           <Check {...{ size, theme }} name="lang" label="汉语" isChecked={true} onToggle={action('Check toggled')} />
@@ -215,8 +216,8 @@ export default class RadioCheckExample extends PureComponent {
         </p>
 
         <style>
-        {`p.check-group { display: flex; }`}
-        {`p.check-group label { flex: 100%; }`}
+          {`p.check-group { display: flex; }`}
+          {`p.check-group label { flex: 100%; }`}
         </style>
 
         <h2>Check Group</h2>
@@ -229,7 +230,7 @@ export default class RadioCheckExample extends PureComponent {
               { label: 'Krung-dēvamahānagara amararatanakosindra mahindrayudhyā mahātilakabhava navaratanarājadhānī purīrāmasya utamarājanivēsana mahāsthāna amaravimāna avatārasthitya shakrasdattiya vishnukarmaprasiddhi, Thailand', value: 'bangkok', isDisabled: true },
               { label: 'New York, USA', value: 'newyork' },
             ]}
-            valueList={['beijing','newyork']}
+            valueList={['beijing', 'newyork']}
             onToggle={action('CheckGroup toggled')}
           />
           <CheckGroup
@@ -248,31 +249,31 @@ export default class RadioCheckExample extends PureComponent {
         <p className="check-group">
           <CheckGroup
             {...{ size, theme }}
-            optionList={[1,2,3,4,5]}
-            valueList={[2,3]}
-            onToggle={action('CheckGroup toggled')}
-          />
-          <CheckGroup
-            {...{ size, theme }}
-            optionList={[1,2,3,4,5]}
-            valueList={['2', '3']}
-            onToggle={action('CheckGroup toggled')}
-          />
-          <CheckGroup
-            {...{ size, theme }}
-            optionList={['1','2','3','4','5']}
-            valueList={['2', '3']}
-            onToggle={action('CheckGroup toggled')}
-          />
-          <CheckGroup
-            {...{ size, theme }}
-            optionList={['1','2','3','4','5']}
+            optionList={[1, 2, 3, 4, 5]}
             valueList={[2, 3]}
             onToggle={action('CheckGroup toggled')}
           />
           <CheckGroup
             {...{ size, theme }}
-            optionList={['1','2','3','4','5']}
+            optionList={[1, 2, 3, 4, 5]}
+            valueList={['2', '3']}
+            onToggle={action('CheckGroup toggled')}
+          />
+          <CheckGroup
+            {...{ size, theme }}
+            optionList={['1', '2', '3', '4', '5']}
+            valueList={['2', '3']}
+            onToggle={action('CheckGroup toggled')}
+          />
+          <CheckGroup
+            {...{ size, theme }}
+            optionList={['1', '2', '3', '4', '5']}
+            valueList={[2, 3]}
+            onToggle={action('CheckGroup toggled')}
+          />
+          <CheckGroup
+            {...{ size, theme }}
+            optionList={['1', '2', '3', '4', '5']}
             valueList={[2, 3]}
             onToggle={action('CheckGroup toggled')}
           />

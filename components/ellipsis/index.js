@@ -1,10 +1,9 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-
 import Tooltip from '../tooltip'
 import { trimList } from '../util'
-
 import './index.styl'
+
 export default class Ellipsis extends PureComponent {
   state = { isTruncated: false, isDetected: false }
 
@@ -36,11 +35,11 @@ export default class Ellipsis extends PureComponent {
     theme: 'core',
   }
 
-  componentDidMount() {
+  componentDidMount () {
     return this.setState({ isDetected: true, isTruncated: this.detectTruncation() })
   }
 
-  componentDidUpdate({ children: prevChildren, html: prevHTML }) {
+  componentDidUpdate ({ children: prevChildren, html: prevHTML }) {
     const { children, html } = this.props
 
     const { isDetected } = this.state
@@ -55,9 +54,10 @@ export default class Ellipsis extends PureComponent {
   }
 
   set$ellipsis = $ellipsis => Object.assign(this, { $ellipsis })
+
   detectTruncation = ($e = this.$ellipsis) => $e.offsetWidth < $e.scrollWidth
 
-  render() {
+  render () {
     const {
       className, to, type, max, display, lang, theme,
       noTooltip, withTooltip,
@@ -74,8 +74,8 @@ export default class Ellipsis extends PureComponent {
 
     const contentProp = (
       html
-      ? { dangerouslySetInnerHTML: { __html: html } }
-      : { children }
+        ? { dangerouslySetInnerHTML: { __html: html } }
+        : { children }
     )
 
     const truncationClassName = isDetected && (isTruncated ? 'is-truncated' : 'isnt-truncated')
@@ -112,7 +112,7 @@ export default class Ellipsis extends PureComponent {
 
     return (
       withQuote || withPeriod || withComma || withQuestionMark
-      ? <span
+        ? <span
           className={trimList([
             'Punctuation',
             withQuote && 'with-quote',
@@ -124,54 +124,7 @@ export default class Ellipsis extends PureComponent {
         >
           { tooltip }
         </span>
-      : tooltip
+        : tooltip
     )
   }
-}
-
-export function User({
-  name, id, email, ...others
-}) {
-  const result = name || (id ? `@${id}` : email)
-  const resultType = name ? 'user' : id ? 'id' : email ? 'email' : null
-
-  return <Ellipsis type={resultType} {...others}>{ result }</Ellipsis>
-}
-
-User.propTypes = {
-  name: PropTypes.node,
-  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  email: PropTypes.string,
-}
-
-export function OrgName({ name, ...others }) {
-  return <Ellipsis type="org" {...others}>{ name }</Ellipsis>
-}
-
-OrgName.propTypes = {
-  name: PropTypes.node,
-}
-
-export function TeamName({ name, ...others }) {
-  return <Ellipsis type="team" {...others}>{ name }</Ellipsis>
-}
-
-TeamName.propTypes = {
-  name: PropTypes.node,
-}
-
-export function AppName({ name, ...others }) {
-  return <Ellipsis type="app" {...others}>{ name }</Ellipsis>
-}
-
-AppName.propTypes = {
-  name: PropTypes.node,
-}
-
-export function WidgetName({ name, ...others }) {
-  return <Ellipsis type="widget" {...others}>{ name }</Ellipsis>
-}
-
-WidgetName.propTypes = {
-  name: PropTypes.node,
 }

@@ -6,63 +6,63 @@ import Root from '../components/root'
 import Switch from '../components/switch'
 
 storiesOf('Switch', module)
-.add('On/off', () => (
-  <Root>
-    <h2>Regular</h2>
-    <p>
+  .add('On/off', () => (
+    <Root>
+      <h2>Regular</h2>
+      <p>
       A hot quick preview.{' '}
-      <Switch onChange={action('Switch `isChecked`')} />
-    </p>
+        <Switch onChange={action('Switch `isChecked`')} />
+      </p>
 
-    <p>
+      <p>
       Read-only{' '}
-      <Switch readOnly isChecked={true} onChange={action('Switch `isChecked`')} />
-      <Switch readOnly onChange={action('Switch `isChecked`')} />
-    </p>
+        <Switch readOnly isChecked={true} onChange={action('Switch `isChecked`')} />
+        <Switch readOnly onChange={action('Switch `isChecked`')} />
+      </p>
 
-    <p>
+      <p>
       跟汉字搭配{' '}
-      <Switch onChange={action('Switch `isChecked`')} />
-    </p>
+        <Switch onChange={action('Switch `isChecked`')} />
+      </p>
 
-    <p>
+      <p>
       On/off:{' '}
-      <Switch isChecked={true} onChange={action('Switch `isChecked`')} />
-      <Switch isChecked={false} onChange={action('Switch `isChecked`')} />
-    </p>
+        <Switch isChecked={true} onChange={action('Switch `isChecked`')} />
+        <Switch isChecked={false} onChange={action('Switch `isChecked`')} />
+      </p>
 
-    <p>
+      <p>
       Disabled:{' '}
-      <Switch isChecked={false} isDisabled onChange={action('Switch `isChecked`')} />
-      <Switch isChecked={true} isDisabled={true} onChange={action('Switch `isChecked`')} />
-      <Switch isChecked={false} disabled onChange={action('Switch `isChecked`')} icon="pencil" />
-      <Switch isChecked={true} disabled={true} onChange={action('Switch `isChecked`')} icon="single-comment" />
-    </p>
+        <Switch isChecked={false} isDisabled onChange={action('Switch `isChecked`')} />
+        <Switch isChecked={true} isDisabled={true} onChange={action('Switch `isChecked`')} />
+        <Switch isChecked={false} disabled onChange={action('Switch `isChecked`')} icon="pencil" />
+        <Switch isChecked={true} disabled={true} onChange={action('Switch `isChecked`')} icon="single-comment" />
+      </p>
 
-    <h2>Small</h2>
-    <p>
+      <h2>Small</h2>
+      <p>
       On/off: {' '}
-      <Switch size="small" isChecked={true} onChange={action('Switch `isChecked`')} icon="pencil" />
-      <Switch size="small" isChecked={false} onChange={action('Switch `isChecked`')} icon="single-comment" />
-    </p>
+        <Switch size="small" isChecked={true} onChange={action('Switch `isChecked`')} icon="pencil" />
+        <Switch size="small" isChecked={false} onChange={action('Switch `isChecked`')} icon="single-comment" />
+      </p>
 
-    <p>
+      <p>
       Read-only{' '}
-      <Switch size="small" readOnly isChecked={true} onChange={action('Switch `isChecked`')} />
-      <Switch size="small" readOnly onChange={action('Switch `isChecked`')} />
-    </p>
+        <Switch size="small" readOnly isChecked={true} onChange={action('Switch `isChecked`')} />
+        <Switch size="small" readOnly onChange={action('Switch `isChecked`')} />
+      </p>
 
-    <p>
+      <p>
       跟汉字搭配{' '}
-      <Switch size="small" onChange={action('Switch `isChecked`')} />
-    </p>
+        <Switch size="small" onChange={action('Switch `isChecked`')} />
+      </p>
 
-    <p>
+      <p>
       Disabled:{' '}
-      <Switch size="small" isChecked={false} isDisabled onChange={action('Switch `isChecked`')} />
-      <Switch size="small" isChecked={true} isDisabled={true} onChange={action('Switch `isChecked`')} />
-      <Switch size="small" isChecked={false} disabled onChange={action('Switch `isChecked`')} icon="pencil" />
-      <Switch size="small" isChecked={true} disabled={true} onChange={action('Switch `isChecked`')} icon="single-comment" />
-    </p>
-  </Root>
-))
+        <Switch size="small" isChecked={false} isDisabled onChange={action('Switch `isChecked`')} />
+        <Switch size="small" isChecked={true} isDisabled={true} onChange={action('Switch `isChecked`')} />
+        <Switch size="small" isChecked={false} disabled onChange={action('Switch `isChecked`')} icon="pencil" />
+        <Switch size="small" isChecked={true} disabled={true} onChange={action('Switch `isChecked`')} icon="single-comment" />
+      </p>
+    </Root>
+  ))

@@ -2,18 +2,12 @@ import React, { createRef, PureComponent } from 'react'
 import { createPortal } from 'react-dom'
 import PropTypes from 'prop-types'
 import EventListener, { withOptions } from 'react-event-listener'
-
 import { get, isArray, isEqual, isElement } from 'lodash'
-
-// import Dropdown from '../dropdown'
 import Icon from '../icon'
-import Input from '../input'
 import Ellipsis from '../ellipsis'
-
 import { preventScrollingPropagation, trimList, $, $$, preparePortal, SVG,
   getOptionLabel, getOptionValue, checkOptionByValue } from '../util'
 import { positionMenu } from '../dropdown'
-
 import './index.styl'
 
 const MENU_ROOT_ID = 'IBOT_SELECT_MENU_ROOT'
@@ -21,8 +15,8 @@ const MENU_ROOT_ID = 'IBOT_SELECT_MENU_ROOT'
 const { I18N = {} } = window
 
 export const $menuRoot = (
-  document.getElementById(MENU_ROOT_ID)
-  || Object.assign(document.createElement('div'), { id: MENU_ROOT_ID })
+  document.getElementById(MENU_ROOT_ID) ||
+  Object.assign(document.createElement('div'), { id: MENU_ROOT_ID })
 )
 
 const $body = document.body
@@ -130,28 +124,27 @@ export default class Select extends PureComponent {
     menuX: 'left',
   }
 
-
-  static getDerivedStateFromProps(props, { prevProps, value }) {
+  static getDerivedStateFromProps (props, { prevProps, value }) {
     if (!isEqual(prevProps, props)) {
       return { prevProps: props, value: props.value }
     }
     return null
   }
 
-  componentDidMount() {
+  componentDidMount () {
     window.addEventListener('resize', this.onResizeWindow)
   }
 
-  get isDisabled() {
+  get isDisabled () {
     const { isDisabled, disabled } = this.props
     return isDisabled || disabled
   }
 
-  get readOnly() {
+  get readOnly () {
     return this.props.readOnly
   }
 
-  get canSelect() {
+  get canSelect () {
     const { isDisabled, readOnly } = this
     return !isDisabled && !readOnly
   }
@@ -159,7 +152,9 @@ export default class Select extends PureComponent {
   set$select = $select => this.setState({ $select })
 
   open = () => this.setState({ isOpen: true })
+
   close = () => this.setState({ isOpen: false })
+
   toggle = () => this.setState({ isOpen: !this.state.isOpen })
 
   onResizeWindow = () => this.state.isOpen && this.close()
@@ -179,7 +174,7 @@ export default class Select extends PureComponent {
     return this.onChange(canSelect ? $opt.dataset.value : value)
   }
 
-  get displayText() {
+  get displayText () {
     const { optionList, placeholder } = this.props
     const { value } = this.state
 
@@ -191,10 +186,10 @@ export default class Select extends PureComponent {
       !isArray(o) && checkOptionByValue(o, value)
     ))
 
-    return !!option ? getOptionLabel(option) : placeholder
+    return option ? getOptionLabel(option) : placeholder
   }
 
-  render() {
+  render () {
     const { size, theme, unstyled, className, menuX } = this.props
     const { isOpen, $select, value } = this.state
     const { isDisabled, readOnly, canSelect } = this
@@ -260,12 +255,12 @@ export class SelectMenu extends PureComponent {
 
   menuBaseRef = createRef()
 
-  componentDidMount() {
+  componentDidMount () {
     const { menuBaseRef: { current: $menuBase } } = this
     preventScrollingPropagation($('.SelectMenu', $menuBase))
   }
 
-  componentDidUpdate({ isOpen: wasOpen }) {
+  componentDidUpdate ({ isOpen: wasOpen }) {
     const { isOpen } = this.props
 
     // Set up the position of the <SelectMenu> once opened:
@@ -275,7 +270,7 @@ export class SelectMenu extends PureComponent {
     }
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     if (this.portal) this.portal.remove()
   }
 
@@ -317,8 +312,8 @@ export class SelectMenu extends PureComponent {
     const { top: topOf$menuBase, bottom: bottomOf$menuBase } = $menuBase.getBoundingClientRect()
 
     if (
-      isDownward && topOf$opt >= topOf$menuBase
-      || !isDownward && bottomOf$opt <= bottomOf$menuBase
+      isDownward && topOf$opt >= topOf$menuBase ||
+      !isDownward && bottomOf$opt <= bottomOf$menuBase
     ) {
       if ($opt.classList.contains('title')) return
 
@@ -356,11 +351,11 @@ export class SelectMenu extends PureComponent {
     }
   }
 
-  render() {
+  render () {
     return createPortal(this.menu, this.portal)
   }
 
-  get menu() {
+  get menu () {
     const {
       isOpen,
       isDisabled, readOnly,
@@ -391,28 +386,28 @@ export class SelectMenu extends PureComponent {
         <ul className={klass} onTransitionEnd={this.onTransitionEnd}>
           {
             isEmpty
-            ? <li className="SelectOption empty-msg">{ emptyMsg }</li>
-            : (
-              optionList
-              .map((option, idx) => (
-                isArray(option)
-                ? <Group
-                    key={idx}
-                    menuTheme={menuTheme}
-                    optionList={option}
-                    value={value}
-                    onChange={this.onChange}
-                  />
-                : <Option
-                    key={idx}
-                    menuTheme={menuTheme}
-                    isActive={checkOptionByValue(option, value)}
-                    option={option}
-                    isDisabled={option.isDisabled}
-                    onChange={this.onChange}
-                  />
-              ))
-            )
+              ? <li className="SelectOption empty-msg">{ emptyMsg }</li>
+              : (
+                optionList
+                  .map((option, idx) => (
+                    isArray(option)
+                      ? <Group
+                        key={idx}
+                        menuTheme={menuTheme}
+                        optionList={option}
+                        value={value}
+                        onChange={this.onChange}
+                      />
+                      : <Option
+                        key={idx}
+                        menuTheme={menuTheme}
+                        isActive={checkOptionByValue(option, value)}
+                        option={option}
+                        isDisabled={option.isDisabled}
+                        onChange={this.onChange}
+                      />
+                  ))
+              )
           }
 
           { isOpen && (
@@ -434,7 +429,7 @@ export class SelectMenu extends PureComponent {
   }
 }
 
-function Group({
+function Group ({
   value,
   optionList: [title, ...optionList],
   menuTheme,
@@ -445,19 +440,19 @@ function Group({
       <Ellipsis className="title" onClick={onChange}>{ title }</Ellipsis>
 
       <ul>
-      {
-        optionList
-        .map((option, idx) => (
-          <Option
-            key={idx}
-            menuTheme={menuTheme}
-            option={option}
-            isActive={checkOptionByValue(option, value)}
-            isDisabled={option.isDisabled}
-            onChange={onChange}
-          />
-        ))
-      }
+        {
+          optionList
+            .map((option, idx) => (
+              <Option
+                key={idx}
+                menuTheme={menuTheme}
+                option={option}
+                isActive={checkOptionByValue(option, value)}
+                isDisabled={option.isDisabled}
+                onChange={onChange}
+              />
+            ))
+        }
       </ul>
     </li>
   )
@@ -470,7 +465,7 @@ Group.propTypes = {
   menuTheme: PropTypes.string,
 }
 
-function Option({
+function Option ({
   option,
   isActive,
   isDisabled,
@@ -508,22 +503,4 @@ Option.propTypes = {
   isDisabled: PropTypes.bool,
   menuTheme: PropTypes.string,
   onChange: PropTypes.func,
-}
-
-export function CoreSelect(props) {
-  return <Select {...props} theme="core" />
-}
-
-export function PanelSelect({ className, ...others }) {
-  return (
-    <Input
-      size="small"
-      className={trimList(['PanelSelect', className])}
-      {...others}
-    />
-  )
-}
-
-PanelSelect.propTypes = {
-  className: PropTypes.string,
 }
