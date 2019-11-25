@@ -1,19 +1,9 @@
 import React, { PureComponent } from 'react'
 import { action } from '@storybook/react'
-
-import {
-  Root,
-
-  CoreCheck, CoreCheckGroup,
-  CoreRadio, CoreRadioGroup,
-
-  CoreInput,
-  CoreInputEmail,
-  CoreInputNumber,
-  CoreConfirmInputNumber,
-
-  CoreSelect,
-} from '../../components'
+import Root from '../../components/root'
+import { CoreInputEmail, CoreInput, CoreInputNumber } from '../components/Input'
+import { CoreConfirmInputNumber } from '../components/ConfirmInputNumber'
+import { CoreSelect, CoreCheck, CoreCheckGroup, CoreRadio, CoreRadioGroup } from '../components/CheckRadioSelect'
 
 export default class CoreFormComponent extends PureComponent {
   state = {
@@ -25,13 +15,13 @@ export default class CoreFormComponent extends PureComponent {
     () => action('Radio Checked')(isChecked, name, tiangan),
   )
 
-  render() {
+  render () {
     const { tiangan } = this.state
 
     return (
       <Root>
         <style>
-        {`
+          {`
           .single label { margin-right: .5em }
 
           .row { margin-bottom: 1em }
@@ -44,7 +34,7 @@ export default class CoreFormComponent extends PureComponent {
         <div className="single">
           <CoreCheck name="天干" label="甲" />
           <CoreCheck name="天干" label="乙" />
-          <CoreCheck name="天干" label="丙" /> 
+          <CoreCheck name="天干" label="丙" />
         </div>
 
         <div className="single">
@@ -53,7 +43,7 @@ export default class CoreFormComponent extends PureComponent {
           <CoreRadio name="天干" label="丙" isChecked={tiangan === '丙'} onToggle={this.onToggleTiangan} />
         </div>
 
-        <CoreCheckGroup name="latin" optionList={['A', 'B', 'C']} /> 
+        <CoreCheckGroup name="latin" optionList={['A', 'B', 'C']} />
         <CoreRadioGroup name="latin" optionList={['A', 'B', 'C']} />
 
         <div className="row">

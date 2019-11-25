@@ -1,12 +1,12 @@
 import React, { PureComponent } from 'react'
 import { action } from '@storybook/addon-actions'
 
-import {
-  Root, Button,
-  Input, PanelInput,
-  InputNumber, InputEmail,
-  Textarea, PanelTextarea,
-} from '../../components'
+import Root from '../../components/root'
+import Button from '../../components/button'
+import Input, { Textarea } from '../../components/input'
+import InputNumber from '../../components/numberInput'
+import InputEmail from '../../components/emailInput'
+import { PanelInput, PanelTextarea } from '../components/Input'
 
 const onTypingChange = action('Typing changed')
 
@@ -17,23 +17,20 @@ export default class InputExample extends PureComponent {
   }
 
   toggleSize = () => this.setState({ isSmall: !this.state.isSmall })
+
   toggleCore = () => this.setState({ isCore: !this.state.isCore })
 
-  render() {
-    const {
-      isSmall, isCore, langValue,
-      cgValueList,
-    } = this.state
-
+  render () {
+    const { isSmall, isCore } = this.state
     const size = isSmall ? 'small' : 'regular'
     const theme = isCore ? 'core' : 'plain'
 
     return (
       <Root>
         <style scoped>
-        {`p { width: 15em; }`}
-        {`.Input, .CoreInput, textarea { margin-bottom: .5em; width: 100%; }`}
-        {`.PanelInput { max-width: 6em; width: auto; }`}
+          {`p { width: 15em; }`}
+          {`.Input, .CoreInput, textarea { margin-bottom: .5em; width: 100%; }`}
+          {`.PanelInput { max-width: 6em; width: auto; }`}
         </style>
 
         <div
@@ -85,7 +82,7 @@ export default class InputExample extends PureComponent {
         </p>
 
         <style>
-        {`
+          {`
           .InputNumber, .CoreInputNumber { margin-right: 1em; width: 6em; }
         `}
         </style>
@@ -147,7 +144,7 @@ export default class InputExample extends PureComponent {
             value={0}
             step={10}
             formatter={value => `$${value}`}
-            parser={value => value.replace("$", "")}
+            parser={value => value.replace('$', '')}
             precision={0}
             onChange={action('Number changed')}
           />

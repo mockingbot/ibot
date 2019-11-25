@@ -1,17 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { trimList } from '../util'
-
 import * as ICON_MAP from './icons'
-
 import './index.styl'
 
-function getIcon(name) {
+function getIcon (name) {
   const [cat, id] = /.\/./.test(name) ? name.split('/') : ['general', name]
   return ICON_MAP[cat][id]
 }
 
-function SVG({ name, icon = getIcon(name), className, label, ...others }) {
+function SVG ({ name, icon = getIcon(name), className, label, ...others }) {
   if (!icon) return null
 
   const [width, height, __html] = icon

@@ -2,10 +2,17 @@ import React, { PureComponent } from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 
-import { Root, Button, Icon, Dropdown, Input, Select, Check, Tooltip } from '../components'
+import Root from '../components/root'
+import Button from '../components/button'
+import Dropdown from '../components/dropdown'
+import Select from '../components/select'
+import Check from '../components/check'
+import Input from '../components/input'
+import Icon from '../components/icon'
+import Tooltip from '../components/tooltip'
 
 storiesOf('Dropdown', module)
-.add('Default', () => <DropdownExample />)
+  .add('Default', () => <DropdownExample />)
 
 class DropdownExample extends PureComponent {
   state = {
@@ -30,7 +37,7 @@ class DropdownExample extends PureComponent {
 
   onChangeInput = inputValue => this.setState({ inputValue })
 
-  render() {
+  render () {
     const { isDark, isSettingOpen, isSecondSettingOpen, inputValue } = this.state
 
     return (
@@ -48,7 +55,7 @@ class DropdownExample extends PureComponent {
         </Button>
 
         <style>
-        {`
+          {`
           .dropdown {
             display: flex;
             justify-content: space-between;

@@ -1,15 +1,12 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-
-import { trimList } from '../util'
-import { getOptionLabel, getOptionValue, checkOptionByValue } from './util'
-
 import isEqual from 'lodash/isEqual'
-
+import { getOptionLabel, getOptionValue, checkOptionByValue, trimList } from '../util'
+import './index.styl'
 /**
  * <Radio>
  */
-export class Radio extends PureComponent {
+export default class Radio extends PureComponent {
   static propTypes = {
     size: PropTypes.oneOf(['regular', 'small']),
     theme: PropTypes.oneOf(['core', 'plain']),
@@ -45,23 +42,23 @@ export class Radio extends PureComponent {
     isChecked: this.props.isChecked,
   }
 
-  static getDerivedStateFromProps(props, { prevProps, isChecked }) {
+  static getDerivedStateFromProps (props, { prevProps, isChecked }) {
     if (!isEqual(prevProps, props)) {
       return { prevProps: props, isChecked: props.isChecked }
     }
     return null
   }
 
-  get isDisabled() {
+  get isDisabled () {
     const { isDisabled, disabled } = this.props
     return isDisabled || disabled
   }
 
-  get readOnly() {
+  get readOnly () {
     return this.props.readOnly
   }
 
-  get canToggle() {
+  get canToggle () {
     const { isDisabled, readOnly } = this
     return !isDisabled && !readOnly
   }
@@ -70,7 +67,6 @@ export class Radio extends PureComponent {
     const { name, value, label, onToggle, onChange } = this.props
     const { isChecked } = this.state
     const { canToggle } = this
-
     const result = canToggle ? true : isChecked
 
     this.setState({ isChecked: result })
@@ -79,7 +75,7 @@ export class Radio extends PureComponent {
     onChange(name, value || label, result)
   }
 
-  render() {
+  render () {
     const { size, theme, className, label, name } = this.props
     const { isChecked } = this.state
     const { isDisabled, readOnly } = this
@@ -166,23 +162,23 @@ export class RadioGroup extends PureComponent {
     onToggle: () => null,
   }
 
-  static getDerivedStateFromProps(props, { prevProps, value }) {
+  static getDerivedStateFromProps (props, { prevProps, value }) {
     if (!isEqual(prevProps, props)) {
       return { prevProps: props, value: props.value }
     }
     return null
   }
 
-  get isDisabled() {
+  get isDisabled () {
     const { isDisabled, disabled } = this.props
     return isDisabled || disabled
   }
 
-  get readOnly() {
+  get readOnly () {
     return this.props.readOnly
   }
 
-  get canToggle() {
+  get canToggle () {
     const { isDisabled, readOnly } = this
     return !isDisabled && !readOnly
   }
@@ -199,7 +195,7 @@ export class RadioGroup extends PureComponent {
     onChange({ name, value: result, idx })
   }
 
-  render() {
+  render () {
     const { size, theme, className, optionList } = this.props
     const { value } = this.state
     const { name, isDisabled, readOnly } = this
@@ -214,38 +210,30 @@ export class RadioGroup extends PureComponent {
 
     return (
       <span className={klass}>
-      {
-        optionList
-        .map((opt, idx) => opt && (
-          <Radio
-            key={idx}
-            name={name}
-            size={size}
-            theme={theme}
+        {
+          optionList
+            .map((opt, idx) => opt && (
+              <Radio
+                key={idx}
+                name={name}
+                size={size}
+                theme={theme}
 
-            label={getOptionLabel(opt)}
-            type="radio"
-            isChecked={checkOptionByValue(opt, value)}
-            isDisabled={isDisabled || opt.isDisabled}
-            readOnly={readOnly}
+                label={getOptionLabel(opt)}
+                type="radio"
+                isChecked={checkOptionByValue(opt, value)}
+                isDisabled={isDisabled || opt.isDisabled}
+                readOnly={readOnly}
 
-            onChange={
-              !(isDisabled || opt.isDisabled)
-              ? this.createOnChangeHandler(name, getOptionValue(opt), idx)
-              : undefined
-            }
-          />
-        ))
-      }
+                onChange={
+                  !(isDisabled || opt.isDisabled)
+                    ? this.createOnChangeHandler(name, getOptionValue(opt), idx)
+                    : undefined
+                }
+              />
+            ))
+        }
       </span>
     )
   }
-}
-
-export function CoreRadio(props) {
-  return <Radio {...props} theme="core" />
-}
-
-export function CoreRadioGroup(props) {
-  return <RadioGroup {...props} theme="core" />
 }

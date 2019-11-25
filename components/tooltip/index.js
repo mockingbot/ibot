@@ -8,13 +8,15 @@ import { trimList, getOtherProps, $, SVG } from '../util'
 
 import { TYPE_ELEMENT_MAP } from './constants'
 
+import './index.styl'
+
 const EVENT_NAME_LIST = ['hover', 'click']
 
 const TIP_ROOT_ID = 'IBOT_TOOLTIP_ROOT'
 
 const $tipRoot = (
-  document.getElementById(TIP_ROOT_ID)
-  || Object.assign(document.createElement('div'), { id: TIP_ROOT_ID })
+  document.getElementById(TIP_ROOT_ID) ||
+  Object.assign(document.createElement('div'), { id: TIP_ROOT_ID })
 )
 
 const $body = document.body
@@ -23,13 +25,13 @@ if (!$body.contains($tipRoot)) {
   $body.appendChild($tipRoot)
 }
 
-function parseContent(content, eventName = 'hover') {
+function parseContent (content, eventName = 'hover') {
   return (
     isString(content) || isArray(content) || isValidElement(content)
-    ? content
-    : EVENT_NAME_LIST.includes(eventName) && isObject(content)
-    ? content[eventName] || content.hover
-    : null
+      ? content
+      : EVENT_NAME_LIST.includes(eventName) && isObject(content)
+        ? content[eventName] || content.hover
+        : null
   )
 }
 
@@ -93,11 +95,11 @@ export default class Tooltip extends PureComponent {
 
   ref = React.createRef()
 
-  componentDidMount() {
+  componentDidMount () {
     this.props.setRef(this.ref.current)
   }
 
-  componentDidUpdate(_, { isOpen: wasOpen }) {
+  componentDidUpdate (_, { isOpen: wasOpen }) {
     const { duration } = this.props
     const { isOpen } = this.state
 
@@ -106,7 +108,7 @@ export default class Tooltip extends PureComponent {
     }
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     clearTimeout(this.timeout)
     clearTimeout(this.hoverTimeout)
   }
@@ -140,7 +142,7 @@ export default class Tooltip extends PureComponent {
     )
   }
 
-  render() {
+  render () {
     const {
       type, theme,
       position, inflexible, arrowed,
@@ -220,7 +222,7 @@ class Tip extends PureComponent {
     children: PropTypes.node,
   }
 
-  static getDerivedStateFromProps(props, { prevProps }) {
+  static getDerivedStateFromProps (props, { prevProps }) {
     if (!isEqual(prevProps, props)) {
       return {
         prevProps: props,
@@ -233,7 +235,7 @@ class Tip extends PureComponent {
 
   ref = React.createRef()
 
-  componentDidUpdate({ isOpen: wasOpen }) {
+  componentDidUpdate ({ isOpen: wasOpen }) {
     const { isOpen } = this.props
 
     if (!wasOpen && isOpen) {
@@ -245,11 +247,11 @@ class Tip extends PureComponent {
     }
   }
 
-  get $tipBase() {
+  get $tipBase () {
     return this.ref.current
   }
 
-  get $tip() {
+  get $tip () {
     return this.$tipBase && $('.Tip', this.$tipBase)
   }
 
@@ -267,8 +269,8 @@ class Tip extends PureComponent {
     const { offsetWidth: wOf$text, offsetHeight: hOf$text } = $text
     const { offsetWidth: wOf$tip, offsetHeight: hOf$tip } = $tip
 
-    const midXOf$text = left + wOf$text/2
-    const midYOf$text = top + hOf$text/2
+    const midXOf$text = left + wOf$text / 2
+    const midYOf$text = top + hOf$text / 2
 
     const baseStyle = {}
     const tipStyle = {}
@@ -299,16 +301,16 @@ class Tip extends PureComponent {
     switch (position) {
       case 'top':
       case 'bottom': {
-        const most = (wOf$tip-18)/2 + 6
+        const most = (wOf$tip - 18) / 2 + 6
 
         const adjustment = (
           // No enough space to the left:
-          midXOf$text - wOf$tip/2 < 10
-          ? Math.min(wOf$tip/2 - midXOf$text - 6, most)
+          midXOf$text - wOf$tip / 2 < 10
+            ? Math.min(wOf$tip / 2 - midXOf$text - 6, most)
           // No enough space to the right:
-          : midXOf$text + wOf$tip/2 > maxX
-          ? Math.max(-(wOf$tip/2 - (maxX + 10 - midXOf$text)) + 6, -most)
-          : 0
+            : midXOf$text + wOf$tip / 2 > maxX
+              ? Math.max(-(wOf$tip / 2 - (maxX + 10 - midXOf$text)) + 6, -most)
+              : 0
         )
 
         if (adjustment !== 0) {
@@ -319,16 +321,16 @@ class Tip extends PureComponent {
 
       case 'left':
       case 'right': {
-        const most = (hOf$tip - 18)/2 - 6
+        const most = (hOf$tip - 18) / 2 - 6
 
         const adjustment = hOf$tip > 50 && (
           // No enough space to the top:
-          midYOf$text - 5 <= maxY/2 && midYOf$text - hOf$tip/2 < 10
-          ? Math.min(hOf$tip/2 - midYOf$text - 6, most)
+          midYOf$text - 5 <= maxY / 2 && midYOf$text - hOf$tip / 2 < 10
+            ? Math.min(hOf$tip / 2 - midYOf$text - 6, most)
           // No enough space to the bottom:
-          : midYOf$text - 5 > maxY/2 && midYOf$text + hOf$tip/2 > maxY
-          ? Math.max(-(hOf$tip/2 - (maxY + 10 - midYOf$text)), -most)
-          : 0
+            : midYOf$text - 5 > maxY / 2 && midYOf$text + hOf$tip / 2 > maxY
+              ? Math.max(-(hOf$tip / 2 - (maxY + 10 - midYOf$text)), -most)
+              : 0
         )
 
         if (adjustment !== 0) {
@@ -353,11 +355,11 @@ class Tip extends PureComponent {
     }
   }
 
-  render() {
+  render () {
     return createPortal(this.tip, $tipRoot)
   }
 
-  get tip() {
+  get tip () {
     const { className, theme, inflexible, arrowed, children } = this.props
     const { isOpen, position } = this.state
 
@@ -387,8 +389,4 @@ class Tip extends PureComponent {
       </div>
     )
   }
-}
-
-export function CoreTooltip(props) {
-  return <Tooltip {...props} theme="core" />
 }

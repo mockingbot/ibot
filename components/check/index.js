@@ -1,25 +1,19 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-
-import isArray from 'lodash/isArray'
-import isSet from 'lodash/isSet'
 import isEqual from 'lodash/isEqual'
-
 import Icon from '../icon'
-
-import { trimList } from '../util'
-
 import {
   getOptionLabel,
   getOptionValue,
   checkOptionByValueList,
   convertValueListToSet,
-} from './util'
-
+  trimList,
+} from '../util'
+import './index.styl'
 /**
  * <Check>
  */
-export class Check extends PureComponent {
+export default class Check extends PureComponent {
   state = {
     prevProps: this.props,
     isChecked: this.props.isChecked,
@@ -54,23 +48,23 @@ export class Check extends PureComponent {
     onToggle: () => null,
   }
 
-  static getDerivedStateFromProps(props, { prevProps, isChecked }) {
+  static getDerivedStateFromProps (props, { prevProps, isChecked }) {
     if (!isEqual(prevProps, props)) {
       return { prevProps: props, isChecked: props.isChecked }
     }
     return null
   }
 
-  get isDisabled() {
+  get isDisabled () {
     const { isDisabled, disabled } = this.props
     return isDisabled || disabled
   }
 
-  get readOnly() {
+  get readOnly () {
     return this.props.readOnly
   }
 
-  get canToggle() {
+  get canToggle () {
     const { isDisabled, readOnly } = this
     return !isDisabled && !readOnly
   }
@@ -80,14 +74,14 @@ export class Check extends PureComponent {
     const { isChecked } = this.state
     const { canToggle } = this
 
-    const willBeChecked =  canToggle ? !isChecked : isChecked
+    const willBeChecked = canToggle ? !isChecked : isChecked
 
     this.setState({ isChecked: willBeChecked })
     onToggle(willBeChecked, name, value || label)
     onChange(name, value || label, willBeChecked)
   }
 
-  render() {
+  render () {
     const { size, theme, className, label, name } = this.props
     const { isChecked } = this.state
     const { isDisabled, readOnly } = this
@@ -169,23 +163,23 @@ export class CheckGroup extends PureComponent {
     isDisabled: false,
   }
 
-  static getDerivedStateFromProps(props, { prevProps, valueList }) {
+  static getDerivedStateFromProps (props, { prevProps, valueList }) {
     if (!isEqual(prevProps, props)) {
       return { prevProps: props, valueList: props.valueList }
     }
     return null
   }
 
-  get isDisabled() {
+  get isDisabled () {
     const { isDisabled, disabled } = this.props
     return isDisabled || disabled
   }
 
-  get readOnly() {
+  get readOnly () {
     return this.props.readOnly
   }
 
-  get canToggle() {
+  get canToggle () {
     const { isDisabled, readOnly } = this
     return !isDisabled && !readOnly
   }
@@ -195,12 +189,11 @@ export class CheckGroup extends PureComponent {
     const { valueList } = this.state
     const { canToggle } = this
 
-
     if (!canToggle) {
       const currentValueList = Array.from(valueList)
       const currentIdxList = currentValueList.map(v => optionList.findIndex(o => getOptionValue(o) === v))
       onToggle(currentValueList, name)
-      onChange({ name, valueList: currentValueList, idxList: currentIdxList  })
+      onChange({ name, valueList: currentValueList, idxList: currentIdxList })
       return
     }
 
@@ -219,7 +212,7 @@ export class CheckGroup extends PureComponent {
     onChange({ name, valueList: nextValueList, idxList: nextIdxList })
   }
 
-  render() {
+  render () {
     const { size, theme, className, optionList } = this.props
     const { valueList } = this.state
     const { name, isDisabled, readOnly } = this
@@ -234,37 +227,29 @@ export class CheckGroup extends PureComponent {
 
     return (
       <span className={klass}>
-      {
-        optionList.map((opt, idx) => opt && (
-          <Check
-            key={idx}
-            name={name}
-            label={getOptionLabel(opt)}
+        {
+          optionList.map((opt, idx) => opt && (
+            <Check
+              key={idx}
+              name={name}
+              label={getOptionLabel(opt)}
 
-            size={size}
-            theme={theme}
+              size={size}
+              theme={theme}
 
-            isDisabled={isDisabled || opt.isDisabled}
-            readOnly={readOnly}
-            isChecked={checkOptionByValueList(opt, valueList)}
+              isDisabled={isDisabled || opt.isDisabled}
+              readOnly={readOnly}
+              isChecked={checkOptionByValueList(opt, valueList)}
 
-            onChange={
-              !(isDisabled || opt.isDisabled)
-              ? this.createOnChangeHandler(name, opt)
-              : undefined
-            }
-          />
-        ))
-      }
+              onChange={
+                !(isDisabled || opt.isDisabled)
+                  ? this.createOnChangeHandler(name, opt)
+                  : undefined
+              }
+            />
+          ))
+        }
       </span>
     )
   }
-}
-
-export function CoreCheck(props) {
-  return <Check {...props} theme="core" />
-}
-
-export function CoreCheckGroup(props) {
-  return <CheckGroup {...props} theme="core" />
 }

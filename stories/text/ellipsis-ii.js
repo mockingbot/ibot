@@ -1,19 +1,21 @@
 import React, { PureComponent } from 'react'
 
-import { Root, Button, User, OrgName, TeamName, AppName, WidgetName } from '../../components'
+import Root from '../../components/root'
+import Button from '../../components/button'
+import { User, OrgName, TeamName, AppName, WidgetName } from '../components/Ellipsis'
 
 const shortName = 'Vincent'
 const longName = 'Mitchell Vincent Pritchett'
 
 class ToggleName extends PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = { isLong: props.isLong }
   }
 
   onToggle = () => this.setState({ isLong: !this.state.isLong })
 
-  render() {
+  render () {
     const { withSpan } = this.props
     const { isLong } = this.state
     const name = isLong ? longName : shortName
@@ -30,11 +32,11 @@ class ToggleName extends PureComponent {
 }
 
 export default class EllipsisII extends PureComponent {
-  render() {
+  render () {
     return (
       <Root>
         <style>
-        {`#root { line-height: 1.5; }`}
+          {`#root { line-height: 1.5; }`}
         </style>
 
         <h2>User</h2>
@@ -66,7 +68,7 @@ export default class EllipsisII extends PureComponent {
 
         <h3>Setting name, ID and email altogether</h3>
         <pre><code>
-    {`<User
+          {`<User
       {...{
         name: user.name,
         id: user.id,

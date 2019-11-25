@@ -1,11 +1,11 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
-
 import { trimList } from '../util'
+import './index.styl'
 /**
  * <FormEntry>
  */
-export function FormEntry({
+export default function FormEntry ({
   className,
   name: key, children: val,
   type,
@@ -44,6 +44,6 @@ FormEntry.defaultProps = {
 /**
  * <FormLabel>
  */
-export function FormLabel(props) {
+export function FormLabel (props) {
   return <FormEntry {...props} isLabel={true} />
 }

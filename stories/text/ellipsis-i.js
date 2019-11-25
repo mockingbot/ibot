@@ -1,13 +1,14 @@
 import React, { PureComponent } from 'react'
 
-import { Root, Ellipsis } from '../../components'
+import Root from '../../components/root'
+import Ellipsis from '../../components/ellipsis'
 
 export default class EllipsisI extends PureComponent {
-  render() {
+  render () {
     return (
       <Root>
         <style>
-        {`#root { line-height: 1.5; }`}
+          {`#root { line-height: 1.5; }`}
         </style>
 
         <h2>Max</h2>
@@ -91,7 +92,7 @@ export default class EllipsisI extends PureComponent {
           <li>Without: <Ellipsis max="8" noTooltip>Lick The Palm Of The Burning Handshake</Ellipsis></li>
           <li>Without: <Ellipsis max="8" noTooltip={true}>Lick The Palm Of The Burning Handshake</Ellipsis></li>
         </ul>
-     </Root>
+      </Root>
     )
   }
 }

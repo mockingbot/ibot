@@ -1,15 +1,17 @@
 import React, { PureComponent } from 'react'
 
-import { Root, User, TeamName } from '../../components'
+import Root from '../../components/root'
+
+import { User, TeamName } from '../components/Ellipsis'
 
 export default class EllipsisIII extends PureComponent {
-  render() {
+  render () {
     return (
       <Root>
         <style>
-        {`#root { line-height: 1.5; }`}
-        {`.Punctuation.with-quote .Ellipsis { font-weight: bold; }`}
-        {`p { margin: .5em 0; width: 20em; }`}
+          {`#root { line-height: 1.5; }`}
+          {`.Punctuation.with-quote .Ellipsis { font-weight: bold; }`}
+          {`p { margin: .5em 0; width: 20em; }`}
         </style>
 
         <h2>User</h2>

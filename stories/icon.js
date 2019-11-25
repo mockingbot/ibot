@@ -2,12 +2,14 @@ import React, { PureComponent } from 'react'
 import { storiesOf } from '@storybook/react'
 import shuffle from 'lodash/shuffle'
 
-import { Root, Icon, Button } from '../components'
+import Root from '../components/root'
+import Button from '../components/button'
+import Icon from '../components/icon'
 
 const { DuoIcon } = Icon
 
 storiesOf('Icon', module)
-.add('Dora & MockingBot', () => <IconPreview />)
+  .add('Dora & MockingBot', () => <IconPreview />)
 
 class IconPreview extends PureComponent {
   state = { dora: [], mb: [], duo: [] }
@@ -18,24 +20,24 @@ class IconPreview extends PureComponent {
       import('./json/mb'),
       import('./json/duo'),
     ])
-    .then(([dora, mb, duo]) => this.setState({
-      dora: Array.from(dora.default),
-      mb: Array.from(mb.default),
-      duo: Array.from(duo.default),
-    }))
+      .then(([dora, mb, duo]) => this.setState({
+        dora: Array.from(dora.default),
+        mb: Array.from(mb.default),
+        duo: Array.from(duo.default),
+      }))
   )
 
-  componentDidMount() {
+  componentDidMount () {
     this.fetch()
   }
 
-  render() {
+  render () {
     const { dora, mb, duo } = this.state
 
     return (
       <Root>
         <style>
-        {`
+          {`
           h2 {
             display: flex;
             justify-content: space-between;
@@ -78,36 +80,36 @@ class IconPreview extends PureComponent {
         </h2>
 
         <div>
-        { shuffle(mb).slice(0, 21).map(icon => (
-          <div key={icon.id} className="label">
-            <Icon name={icon.id} />
-            { icon.id }
-          </div>
-        ))}
+          { shuffle(mb).slice(0, 21).map(icon => (
+            <div key={icon.id} className="label">
+              <Icon name={icon.id} />
+              { icon.id }
+            </div>
+          ))}
         </div>
 
         <h2>21 randomly-picked Dora icons</h2>
         <div>
-        { shuffle(dora).slice(0, 21).map(icon => (
-          <div key={icon.id} className="label">
-            <Icon type="dora" name={icon.id} />
-            { icon.id }
-          </div>
-        ))}
+          { shuffle(dora).slice(0, 21).map(icon => (
+            <div key={icon.id} className="label">
+              <Icon type="dora" name={icon.id} />
+              { icon.id }
+            </div>
+          ))}
         </div>
 
         <h2>Duo-colour icons</h2>
         <div className="duo">
-        {
-          duo
-          .concat(Array(1).fill(''))
-          .map(({ id }, idx) => (
-            <div key={id || idx} className="label">
-              <DuoIcon name={id} />
-              { id }
-            </div>
-          ))
-        }
+          {
+            duo
+              .concat(Array(1).fill(''))
+              .map(({ id }, idx) => (
+                <div key={id || idx} className="label">
+                  <DuoIcon name={id} />
+                  { id }
+                </div>
+              ))
+          }
         </div>
       </Root>
     )

@@ -1,16 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import { trimList } from '../util'
+import './index.styl'
 
-function createOnChangeHandler(onChange) {
+function createOnChangeHandler (onChange) {
   return e => onChange(e.target.value, e)
 }
-
 /**
  * <Input>
  */
-export function Input({
+export default function Input ({
   size, theme,
   isInvalid,
   unstyled,
@@ -58,28 +57,10 @@ Input.defaultProps = {
   onChange: () => null,
 }
 
-export function CoreInput(props) {
-  return <Input {...props} theme="core" />
-}
-
-export function PanelInput({ className, ...others }) {
-  return (
-    <Input
-      size="small"
-      className={trimList(['PanelInput', className])}
-      {...others}
-    />
-  )
-}
-
-PanelInput.propTypes = {
-  className: PropTypes.string,
-}
-
 /**
  * <Textarea>
  */
-export function Textarea({
+export function Textarea ({
   size, theme,
   unstyled,
   className,
@@ -118,25 +99,3 @@ Textarea.defaultProps = {
   theme: 'plain',
   onChange: () => null,
 }
-
-export function CoreTextarea(props) {
-  return <Textarea {...props} theme="core" />
-}
-
-export function PanelTextarea({ className, ...others }) {
-  return (
-    <Textarea
-      size="small"
-      className={trimList(['PanelTextarea', className])}
-      {...others}
-    />
-  )
-}
-
-PanelTextarea.propTypes = {
-  className: PropTypes.string,
-}
-
-export * from './InputEmail'
-export * from './InputNumber'
-export * from './ConfirmInputNumber'

@@ -1,18 +1,14 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import EventListener from 'react-event-listener'
-
 import { isEqual } from 'lodash'
-
-import { SelectMenu } from './Select'
-import { InputActionButton } from './InputNumber'
-
-import { trimList, getOtherProps } from '../util'
-import { setNumberValue } from './util'
+import { SelectMenu } from '../select'
+import { InputActionButton } from '../numberInput'
+import { trimList, getOtherProps, setNumberValue } from '../util'
+import './index.styl'
 
 const LONG_PRESSED_THRESHOLD = 500
 const LONG_PRESSED_STEPPING_INTERVAL = 30
-
 const toFixed = (num, precision) => Number(Number(num).toFixed(precision))
 
 /**
@@ -23,12 +19,12 @@ const toFixed = (num, precision) => Number(Number(num).toFixed(precision))
  * @return {Number} final step
  */
 const getStep = ({ shiftKey, metaKey }, step = 1) => (
-  shiftKey ? step*10 : metaKey ? step*100 : step
+  shiftKey ? step * 10 : metaKey ? step * 100 : step
 )
 
 const checkSettability = value => (
-  value === ''
-  || /^0?[\+\-]0*$/.test(value)   // Starting with a plus/minus
+  value === '' ||
+  /^0?[\+\-]0*$/.test(value) // Starting with a plus/minus
   || /^[\+\-]?\d*\.$/.test(value) // Ending with a dot
 )
 
@@ -36,7 +32,7 @@ const defaultOnFocus = ({ currentTarget: $input }) => (
   setTimeout(() => $input.select(), 50)
 )
 
-export class ConfirmInputNumber extends PureComponent {
+export default class ConfirmInputNumber extends PureComponent {
   state = {
     prevProps: this.props,
     value: setNumberValue(this.props.value),
@@ -109,32 +105,32 @@ export class ConfirmInputNumber extends PureComponent {
     shouldCorrectOnConfirm: false,
   }
 
-  static getDerivedStateFromProps(props, { prevProps, value }) {
+  static getDerivedStateFromProps (props, { prevProps, value }) {
     if (!isEqual(prevProps, props)) {
       return { prevProps: props, value: setNumberValue(props.value) }
     }
     return null
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.positionEverything()
   }
 
-  componentDidUpdate({
+  componentDidUpdate ({
     title: prevTitle, prefix: prevPrefix, suffix: prevSuffix,
   }) {
     const { title, prefix, suffix } = this.props
 
     if (
-      !isEqual(prevTitle, title)
-      || !isEqual(prevPrefix, prefix)
-      || !isEqual(prevSuffix, suffix)
+      !isEqual(prevTitle, title) ||
+      !isEqual(prevPrefix, prefix) ||
+      !isEqual(prevSuffix, suffix)
     ) {
       this.positionEverything()
     }
   }
 
-  positionEverything() {
+  positionEverything () {
     const { $label } = this
     const { value, title, prefix, suffix } = this.props
 
@@ -155,7 +151,7 @@ export class ConfirmInputNumber extends PureComponent {
     const originalPaddingLeft = parseInt(getComputedStyle($input).getPropertyValue('padding-left'))
 
     if (title || prefix) {
-      const space = ($title ? $title.clientWidth+6 : 0) + ($prefix ? $prefix.clientWidth : 0)
+      const space = ($title ? $title.clientWidth + 6 : 0) + ($prefix ? $prefix.clientWidth : 0)
 
       const style = { paddingLeft: `${space + originalPaddingLeft}px` }
 
@@ -176,8 +172,9 @@ export class ConfirmInputNumber extends PureComponent {
     }
   }
 
-  get canBePositive() { return this.props.max > 0 }
-  get canBeNegative() { return this.props.min < 0 }
+  get canBePositive () { return this.props.max > 0 }
+
+  get canBeNegative () { return this.props.min < 0 }
 
   onChange = e => {
     const { target: { value } } = e
@@ -197,13 +194,13 @@ export class ConfirmInputNumber extends PureComponent {
 
   checkValidity = number => (
     /^\+$/.test(number)
-    ? this.canBePositive
-    : /^\-$/.test(number)
-    ? this.canBeNegative
-    : number === ''
-      || (
-        isFinite(number)
-        && this.correctNumber(number) === Number(number)
+      ? this.canBePositive
+      : /^\-$/.test(number)
+        ? this.canBeNegative
+        : number === '' ||
+      (
+        isFinite(number) &&
+        this.correctNumber(number) === Number(number)
       )
   )
 
@@ -268,14 +265,14 @@ export class ConfirmInputNumber extends PureComponent {
 
     const settingNumber = (
       value === ''
-      ? originalValue
-      : isValid
-      ? /^[\+\-]$/.test(value) ? 0 : value
-      : correctedNumber === toFixed(value, precision)
-      ? correctedNumber
-      : shouldCorrectOnConfirm
-      ? finalNumber
-      : originalValue || finalNumber
+        ? originalValue
+        : isValid
+          ? /^[\+\-]$/.test(value) ? 0 : value
+          : correctedNumber === toFixed(value, precision)
+            ? correctedNumber
+            : shouldCorrectOnConfirm
+              ? finalNumber
+              : originalValue || finalNumber
     )
 
     return this.setState(
@@ -339,14 +336,14 @@ export class ConfirmInputNumber extends PureComponent {
 
     const action = (
       key === 'ArrowUp'
-      ? 'up'
-      : key === 'ArrowDown'
-      ? 'down'
-      : key === 'Enter'
-      ? 'enter'
-      : key === 'Tab'
-      ? 'tab'
-      : null
+        ? 'up'
+        : key === 'ArrowDown'
+          ? 'down'
+          : key === 'Enter'
+            ? 'enter'
+            : key === 'Tab'
+              ? 'tab'
+              : null
     )
 
     const isOn$input = currentTarget instanceof Element && currentTarget.matches('input')
@@ -382,12 +379,15 @@ export class ConfirmInputNumber extends PureComponent {
   set$label = $label => Object.assign(this, { $label })
 
   setActive = () => this.setState({ isActive: true })
+
   setInactive = () => this.setState({ isActive: false })
 
   onHover = () => this.setState({ isHover: true })
+
   onLeave = () => this.setState({ isHover: false })
 
   toggleMenu = () => this.setState({ isMenuOpen: !this.state.isMenuOpen })
+
   closeMenu = () => this.setState({ isMenuOpen: false })
 
   onSelect = e => {
@@ -407,7 +407,7 @@ export class ConfirmInputNumber extends PureComponent {
     }
   }
 
-  render() {
+  render () {
     const {
       className,
       size, theme, unstyled,
@@ -485,7 +485,7 @@ export class ConfirmInputNumber extends PureComponent {
           {...getOtherProps(this.constructor, this.props)}
         />
 
-      { suffix && (
+        { suffix && (
           <span
             className="suffix"
             data-value={formatter(value)}
@@ -522,38 +522,4 @@ export class ConfirmInputNumber extends PureComponent {
       </label>
     )
   }
-}
-
-export function CoreConfirmInputNumber(props) {
-  return <ConfirmInputNumber {...props} theme="core" />
-}
-
-export function PanelInputNumber({ className, ...others }) {
-  return (
-    <ConfirmInputNumber
-      size="small"
-      className={trimList(['PanelInputNumber', className])}
-      {...others}
-    />
-  )
-}
-
- PanelInputNumber.propTypes = {
-  className: PropTypes.string,
-}
-
-export function PanelSelectNumber({ className, ...others }) {
-  return (
-    <ConfirmInputNumber
-      size="small"
-      className={trimList(['PanelInputNumber', className])}
-      {...others}
-    />
-  )
-}
-
-PanelSelectNumber.propTypes = PanelInputNumber.propTypes
-
-PanelSelectNumber.defaultProps = {
-  optionList: [1, 2, 3],
 }

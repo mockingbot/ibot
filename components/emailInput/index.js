@@ -1,20 +1,19 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import EventListener from 'react-event-listener'
-
 import { isEqual } from 'lodash'
-
 import { trimList, getOtherProps, EMAIL_REGEX } from '../util'
+import './index.styl'
 
 const checkFinishedTyping = v => (
-  /^@/.test(v)
-  || /@\./.test(v)
-  || /\s+[\w@]/.test(v)
-  || /@\w*\.\w*/.test(v)
-  || /@\w*@/.test(v)
+  /^@/.test(v) ||
+  /@\./.test(v) ||
+  /\s+[\w@]/.test(v) ||
+  /@\w*\.\w*/.test(v) ||
+  /@\w*@/.test(v)
 )
 
-export class InputEmail extends PureComponent {
+export default class InputEmail extends PureComponent {
   state = {
     prevProps: this.props,
     value: this.props.value,
@@ -57,7 +56,7 @@ export class InputEmail extends PureComponent {
     onChange: () => null,
   }
 
-  static getDerivedStateFromProps(props, { prevProps, value }) {
+  static getDerivedStateFromProps (props, { prevProps, value }) {
     if (!isEqual(prevProps, props)) {
       return { prevProps: props, value: props.value }
     }
@@ -85,14 +84,15 @@ export class InputEmail extends PureComponent {
 
     const isValid = (
       value === '' || !isFinishedTyping
-      ? true
-      : EMAIL_REGEX.test(value)
+        ? true
+        : EMAIL_REGEX.test(value)
     )
 
     this.setState({ isValid })
   }
 
   setActive = () => this.setState({ isActive: true })
+
   setInactive = () => this.setState({ isActive: false })
 
   onClickOutside = ({ target }) => {
@@ -101,7 +101,7 @@ export class InputEmail extends PureComponent {
     }
   }
 
-  render() {
+  render () {
     const {
       className,
       size, theme, unstyled,
@@ -152,22 +152,4 @@ export class InputEmail extends PureComponent {
       </label>
     )
   }
-}
-
-export function CoreInputEmail(props) {
-  return <InputEmail {...props} theme="core" />
-}
-
-export function PanelInputEmail({ className, ...others }) {
-  return (
-    <InputEmail
-      size="small"
-      className={trimList(['PanelInputEmail', className])}
-      {...others}
-    />
-  )
-}
-
-PanelInputEmail.propTypes = {
-  className: PropTypes.string,
 }

@@ -1,13 +1,10 @@
 import React, { Fragment, PureComponent } from 'react'
 import { createPortal } from 'react-dom'
 import PropTypes from 'prop-types'
-
 import { isBoolean, isEqual } from 'lodash'
-
-import { PrimaryCoreButton, TertiaryCoreButton, Button } from '../button'
+import Button, { PrimaryCoreButton, TertiaryCoreButton } from '../button'
 import Switch from '../switch'
 import SVG from '../svg'
-
 import {
   addModalToStack, deleteModalFromStack, checkNoOpenModalInStack,
   toggleGlobalScroll, trimList, $, preparePortal,

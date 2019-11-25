@@ -1,11 +1,13 @@
 import React from 'react'
 import { action } from '@storybook/addon-actions'
 
-import {
-  Root, Icon, Button,
-  FormLabel,
-  InputNumber, SelectNumber, //PanelInputNumber, PanelSelectNumber,
-} from '../../components'
+import Root from '../../components/root'
+import Button from '../../components/button'
+import { FormLabel } from '../../components/formEntry'
+import InputNumber from '../../components/numberInput'
+import Icon from '../../components/icon'
+
+import { SelectNumber } from '../components/Input'
 
 export default class InputNumberExample extends React.PureComponent {
   state = {
@@ -15,10 +17,11 @@ export default class InputNumberExample extends React.PureComponent {
   }
 
   toggleSize = () => this.setState({ isSmall: !this.state.isSmall })
+
   toggleCore = () => this.setState({ isCore: !this.state.isCore })
 
   onChange = (name, value, e) => this.setState(
-    ({ formData }) => ({formData: { ...formData, [name]: value }}),
+    ({ formData }) => ({ formData: { ...formData, [name]: value } }),
     () => action('Number changed')(value, e),
   )
 
@@ -27,12 +30,12 @@ export default class InputNumberExample extends React.PureComponent {
 
     return (
       value === 0 || value === '' || !!value
-      ? value
-      : defaultValue
+        ? value
+        : defaultValue
     )
   }
 
-  render() {
+  render () {
     const { isSmall, isCore, formData } = this.state
 
     const size = isSmall ? 'small' : 'regular'
@@ -41,7 +44,7 @@ export default class InputNumberExample extends React.PureComponent {
     return (
       <Root>
         <style>
-        {`
+          {`
           .FormEntry { width: 12rem; }
           .InputNumber, .CoreInputNumber { width: 100%; }
          `}
@@ -192,11 +195,11 @@ export default class InputNumberExample extends React.PureComponent {
             {...{ size, theme }}
             desc="Tracking"
             suffix="em"
-            step={.125}
+            step={0.125}
             precision={3}
             min={-10}
             max={10}
-            value={this.getFormData('tracking', .25)}
+            value={this.getFormData('tracking', 0.25)}
             onChange={this.onChange.bind(this, 'tracking')}
           />
         </FormLabel>
@@ -365,7 +368,7 @@ export default class InputNumberExample extends React.PureComponent {
             precision={2}
             suffix="°"
             min={-Infinity}
-            parser={v => v%360}
+            parser={v => v % 360}
             value={this.getFormData('n', 359)}
             onChange={this.onChange.bind(this, 'n')}
           />
@@ -393,7 +396,7 @@ export default class InputNumberExample extends React.PureComponent {
             precision={2}
             max={10}
             min={-Infinity}
-            step={.75}
+            step={0.75}
             value={this.getFormData('mm0', 8)}
             onChange={this.onChange.bind(this, 'mm0')}
           />
@@ -404,7 +407,7 @@ export default class InputNumberExample extends React.PureComponent {
             {...{ size, theme }}
             precision={2}
             min={10}
-            step={.75}
+            step={0.75}
             value={this.getFormData('mm1', 12)}
             onChange={this.onChange.bind(this, 'mm1')}
           />

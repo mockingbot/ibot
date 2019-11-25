@@ -1,6 +1,11 @@
 import React, { PureComponent } from 'react'
 
-import { Root, Icon, Button, Textarea, Tooltip, CoreTooltip } from '../../components'
+import Root from '../../components/root'
+import Button from '../../components/button'
+import { Textarea } from '../../components/input'
+import Icon from '../../components/icon'
+import Tooltip from '../../components/tooltip'
+import { CoreTooltip } from '../components/Ellipsis'
 
 export default class TooltipExample extends PureComponent {
   state = {
@@ -9,9 +14,10 @@ export default class TooltipExample extends PureComponent {
   }
 
   toggle = () => this.setState({ isArrowed: !this.state.isArrowed })
+
   toggleTheme = () => this.setState({ isPlain: !this.state.isPlain })
 
-  render() {
+  render () {
     const { isArrowed, isPlain } = this.state
     const theme = isPlain ? 'plain' : 'core'
 
@@ -35,7 +41,7 @@ export default class TooltipExample extends PureComponent {
         </div>
 
         <style>
-        {`
+          {`
           .Tip .icon { margin: 0 .25em; font-size: 1.1em; vertical-align: -.1em; }
           .ul-tip ul { margin: 0; padding-left: 1.5em; }
           p.three { display: flex; justify-content: space-between; }
@@ -176,7 +182,7 @@ export default class TooltipExample extends PureComponent {
           position="left"
         >
           <Textarea defaultValue={
-    `- LOL
+            `- LOL
     - 233
     - 廠廠
     - www

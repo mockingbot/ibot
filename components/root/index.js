@@ -12,7 +12,7 @@ export default class Root extends PureComponent {
     children: null,
   }
 
-  render() {
+  render () {
     return (
       <div className="iBotRoot ContentRoot">
         { this.props.children }
