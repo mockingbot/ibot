@@ -83,6 +83,7 @@ export default class Dropdown extends PureComponent {
     shouldOpenOnHover: PropTypes.bool,
     shouldCloseOnClickOutside: PropTypes.bool,
     hoverDelay: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    hoverCloseDelay: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
     arrowed: PropTypes.bool,
     inflexible: PropTypes.bool,
@@ -180,7 +181,7 @@ export default class Dropdown extends PureComponent {
   }
 
   onMouseMove = ({ clientX, clientY }) => {
-    const { shouldOpenOnHover, hoverDelay } = this.props
+    const { shouldOpenOnHover, hoverDelay, hoverCloseDelay } = this.props
     const { $opener } = this.state
 
     if (!shouldOpenOnHover) return
@@ -197,7 +198,7 @@ export default class Dropdown extends PureComponent {
 
     } else if (isOutsideOpener && isOutsideMenu) {
       this.leaveTimeoutList.push(
-        setTimeout(this.close, Math.max(hoverDelay, 300))
+        setTimeout(this.close, hoverCloseDelay !== undefined ? hoverCloseDelay : Math.max(hoverDelay, 300))
       )
     }
   }
