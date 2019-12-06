@@ -2,7 +2,7 @@ import React, { PureComponent, Fragment, isValidElement, cloneElement } from 're
 import { createPortal } from 'react-dom'
 import PropTypes from 'prop-types'
 import EventListener, { withOptions } from 'react-event-listener'
-import { isEqual } from 'lodash'
+import isEqual from 'lodash/isEqual'
 import Button from '../button'
 import Icon from '../icon'
 import { trimList, preparePortal, SVG } from '../util'

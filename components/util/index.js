@@ -1,4 +1,5 @@
-import { compact, isBoolean } from 'lodash'
+import isBoolean from 'lodash/isBoolean'
+import compact from 'lodash/compact'
 import isNumber from 'lodash/isNumber'
 import isString from 'lodash/isString'
 import { isValidElement } from 'react'
