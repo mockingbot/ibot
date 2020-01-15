@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import EventListener from 'react-event-listener'
-import { isEqual } from 'lodash'
+import isEqual from 'lodash/isEqual'
 import { SelectMenu } from '../select'
 import { InputActionButton } from '../numberInput'
 import { trimList, getOtherProps, setNumberValue } from '../util'

@@ -1,8 +1,10 @@
 import React, { PureComponent, Fragment, isValidElement } from 'react'
 import { createPortal } from 'react-dom'
 import PropTypes from 'prop-types'
-
-import { isArray, isEqual, isString, isObject } from 'lodash'
+import isString from 'lodash/isString'
+import isArray from 'lodash/isArray'
+import isEqual from 'lodash/isEqual'
+import isObject from 'lodash/isObject'
 
 import { trimList, getOtherProps, $, SVG } from '../util'
 

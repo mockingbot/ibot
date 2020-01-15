@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import EventListener from 'react-event-listener'
-import { isEqual } from 'lodash'
+import isEqual from 'lodash/isEqual'
 import { trimList, getOtherProps, EMAIL_REGEX } from '../util'
 import './index.styl'
 
