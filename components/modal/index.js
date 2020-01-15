@@ -66,6 +66,7 @@ export default class Modal extends PureComponent {
     onOpen: PropTypes.func,
     onClose: PropTypes.func,
     onToggle: PropTypes.func,
+    onModalTransitionEnd: PropTypes.func,
 
     canClose: PropTypes.bool,
     canCloseOnClickMask: PropTypes.bool,
@@ -95,6 +96,7 @@ export default class Modal extends PureComponent {
     onOpen: () => null,
     onClose: () => null,
     onToggle: () => null,
+    onModalTransitionEnd: () => null,
 
     canClose: true,
     canCloseOnClickMask: true,
@@ -181,6 +183,12 @@ export default class Modal extends PureComponent {
       this.props.onClose()
       this.props.onToggle(false)
     }
+  }
+
+  onModalTransitionEnd = (e) => {
+    const { onModalTransitionEnd } = this.props
+    stopPropagation(e)
+    onModalTransitionEnd && onModalTransitionEnd(e)
   }
 
   onConfirm = () => {
@@ -372,7 +380,7 @@ export default class Modal extends PureComponent {
         <div
           className={trimList(['Modal', TYPE_CLASS_MAP[type], className])}
           onClick={stopPropagation}
-          onTransitionEnd={stopPropagation}
+          onTransitionEnd={this.onModalTransitionEnd}
         >
           {/* Header */}
           <header>
