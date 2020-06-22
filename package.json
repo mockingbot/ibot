@@ -19,7 +19,9 @@
     "prop-types": "^15",
     "react": "^16",
     "react-dom": "^16",
-    "react-router-dom": "^5"
+    "react-router-dom": "^5",
+    "react-transition-group": "^4.4.1",
+    "styled-components": "^5.1.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.5.5",
