@@ -11,6 +11,9 @@ import { RadioGroup } from '../components/radio'
 import FormEntry, { FormLabel } from '../components/formEntry'
 import Icon from '../components/icon'
 import Modal from '../components/modal'
+import TransitionModal from '../components/modal-customized'
+import PureTransitionModal from '../components/modal-blank'
+
 import Switch from '../components/switch'
 import { WidgetName } from './components/Ellipsis'
 
@@ -20,6 +23,11 @@ storiesOf('Modal', module)
       <Modal isOpen={true} onClose={action('Modal closed')} />
     </Root>
   ))
+  .add('Customized', () => <ModalExample />)
+
+  .add('Blank', () => <ModalExample2 />)
+  // .add('Test2', () => <ModalExample2 />)
+
   .add('Openers', () => (
     <Root>
       <p>
@@ -528,6 +536,49 @@ class NewMasterModal extends PureComponent {
           </div>
         </FormEntry>
       </Modal>
+    )
+  }
+}
+
+class ModalExample extends PureComponent {
+  state = {
+    isOpen: false,
+  }
+
+  onClick = () => this.setState({ isOpen: true })
+
+  close = () => this.setState({ isOpen: false })
+
+  render () {
+    return (
+      <>
+        <button onClick={this.onClick}>弹窗</button>
+
+        <TransitionModal className={'myModal'} isOpen={this.state.isOpen} onClose={this.close}>
+        </TransitionModal>
+      </>
+    )
+  }
+}
+
+class ModalExample2 extends PureComponent {
+  state = {
+    isOpen: false,
+  }
+
+  onClick = () => this.setState({ isOpen: true })
+
+  close = () => this.setState({ isOpen: false })
+
+  render () {
+    return (
+      <>
+        <button onClick={this.onClick}>弹窗</button>
+
+        <PureTransitionModal className={'myModal'} isOpen={this.state.isOpen} onClose={this.close}>
+          <header onClick={this.close}>Im header under Modal component</header>
+        </PureTransitionModal>
+      </>
     )
   }
 }

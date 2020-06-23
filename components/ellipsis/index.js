@@ -2,7 +2,8 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import Tooltip from '../tooltip'
 import { trimList } from '../util'
-import './index.styl'
+// import './index.styl'
+import { StyledEllipsis } from './styled'
 
 export default class Ellipsis extends PureComponent {
   state = { isTruncated: false, isDetected: false }
@@ -70,6 +71,7 @@ export default class Ellipsis extends PureComponent {
       ...others
     } = this.props
 
+    console.log('props in Elipsis withQuote etc', withQuote, )
     const { isTruncated, isDetected } = this.state
 
     const contentProp = (
@@ -109,22 +111,34 @@ export default class Ellipsis extends PureComponent {
     }
 
     const tooltip = <Tooltip {...tooltipProps} />
-
     return (
       withQuote || withPeriod || withComma || withQuestionMark
-        ? <span
-          className={trimList([
-            'Punctuation',
-            withQuote && 'with-quote',
-            withPeriod && 'with-period',
-            withComma && 'with-comma',
-            withQuestionMark && 'with-question-mark',
-            truncationClassName,
-          ])}
-        >
-          { tooltip }
-        </span>
+        ? <StyledEllipsis
+            className={trimList([
+              'Punctuation',
+              withQuote && 'with-quote',
+              withPeriod && 'with-period',
+              withComma && 'with-comma',
+              withQuestionMark && 'with-question-mark',
+              truncationClassName,
+            ])}
+          >
+            { tooltip }
+          </StyledEllipsis>
         : tooltip
+        // <span
+        //   className={trimList([
+        //     'Punctuation',
+        //     withQuote && 'with-quote',
+        //     withPeriod && 'with-period',
+        //     withComma && 'with-comma',
+        //     withQuestionMark && 'with-question-mark',
+        //     truncationClassName,
+        //   ])}
+        // >
+        //   { tooltip }
+        // </span>
+        // : tooltip
     )
   }
 }

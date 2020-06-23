@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { trimList } from '../util'
 import * as ICON_MAP from './icons'
-import './index.styl'
+import { StyledSvg } from './styled'
 
 function getIcon (name) {
   const [cat, id] = /.\/./.test(name) ? name.split('/') : ['general', name]
@@ -17,7 +17,7 @@ function SVG ({ name, icon = getIcon(name), className, label, ...others }) {
   const aria = label ? { 'aria-label': label } : { 'aria-hidden': true }
 
   return (
-    <svg
+    <StyledSvg
       xmlns="http://www.w3.org/2000/svg"
       className={trimList(['svg-icon', name, className])}
       viewBox={`0 0 ${width} ${height}`}

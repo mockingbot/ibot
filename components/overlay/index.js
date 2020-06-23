@@ -11,7 +11,7 @@ import {
   toggleGlobalScroll, trimList, $, preparePortal,
 } from '../util'
 
-import './index.styl'
+import { StyledOverLay, StyledOverLayMask, StyledOverLayPortal } from './styled'
 
 const OVERLAY_ROOT_ID = 'IBOT_OVERLAY_ROOT'
 const OVERLAY_PORTAL_CLASS = 'OverlayPortal'
@@ -237,20 +237,20 @@ export default class Overlay extends PureComponent {
 
     return isOpen && (
       <Fragment>
-        <div
+        <StyledOverLayPortal/>
+        <StyledOverLayMask
           className={trimList(['OverlayMask', isVisible && 'is-open', maskClassName])}
           onTransitionEnd={this.onTransitionEnd}
           onClick={stopPropagation}
         />
 
-        {/* Close button */}
         { canClose && (
           <Button type="text" className="OverlayCloseButton" onClick={this.close}>
             <SVG name="close" label="Close the Overlay" />
           </Button>
         )}
 
-        <div className={trimList(['Overlay', className])}>
+        <StyledOverLay className={trimList(['Overlay', className])}>
           { title && <h1>{ title }</h1> }
           { children }
 
@@ -260,7 +260,7 @@ export default class Overlay extends PureComponent {
               { onCancel && <TertiaryCoreButton onClick={this.cancel} isDisabled={!canCancel}>{ cancelText }</TertiaryCoreButton> }
             </footer>
           )}
-        </div>
+        </StyledOverLay>
       </Fragment>
     )
   }

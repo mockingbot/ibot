@@ -13,7 +13,7 @@ function Icon ({
   type,
   className,
   ...others
-}) {
+})  {
   const prefix = type === 'mb' ? 'icon' : type
   const name = propName.replace(new RegExp(`^(${ICON_SET_LIST.join('|')})\-`, 'i'), '')
   const isLiga = checkIfIconIsLiga(type)

@@ -94,9 +94,7 @@ export default class Modal extends PureComponent {
   }
 
   positionY = () => setTimeout(() => {
-    const { className } = this.props
-
-    const $modal = $(`.${className}`, this.portal)
+    const $modal = $('.TransitionModal', this.portal)
     if (!$modal) return
 
     const { innerHeight: vh } = window

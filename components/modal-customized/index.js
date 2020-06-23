@@ -5,8 +5,8 @@ import PropTypes from 'prop-types'
 
 import { $, trimList, preparePortal } from '../util'
 
-import { StyledMask, StyledModal, StyledPortal, StyledHeader, StyledFooter } from './styled'
-import Icon from '../icon'
+import { StyledMask, StyledModal, StyledPortal, StyledFooter } from './styled'
+import SVG from "../svg";
 
 const MODAL_PORTAL_CLASS = 'TransitionModalPortal'
 const MODAL_ROOT_ID = 'IBOT_MODAL_ROOT'
@@ -116,7 +116,7 @@ export default class Modal extends PureComponent {
       $modalRoot.appendChild(this.portal)
     }
 
-    // Reassign Y position of the modal:
+    // // Reassign Y position of the modal:
     this.positionY()
   }
 
@@ -152,11 +152,8 @@ export default class Modal extends PureComponent {
     }
   }
 
-
   positionY = () => setTimeout(() => {
-    const { className } = this.props
-
-    const $modal = $(`.${className}`, this.portal)
+    const $modal = $('.TransitionModal', this.portal)
     if (!$modal) return
 
     const { innerHeight: vh } = window
@@ -205,15 +202,14 @@ export default class Modal extends PureComponent {
             className={trimList(['TransitionModal', className])}
             onClick={stopPropagation}
           >
-            <StyledHeader>
+            <header className="header">
               { title }
-
               { canClose && (
                 <button className="close-btn" onClick={this.close}>
-                  <Icon name="times" />
-                </ button>
+                  <SVG name="close_new" label="Close the Modal" />
+                </button>
               )}
-            </StyledHeader>
+            </header>
 
             <div className="content">
               { children }

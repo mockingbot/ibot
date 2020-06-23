@@ -8,7 +8,7 @@ import isObject from 'lodash/isObject'
 
 import { trimList, getOtherProps, $, SVG } from '../util'
 
-import './index.styl'
+import { StyledToolTip, StyledToolTipSpan } from './styled'
 
 const EVENT_NAME_LIST = ['hover', 'click']
 
@@ -161,7 +161,7 @@ export default class Tooltip extends PureComponent {
     const eventName = isClicked ? 'click' : 'hover'
 
     return (
-      <div
+      <StyledToolTipSpan
         ref={this.ref}
         className={klass}
         onMouseEnter={this.onMouseEnter}
@@ -186,7 +186,7 @@ export default class Tooltip extends PureComponent {
             {parseContent(content, eventName)}
           </Tip>
         </>
-      </div>
+      </StyledToolTipSpan>
     )
   }
 }
@@ -363,7 +363,7 @@ class Tip extends PureComponent {
     ])
 
     return isOpen && (
-      <div className="TipBase" ref={this.ref}>
+      <StyledToolTip className="TipBase" ref={this.ref}>
         <div
           className={klass}
           onTransitionEnd={this.onTransitionEnd}
@@ -377,7 +377,22 @@ class Tip extends PureComponent {
 
           <div className="content">{children}</div>
         </div>
-      </div>
+      </StyledToolTip>
+      // <div className="TipBase" ref={this.ref}>
+      //   <div
+      //     className={klass}
+      //     onTransitionEnd={this.onTransitionEnd}
+      //   >
+      //     { arrowed && (
+      //       <div
+      //         className="arrow"
+      //         dangerouslySetInnerHTML={{ __html: SVG.DROPDOWN_ARROW }}
+      //       />
+      //     )}
+      //
+      //     <div className="content">{children}</div>
+      //   </div>
+      // </div>
     )
   }
 }

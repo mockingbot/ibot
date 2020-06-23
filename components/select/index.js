@@ -11,7 +11,7 @@ import Ellipsis from '../ellipsis'
 import { preventScrollingPropagation, trimList, $, $$, preparePortal, SVG,
   getOptionLabel, getOptionValue, checkOptionByValue } from '../util'
 import { positionMenu } from '../dropdown'
-import './index.styl'
+import { StyledSelectLabel, StyledSelectMenu } from './styled'
 
 const MENU_ROOT_ID = 'IBOT_SELECT_MENU_ROOT'
 
@@ -208,7 +208,7 @@ export default class Select extends PureComponent {
     ])
 
     return (
-      <label
+      <StyledSelectLabel
         className={klass}
         role="listbox"
         ref={this.set$select}
@@ -230,7 +230,7 @@ export default class Select extends PureComponent {
           onClose={this.close}
           menuX={menuX}
         />
-      </label>
+      </StyledSelectLabel>
     )
   }
 }
@@ -385,7 +385,7 @@ export class SelectMenu extends PureComponent {
     ])
 
     return (
-      <div ref={this.menuBaseRef} className="SelectMenuBase">
+      <StyledSelectMenu ref={this.menuBaseRef} className="SelectMenuBase">
         <ul className={klass} onTransitionEnd={this.onTransitionEnd}>
           {
             isEmpty
@@ -427,7 +427,51 @@ export class SelectMenu extends PureComponent {
             />
           )}
         </ul>
-      </div>
+
+      </StyledSelectMenu>
+      // <div ref={this.menuBaseRef} className="SelectMenuBase">
+      //   <ul className={klass} onTransitionEnd={this.onTransitionEnd}>
+      //     {
+      //       isEmpty
+      //         ? <li className="SelectOption empty-msg">{ emptyMsg }</li>
+      //         : (
+      //           optionList
+      //             .map((option, idx) => (
+      //               isArray(option)
+      //                 ? <Group
+      //                   key={idx}
+      //                   menuTheme={menuTheme}
+      //                   optionList={option}
+      //                   value={value}
+      //                   onChange={this.onChange}
+      //                 />
+      //                 : <Option
+      //                   key={idx}
+      //                   menuTheme={menuTheme}
+      //                   isActive={checkOptionByValue(option, value)}
+      //                   option={option}
+      //                   isDisabled={option.isDisabled}
+      //                   onChange={this.onChange}
+      //                 />
+      //             ))
+      //         )
+      //     }
+      //
+      //     { isOpen && (
+      //       <EventListener
+      //         target={document}
+      //         onClick={this.onClickOutside}
+      //       />
+      //     )}
+      //
+      //     { isOpen && (
+      //       <EventListener
+      //         target={document}
+      //         onScroll={withOptions(this.position, { capture: true })}
+      //       />
+      //     )}
+      //   </ul>
+      // </div>
     )
   }
 }

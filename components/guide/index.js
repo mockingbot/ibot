@@ -7,7 +7,7 @@ import Button from '../button'
 import Icon from '../icon'
 import { trimList, preparePortal, SVG } from '../util'
 import { positionMenu } from '../dropdown'
-import './index.styl'
+import { StyledGuid } from './styled'
 
 const { I18N = {} } = window
 const GUIDE_ROOT_ID = 'IBOT_GUIDE_GUIDE_ROOT'
@@ -157,7 +157,7 @@ export default class GuideBase extends PureComponent {
     ])
 
     return (
-      <div className="GuideBase" ref={this.set$guide}>
+      <StyledGuid className="GuideBase" ref={this.set$guide}>
         <div className={klass}>
           <span className="arrow" dangerouslySetInnerHTML={{ __html: SVG.GUIDE_ARROW }} />
 
@@ -189,7 +189,7 @@ export default class GuideBase extends PureComponent {
             />
           )}
         </div>
-      </div>
+      </StyledGuid>
     )
   }
 }

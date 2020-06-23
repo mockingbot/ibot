@@ -9,7 +9,8 @@ import {
   convertValueListToSet,
   trimList,
 } from '../util'
-import './index.styl'
+import { StyledLabel, StyledSpan } from './styled'
+
 /**
  * <Check>
  */
@@ -87,7 +88,7 @@ export default class Check extends PureComponent {
     const { isDisabled, readOnly } = this
 
     return (
-      <label
+      <StyledLabel
         className={trimList([
           theme === 'core' ? 'CoreCheck' : 'Check',
           size,
@@ -106,7 +107,8 @@ export default class Check extends PureComponent {
         />
         <span className="Check-state"><Icon type="dora" name="check" /></span>
         <span className="Check-label">{ label }</span>
-      </label>
+
+      </StyledLabel>
     )
   }
 }
@@ -226,7 +228,7 @@ export class CheckGroup extends PureComponent {
     ])
 
     return (
-      <span className={klass}>
+      <StyledSpan className={klass}>
         {
           optionList.map((opt, idx) => opt && (
             <Check
@@ -249,7 +251,7 @@ export class CheckGroup extends PureComponent {
             />
           ))
         }
-      </span>
+      </StyledSpan>
     )
   }
 }

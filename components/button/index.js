@@ -7,7 +7,7 @@ import Icon from '../icon'
 import SVG from '../svg'
 import { trimList } from '../util'
 
-import './index.styl'
+import { StyledButton } from './styled'
 
 const TYPE_MAP = {
   primary: 'Primary',
@@ -73,7 +73,7 @@ export default class Button extends PureComponent {
     const { className, isLoading, isDisabled } = this
     const { iconType, icon, children, ...others } = this.props
     return (
-      <button
+      <StyledButton
         className={className}
         disabled={isDisabled}
         onClick={e => isDisabled && e.preventDefault()}
@@ -90,7 +90,7 @@ export default class Button extends PureComponent {
           )}
           { children }
         </>
-      </button>
+      </StyledButton>
     )
   }
 }

@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { trimList } from '../util'
-import './index.styl'
+import { StyledForm, StyledFormKey, StyledFormVal } from './styled'
 
 function FormBase ({
   name: key, children: val,
@@ -9,13 +9,15 @@ function FormBase ({
 }) {
   return (
     <Fragment>
+      <StyledForm/>
       { key && (
-        <span className="FormEntry-Key key">
+        <StyledFormKey className="FormEntry-Key key">
           {key}
           { isRequired && <span className="required-sign">*</span> }
-        </span>
+        </StyledFormKey>
       )}
-      <span className="FormEntry-Val val">{val}</span>
+
+      <StyledFormVal className="FormEntry-Val val">{val}</StyledFormVal>
     </Fragment>
   )
 }
@@ -53,7 +55,6 @@ FormDiv.propTypes = {
 
 export function FormLabel (props) {
   const { className, type } = props
-  console.log('props', props)
   return (
     <label
       className={trimList(['FormEntry', className])}
