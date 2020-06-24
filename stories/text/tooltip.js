@@ -176,7 +176,6 @@ export default class TooltipExample extends PureComponent {
 
         <Tooltip
           arrowed={isArrowed} theme={theme}
-          type="block"
           content={<ul><li>LOL</li><li>233</li><li>www</li><li>廠廠</li><li>555</li></ul>}
           tipClassName="ul-tip"
           position="left"

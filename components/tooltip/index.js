@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment, isValidElement } from 'react'
+import React, { PureComponent, isValidElement } from 'react'
 import { createPortal } from 'react-dom'
 import PropTypes from 'prop-types'
 import isString from 'lodash/isString'
@@ -7,8 +7,6 @@ import isEqual from 'lodash/isEqual'
 import isObject from 'lodash/isObject'
 
 import { trimList, getOtherProps, $, SVG } from '../util'
-
-import { TYPE_ELEMENT_MAP } from './constants'
 
 import './index.styl'
 
@@ -45,8 +43,6 @@ export default class Tooltip extends PureComponent {
   }
 
   static propTypes = {
-    type: PropTypes.oneOf(Object.keys(TYPE_ELEMENT_MAP)).isRequired,
-
     theme: PropTypes.oneOf(['core', 'plain']),
     position: PropTypes.oneOf(['top', 'right', 'bottom', 'left']).isRequired,
     arrowed: PropTypes.bool,
@@ -61,7 +57,7 @@ export default class Tooltip extends PureComponent {
         EVENT_NAME_LIST.reduce(
           (res, n) => Object.assign(res, { [n]: PropTypes.node }),
           {},
-        )
+        ),
       ),
     ]),
 
@@ -79,8 +75,6 @@ export default class Tooltip extends PureComponent {
   }
 
   static defaultProps = {
-    type: 'inline',
-
     theme: 'plain',
     position: 'right',
     arrowed: true,
@@ -146,7 +140,7 @@ export default class Tooltip extends PureComponent {
 
   render () {
     const {
-      type, theme,
+      theme,
       position, inflexible, arrowed,
       className, tipClassName,
       content,
@@ -166,38 +160,33 @@ export default class Tooltip extends PureComponent {
 
     const eventName = isClicked ? 'click' : 'hover'
 
-    return React.createElement(
-      // Name:
-      TYPE_ELEMENT_MAP[type],
+    return (
+      <div
+        ref={this.ref}
+        className={klass}
+        onMouseEnter={this.onMouseEnter}
+        onClick={this.onClick}
+        onMouseLeave={this.onMouseLeave}
+        {...getOtherProps(this.constructor, this.props)}
+      >
+        <>
+          { html ? <span dangerouslySetInnerHTML={{ __html: html }} /> : children }
 
-      // Props:
-      {
-        ref: this.ref,
-        className: klass,
-        onMouseEnter: this.onMouseEnter,
-        onClick: this.onClick,
-        onMouseLeave: this.onMouseLeave,
-        ...getOtherProps(this.constructor, this.props),
-      },
+          <Tip
+            $text={this.ref.current}
+            isOpen={isOpen}
+            className={tipClassName}
+            eventName={eventName}
 
-      // Children:
-      <Fragment>
-        { html ? <span dangerouslySetInnerHTML={{ __html: html }} /> : children }
-
-        <Tip
-          $text={this.ref.current}
-          isOpen={isOpen}
-          className={tipClassName}
-          eventName={eventName}
-
-          theme={theme}
-          position={position}
-          inflexible={inflexible}
-          arrowed={arrowed}
-        >
-          {parseContent(content, eventName)}
-        </Tip>
-      </Fragment>,
+            theme={theme}
+            position={position}
+            inflexible={inflexible}
+            arrowed={arrowed}
+          >
+            {parseContent(content, eventName)}
+          </Tip>
+        </>
+      </div>
     )
   }
 }
