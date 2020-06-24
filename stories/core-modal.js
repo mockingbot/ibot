@@ -8,7 +8,7 @@ import { RadioGroup } from '../components/radio'
 import { CheckGroup } from '../components/check'
 import InputNumber from '../components/numberInput'
 import Input, { Textarea } from '../components/input'
-import FormEntry, { FormLabel } from '../components/formEntry'
+import { FormDiv, FormLabel } from '../components/formEntry'
 import Modal from '../components/core-modal'
 import Icon from '../components/icon'
 import Switch from '../components/switch'
@@ -378,7 +378,7 @@ storiesOf('Core Modal', module)
             style={{ width: '100%', height: '5em' }}
           />
 
-          <FormEntry name="Access">
+          <FormDiv name="Access">
             <RadioGroup
               optionList={[
                 'Only for Collaborators',
@@ -395,9 +395,9 @@ storiesOf('Core Modal', module)
               ]}
               value="pwd"
             />
-          </FormEntry>
+          </FormDiv>
 
-          <FormEntry name="Preview Settings">
+          <FormDiv name="Preview Settings">
             <CheckGroup
               optionList={[
                 'Highlight clickable areas on the screens.',
@@ -405,7 +405,7 @@ storiesOf('Core Modal', module)
               ]}
               valueList={['Highlight clickable areas on the screens.']}
             />
-          </FormEntry>
+          </FormDiv>
 
         </Modal>
       </FormLabel>
@@ -491,7 +491,7 @@ class NewMasterModal extends PureComponent {
           />
         </FormLabel>
 
-        <FormEntry name="Access">
+        <FormDiv name="Access">
           <RadioGroup
             optionList={[
               { label: 'Public', value: 'public' },
@@ -500,9 +500,9 @@ class NewMasterModal extends PureComponent {
             value={access}
             onChange={this.onToggleAccess}
           />
-        </FormEntry>
+        </FormDiv>
 
-        <FormEntry name="Size">
+        <FormDiv name="Size">
           <style>
             {`
             .master-modal .FormEntry > .val > input.regular[type=number] {
@@ -526,7 +526,7 @@ class NewMasterModal extends PureComponent {
             <span className="times">&times;</span>
             <InputNumber value={h} onChange={this.onChangeH} />
           </div>
-        </FormEntry>
+        </FormDiv>
       </Modal>
     )
   }
