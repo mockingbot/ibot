@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import Tooltip from '../tooltip'
 import { trimList } from '../util'
-// import './index.styl'
 import { StyledEllipsis } from './styled'
 
 export default class Ellipsis extends PureComponent {
@@ -90,6 +89,11 @@ export default class Ellipsis extends PureComponent {
         'Ellipsis',
         truncationClassName,
         className,
+        (withQuote || withPeriod || withComma || withQuestionMark) && 'Punctuation',
+        withQuote && 'with-quote',
+        withPeriod && 'with-period',
+        withComma && 'with-comma',
+        withQuestionMark && 'with-question-mark',
       ]),
 
       href: to,
@@ -114,31 +118,18 @@ export default class Ellipsis extends PureComponent {
     return (
       withQuote || withPeriod || withComma || withQuestionMark
         ? <StyledEllipsis
-            className={trimList([
-              'Punctuation',
-              withQuote && 'with-quote',
-              withPeriod && 'with-period',
-              withComma && 'with-comma',
-              withQuestionMark && 'with-question-mark',
-              truncationClassName,
-            ])}
-          >
-            { tooltip }
-          </StyledEllipsis>
+          className={trimList([
+            'Punctuation',
+            withQuote && 'with-quote',
+            withPeriod && 'with-period',
+            withComma && 'with-comma',
+            withQuestionMark && 'with-question-mark',
+            truncationClassName,
+          ])}
+        >
+          { tooltip }
+        </StyledEllipsis>
         : tooltip
-        // <span
-        //   className={trimList([
-        //     'Punctuation',
-        //     withQuote && 'with-quote',
-        //     withPeriod && 'with-period',
-        //     withComma && 'with-comma',
-        //     withQuestionMark && 'with-question-mark',
-        //     truncationClassName,
-        //   ])}
-        // >
-        //   { tooltip }
-        // </span>
-        // : tooltip
     )
   }
 }

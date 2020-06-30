@@ -1,57 +1,17 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 // import Tooltip from '../tooltip/index'
 
 export const StyledEllipsis = styled.span`
-  &.Ellipsis {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    display: inline-block;
-    max-width: 100%;
-    vertical-align: bottom;
-    &.isnt-truncated {
-      display: inline;
-      max-width: initial !important;
-    }
-    &.is-truncated:before {
-      content: '';
-      display: block;
-    }
-
-    &[data-type=user],
-    &[data-type=id] {
-      max-width: 10em;
-    }
-    &[data-type=email] {
-      max-width: 12em;
-    }
-    &[data-type=org] {
-      max-width: 15em;
-    }
-    &[data-type=team] {
-      max-width: 10em;
-    }
-    &[data-type=app] {
-      max-width: 15em;
-    }
-    &[data-type=widget] {
-      max-width: 12em;
-    }
-    &Tip {
-      hyphens: auto;
-    }
-  }
-  
   &.Punctuation {
     display: inline-flex;
-    align-items: baseline;
+    display: inline-flex;
     &.isnt-truncated {
       display: inline;
     }
     &.with-period {
       &:after {
         content: '. ';
-      }    
+      }
       &:lang(zh):after {
         content: '\3002';
       }

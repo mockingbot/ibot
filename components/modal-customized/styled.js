@@ -1,4 +1,4 @@
-import styled, { createGlobalStyle } from "styled-components";
+import styled, { createGlobalStyle } from 'styled-components'
 
 export const StyledMask = styled.div`
   position: fixed;
@@ -48,7 +48,7 @@ export const StyledModal = styled.div`
     opacity: 0;
     transform: translateY(-50vh);
   }
-  
+
   .header {
     position: relative;
     display: flex;
@@ -57,7 +57,7 @@ export const StyledModal = styled.div`
     background: #FFFFFF;
     box-shadow: inset 0 -1px 0 0 #E8E8E8;
     border-bottom: 0px solid #E8E8E8;
-    
+
     .close-btn {
       position: absolute;
       top: 50%;
@@ -69,12 +69,12 @@ export const StyledModal = styled.div`
       line-height: 1;
       color: #8d9ea7;
     }
-    
+
     .close-btn:hover {
       color: #5b6b73;
     }
   }
-  
+
   .content {
     padding: 30px 20px 35px;
   }
@@ -99,7 +99,7 @@ export const StyledFooter = styled.footer`
     //box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
     color: #415058;
   }
-  
+
   & .confirm-btn {
     width: 90px;
     height: 32px;
@@ -107,7 +107,7 @@ export const StyledFooter = styled.footer`
     background: #FF6161;
     border-radius: 2px;
     color: #FFFFFF;
-  }  
+  }
 `
 
 export const StyledPortal = createGlobalStyle`

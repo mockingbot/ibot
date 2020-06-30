@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { trimList } from '../util'
-import { StyledInputLabel } from "./styled";
+import { StyledInputLabel } from './styled'
 
 function createOnChangeHandler (onChange) {
   return e => onChange(e.target.value, e)

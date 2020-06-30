@@ -6,6 +6,44 @@ export const StyledToolTipSpan = styled.span`
     width: -webkit-fit-content;
     width: fit-content;
   }
+
+  &.Ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+    max-width: 100%;
+    vertical-align: bottom;
+
+    &.isnt-truncated {
+      display: inline;
+      max-width: initial !important;
+    }
+    &.is-truncated:before {
+      content: '';
+      display: block;
+    }
+
+    &[data-type=user],
+    &[data-type=id] {
+      max-width: 10em;
+    }
+    &[data-type=email] {
+      max-width: 12em;
+    }
+    &[data-type=org] {
+      max-width: 15em;
+    }
+    &[data-type=team] {
+      max-width: 10em;
+    }
+    &[data-type=app] {
+      max-width: 15em;
+    }
+    &[data-type=widget] {
+      max-width: 12em;
+    }
+  }
 `
 
 export const StyledToolTip = styled.div`

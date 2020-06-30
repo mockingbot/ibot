@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const StyledButton = styled.button`
   &.RegularButton,
@@ -36,7 +36,7 @@ export const StyledButton = styled.button`
       animation: ibot-ani-spinning 1.5s infinite ease-out;
     }
   }
-  
+
   &.PrimaryCoreButton,
   &.RegularCoreButton,
   &.SecondaryCoreButton,
@@ -53,10 +53,10 @@ export const StyledButton = styled.button`
       opacity: 1;
     }
   }
-  
+
   &.PrimaryCoreButton {
     background-color: #eb5648;
-    &,  
+    &,
     &:link,
     &:visited {
       border-color: transparent;
@@ -73,11 +73,11 @@ export const StyledButton = styled.button`
       color: #e4b4b0;
     }
   }
-  
+
   &.RegularCoreButton,
   &.SecondaryCoreButton {
     background-color: #fff;
-    &,  
+    &,
     &:link,
     &:visited {
       color: #eb5648;
@@ -93,11 +93,11 @@ export const StyledButton = styled.button`
       color: #bc4439;
     }
   }
-  
+
   &.TertiaryCoreButton {
     background-color: #fff;
     border-color: #c8cdd1;
-    &,  
+    &,
     &:link,
     &:visited {
       color: #415058;
@@ -114,7 +114,7 @@ export const StyledButton = styled.button`
       border-color: #415058;
     }
   }
-  
+
   &.RegularButton {
     &,
     &:link,
@@ -129,11 +129,11 @@ export const StyledButton = styled.button`
       opacity: 0.6;
     }
   }
-  
+
   &.PrimaryButton {
     background-color: #8d9ea7;
     border-color: transparent;
-    &,  
+    &,
     &:link,
     &:visited {
       color: #fff;
@@ -148,11 +148,11 @@ export const StyledButton = styled.button`
       color: rgba(255,255,255,0.6);
     }
   }
-  
+
   &.TextButton,
   &.TextCoreButton {
     transition: all 0.1s ease-out;
-    &,  
+    &,
     &:link,
     &:visited {
       color: #298df8;
@@ -179,9 +179,9 @@ export const StyledButton = styled.button`
       font-size: 0.75rem;
     }
   }
-  
+
   &.TextCoreButton {
-    &,  
+    &,
     &:link,
     &:visited {
       color: #eb5648;

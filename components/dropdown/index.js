@@ -65,7 +65,7 @@ export default class Dropdown extends PureComponent {
           value: PropTypes.any,
           isDisabled: PropTypes.bool,
         }),
-      ])
+      ]),
     ),
 
     currentMenuListItemIdx: PropTypes.oneOfType([
@@ -192,7 +192,7 @@ export default class Dropdown extends PureComponent {
       Object.assign(this, { leaveTimeoutList: [] })
     } else if (isOutsideOpener && isOutsideMenu) {
       this.leaveTimeoutList.push(
-        setTimeout(this.close, hoverCloseDelay !== undefined ? hoverCloseDelay : Math.max(hoverDelay, 300))
+        setTimeout(this.close, hoverCloseDelay !== undefined ? hoverCloseDelay : Math.max(hoverDelay, 300)),
       )
     }
   }

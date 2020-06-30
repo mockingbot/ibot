@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled from 'styled-components'
 
 export const StyledDropDown = styled.label`
 &.Dropdown.is-disabled {
@@ -51,7 +51,7 @@ export const StyledDropDownMenu = styled.div`
       transform: scale(1) translateX(-50%);
       }
     }
-    
+
     &.is-downward {
       top: 100%;
       bottom: initial;
@@ -71,7 +71,7 @@ export const StyledDropDownMenu = styled.div`
       left: initial;
       right: 50%;
       margin-right: -14px;
-      } 
+      }
     }
     .arrow {
       position: absolute;
@@ -91,11 +91,11 @@ export const StyledDropDownMenu = styled.div`
       transform: translateY(-100%);
       }
     }
-    
+
     &.dark .arrow {
       color: rgba(30, 41, 46, .9);
     }
-    
+
     &.x-left .arrow {
       left: 0.5em;
       right: initial;
@@ -108,8 +108,8 @@ export const StyledDropDownMenu = styled.div`
       transform: rotate(180deg);
       top: initial;
       bottom: 0;
-    }  
-    
+    }
+
     .content {
       padding: 0.75em 0.5em;
       min-height: 32px;
@@ -120,7 +120,7 @@ export const StyledDropDownMenu = styled.div`
       background-color: rgba(30, 41, 46, .9);
       color: #fff;
     }
-    
+
     ul.MenuList {
       margin: 0;
       padding: 0;

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const StyledLabel = styled.label`
   &.Radio,
@@ -11,14 +11,14 @@ export const StyledLabel = styled.label`
     line-height: 1.5;
     cursor: pointer;
     color: #5b6b73;
-    
+
     > input[type=radio],
     > input[type=checkbox] {
       position: absolute;
       opacity: 0;
     }
   }
-  
+
   &.regular {
     font-size: 14px;
   }
@@ -57,15 +57,15 @@ export const StyledLabel = styled.label`
     border-radius: 2px;
     color: #fff;
     transition: all 0.2s ease-in-out;
-    
+
     .icon {
       position: absolute;
       top: -1px;
       left: -1px;
       transition: all 0.2s ease-in-out;
-    }      
+    }
   }
-  
+
   .Check-state.small{
     transform: translateY(2px);
   }
@@ -74,7 +74,7 @@ export const StyledLabel = styled.label`
       background-color: #298df8;
       border-color: transparent;
       color: #fff;
-      
+
       .icon {
         transform: scale(0.833);
       }
@@ -85,7 +85,7 @@ export const StyledLabel = styled.label`
     speak: none;
     opacity: 0;
   }
-  
+
   &.CoreCheck,
   &.CoreRadio {
     .Check-state {
@@ -105,7 +105,7 @@ export const StyledLabelRadio = styled(StyledLabel)`
     .Check-state{
       padding: 1px;
       border-radius: 50%;
-      
+
       &:after {
       content: '';
       position: absolute;
