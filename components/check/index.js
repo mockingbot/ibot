@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import isEqual from 'lodash/isEqual'
-import Icon from '../icon'
+import SVG from '../svg'
 import {
   getOptionLabel,
   getOptionValue,
@@ -105,7 +105,7 @@ export default class Check extends PureComponent {
           name={name}
           onChange={this.onToggle}
         />
-        <span className="Check-state"><Icon type="dora" name="check" /></span>
+        <span className="Check-state"><SVG name="check" /></span>
         <span className="Check-label">{ label }</span>
 
       </StyledLabel>

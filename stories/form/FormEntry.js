@@ -8,7 +8,7 @@ import { RadioGroup } from '../../components/radio'
 import { FormDiv, FormLabel } from '../../components/formEntry'
 import Input, { Textarea } from '../../components/input'
 import Switch from '../../components/switch'
-import Icon from '../../components/icon'
+import Icon from '../components/icon'
 
 export default class FormEntryExample extends PureComponent {
   state = {

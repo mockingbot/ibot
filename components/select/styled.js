@@ -24,23 +24,23 @@ export const StyledSelectLabel = styled.label`
       line-height: 0;
       color: #8d9ea7;
       svg {
-      display: block;
-      width: 6px;
-      height: 4px;
-      fill: currentColor;
-      fill-rule: evenodd;
-      transform: rotate(180deg);
-      transition: all 0.3s ease-out;
+        display: block;
+        width: 6px;
+        height: 4px;
+        fill: currentColor;
+        fill-rule: evenodd;
+        transform: rotate(180deg);
+        transition: all 0.3s ease-out;
       }
     }
-    
+
     &:not(.unstyled) {
       padding-left: .5em;
       background-color: #f6f7f8;
       border: 1px solid #f2f2f3;
       border-radius: 2px;
     }
-    
+
     &.small {
       height: 22px;
       font-size: 12px;
@@ -48,12 +48,12 @@ export const StyledSelectLabel = styled.label`
         margin-right: 0.5em;
       }
     }
-    
+
     &:not(.is-disabled):not(.readonly):not(.unstyled):hover,
     &:not(.unstyled).is-open {
       border-color: #298df8;
     }
-  
+
     &.is-open {
       &:not(.unstyled) {
         background-color: #fff;
@@ -63,29 +63,29 @@ export const StyledSelectLabel = styled.label`
         transform: rotate(0deg);
       }
     }
-    
+
     &.is-disabled {
       cursor: not-allowed;
       opacity: 0.6;
     }
-    
+
     &.readonly {
       cursor: default
     }
   }
-  
+
   &.CoreSelect:not(.unstyled) {
     background-color: #fff;
     border: 1px solid #c8cdd1;
   }
-  
+
 `
 
 export const StyledSelectMenu = styled.div`
   &.SelectMenuBase {
-  position: fixed;
-  pointer-events: none;
-  z-index: 1100;
+    position: fixed;
+    pointer-events: none;
+    z-index: 1100;
   }
   .SelectMenu,
   .CoreSelectMenu,
@@ -97,7 +97,7 @@ export const StyledSelectMenu = styled.div`
     max-width: 20em;
     min-width: 100%;
     min-height: 30px;
-    max-height: (10 * 30px);
+    max-height: 300px;
     overflow-x: hidden;
     overflow-y: auto;
     pointer-events: none;
@@ -110,7 +110,7 @@ export const StyledSelectMenu = styled.div`
     transition: 0.2s ease-out;
     transition-property: transform, opacity;
     transform-origin: 50% 0;
-    
+
     &::-webkit-scrollbar {
       display: block;
       width: 4px;
@@ -158,7 +158,7 @@ export const StyledSelectMenu = styled.div`
     &.cant-select .SelectOption {
       cursor: default;
     }
-    
+
     .SelectGroup {
       > .title {
         padding: 0 0.75em;
@@ -167,13 +167,13 @@ export const StyledSelectMenu = styled.div`
         line-height: 30px;
         font-weight: bold;
       }
-      
+
       > ul {
         margin: 0;
         padding: 0;
       }
     }
-    
+
     .SelectOption {
       display: flex;
       align-items: center;
@@ -187,12 +187,12 @@ export const StyledSelectMenu = styled.div`
         margin-left: auto;
         margin-right: 0.75em;
       }
-      
+
       &.is-disabled {
         cursor: not-allowed;
         opacity: 0.5;
       }
-      
+
       &.is-active {
         color: #298df8;
       }
@@ -200,7 +200,7 @@ export const StyledSelectMenu = styled.div`
       &.is-active {
         background-color: #f6f7f8;
       }
-     
+
       &.empty-msg {
         padding: 0 0.5em;
         color: #8d9ea7;
@@ -208,8 +208,8 @@ export const StyledSelectMenu = styled.div`
       }
     }
   }
-  
-  
+
+
   .CheckSelectMenu {
     &:not(.is-empty) {
       padding: 6px 0;
@@ -232,7 +232,7 @@ export const StyledSelectMenu = styled.div`
       }
     }
   }
-  
+
   .CheckSelectMenu {
     margin: 4px 0;
     &:not(.is-empty) {

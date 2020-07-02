@@ -5,7 +5,7 @@ import EventListener from 'react-event-listener'
 import isEqual from 'lodash/isEqual'
 import Button from '../button'
 import Switch from '../switch'
-import Icon from '../icon'
+import SVG from '../svg'
 import {
   addModalToStack, deleteModalFromStack, checkNoOpenModalInStack, checkModalIndexInStack,
   toggleGlobalScroll, trimList, $, preparePortal,
@@ -390,7 +390,7 @@ export default class Modal extends PureComponent {
             {/* Close button */}
             { canClose && (
               <button className="close-btn" onClick={this.close}>
-                <Icon name="times" />
+                <SVG name="times" />
               </button>
             )}
           </header>

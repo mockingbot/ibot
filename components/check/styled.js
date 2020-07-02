@@ -58,11 +58,12 @@ export const StyledLabel = styled.label`
     color: #fff;
     transition: all 0.2s ease-in-out;
 
-    .icon {
+    .svg-icon.check {
       position: absolute;
       top: -1px;
       left: -1px;
       transition: all 0.2s ease-in-out;
+      opacity: 0;
     }
   }
 
@@ -75,7 +76,8 @@ export const StyledLabel = styled.label`
       border-color: transparent;
       color: #fff;
 
-      .icon {
+      .svg-icon.check {
+        opacity: 1;
         transform: scale(0.833);
       }
     }

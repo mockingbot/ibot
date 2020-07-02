@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { trimList } from '../util'
+import { trimList } from '../../../components/util'
 import duoList from 'mb-icons/dora/duo-list.json'
 import './index.styl'
 
@@ -13,7 +13,7 @@ function Icon ({
   type,
   className,
   ...others
-})  {
+}) {
   const prefix = type === 'mb' ? 'icon' : type
   const name = propName.replace(new RegExp(`^(${ICON_SET_LIST.join('|')})\-`, 'i'), '')
   const isLiga = checkIfIconIsLiga(type)

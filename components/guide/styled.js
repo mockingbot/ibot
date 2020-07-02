@@ -77,7 +77,7 @@ export const StyledGuid = styled.div`
     &.is-downward .arrow {
       transform: rotate(180deg);
     }
-    
+
     .content {
       position: relative;
       padding: 1.5em 1.5em 1em;
@@ -88,7 +88,7 @@ export const StyledGuid = styled.div`
       border-radius: 4px;
       color: #8d9ea7;
     }
-    
+
     header {
       margin: 0.25em 0 10px;
       font-size: 16px;
@@ -96,7 +96,7 @@ export const StyledGuid = styled.div`
       line-height: 1.2;
       color: #415058;
     }
-    
+
     .close-btn {
       position: absolute;
       top: 0.5em;
@@ -104,11 +104,15 @@ export const StyledGuid = styled.div`
       font-size: 14px;
       color: #c8cdd1;
       svg {
-        width: 1em;
-        height: 1em;
+        width: 12px;
+        height: 12px;
+
+        .fore {
+          fill: #fff;
+        }
       }
-    } 
-    
+    }
+
     footer {
       margin-top: 0.75em;
       text-align: end;

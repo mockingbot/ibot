@@ -45,18 +45,13 @@ export const StyledModal = styled.div`
   }
 
   .close-btn {
-    position: absolute;
-    top: 50%;
-    right: 0;
-    padding: 0 20px;
-    width: 54px;
-    height: 100%;
-    transform: translateY(-50%);
-    line-height: 1;
+    margin-left: auto;
+    font-size: 1em;
     color: #8d9ea7;
-
+    transition: all 0.2s ease-in;
     &:hover {
       color: #5b6b73;
+      transition-delay: 0.1s;
     }
   }
 
@@ -74,7 +69,7 @@ export const StyledModal = styled.div`
     border-top: 1px solid #f2f2f3;
   }
 
-  .confirm-btn
+  .confirm-btn,
   .cancel-btn {
     margin-left: 1.5em;
     min-width: 2em;

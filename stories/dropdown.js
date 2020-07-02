@@ -8,7 +8,7 @@ import Dropdown from '../components/dropdown'
 import Select from '../components/select'
 import Check from '../components/check'
 import Input from '../components/input'
-import Icon from '../components/icon'
+import Icon from './components/icon'
 import Tooltip from '../components/tooltip'
 
 storiesOf('Dropdown', module)

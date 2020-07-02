@@ -8,7 +8,7 @@ export const StyledCoreMask = styled.div`
   width: 100vw;
   height: 100vh;
   background-color: rgba(30,41,46, 0.5);
-  
+
   transition: all 0.2s ease-out;
 
   &.can-close {
@@ -22,14 +22,6 @@ export const StyledCoreMask = styled.div`
   &.is-open {
     opacity: 1;
   }
-
-  //&.mask-enter {
-  //  opacity: 0;
-  //}
-  //
-  //&.mask-exit-active {
-  //  opacity: 0;
-  //}
 `
 
 export const StyledCoreModal = styled.div`
@@ -45,7 +37,7 @@ export const StyledCoreModal = styled.div`
   box-shadow: 0 3px 10px 0 rgba(0,0,0,0.1);
   cursor: initial;
   transition: all 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.1);
-  
+
   .CoreModalMask:not(.is-open) + & {
     opacity: 0;
     transform: translateY(-100%);
@@ -82,9 +74,9 @@ export const StyledCoreModal = styled.div`
     font-size: 1em;
     color: #8d9ea7;
     transition: all 0.2s ease-in;
-    .close-btn:hover {
+    &:hover {
       color: #eb5648;
-      transition-delay: 0.2s;
+      transition-delay: 0.1s;
     }
   }
 
@@ -112,16 +104,6 @@ export const StyledCoreModal = styled.div`
   &.DisplayCoreModal {
     width: 40rem;
   }
-
-  //&.fade-enter {
-  //  opacity: 0;
-  //  transform: translateY(-50vh);
-  //}
-  //
-  //&.fade-exit-active {
-  //  opacity: 0;
-  //  transform: translateY(-50vh);
-  //}
 `
 
 export const StyledCorePortal = createGlobalStyle`

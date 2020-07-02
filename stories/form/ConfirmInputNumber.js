@@ -1,9 +1,9 @@
 import React from 'react'
 import { action } from '@storybook/addon-actions'
-import Root from '../../components/root'
+import Root from '../components/root'
 import Button from '../../components/button'
-import FormEntry, { FormDiv, FormLabel } from '../../components/formEntry'
-import Icon from '../../components/icon'
+import { FormDiv, FormLabel } from '../../components/formEntry'
+import Icon from '../components/icon'
 
 import { PanelInputNumber, PanelSelectNumber } from '../components/ConfirmInputNumber'
 

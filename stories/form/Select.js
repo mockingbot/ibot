@@ -4,7 +4,7 @@ import { action } from '@storybook/addon-actions'
 import Root from '../components/root'
 import Button from '../../components/button'
 import Select from '../../components/select'
-import Icon from '../../components/icon'
+import Icon from '../components/icon'
 
 const MENU_THEME_LIST = ['plain', 'core', 'check']
 

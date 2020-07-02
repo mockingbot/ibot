@@ -5,7 +5,7 @@ import Root from '../components/root'
 import Button from '../../components/button'
 import { FormLabel } from '../../components/formEntry'
 import InputNumber from '../../components/numberInput'
-import Icon from '../../components/icon'
+import Icon from '../components/icon'
 
 import { SelectNumber } from '../components/Input'
 

@@ -53,7 +53,7 @@ class ButtonExample extends PureComponent {
             <Button size={size}>Default (regular)</Button>
             <Button type="regular" size={size} icon="save">Regular w/ icon</Button>
             <Button type="text" size={size}>Text</Button>
-            <Button type="text" size={size} icon="play" isDisabled={false}>Text w/ icon</Button>
+            <Button type="text" size={size} isDisabled={false}>Text w/ icon</Button>
           </p>
 
           <h3>Disabled</h3>

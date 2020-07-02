@@ -10,7 +10,7 @@ import InputNumber from '../components/numberInput'
 import Input, { Textarea } from '../components/input'
 import { FormDiv, FormLabel } from '../components/formEntry'
 import Modal from '../components/core-modal'
-import Icon from '../components/icon'
+import Icon from './components/icon/index'
 import Switch from '../components/switch'
 import { WidgetName } from './components/Ellipsis'
 

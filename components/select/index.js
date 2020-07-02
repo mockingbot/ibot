@@ -6,9 +6,10 @@ import get from 'lodash/get'
 import isArray from 'lodash/isArray'
 import isEqual from 'lodash/isEqual'
 import isElement from 'lodash/isElement'
-import Icon from '../icon'
+import SVG from '../svg'
+// import Icon from '../icon'
 import Ellipsis from '../ellipsis'
-import { preventScrollingPropagation, trimList, $, $$, preparePortal, SVG,
+import { preventScrollingPropagation, trimList, $, $$, preparePortal, SVG as UITL_SVG,
   getOptionLabel, getOptionValue, checkOptionByValue } from '../util'
 import { positionMenu } from '../dropdown'
 import { StyledSelectLabel, StyledSelectMenu } from './styled'
@@ -217,7 +218,7 @@ export default class Select extends PureComponent {
           <Ellipsis>{ this.displayText }</Ellipsis>
         </button>
 
-        <span className="caret" dangerouslySetInnerHTML={{ __html: SVG.INPUT_ARROW }} />
+        <span className="caret" dangerouslySetInnerHTML={{ __html: UITL_SVG.INPUT_ARROW }} />
 
         <SelectMenu
           isOpen={isOpen}
@@ -536,7 +537,7 @@ function Option ({
       onClick={isDisabled ? undefined : onChange}
     >
       <Ellipsis>{ label }</Ellipsis>
-      { menuTheme === 'check' && isActive && <Icon name="check" type="dora" /> }
+      { menuTheme === 'check' && isActive && <SVG name="check" /> }
     </li>
   )
 }
