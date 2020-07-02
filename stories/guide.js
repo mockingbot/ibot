@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import { storiesOf } from '@storybook/react'
-import Root from '../components/root'
+import Root from './components/root'
 import GuideBase from '../components/guide'
 
 storiesOf('Guide', module)

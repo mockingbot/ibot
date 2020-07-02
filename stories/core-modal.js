@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 
-import Root from '../components/root'
+import Root from './components/root'
 import Select from '../components/select'
 import { RadioGroup } from '../components/radio'
 import { CheckGroup } from '../components/check'

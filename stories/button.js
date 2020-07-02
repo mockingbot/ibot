@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { storiesOf } from '@storybook/react'
 import { BrowserRouter } from 'react-router-dom'
-import Root from '../components/root'
+import Root from './components/root'
 import Button from '../components/button'
 import { CoreButton,
   PrimaryCoreButton,

@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 
-import Root from '../components/root'
+import Root from './components/root'
 import Icon from '../components/icon'
 import Overlay from '../components/overlay'
 

@@ -120,7 +120,7 @@ export const StyledLabelRadio = styled(StyledLabel)`
       }
     }
     .is-checked .Check-state {
-        position: relative;
+      position: relative;
     }
   }
 `

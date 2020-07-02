@@ -70,7 +70,6 @@ export default class Ellipsis extends PureComponent {
       ...others
     } = this.props
 
-    console.log('props in Elipsis withQuote etc', withQuote, )
     const { isTruncated, isDetected } = this.state
 
     const contentProp = (

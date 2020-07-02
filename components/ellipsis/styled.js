@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-// import Tooltip from '../tooltip/index'
 
 export const StyledEllipsis = styled.span`
   &.Punctuation {

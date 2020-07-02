@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 
-import Root from '../../components/root'
+import Root from '../components/root'
 import Button from '../../components/button'
 import Select from '../../components/select'
 import Check, { CheckGroup } from '../../components/check'

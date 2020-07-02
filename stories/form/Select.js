@@ -1,7 +1,7 @@
 import React from 'react'
 import { action } from '@storybook/addon-actions'
 
-import Root from '../../components/root'
+import Root from '../components/root'
 import Button from '../../components/button'
 import Select from '../../components/select'
 import Icon from '../../components/icon'

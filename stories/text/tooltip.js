@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 
-import Root from '../../components/root'
+import Root from '../components/root'
 import Button from '../../components/button'
 import { Textarea } from '../../components/input'
 import Icon from '../../components/icon'

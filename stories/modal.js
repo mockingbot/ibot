@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 
-import Root from '../components/root'
+import Root from './components/root'
 import InputNumber from '../components/numberInput'
 import Input, { Textarea } from '../components/input'
 import Select from '../components/select'

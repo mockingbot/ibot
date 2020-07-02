@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import { storiesOf } from '@storybook/react'
 import shuffle from 'lodash/shuffle'
 
-import Root from '../components/root'
+import Root from './components/root'
 import Button from '../components/button'
 import Icon from '../components/icon'
 
