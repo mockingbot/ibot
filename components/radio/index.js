@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import isEqual from 'lodash/isEqual'
 import { getOptionLabel, getOptionValue, checkOptionByValue, trimList } from '../util'
-import { StyledLabelRadio, StyledSpan } from '../check/styled'
+import { StyledLabelRadio, StyledSpan } from './styled'
 /**
  * <Radio>
  */

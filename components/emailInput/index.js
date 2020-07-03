@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import EventListener from 'react-event-listener'
 import isEqual from 'lodash/isEqual'
 import { trimList, getOtherProps, EMAIL_REGEX } from '../util'
-import { StyledInputLabel } from '../input/styled'
+import { StyledInputLabel } from './styled'
 
 const checkFinishedTyping = v => (
   /^@/.test(v) ||
