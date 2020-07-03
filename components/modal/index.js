@@ -5,12 +5,12 @@ import EventListener from 'react-event-listener'
 import isEqual from 'lodash/isEqual'
 import Button from '../button'
 import Switch from '../switch'
-import Icon from '../icon'
+import SVG from '../svg'
 import {
   addModalToStack, deleteModalFromStack, checkNoOpenModalInStack, checkModalIndexInStack,
   toggleGlobalScroll, trimList, $, preparePortal,
 } from '../util'
-import './index.styl'
+import { StyledMask, StyledModal, StyledModalPortal } from './styled'
 
 const { I18N = {} } = window
 
@@ -368,7 +368,8 @@ export default class Modal extends PureComponent {
 
     return isOpen && (
       <Fragment>
-        <div
+        <StyledModalPortal />
+        <StyledMask
           className={trimList([
             'ModalMask',
             maskClassName,
@@ -377,7 +378,7 @@ export default class Modal extends PureComponent {
           onClick={this.onClickMask}
           onTransitionEnd={this.onTransitionEnd}
         />
-        <div
+        <StyledModal
           className={trimList(['Modal', TYPE_CLASS_MAP[type], className])}
           onClick={stopPropagation}
           onTransitionEnd={this.onModalTransitionEnd}
@@ -389,7 +390,7 @@ export default class Modal extends PureComponent {
             {/* Close button */}
             { canClose && (
               <button className="close-btn" onClick={this.close}>
-                <Icon name="times" />
+                <SVG name="times" />
               </button>
             )}
           </header>
@@ -423,7 +424,7 @@ export default class Modal extends PureComponent {
               )}
             </footer>
           )}
-        </div>
+        </StyledModal>
 
         <EventListener
           target={document}

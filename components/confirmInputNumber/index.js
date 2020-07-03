@@ -5,7 +5,7 @@ import isEqual from 'lodash/isEqual'
 import { SelectMenu } from '../select'
 import { InputActionButton } from '../numberInput'
 import { trimList, getOtherProps, setNumberValue } from '../util'
-import './index.styl'
+import { StyledInputNumber } from './styled'
 
 const LONG_PRESSED_THRESHOLD = 500
 const LONG_PRESSED_STEPPING_INTERVAL = 30
@@ -453,7 +453,7 @@ export default class ConfirmInputNumber extends PureComponent {
     const hasMenu = optionList && optionList.length > 0
 
     return (
-      <label
+      <StyledInputNumber
         className={klass}
         ref={this.set$label}
 
@@ -519,7 +519,7 @@ export default class ConfirmInputNumber extends PureComponent {
             onKeyDown={this.onKeyDown}
           />
         )}
-      </label>
+      </StyledInputNumber>
     )
   }
 }

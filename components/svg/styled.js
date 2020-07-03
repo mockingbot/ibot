@@ -1,0 +1,8 @@
+import styled from 'styled-components'
+
+export const StyledSvg = styled.svg`
+  &.svg-icon {
+    fill: currentColor;
+    width: 1em;
+  }
+`

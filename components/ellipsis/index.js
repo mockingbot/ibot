@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import Tooltip from '../tooltip'
 import { trimList } from '../util'
-import './index.styl'
+import { StyledEllipsis } from './styled'
 
 export default class Ellipsis extends PureComponent {
   state = { isTruncated: false, isDetected: false }
@@ -88,6 +88,11 @@ export default class Ellipsis extends PureComponent {
         'Ellipsis',
         truncationClassName,
         className,
+        (withQuote || withPeriod || withComma || withQuestionMark) && 'Punctuation',
+        withQuote && 'with-quote',
+        withPeriod && 'with-period',
+        withComma && 'with-comma',
+        withQuestionMark && 'with-question-mark',
       ]),
 
       href: to,
@@ -109,10 +114,9 @@ export default class Ellipsis extends PureComponent {
     }
 
     const tooltip = <Tooltip {...tooltipProps} />
-
     return (
       withQuote || withPeriod || withComma || withQuestionMark
-        ? <span
+        ? <StyledEllipsis
           className={trimList([
             'Punctuation',
             withQuote && 'with-quote',
@@ -123,7 +127,7 @@ export default class Ellipsis extends PureComponent {
           ])}
         >
           { tooltip }
-        </span>
+        </StyledEllipsis>
         : tooltip
     )
   }

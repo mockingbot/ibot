@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { storiesOf } from '@storybook/react'
 
-import Root from '../components/root'
+import Root from './components/root'
 import SVG from '../components/svg'
 
 storiesOf('SVG', module)
@@ -41,7 +41,7 @@ storiesOf('SVG', module)
       <h3>Symbols</h3>
       <p>
         {
-          ['plus', 'minus', 'times', 'check_filled']
+          ['plus', 'minus', 'times', 'check_filled', 'check']
             .map(it => <SVG key={it} name={it} />)
         }
       </p>

@@ -4,10 +4,10 @@ import PropTypes from 'prop-types'
 import EventListener, { withOptions } from 'react-event-listener'
 import isEqual from 'lodash/isEqual'
 import Button from '../button'
-import Icon from '../icon'
-import { trimList, preparePortal, SVG } from '../util'
+import SVG from '../svg'
+import { trimList, preparePortal, SVG as UTIL_SVG } from '../util'
 import { positionMenu } from '../dropdown'
-import './index.styl'
+import { StyledGuid } from './styled'
 
 const { I18N = {} } = window
 const GUIDE_ROOT_ID = 'IBOT_GUIDE_GUIDE_ROOT'
@@ -157,9 +157,9 @@ export default class GuideBase extends PureComponent {
     ])
 
     return (
-      <div className="GuideBase" ref={this.set$guide}>
+      <StyledGuid className="GuideBase" ref={this.set$guide}>
         <div className={klass}>
-          <span className="arrow" dangerouslySetInnerHTML={{ __html: SVG.GUIDE_ARROW }} />
+          <span className="arrow" dangerouslySetInnerHTML={{ __html: UTIL_SVG.GUIDE_ARROW }} />
 
           <div className="content">
             { header && <header>{ header }</header> }
@@ -169,7 +169,7 @@ export default class GuideBase extends PureComponent {
                 className="close-btn"
                 onClick={this.close}
               >
-                <Icon name="times_fc" type="dora" />
+                <SVG name="close" />
               </button>
             )}
 
@@ -189,7 +189,7 @@ export default class GuideBase extends PureComponent {
             />
           )}
         </div>
-      </div>
+      </StyledGuid>
     )
   }
 }

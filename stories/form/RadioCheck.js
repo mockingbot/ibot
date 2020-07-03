@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { action } from '@storybook/addon-actions'
 
-import Root from '../../components/root'
+import Root from '../components/root'
 import Button from '../../components/button'
 import Radio, { RadioGroup } from '../../components/radio'
 import Check, { CheckGroup } from '../../components/check'

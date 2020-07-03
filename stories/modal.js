@@ -2,15 +2,18 @@ import React, { PureComponent } from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 
-import Root from '../components/root'
+import Root from './components/root'
 import InputNumber from '../components/numberInput'
 import Input, { Textarea } from '../components/input'
 import Select from '../components/select'
 import { CheckGroup } from '../components/check'
 import { RadioGroup } from '../components/radio'
-import FormEntry, { FormLabel } from '../components/formEntry'
-import Icon from '../components/icon'
+import { FormDiv, FormLabel } from '../components/formEntry'
+import Icon from './components/icon'
 import Modal from '../components/modal'
+import TransitionModal from '../components/modal-customized'
+import PureTransitionModal from '../components/modal-blank'
+
 import Switch from '../components/switch'
 import { WidgetName } from './components/Ellipsis'
 
@@ -20,6 +23,11 @@ storiesOf('Modal', module)
       <Modal isOpen={true} onClose={action('Modal closed')} />
     </Root>
   ))
+  .add('Customized', () => <ModalExample />)
+
+  .add('Blank', () => <ModalExample2 />)
+  // .add('Test2', () => <ModalExample2 />)
+
   .add('Openers', () => (
     <Root>
       <p>
@@ -378,7 +386,7 @@ storiesOf('Modal', module)
             style={{ width: '100%', height: '5em' }}
           />
 
-          <FormEntry name="Access">
+          <FormDiv name="Access">
             <RadioGroup
               optionList={[
                 'Only for Collaborators',
@@ -395,9 +403,9 @@ storiesOf('Modal', module)
               ]}
               value="pwd"
             />
-          </FormEntry>
+          </FormDiv>
 
-          <FormEntry name="Preview Settings">
+          <FormDiv name="Preview Settings">
             <CheckGroup
               optionList={[
                 'Highlight clickable areas on the screens.',
@@ -405,7 +413,7 @@ storiesOf('Modal', module)
               ]}
               valueList={['Highlight clickable areas on the screens.']}
             />
-          </FormEntry>
+          </FormDiv>
 
         </Modal>
       </FormLabel>
@@ -491,7 +499,7 @@ class NewMasterModal extends PureComponent {
           />
         </FormLabel>
 
-        <FormEntry name="Access">
+        <FormDiv name="Access">
           <RadioGroup
             optionList={[
               { label: 'Public', value: 'public' },
@@ -500,9 +508,9 @@ class NewMasterModal extends PureComponent {
             value={access}
             onChange={this.onToggleAccess}
           />
-        </FormEntry>
+        </FormDiv>
 
-        <FormEntry name="Size">
+        <FormDiv name="Size">
           <style>
             {`
             .master-modal .FormEntry > .val > input.regular[type=number] {
@@ -514,10 +522,6 @@ class NewMasterModal extends PureComponent {
               display: flex;
               align-items: baseline;
             }
-            .master-modal .times {
-              width: 3em;
-              text-align: center;
-            }
           `}
           </style>
 
@@ -526,8 +530,51 @@ class NewMasterModal extends PureComponent {
             <span className="times">&times;</span>
             <InputNumber value={h} onChange={this.onChangeH} />
           </div>
-        </FormEntry>
+        </FormDiv>
       </Modal>
+    )
+  }
+}
+
+class ModalExample extends PureComponent {
+  state = {
+    isOpen: false,
+  }
+
+  onClick = () => this.setState({ isOpen: true })
+
+  close = () => this.setState({ isOpen: false })
+
+  render () {
+    return (
+      <>
+        <button onClick={this.onClick}>弹窗</button>
+
+        <TransitionModal className={'myModal'} isOpen={this.state.isOpen} onClose={this.close}>
+        </TransitionModal>
+      </>
+    )
+  }
+}
+
+class ModalExample2 extends PureComponent {
+  state = {
+    isOpen: false,
+  }
+
+  onClick = () => this.setState({ isOpen: true })
+
+  close = () => this.setState({ isOpen: false })
+
+  render () {
+    return (
+      <>
+        <button onClick={this.onClick}>弹窗</button>
+
+        <PureTransitionModal className={'myModal'} isOpen={this.state.isOpen} onClose={this.close}>
+          <header onClick={this.close}>Im header under Modal component</header>
+        </PureTransitionModal>
+      </>
     )
   }
 }

@@ -3,8 +3,6 @@ import compact from 'lodash/compact'
 import isNumber from 'lodash/isNumber'
 import isString from 'lodash/isString'
 import { isValidElement } from 'react'
-import './polyfill'
-import './index.styl'
 export * as SVG from './svg'
 
 export const EMAIL_REGEX = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z0-9-]{2,63}$/i

@@ -1,14 +1,9 @@
-import React, { Fragment, PureComponent } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-
-import { Link } from 'react-router-dom'
 import omit from 'lodash/omit'
-
-import Icon from '../icon'
 import SVG from '../svg'
 import { trimList } from '../util'
-
-import './index.styl'
+import { StyledButton } from './styled'
 
 const TYPE_MAP = {
   primary: 'Primary',
@@ -33,9 +28,6 @@ export default class Button extends PureComponent {
     isLoading: PropTypes.bool,
     loading: PropTypes.bool,
 
-    to: PropTypes.string,
-    nativeLink: PropTypes.bool,
-
     children: PropTypes.any,
     html: PropTypes.string,
   }
@@ -47,18 +39,6 @@ export default class Button extends PureComponent {
     icon: '',
     className: '',
     isDisabled: false,
-    nativeLink: false,
-  }
-
-  get name () {
-    const { to, nativeLink } = this.props
-    const { isDisabled } = this
-
-    return (
-      to && !isDisabled
-        ? nativeLink ? 'a' : Link
-        : 'button'
-    )
   }
 
   get className () {
@@ -85,60 +65,27 @@ export default class Button extends PureComponent {
     return isLoading || loading
   }
 
-  get to () {
-    const { to, nativeLink } = this.props
-    const { isDisabled } = this
-
-    return isDisabled ? undefined : nativeLink ? undefined : to
-  }
-
-  get href () {
-    const { to, nativeLink } = this.props
-    const { isDisabled } = this
-
-    return isDisabled ? undefined : nativeLink ? to : undefined
-  }
-
   render () {
-    const {
-      icon, iconType,
-      children, html,
-      ...others
-    } = this.props
+    const { className, isLoading, isDisabled } = this
+    const { iconType, icon, children, ...others } = this.props
+    return (
+      <StyledButton
+        className={className}
+        disabled={isDisabled}
+        onClick={e => isDisabled && e.preventDefault()}
+        type={'button'}
+        {...omit(others, ['className', 'type', 'theme', 'isDisabled', 'disabled', 'isLoading', 'loading'])}
+      >
+        <>
+          { isLoading && <SVG name="loading" /> }
 
-    const { name, className, isDisabled, isLoading, to, href } = this
-
-    const contentProp = (
-      html
-        ? { dangerouslySetInnerHTML: { __html: html } }
-        : { children: (
-          <Fragment>
-            { isLoading && <SVG name="loading" /> }
-
-            { icon && (
-              iconType === 'svg'
-                ? <SVG name={icon} />
-                : <Icon key="icon" type={iconType} name={icon} />
-            )}
-            { children }
-          </Fragment>
-        ) }
+          { icon && iconType === 'svg' && (
+            <SVG name={icon} />
+          )}
+          { children }
+        </>
+      </StyledButton>
     )
-
-    const props = {
-      type: name === 'button' ? 'button' : undefined,
-      className,
-      to,
-      href,
-
-      disabled: isDisabled,
-      onClick: e => isDisabled && e.preventDefault(),
-
-      ...omit(others, ['className', 'type', 'theme', 'isDisabled', 'disabled', 'isLoading', 'loading', 'to', 'nativeLink']),
-      ...contentProp,
-    }
-
-    return React.createElement(name, props)
   }
 }
 

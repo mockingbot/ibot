@@ -1,0 +1,46 @@
+@import '../../util/index'
+
+@font-face
+  font-family Dora
+  // this path is relative to import source js file, not this style file
+  src url(./fonts/dora.woff) format('woff'),
+    url(./fonts/dora.ttf) format('truetype'),
+    url(./fonts/dora.svg) format('svg')
+  font-weight normal
+  font-style normal
+
+.dora
+.duodora
+  display inline-block
+  width 1em
+  font normal normal normal 1em/1 Dora
+  font-size inherit
+  speak none
+  font-style normal
+  font-weight normal
+  font-variant normal
+  line-height 1
+  letter-spacing normal
+  text-transform none
+  word-wrap normal
+  white-space nowrap
+  direction ltr
+  -webkit-font-feature-settings 'liga'
+  -moz-font-feature-settings 'liga=1'
+  -moz-font-feature-settings 'liga'
+  -ms-font-feature-settings 'liga' 1
+  font-feature-settings 'liga'
+  -webkit-font-smoothing antialiased
+  -moz-osx-font-smoothing grayscal
+  text-rendering optimizeLegibility
+  -webkit-font-variant-ligatures discretionary-ligatures
+  font-variant-ligatures discretionary-ligatures
+
+.duodora
+  &
+    position relative
+    display inline-block
+  > .layer:not(:first-child)
+    position absolute
+    left 0
+    top 0

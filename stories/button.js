@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { storiesOf } from '@storybook/react'
 import { BrowserRouter } from 'react-router-dom'
-import Root from '../components/root'
+import Root from './components/root'
 import Button from '../components/button'
 import { CoreButton,
   PrimaryCoreButton,
@@ -53,7 +53,7 @@ class ButtonExample extends PureComponent {
             <Button size={size}>Default (regular)</Button>
             <Button type="regular" size={size} icon="save">Regular w/ icon</Button>
             <Button type="text" size={size}>Text</Button>
-            <Button type="text" size={size} icon="play" isDisabled={false}>Text w/ icon</Button>
+            <Button type="text" size={size} isDisabled={false}>Text w/ icon</Button>
           </p>
 
           <h3>Disabled</h3>
@@ -63,26 +63,6 @@ class ButtonExample extends PureComponent {
             <Button type="regular" size={size} icon="save" disabled>Regular w/ icon</Button>
             <Button type="text" size={size} disabled>Text</Button>
             <Button type="text" size={size} icon="play" disabled>Text w/ icon</Button>
-          </p>
-
-          <h3>Links</h3>
-          <p className="button">
-            <Button type="primary" size={size} to="/" nativeLink>Primary</Button>
-            <Button size={size} to="/" nativeLink>Default (regular)</Button>
-            <Button type="regular" size={size} icon="save" to="/" nativeLink>Regular w/ icon</Button>
-            <Button type="text" size={size} to="/" nativeLink>Text</Button>
-            <Button type="text" size={size} icon="play" to="/" nativeLink>Text w/ icon</Button>
-
-            <Button type="primary" size={size} to="/">Router Link</Button>
-          </p>
-          <p className="button">
-            <Button type="primary" size={size} to="/" nativeLink isDisabled>Primary</Button>
-            <Button disabled isDisabled size={size} to="/" nativeLink>Default (regular)</Button>
-            <Button type="regular" size={size} icon="save" disabled to="/" nativeLink>Regular w/ icon</Button>
-            <Button type="text" size={size} disabled to="/" nativeLink>Text</Button>
-            <Button type="text" size={size} icon="play" disabled to="/" nativeLink>Text w/ icon</Button>
-
-            <Button type="primary" size={size} to="/" disabled>Router Link</Button>
           </p>
 
           <h3>Loading</h3>
@@ -149,26 +129,6 @@ class ButtonExample extends PureComponent {
             <CoreButton type="regular" size={size} icon="save" loading>Regular w/ icon</CoreButton>
             <CoreButton type="text" size={size} isLoading>Text</CoreButton>
             <CoreButton type="text" size={size} icon="play" loading>Text w/ icon</CoreButton>
-          </p>
-
-          <h3>Links</h3>
-          <p className="button">
-            <CoreButton theme="core" type="primary" size={size} to="/" nativeLink>Primary</CoreButton>
-            <CoreButton size={size} to="/" nativeLink>Default (regular)</CoreButton>
-            <CoreButton type="regular" size={size} icon="save" to="/" nativeLink>Regular w/ icon</CoreButton>
-            <CoreButton type="text" size={size} to="/" nativeLink>Text</CoreButton>
-            <CoreButton type="text" size={size} icon="play" to="/" nativeLink>Text w/ icon</CoreButton>
-
-            <CoreButton theme="core" type="primary" size={size} to="/">Router Link</CoreButton>
-          </p>
-          <p className="button">
-            <CoreButton type="primary" size={size} to="/" nativeLink isDisabled>Primary</CoreButton>
-            <CoreButton disabled isDisabled size={size} to="/" nativeLink>Default (regular)</CoreButton>
-            <CoreButton type="regular" size={size} icon="save" disabled to="/" nativeLink>Regular w/ icon</CoreButton>
-            <CoreButton type="text" size={size} disabled to="/" nativeLink>Text</CoreButton>
-            <CoreButton type="text" size={size} icon="play" disabled to="/" nativeLink>Text w/ icon</CoreButton>
-
-            <CoreButton theme="core" type="primary" size={size} to="/" disabled>Router Link</CoreButton>
           </p>
         </Root>
       </BrowserRouter>

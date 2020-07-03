@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import isEqual from 'lodash/isEqual'
 import { trimList } from '../util'
-import './index.styl'
+import { StyledSwitch } from './styled'
 
 export default class Switch extends PureComponent {
   state = {
@@ -75,7 +75,7 @@ export default class Switch extends PureComponent {
     const { isDisabled } = this
 
     return (
-      <label
+      <StyledSwitch
         className={trimList([
           'Switch',
           size,
@@ -86,7 +86,7 @@ export default class Switch extends PureComponent {
       >
         <button type="button" disabled={isDisabled} onClick={this.toggle} />
         { children }
-      </label>
+      </StyledSwitch>
     )
   }
 }

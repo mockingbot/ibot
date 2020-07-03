@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import { action } from '@storybook/react'
-import Root from '../../components/root'
+import Root from '../components/root'
 import { CoreInputEmail, CoreInput, CoreInputNumber } from '../components/Input'
 import { CoreConfirmInputNumber } from '../components/ConfirmInputNumber'
 import { CoreSelect, CoreCheck, CoreCheckGroup, CoreRadio, CoreRadioGroup } from '../components/CheckRadioSelect'

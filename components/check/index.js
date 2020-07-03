@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import isEqual from 'lodash/isEqual'
-import Icon from '../icon'
+import SVG from '../svg'
 import {
   getOptionLabel,
   getOptionValue,
@@ -9,7 +9,8 @@ import {
   convertValueListToSet,
   trimList,
 } from '../util'
-import './index.styl'
+import { StyledLabel, StyledSpan } from './styled'
+
 /**
  * <Check>
  */
@@ -87,7 +88,7 @@ export default class Check extends PureComponent {
     const { isDisabled, readOnly } = this
 
     return (
-      <label
+      <StyledLabel
         className={trimList([
           theme === 'core' ? 'CoreCheck' : 'Check',
           size,
@@ -104,9 +105,10 @@ export default class Check extends PureComponent {
           name={name}
           onChange={this.onToggle}
         />
-        <span className="Check-state"><Icon type="dora" name="check" /></span>
+        <span className="Check-state"><SVG name="check" /></span>
         <span className="Check-label">{ label }</span>
-      </label>
+
+      </StyledLabel>
     )
   }
 }
@@ -226,7 +228,7 @@ export class CheckGroup extends PureComponent {
     ])
 
     return (
-      <span className={klass}>
+      <StyledSpan className={klass}>
         {
           optionList.map((opt, idx) => opt && (
             <Check
@@ -249,7 +251,7 @@ export class CheckGroup extends PureComponent {
             />
           ))
         }
-      </span>
+      </StyledSpan>
     )
   }
 }

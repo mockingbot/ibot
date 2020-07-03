@@ -1,9 +1,9 @@
 import React from 'react'
 import { action } from '@storybook/addon-actions'
-import Root from '../../components/root'
+import Root from '../components/root'
 import Button from '../../components/button'
-import FormEntry, { FormLabel } from '../../components/formEntry'
-import Icon from '../../components/icon'
+import { FormDiv, FormLabel } from '../../components/formEntry'
+import Icon from '../components/icon'
 
 import { PanelInputNumber, PanelSelectNumber } from '../components/ConfirmInputNumber'
 
@@ -105,7 +105,7 @@ export default class InputNumberExample extends React.PureComponent {
         </div>
 
         <h2>General Panel</h2>
-        <FormEntry name="X/Y">
+        <FormDiv name="X/Y">
           <PanelInputNumber
             theme={theme}
             precision={0}
@@ -126,9 +126,9 @@ export default class InputNumberExample extends React.PureComponent {
             onConfirm={this.onChange.bind(this, 'y')}
             dontSelectOnFocus
           />
-        </FormEntry>
+        </FormDiv>
 
-        <FormEntry name="W/H">
+        <FormDiv name="W/H">
           <PanelInputNumber
             theme={theme}
             precision={0}
@@ -149,7 +149,7 @@ export default class InputNumberExample extends React.PureComponent {
             onConfirm={this.onChange.bind(this, 'height')}
             dontSelectOnFocus
           />
-        </FormEntry>
+        </FormDiv>
 
         <FormLabel name="Font Size">
           <PanelSelectNumber
@@ -188,7 +188,7 @@ export default class InputNumberExample extends React.PureComponent {
           />
         </FormLabel>
 
-        <FormEntry name="Paragraph">
+        <FormDiv name="Paragraph">
           <PanelInputNumber
             theme={theme}
             desc="Line-height"
@@ -208,9 +208,9 @@ export default class InputNumberExample extends React.PureComponent {
             onConfirm={this.onChange.bind(this, 'textSpacing')}
             dontSelectOnFocus
           />
-        </FormEntry>
+        </FormDiv>
 
-        <FormEntry name="Disabled">
+        <FormDiv name="Disabled">
           <PanelInputNumber
             theme={theme}
             desc="Disabled"
@@ -221,8 +221,8 @@ export default class InputNumberExample extends React.PureComponent {
             onConfirm={() => null}
             dontSelectOnFocus
           />
-        </FormEntry>
-        <FormEntry name="Read-only">
+        </FormDiv>
+        <FormDiv name="Read-only">
           <PanelInputNumber
             theme={theme}
             desc="Disabled"
@@ -233,7 +233,7 @@ export default class InputNumberExample extends React.PureComponent {
             onConfirm={() => null}
             dontSelectOnFocus
           />
-        </FormEntry>
+        </FormDiv>
       </Root>
     )
   }

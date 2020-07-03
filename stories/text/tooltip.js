@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react'
 
-import Root from '../../components/root'
+import Root from '../components/root'
 import Button from '../../components/button'
 import { Textarea } from '../../components/input'
-import Icon from '../../components/icon'
+import Icon from '../components/icon'
 import Tooltip from '../../components/tooltip'
 import { CoreTooltip } from '../components/Ellipsis'
 
@@ -176,7 +176,6 @@ export default class TooltipExample extends PureComponent {
 
         <Tooltip
           arrowed={isArrowed} theme={theme}
-          type="block"
           content={<ul><li>LOL</li><li>233</li><li>www</li><li>廠廠</li><li>555</li></ul>}
           tipClassName="ul-tip"
           position="left"

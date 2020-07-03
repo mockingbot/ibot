@@ -1,14 +1,14 @@
 import React, { PureComponent } from 'react'
 
-import Root from '../../components/root'
+import Root from '../components/root'
 import Button from '../../components/button'
 import Select from '../../components/select'
 import Check, { CheckGroup } from '../../components/check'
 import { RadioGroup } from '../../components/radio'
-import FormEntry, { FormLabel } from '../../components/formEntry'
+import { FormDiv, FormLabel } from '../../components/formEntry'
 import Input, { Textarea } from '../../components/input'
 import Switch from '../../components/switch'
-import Icon from '../../components/icon'
+import Icon from '../components/icon'
 
 export default class FormEntryExample extends PureComponent {
   state = {
@@ -71,7 +71,7 @@ export default class FormEntryExample extends PureComponent {
             <Input {...{ size, theme }} placeholder="Tell us who you are…" />
           </FormLabel>
 
-          <FormEntry name="Gender">
+          <FormDiv name="Gender">
             <RadioGroup
               {...{ size, theme }}
               optionList={[
@@ -81,7 +81,7 @@ export default class FormEntryExample extends PureComponent {
               ]}
               value="O"
             />
-          </FormEntry>
+          </FormDiv>
 
           <FormLabel name="Email" isRequired={true}>
             <Input {...{ size, theme }} type="email" defaultValue="who@am.i" />
@@ -123,7 +123,7 @@ USA`
               ]}
             />
           </FormLabel>
-          <FormEntry name="Planet">
+          <FormDiv name="Planet">
             <RadioGroup
               {...{ size, theme }}
               optionList={[
@@ -133,7 +133,7 @@ USA`
               ]}
               value="Not in Solar System"
             />
-          </FormEntry>
+          </FormDiv>
 
           <FormLabel name="Newsletter">
             <Check
@@ -143,7 +143,7 @@ USA`
             />
           </FormLabel>
 
-          <FormEntry name="Languages">
+          <FormDiv name="Languages">
             <CheckGroup
               {...{ size, theme }}
               className="language-list"
@@ -159,7 +159,7 @@ USA`
               ]}
               valueList={['JavaScript', 'Ruby on Rails', 'Node.js']}
             />
-          </FormEntry>
+          </FormDiv>
         </form>
       </Root>
     )

@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 
-import Root from '../../components/root'
+import Root from '../components/root'
 
 import { User, TeamName } from '../components/Ellipsis'
 

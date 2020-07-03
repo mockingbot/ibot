@@ -1,6 +1,6 @@
 {
   "name": "@ibot/ibot",
-  "version": "0.7.0-dev.16",
+  "version": "0.7.0-dev.19",
   "license": "MIT",
   "repository": "github:mockingbot/ibot",
   "main": "lib/index.js",
@@ -17,9 +17,11 @@
   "peerDependencies": {
     "lodash": "^4",
     "prop-types": "^15",
-    "react": "^16",
-    "react-dom": "^16",
-    "react-router-dom": "^5"
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-router-dom": "^5",
+    "react-transition-group": "^4.4.1",
+    "styled-components": "^5.1.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.5.5",
@@ -33,6 +35,7 @@
     "@storybook/react": "^5.1.10",
     "babel-eslint": "^10.0.2",
     "babel-loader": "^8.0.6",
+    "babel-plugin-styled-components": "^1.10.7",
     "css-loader": "^3.2.0",
     "eslint": "^6.1.0",
     "eslint-config-standard": "^13.0.1",
@@ -61,6 +64,8 @@
     "rollup-plugin-stylus-compiler": "^1.0.1",
     "style-loader": "^1.0.0",
     "stylus": "^0.54.5",
-    "stylus-loader": "^3.0.2"
+    "stylus-loader": "^3.0.2",
+    "react-transition-group": "^4.4.1",
+    "styled-components": "^5.1.1"
   }
 }

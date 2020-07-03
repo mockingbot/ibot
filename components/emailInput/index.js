@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import EventListener from 'react-event-listener'
 import isEqual from 'lodash/isEqual'
 import { trimList, getOtherProps, EMAIL_REGEX } from '../util'
-import './index.styl'
+import { StyledInputLabel } from './styled'
 
 const checkFinishedTyping = v => (
   /^@/.test(v) ||
@@ -75,7 +75,7 @@ export default class InputEmail extends PureComponent {
         const { onChange } = this.props
         this.checkValidity()
         onChange(value.trim(), e)
-      }
+      },
     )
   }
 
@@ -126,7 +126,7 @@ export default class InputEmail extends PureComponent {
     ])
 
     return (
-      <label
+      <StyledInputLabel
         className={klass}
         onMouseDown={this.setActive}
       >
@@ -149,7 +149,7 @@ export default class InputEmail extends PureComponent {
             onClick={this.onClickOutside}
           />
         )}
-      </label>
+      </StyledInputLabel>
     )
   }
 }

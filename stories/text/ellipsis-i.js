@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 
-import Root from '../../components/root'
+import Root from '../components/root'
 import Ellipsis from '../../components/ellipsis'
 
 export default class EllipsisI extends PureComponent {

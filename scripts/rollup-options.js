@@ -19,7 +19,7 @@ const buildWithRollup = async ({ componentName, componentNameList = [] }) => {
   const externalPackageList = [
     'react', 'react-dom', 'prop-types',
     'react-router', 'react-router-dom',
-    'lodash',
+    'lodash', 'styled-components'
   ]
   const externalComponentPrefixList = componentNameList // mark cross component import as external
     .filter((name) => name !== componentName)
@@ -28,7 +28,7 @@ const buildWithRollup = async ({ componentName, componentNameList = [] }) => {
   const bundle = await rollup({
     input: inputFile,
     external: (id, parent, isResolved) => {
-      const isExternal = (id[ 0 ] !== '.')
+      const isExternal = (id[0] !== '.')
         ? externalPackageList.includes(id) // from another package (`import ... from 'react'`)
         : externalComponentPrefixList.some((prefix) => fromRoot(parent, '../', id).startsWith(prefix)) // from relative file (`import ... from './script.js'`)
       // console.log(JSON.stringify({ isExternal, id, parent, isResolved })) // debug id filter
@@ -58,10 +58,10 @@ const buildWithRollup = async ({ componentName, componentNameList = [] }) => {
       }),
 
       json(),
-      babel({ exclude: 'node_modules/**' }),
+      babel({ exclude: 'node_modules/**', plugins: ['babel-plugin-styled-components'] }),
       commonjs({
         namedExports: {
-          'node_modules/react/index.js': [ 'Component', 'PureComponent', 'Children', 'createElement' ],
+          'node_modules/react/index.js': ['Component', 'PureComponent', 'Children', 'createElement'],
         },
       }),
     ],

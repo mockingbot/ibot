@@ -8,7 +8,7 @@ import { SelectMenu } from '../select'
 import SVG from '../svg'
 import { trimList, getOtherProps, setNumberValue } from '../util'
 
-import './index.styl'
+import { StyledInputNumber } from './styled'
 
 const LONG_PRESSED_THRESHOLD = 500
 const LONG_PRESSED_STEPPING_INTERVAL = 30
@@ -363,7 +363,7 @@ export default class InputNumber extends PureComponent {
     const hasMenu = optionList && optionList.length > 0
 
     return (
-      <label
+      <StyledInputNumber
         className={klass}
         ref={this.set$label}
         onMouseDown={this.setActive}
@@ -426,7 +426,8 @@ export default class InputNumber extends PureComponent {
             onClick={this.onClickOutside}
           />
         )}
-      </label>
+
+      </StyledInputNumber>
     )
   }
 }

@@ -12,7 +12,7 @@ import {
   addModalToStack, deleteModalFromStack, checkNoOpenModalInStack, checkModalIndexInStack,
   toggleGlobalScroll, trimList, $, preparePortal,
 } from '../util'
-import './index.styl'
+import { StyledCorePortal, StyledCoreModal, StyledCoreMask } from './styled'
 
 const stopPropagation = e => e.stopPropagation()
 const MODAL_ROOT_ID = 'IBOT_MODAL_ROOT'
@@ -377,7 +377,8 @@ export default class CoreModal extends PureComponent {
 
     return isOpen && (
       <Fragment>
-        <div
+        <StyledCorePortal/>
+        <StyledCoreMask
           ref={this.maskRef}
           className={trimList([
             'CoreModalMask',
@@ -388,8 +389,7 @@ export default class CoreModal extends PureComponent {
           onClick={this.onClickMask}
           onTransitionEnd={this.onTransitionEnd}
         />
-
-        <div
+        <StyledCoreModal
           className={trimList(['CoreModal', TYPE_CLASS_MAP[type], className])}
           onTransitionEnd={stopPropagation}
           onClick={stopPropagation}
@@ -410,8 +410,7 @@ export default class CoreModal extends PureComponent {
           </div>
 
           { footer }
-        </div>
-
+        </StyledCoreModal>
         <EventListener target={document} onKeyDown={this.onKeyDown} />
       </Fragment>
     )

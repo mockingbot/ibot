@@ -1,49 +1,71 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { trimList } from '../util'
-import './index.styl'
-/**
- * <FormEntry>
- */
-export default function FormEntry ({
-  className,
+import { StyledForm, StyledFormKey, StyledFormVal } from './styled'
+
+function FormBase ({
   name: key, children: val,
-  type,
-  isLabel,
   isRequired,
 }) {
-  return React.createElement(
-    isLabel ? 'label' : 'div',
-    { className: trimList(['FormEntry', className]), type },
+  return (
     <Fragment>
+      <StyledForm/>
       { key && (
-        <span className="FormEntry-Key key">
+        <StyledFormKey className="FormEntry-Key key">
           {key}
           { isRequired && <span className="required-sign">*</span> }
-        </span>
+        </StyledFormKey>
       )}
-      <span className="FormEntry-Val val">{val}</span>
-    </Fragment>,
+
+      <StyledFormVal className="FormEntry-Val val">{val}</StyledFormVal>
+    </Fragment>
   )
 }
 
-FormEntry.propTypes = {
-  className: PropTypes.string,
+FormBase.propTypes = {
   children: PropTypes.node,
   name: PropTypes.any,
-  type: PropTypes.string,
-  isLabel: PropTypes.bool,
   isRequired: PropTypes.bool,
 }
 
-FormEntry.defaultProps = {
-  className: '',
-  isLabel: false,
+/**
+ * <FormDiv>
+ */
+
+export function FormDiv (props) {
+  const { className, type } = props
+  return (
+    <div
+      className={trimList(['FormEntry', className])}
+      type={type}
+    >
+      <FormBase {...props} />
+    </div>
+  )
+}
+
+FormDiv.propTypes = {
+  className: PropTypes.string,
+  type: PropTypes.string,
 }
 
 /**
  * <FormLabel>
  */
+
 export function FormLabel (props) {
-  return <FormEntry {...props} isLabel={true} />
+  const { className, type } = props
+  return (
+    <label
+      className={trimList(['FormEntry', className])}
+      type={type}
+    >
+      <FormBase {...props} />
+    </label>
+  )
+}
+
+FormLabel.propTypes = {
+  className: PropTypes.string,
+  type: PropTypes.string,
 }

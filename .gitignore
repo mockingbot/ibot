@@ -19,7 +19,7 @@ storybook-static/*
 !storybook-static/CNAME
 
 stories/json/
-components/icon/fonts/dora.*
-components/icon/fonts/mb-icons.*
+# components/icon/fonts/dora.*
+# components/icon/fonts/mb-icons.*
 
 package-lock.json

@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import EventListener, { withOptions } from 'react-event-listener'
 import { preventScrollingPropagation, trimList, $, preparePortal, SVG } from '../util'
 import { positionMenu } from './util'
-import './index.styl'
+import { StyledDropDown, StyledDropDownMenu } from './styled'
 export { positionMenu }
 
 const MENU_ROOT_ID = 'IBOT_DROPDOWN_MENU_ROOT'
@@ -50,7 +50,6 @@ export default class Dropdown extends PureComponent {
       top: PropTypes.number,
       right: PropTypes.number,
       bottom: PropTypes.number,
-      top: PropTypes.number,
 
       width: PropTypes.number,
       height: PropTypes.number,
@@ -66,7 +65,7 @@ export default class Dropdown extends PureComponent {
           value: PropTypes.any,
           isDisabled: PropTypes.bool,
         }),
-      ])
+      ]),
     ),
 
     currentMenuListItemIdx: PropTypes.oneOfType([
@@ -193,7 +192,7 @@ export default class Dropdown extends PureComponent {
       Object.assign(this, { leaveTimeoutList: [] })
     } else if (isOutsideOpener && isOutsideMenu) {
       this.leaveTimeoutList.push(
-        setTimeout(this.close, hoverCloseDelay !== undefined ? hoverCloseDelay : Math.max(hoverDelay, 300))
+        setTimeout(this.close, hoverCloseDelay !== undefined ? hoverCloseDelay : Math.max(hoverDelay, 300)),
       )
     }
   }
@@ -237,7 +236,7 @@ export default class Dropdown extends PureComponent {
     }
 
     return (
-      <label ref={this.set$opener} className={klass}>
+      <StyledDropDown ref={this.set$opener} className={klass}>
         {
           openerType !== 'button' && isValidElement(opener)
             ? cloneElement(opener, openerAttr)
@@ -264,7 +263,7 @@ export default class Dropdown extends PureComponent {
             onMouseMove={this.onMouseMove}
           />
         )}
-      </label>
+      </StyledDropDown>
     )
   }
 }
@@ -383,7 +382,7 @@ class DropdownMenu extends PureComponent {
     ])
 
     return (
-      <div ref={this.menuBaseRef} className={trimList(['DropdownMenuBase', menuBaseClassName])}>
+      <StyledDropDownMenu ref={this.menuBaseRef} className={trimList(['DropdownMenuBase', menuBaseClassName])}>
         <div className={klass}>
           { arrowed && (
             <span className="arrow" dangerouslySetInnerHTML={{ __html: SVG.DROPDOWN_ARROW }} />
@@ -428,7 +427,8 @@ class DropdownMenu extends PureComponent {
             />
           )}
         </div>
-      </div>
+
+      </StyledDropDownMenu>
     )
   }
 }

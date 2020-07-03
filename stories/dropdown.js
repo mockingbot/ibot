@@ -2,13 +2,13 @@ import React, { PureComponent } from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 
-import Root from '../components/root'
+import Root from './components/root'
 import Button from '../components/button'
 import Dropdown from '../components/dropdown'
 import Select from '../components/select'
 import Check from '../components/check'
 import Input from '../components/input'
-import Icon from '../components/icon'
+import Icon from './components/icon'
 import Tooltip from '../components/tooltip'
 
 storiesOf('Dropdown', module)

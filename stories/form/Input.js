@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { action } from '@storybook/addon-actions'
 
-import Root from '../../components/root'
+import Root from '../components/root'
 import Button from '../../components/button'
 import Input, { Textarea } from '../../components/input'
 import InputNumber from '../../components/numberInput'

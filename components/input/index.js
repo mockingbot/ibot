@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { trimList } from '../util'
-import './index.styl'
+import { StyledInputLabel } from './styled'
 
 function createOnChangeHandler (onChange) {
   return e => onChange(e.target.value, e)
@@ -28,14 +28,14 @@ export default function Input ({
   ])
 
   return (
-    <label className={klass}>
+    <StyledInputLabel className={klass}>
       <input
         type={type}
         value={value}
         onChange={createOnChangeHandler(onChange)}
         {...others}
       />
-    </label>
+    </StyledInputLabel>
   )
 }
 
@@ -75,13 +75,13 @@ export function Textarea ({
   ])
 
   return (
-    <label className={klass}>
+    <StyledInputLabel className={klass}>
       <textarea
         value={value}
         onChange={createOnChangeHandler(onChange)}
         {...others}
       />
-    </label>
+    </StyledInputLabel>
   )
 }
 
