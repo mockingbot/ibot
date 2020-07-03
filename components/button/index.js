@@ -1,12 +1,8 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-
 import omit from 'lodash/omit'
-
-// import Icon from '../icon'
 import SVG from '../svg'
 import { trimList } from '../util'
-
 import { StyledButton } from './styled'
 
 const TYPE_MAP = {

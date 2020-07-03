@@ -163,8 +163,8 @@ export const StyledButton = styled.button`
     }
     &:enabled:hover,
     a&:hover {
-    color: darken(#298df8, 10%);
-    text-decoration: underline;
+      color: #0d7ef7;
+      text-decoration: underline;
     }
     .svg-icon.loading {
       margin-right: 0.25em;

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const StyledToolTipSpan = styled.span`
   div.Tooltip {
@@ -6,7 +6,6 @@ export const StyledToolTipSpan = styled.span`
     width: -webkit-fit-content;
     width: fit-content;
   }
-
   &.Ellipsis {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -14,7 +13,6 @@ export const StyledToolTipSpan = styled.span`
     display: inline-block;
     max-width: 100%;
     vertical-align: bottom;
-
     &.isnt-truncated {
       display: inline;
       max-width: initial !important;
@@ -23,7 +21,6 @@ export const StyledToolTipSpan = styled.span`
       content: '';
       display: block;
     }
-
     &[data-type=user],
     &[data-type=id] {
       max-width: 10em;
@@ -135,7 +132,6 @@ export const StyledToolTip = styled.div`
       left: 50%;
       transform: translateX(-50%);
     }
-
     &.on-right > .arrow {
       top: 50%;
       left: 0;
@@ -170,7 +166,6 @@ export const StyledToolTip = styled.div`
       color: #fff;
     }
   }
-  
   .CoreTip {
     filter: opacity(0.9);
     > .arrow svg {

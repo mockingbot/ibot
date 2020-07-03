@@ -1,13 +1,12 @@
 import styled from 'styled-components'
 
 export const StyledDropDown = styled.label`
-&.Dropdown.is-disabled {
-  opacity: 0.5;
-  > button {
-  cursor: not-allowed;
+  &.Dropdown.is-disabled {
+    opacity: 0.5;
+    > button {
+      cursor: not-allowed;
+    }
   }
-}
-
 `
 
 export const StyledDropDownMenu = styled.div`
@@ -64,13 +63,13 @@ export const StyledDropDownMenu = styled.div`
       margin-top: 0.75em;
       margin-bottom: 0.75em;
       &.x-left.x-arrow-based {
-      left: 50%;
-      margin-left: -14px;
+        left: 50%;
+        margin-left: -14px;
       }
       &.x-right.x-arrow-based {
-      left: initial;
-      right: 50%;
-      margin-right: -14px;
+        left: initial;
+        right: 50%;
+        margin-right: -14px;
       }
     }
     .arrow {
@@ -85,10 +84,10 @@ export const StyledDropDownMenu = styled.div`
       fill-rule: evenodd;
       color: #fff;
       svg {
-      position: absolute;
-      width: auto;
-      height: 5px;
-      transform: translateY(-100%);
+        position: absolute;
+        width: auto;
+        height: 5px;
+        transform: translateY(-100%);
       }
     }
 

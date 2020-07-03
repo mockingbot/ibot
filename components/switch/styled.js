@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const StyledSwitch = styled.label`
   &.Switch {
@@ -54,7 +54,7 @@ export const StyledSwitch = styled.label`
         transform: translate(13px, -50%);
       }
     }
-    
+
     &.is-disabled {
       background-color: #dedee4;
       cursor: not-allowed;

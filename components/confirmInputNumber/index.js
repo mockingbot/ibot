@@ -5,7 +5,7 @@ import isEqual from 'lodash/isEqual'
 import { SelectMenu } from '../select'
 import { InputActionButton } from '../numberInput'
 import { trimList, getOtherProps, setNumberValue } from '../util'
-import { StyledInputNumber } from '../numberInput/styled'
+import { StyledInputNumber } from './styled'
 
 const LONG_PRESSED_THRESHOLD = 500
 const LONG_PRESSED_STEPPING_INTERVAL = 30

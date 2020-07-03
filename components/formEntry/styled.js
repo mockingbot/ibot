@@ -1,4 +1,4 @@
-import styled, { createGlobalStyle } from "styled-components";
+import styled, { createGlobalStyle } from 'styled-components'
 
 export const StyledFormKey = styled.span`
   &.FormEntry-Key {
@@ -8,12 +8,11 @@ export const StyledFormKey = styled.span`
     flex-basis: 7em;
     height: 34px;
   }
-  
+
   .required-sign {
     margin: 0 0.25em;
     color: #eb5648;
   }
-
 `
 
 export const StyledFormVal = styled.span`
@@ -27,13 +26,13 @@ export const StyledFormVal = styled.span`
         margin-bottom: 12px;
       }
     }
-  
+
     .Textarea,
     .CoreTextarea {
       display: block;
       width: 100%;
     }
-    
+
     .CoreCheck,
     .Radio,
     .CoreRadio,
@@ -44,7 +43,6 @@ export const StyledFormVal = styled.span`
       margin-top: calc((34px - 1.5em)/2);
     }
   }
-
 `
 
 export const StyledForm = createGlobalStyle`
@@ -54,5 +52,4 @@ export const StyledForm = createGlobalStyle`
     margin: 0.5em 0;
     min-height: 34px;
   }
-
 `

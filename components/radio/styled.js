@@ -18,7 +18,6 @@ export const StyledLabel = styled.label`
       opacity: 0;
     }
   }
-
   &.regular {
     font-size: 14px;
   }
@@ -43,7 +42,6 @@ export const StyledLabel = styled.label`
     height: 100%;
     background-color: rgba(255,255,255,0.5);
   }
-
   .Check-state {
     position: relative;
     flex: 0 0 1em;
@@ -57,7 +55,6 @@ export const StyledLabel = styled.label`
     border-radius: 2px;
     color: #fff;
     transition: all 0.2s ease-in-out;
-
     .svg-icon.check {
       position: absolute;
       top: -1px;
@@ -66,7 +63,6 @@ export const StyledLabel = styled.label`
       opacity: 0;
     }
   }
-
   .Check-state.small{
     transform: translateY(2px);
   }
@@ -82,12 +78,10 @@ export const StyledLabel = styled.label`
       }
     }
   }
-
-  &:not(.is-checked) .Check-state .icon{
+  &:not(.is-checked) .Check-state .icon {
     speak: none;
     opacity: 0;
   }
-
   &.CoreCheck,
   &.CoreRadio {
     .Check-state {
@@ -98,7 +92,6 @@ export const StyledLabel = styled.label`
       background-color: #eb5648;
     }
   }
-
 `
 
 export const StyledLabelRadio = styled(StyledLabel)`

@@ -9,11 +9,9 @@ export const StyledMask = styled.div`
   height: 100vh;
   transition: all 0.2s ease-out;
   background-color: rgba(0, 0, 0, 0.4);
-
   &.mask-enter {
     opacity: 0;
   }
-
   &.mask-exit-active {
     opacity: 0;
   }
@@ -34,16 +32,13 @@ export const StyledModal = styled.div`
   color: #5b6b73;
   cursor: initial;
   transition: all 0.2s ease-out;
-
   &.is-v-centered {
     margin: 3rem auto;
   }
-
   &.fade-enter {
     opacity: 0;
     transform: translateY(-50vh);
   }
-
   &.fade-exit-active {
     opacity: 0;
     transform: translateY(-50vh);

@@ -7,7 +7,6 @@ import isArray from 'lodash/isArray'
 import isEqual from 'lodash/isEqual'
 import isElement from 'lodash/isElement'
 import SVG from '../svg'
-// import Icon from '../icon'
 import Ellipsis from '../ellipsis'
 import { preventScrollingPropagation, trimList, $, $$, preparePortal, SVG as UITL_SVG,
   getOptionLabel, getOptionValue, checkOptionByValue } from '../util'

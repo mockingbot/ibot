@@ -11,14 +11,12 @@ export const StyledLabel = styled.label`
     line-height: 1.5;
     cursor: pointer;
     color: #5b6b73;
-
     > input[type=radio],
     > input[type=checkbox] {
       position: absolute;
       opacity: 0;
     }
   }
-
   &.regular {
     font-size: 14px;
   }
@@ -43,7 +41,6 @@ export const StyledLabel = styled.label`
     height: 100%;
     background-color: rgba(255,255,255,0.5);
   }
-
   .Check-state {
     position: relative;
     flex: 0 0 1em;
@@ -57,7 +54,6 @@ export const StyledLabel = styled.label`
     border-radius: 2px;
     color: #fff;
     transition: all 0.2s ease-in-out;
-
     .svg-icon.check {
       position: absolute;
       top: -1px;
@@ -66,7 +62,6 @@ export const StyledLabel = styled.label`
       opacity: 0;
     }
   }
-
   .Check-state.small{
     transform: translateY(2px);
   }

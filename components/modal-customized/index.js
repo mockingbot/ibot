@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import { $, trimList, preparePortal } from '../util'
 
 import { StyledMask, StyledModal, StyledPortal, StyledFooter } from './styled'
-import SVG from "../svg";
+import SVG from '../svg'
 
 const MODAL_PORTAL_CLASS = 'TransitionModalPortal'
 const MODAL_ROOT_ID = 'IBOT_MODAL_ROOT'

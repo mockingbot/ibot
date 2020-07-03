@@ -7,7 +7,6 @@ export const StyledInputLabel = styled.label`
   &.CoreInput {
     display: inline-block;
     color: #415058;
-
     input,
     textarea {
       font-size: inherit;
@@ -27,7 +26,6 @@ export const StyledInputLabel = styled.label`
       }
     }
   }
-
   &.is-invalid input,
   &.is-invalid textarea,
   & input:not([type=email]):invalid,
@@ -35,7 +33,6 @@ export const StyledInputLabel = styled.label`
     border-color: #ff6161 !important;
     box-shadow: 0 0 6px 0 rgba(#ff6161, .5) !important;
   }
-
   &:not(.unstyled) {
     input,
     textarea {
@@ -57,11 +54,9 @@ export const StyledInputLabel = styled.label`
       }
     }
   }
-
   &.is-readonly {
     color: #8d9ea7;
   }
-
   &.Input,
   &.CoreInput{
     &.regular {
@@ -88,33 +83,26 @@ export const StyledInputLabel = styled.label`
       font-size: 12px;
     }
     textarea {
-    padding: .5em;
-    width: 100%;
-    min-height: 5em;
-    max-height: 10em;
-    resize: vertical;
-    &:disabled,
-    &[readonly] {
-      resize: none;
-    }
+      padding: .5em;
+      width: 100%;
+      min-height: 5em;
+      max-height: 10em;
+      resize: vertical;
+      &:disabled,
+      &[readonly] {
+        resize: none;
+      }
     }
   }
-
   &.CoreInput:not(.unstyled) input,
   &.CoreTextarea:not(.unstyled) textarea {
     background-color: #fff;
     border-color: #c8cdd1;
   }
-
   &.InputEmail, &.CoreInputEmail{
     &:not(.unstyled).isnt-valid input {
       box-shadow: 0 0 6px 0 rgba(255, 97, 97, .5) !important;
       border-color: #ff6161 !important;
     }
   }
-
-
-
-
-
 `

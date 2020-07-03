@@ -7,7 +7,6 @@ const StyledInputLabel = styled.label`
   &.CoreInput {
     display: inline-block;
     color: #415058;
-
     input,
     textarea {
       font-size: inherit;
@@ -27,7 +26,6 @@ const StyledInputLabel = styled.label`
       }
     }
   }
-
   &.is-invalid input,
   &.is-invalid textarea,
   & input:not([type=email]):invalid,
@@ -35,7 +33,6 @@ const StyledInputLabel = styled.label`
     border-color: #ff6161 !important;
     box-shadow: 0 0 6px 0 rgba(#ff6161, .5) !important;
   }
-
   &:not(.unstyled) {
     input,
     textarea {
@@ -57,11 +54,9 @@ const StyledInputLabel = styled.label`
       }
     }
   }
-
   &.is-readonly {
     color: #8d9ea7;
   }
-
   &.Input,
   &.CoreInput{
     &.regular {
@@ -78,7 +73,6 @@ const StyledInputLabel = styled.label`
       height: 100%;
     }
   }
-
   &.Textarea,
   &.CoreTextarea{
     &.regular {
@@ -99,13 +93,11 @@ const StyledInputLabel = styled.label`
     }
     }
   }
-
   &.CoreInput:not(.unstyled) input,
   &.CoreTextarea:not(.unstyled) textarea {
     background-color: #fff;
     border-color: #c8cdd1;
   }
-
   &.InputEmail, &.CoreInputEmail{
     &:not(.unstyled).isnt-valid input {
       box-shadow: 0 0 6px 0 rgba(255, 97, 97, .5) !important;
@@ -136,14 +128,12 @@ export const StyledInputNumber = styled(StyledInputLabel)`
       opacity: 0.5;
       }
     }
-
     &.is-disabled,
     &.is-readonly {
       .action {
         visibility: hidden;
       }
     }
-
     input {
       padding-right: 1.5em;
       padding-left: .5em;
@@ -153,8 +143,6 @@ export const StyledInputNumber = styled(StyledInputLabel)`
         padding-right: 2em;
     }
   }
-
-
   &:not(.is-disabled):hover input:not([readonly]),
   input:not([readonly]):focus {
     & ~ .action {
@@ -162,7 +150,6 @@ export const StyledInputNumber = styled(StyledInputLabel)`
       transition: all 0.2s ease-out;
     }
   }
-
   .action {
     position: absolute;
     top: 0;
@@ -170,17 +157,14 @@ export const StyledInputNumber = styled(StyledInputLabel)`
     width: 1.5em;
     height: 100%;
     text-align: center;
-
     &:not(.caret) {
     opacity: 0;
     }
-
     svg {
       height: 4px;
       fill: currentColor;
       fill-rule: evenodd;
     }
-
     &.caret {
       button {
         height: 100%;
@@ -188,12 +172,10 @@ export const StyledInputNumber = styled(StyledInputLabel)`
       svg {
         transition: transform 0.2s ease-out;
       }
-
       /.InputNumber.is-menu-open .caret svg {
         transform: rotate(180deg);
       }
     }
-
     button {
       display: block;
       margin: 0;
@@ -217,7 +199,6 @@ export const StyledInputNumber = styled(StyledInputLabel)`
       }
     }
   }
-
   &.regular .action {
     top: 50%;
     transform: translateY(-50%);
@@ -228,7 +209,6 @@ export const StyledInputNumber = styled(StyledInputLabel)`
     margin-top: 6px;
     margin-bottom: 1.5em;
   }
-
   .title,
   .desc,
   .prefix,
@@ -243,19 +223,16 @@ export const StyledInputNumber = styled(StyledInputLabel)`
     user-select: none;
     border: 1px solid transparent;
   }
-
   &.is-empty {
     .prefix,
     .suffix {
       opacity: 0.3;
     }
   }
-
   .title {
     margin-left: .5em;
     color: #8d9ea7;
   }
-
   .desc {
     top: 100%;
     width: 100%;
@@ -271,7 +248,6 @@ export const StyledInputNumber = styled(StyledInputLabel)`
     padding-left: .5em;
     padding-right: 1.625em;
     width: 100%;
-
     &:before {
     content: attr(data-value);
     display: inline-block;

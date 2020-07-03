@@ -7,9 +7,8 @@ export const StyledMask = styled.div`
   right: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(30,41,46, 0.5);
+  background-color: rgba(0,0,0,0.4);
   transition: background 0.2s;
-
   &.can-close {
     cursor: pointer;
   }
@@ -29,21 +28,18 @@ export const StyledModal = styled.div`
   box-shadow: 0 2px 8px 0 rgba(0,0,0,0.1);
   cursor: initial;
   transition: transform .3s, opacity .2s;
-
   &.is-v-centered {
     margin: 3rem auto;
   }
-
   header {
     position: relative;
     display: flex;
     align-items: center;
     padding: 0 20px;
     height: 55px;
-    border-bottom: 1px solid #dedee4;
+    border-bottom: 1px solid #f2f2f3;
     color: #415058;
   }
-
   .close-btn {
     margin-left: auto;
     font-size: 1em;
@@ -54,11 +50,9 @@ export const StyledModal = styled.div`
       transition-delay: 0.1s;
     }
   }
-
   .content {
     padding: 30px 20px 35px;
   }
-
   footer {
     display: flex;
     justify-content: flex-end;
@@ -68,7 +62,6 @@ export const StyledModal = styled.div`
     line-height: 1;
     border-top: 1px solid #f2f2f3;
   }
-
   .confirm-btn,
   .cancel-btn {
     margin-left: 1.5em;
@@ -76,28 +69,23 @@ export const StyledModal = styled.div`
     height: 34px;
     color: #8d9ea7;
     transition: color ease-in-out .1s;
-
     &:enabled:hover {
       color: #5b6b73;
     }
-
     &:disabled {
       opacity: .5;
       cursor: not-allowed;
     }
   }
-
   .confirm-btn {
     font-weight: bold;
     color: #eb5648;
-
     &:enabled:hover {
-      color: rgba(235, 86, 72, 0.2);
+      color: #dd2918;
     }
   }
-
-  &.AlertCoreModal,
-  &.FormCoreModal {
+  &.AlertModal,
+  &.FormModal {
     display: flex;
     flex-direction: column;
     width: 23.75rem;
@@ -112,7 +100,7 @@ export const StyledModal = styled.div`
     }
   }
   &.FunctionalModal {
-    width: 26.25rem;
+    width: 31.25rem;
   }
   &.DisplayModal {
     width: 40rem;
@@ -131,20 +119,16 @@ export const StyledModalPortal = createGlobalStyle`
     min-width: 64rem;
     height: auto;
     min-height: 100vh;
-
     &:not(.is-open) {
       pointer-events: none;
-
       .ModalMask {
         background-color: rgba(0, 0, 0, 0);
       }
-
       .Modal {
         transform: translateY(-50vh);
         opacity: 0;
       }
     }
-
     &.is-open {
       .Modal {
         transition-delay: .175s;

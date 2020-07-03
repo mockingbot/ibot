@@ -78,7 +78,6 @@ export const StyledSelectLabel = styled.label`
     background-color: #fff;
     border: 1px solid #c8cdd1;
   }
-
 `
 
 export const StyledSelectMenu = styled.div`
@@ -167,7 +166,6 @@ export const StyledSelectMenu = styled.div`
         line-height: 30px;
         font-weight: bold;
       }
-
       > ul {
         margin: 0;
         padding: 0;
@@ -187,12 +185,10 @@ export const StyledSelectMenu = styled.div`
         margin-left: auto;
         margin-right: 0.75em;
       }
-
       &.is-disabled {
         cursor: not-allowed;
         opacity: 0.5;
       }
-
       &.is-active {
         color: #298df8;
       }
@@ -200,7 +196,6 @@ export const StyledSelectMenu = styled.div`
       &.is-active {
         background-color: #f6f7f8;
       }
-
       &.empty-msg {
         padding: 0 0.5em;
         color: #8d9ea7;
@@ -208,7 +203,6 @@ export const StyledSelectMenu = styled.div`
       }
     }
   }
-
 
   .CheckSelectMenu {
     &:not(.is-empty) {
@@ -237,8 +231,8 @@ export const StyledSelectMenu = styled.div`
     margin: 4px 0;
     &:not(.is-empty) {
       padding: 8px;
-      min-height: (32px + 8px * 2);
-      max-height: (10 * 32px + 8px * 2);
+      min-height: 48px;
+      max-height: 336px;
     }
     .SelectGroup > .title,
     .SelectOption {

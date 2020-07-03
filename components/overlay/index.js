@@ -8,7 +8,7 @@ import Switch from '../switch'
 import SVG from '../svg'
 import {
   addModalToStack, deleteModalFromStack, checkNoOpenModalInStack,
-  toggleGlobalScroll, trimList, $, preparePortal,
+  toggleGlobalScroll, trimList, preparePortal,
 } from '../util'
 
 import { StyledOverLay, StyledOverLayMask, StyledOverLayPortal } from './styled'
