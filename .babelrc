@@ -4,8 +4,8 @@
     [ "@babel/react" ]
   ],
   "plugins": [
+    [ "babel-plugin-styled-components" ],
     [ "@babel/proposal-class-properties" ],
-    [ "@babel/proposal-export-default-from" ],
     [ "@babel/proposal-export-namespace-from" ]
   ]
 }
