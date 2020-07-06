@@ -2,6 +2,7 @@ const { rollup } = require('rollup')
 const { fromRoot } = require('./function')
 
 const commonjs = require('rollup-plugin-commonjs')
+const external = require('rollup-plugin-peer-deps-external')
 const nodeResolvePlugin = require('rollup-plugin-node-resolve')
 const babel = require('rollup-plugin-babel')
 const json = require('rollup-plugin-json')
@@ -16,11 +17,7 @@ const buildWithRollup = async ({ componentName, componentNameList = [] }) => {
   const inputFile = fromRoot(sourceRoot, 'index.js')
   const outputFileJS = fromRoot(outputRoot, 'index.js')
 
-  const externalPackageList = [
-    'react', 'react-dom', 'prop-types',
-    'react-router', 'react-router-dom',
-    'lodash', 'styled-components'
-  ]
+  // 每次build一个component, 这里是当前正在build的component以外的其他所有组件
   const externalComponentPrefixList = componentNameList // mark cross component import as external
     .filter((name) => name !== componentName)
     .map((name) => fromRoot(`components/${name}`))
@@ -28,13 +25,13 @@ const buildWithRollup = async ({ componentName, componentNameList = [] }) => {
   const bundle = await rollup({
     input: inputFile,
     external: (id, parent, isResolved) => {
-      const isExternal = (id[0] !== '.')
-        ? externalPackageList.includes(id) // from another package (`import ... from 'react'`)
-        : externalComponentPrefixList.some((prefix) => fromRoot(parent, '../', id).startsWith(prefix)) // from relative file (`import ... from './script.js'`)
-      // console.log(JSON.stringify({ isExternal, id, parent, isResolved })) // debug id filter
-      return isExternal
+      // from relative file (`import ... from './svg'`)
+      const isExternalManually = id.startsWith('.') && externalComponentPrefixList.some((prefix) => fromRoot(parent, '../', id).startsWith(prefix))
+      // console.log(JSON.stringify({ isExternalManually, id, parent, isResolved })) // debug id filter
+      return isExternalManually
     },
     plugins: [
+      external(),
       // the order is fucking important
       nodeResolvePlugin(),
       require('rollup-plugin-postcss')({ // default support Stylus // https://github.com/egoist/rollup-plugin-postcss#with-sassstylusless
@@ -51,22 +48,22 @@ const buildWithRollup = async ({ componentName, componentNameList = [] }) => {
                 const remappedUrl = postcssUrlCopy(...args)
                 // console.log('HACK:', { remappedUrl, hackedUrl: remappedUrl && normalize(relative(outputRoot, remappedUrl)) })
                 return remappedUrl && normalize(relative(outputRoot, remappedUrl))
-              },
+              }
             })
-          })(),
-        ],
+          })()
+        ]
       }),
 
       json(),
-      babel({ exclude: 'node_modules/**', plugins: ['babel-plugin-styled-components'] }),
-      commonjs({
-        namedExports: {
-          'node_modules/react/index.js': ['Component', 'PureComponent', 'Children', 'createElement'],
-        },
+      babel({
+        externalHelpers: true,
+        exclude: 'node_modules/**'
       }),
+      commonjs()
     ],
-    cache: rollUpCache,
+    cache: rollUpCache
   })
+
   rollUpCache = bundle.cache // store the cache object of the previous build
 
   await bundle.write({ format: 'es', file: outputFileJS })
