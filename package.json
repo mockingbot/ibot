@@ -12,7 +12,7 @@
     "start": "node ./scripts/reset-file.js && start-storybook -p 6006",
     "build": "node ./scripts/reset-file.js && node ./scripts/rollup.js",
     "deploy": "build-storybook && gh-pages -d storybook-static",
-    "prepare": "yarn run build"
+    "prepare": "npm run build"
   },
   "peerDependencies": {
     "lodash": "^4",

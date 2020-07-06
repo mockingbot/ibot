@@ -2,13 +2,13 @@
 
 ### start
 ```bash
-yarn
-yarn run start
+npm install
+npm start
 ```
 
 ### publish
 ````bash
-yarn publish
+npm publish
 ````
 ###
 
