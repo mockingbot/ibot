@@ -59,15 +59,18 @@ export const StyledCheck = styled.label`
   &.small .Check-state {
     transform: translateY(2px);
   }
-  &.is-checked {
-    .Check-state {
-      background-color: #298df8;
-      border-color: transparent;
-      color: #fff;
-
-      .svg-icon.check {
-        opacity: 1;
-        transform: scale(0.833);
+  &.CoreCheck,
+  &.Check {
+    &.is-checked {
+      .Check-state {
+        background-color: #298df8;
+        border-color: transparent;
+        color: #fff;
+  
+        .svg-icon.check {
+          opacity: 1;
+          transform: scale(0.833);
+        }
       }
     }
   }
@@ -86,22 +89,15 @@ export const StyledCheck = styled.label`
   }
 `
 export const StyledCheckGroup = styled.span`
-  &.CheckGroup,
-  &.CoreCheckGroup,
-  &.RadioGroup,
-  &.CoreRadioGroup {
-    position: relative;
-    display: flex;
-    flex-wrap: wrap;
-    .is-disabled{
-      cursor: not-allowed;
-    }
-    .Check,
-    .CoreCheck,
-    .Radio,
-    .CoreRadio {
-      margin-right: .5em;
-      min-height: 2em;
-    }
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  .is-disabled {
+    cursor: not-allowed;
+  }
+  .Check,
+  .CoreCheck {
+    margin-right: .5em;
+    min-height: 2em;
   }
 `

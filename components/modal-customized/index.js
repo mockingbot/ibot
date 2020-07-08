@@ -8,7 +8,7 @@ import { $, trimList, preparePortal } from '../util'
 import { StyledMask, StyledModal, StyledPortal, StyledFooter } from './styled'
 import SVG from '../svg'
 
-const MODAL_PORTAL_CLASS = 'TransitionModalPortal'
+const MODAL_PORTAL_CLASS = 'ModalPortal'
 const MODAL_ROOT_ID = 'IBOT_MODAL_ROOT'
 
 const $body = document.body

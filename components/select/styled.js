@@ -83,7 +83,7 @@ export const StyledSelectMenuBase = styled.div`
   z-index: 1100;
 `
 
-export const StyledSelectMenu = styled.div`
+export const StyledSelectMenu = styled.ul`
   position: absolute;
   margin: 2px 0;
   padding: 0;
@@ -104,7 +104,6 @@ export const StyledSelectMenu = styled.div`
   transition: 0.2s ease-out;
   transition-property: transform, opacity;
   transform-origin: 50% 0;
-
   &::-webkit-scrollbar {
     display: block;
     width: 4px;
@@ -166,7 +165,6 @@ export const StyledSelectMenu = styled.div`
       padding: 0;
     }
   }
-
   .SelectOption {
     display: flex;
     align-items: center;
@@ -201,7 +199,6 @@ export const StyledSelectMenu = styled.div`
       cursor: not-allowed;
     }
   }
-
   &.CheckSelectMenu {
     &:not(.is-empty) {
       padding: 6px 0;
@@ -224,7 +221,6 @@ export const StyledSelectMenu = styled.div`
       }
     }
   }
-
   &.CoreSelectMenu {
     margin: 4px 0;
     &:not(.is-empty) {

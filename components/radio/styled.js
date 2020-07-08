@@ -60,14 +60,17 @@ export const StyledLabel = styled.label`
   &.small .Check-state {
     transform: translateY(2px);
   }
-  &.is-checked {
-    .Check-state {
-      background-color: #298df8;
-      border-color: transparent;
-      color: #fff;
-
-      .svg-icon.check {
-        transform: scale(0.833);
+  &.CoreRadio,
+  &.Radio {
+    &.is-checked {
+      .Check-state {
+        background-color: #298df8;
+        border-color: transparent;
+        color: #fff;
+  
+        .svg-icon.check {
+          transform: scale(0.833);
+        }
       }
     }
   }
