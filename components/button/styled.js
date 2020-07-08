@@ -12,7 +12,7 @@ export const StyledButton = styled.button`
     font-size: 0.875rem;
     border: 1px solid;
     border-radius: 2px;
-    cursor: pointer;
+    cursor: pointer; 
     transition: all 0.2s ease-out;
     &:not(button) {
       display: inline-flex;

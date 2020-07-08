@@ -10,16 +10,16 @@ const TYPE_MAP = {
   regular: 'Regular',
   secondary: 'Regular',
   tertiary: 'Tertiary',
-  text: 'Text',
+  text: 'Text'
 }
 
 export default class Button extends PureComponent {
   static propTypes = {
-    type: PropTypes.oneOf(['primary', 'regular', 'secondary', 'tertiary', 'text']),
-    size: PropTypes.oneOf(['regular', 'small']),
-    theme: PropTypes.oneOf(['core', 'plain']),
+    type: PropTypes.oneOf([ 'primary', 'regular', 'secondary', 'tertiary', 'text' ]),
+    size: PropTypes.oneOf([ 'regular', 'small' ]),
+    theme: PropTypes.oneOf([ 'core', 'plain' ]),
 
-    iconType: PropTypes.oneOf(['svg', 'dora', 'mb', 'icon', 'fa', 'md']),
+    iconType: PropTypes.oneOf([ 'svg', 'dora', 'mb', 'icon', 'fa', 'md' ]),
     icon: PropTypes.string,
 
     className: PropTypes.string,
@@ -29,7 +29,7 @@ export default class Button extends PureComponent {
     loading: PropTypes.bool,
 
     children: PropTypes.any,
-    html: PropTypes.string,
+    html: PropTypes.string
   }
 
   static defaultProps = {
@@ -38,7 +38,7 @@ export default class Button extends PureComponent {
     theme: 'plain',
     icon: '',
     className: '',
-    isDisabled: false,
+    isDisabled: false
   }
 
   get className () {
@@ -47,11 +47,11 @@ export default class Button extends PureComponent {
 
     return trimList([
       'Button',
-      `${TYPE_MAP[type]}${theme === 'core' ? 'CoreButton' : 'Button'}`,
+      `${TYPE_MAP[ type ]}${theme === 'core' ? 'CoreButton' : 'Button'}`,
       size !== 'regular' && size,
       isLoading && 'is-loading',
       isDisabled && 'is-disabled',
-      className,
+      className
     ])
   }
 
@@ -74,7 +74,7 @@ export default class Button extends PureComponent {
         disabled={isDisabled}
         onClick={e => isDisabled && e.preventDefault()}
         type={'button'}
-        {...omit(others, ['className', 'type', 'theme', 'isDisabled', 'disabled', 'isLoading', 'loading'])}
+        {...omit(others, [ 'className', 'type', 'theme', 'isDisabled', 'disabled', 'isLoading', 'loading' ])}
       >
         <>
           { isLoading && <SVG name="loading" /> }

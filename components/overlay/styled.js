@@ -1,50 +1,47 @@
 import styled, { createGlobalStyle } from 'styled-components'
 
 export const StyledOverLay = styled.div`
-  &.Overlay {
-    position: relative;
-    margin: auto;
-    padding: 0 3rem;
-    transition: all 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
-    .OverlayMask:not(.is-open) ~ & {
-      opacity: 0;
-      transform: translateY(-10vh);
-    }
-    .OverlayMask.is-open ~ & {
-      opacity: 1;
-      transform: none;
-      transition-delay: 0.4s;
-    }
-    h1 {
-      margin: 0.5em 0 1.5em;
-      font-size: 1.5rem;
-      font-weight: 500;
-      color: #415058;
-    }
-    footer {
-      margin-top: 4em;
-    }
-    footer button:not(:last-child) {
+  position: relative;
+  margin: auto;
+  padding: 0 3rem;
+  transition: all 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+  .OverlayMask:not(.is-open) ~ & {
+    opacity: 0;
+    transform: translateY(-10vh);
+  }
+  .OverlayMask.is-open ~ & {
+    opacity: 1;
+    transform: none;
+    transition-delay: 0.4s;
+  }
+  h1 {
+    margin: 0.5em 0 1.5em;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #415058;
+  }
+  footer {
+    margin-top: 4em;
+
+    button:not(:last-child) {
       margin-right: 1em;
     }
   }
 `
 
 export const StyledOverLayMask = styled.div`
-  &.OverlayMask {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(255,255,255,0.98);
-    color: #5b6b73;
-    transition: opacity 0.3s ease-in;
-    &:not(.is-open) {
-      opacity: 0;
-      pointer-events: none;
-    }
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(255,255,255,0.98);
+  color: #5b6b73;
+  transition: opacity 0.3s ease-in;
+  &:not(.is-open) {
+    opacity: 0;
+    pointer-events: none;
   }
 `
 

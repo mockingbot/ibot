@@ -7,9 +7,9 @@ import {
   getOptionValue,
   checkOptionByValueList,
   convertValueListToSet,
-  trimList,
+  trimList
 } from '../util'
-import { StyledLabel, StyledSpan } from './styled'
+import { StyledCheck, StyledCheckGroup } from './styled'
 
 /**
  * <Check>
@@ -17,12 +17,12 @@ import { StyledLabel, StyledSpan } from './styled'
 export default class Check extends PureComponent {
   state = {
     prevProps: this.props,
-    isChecked: this.props.isChecked,
+    isChecked: this.props.isChecked
   }
 
   static propTypes = {
-    size: PropTypes.oneOf(['regular', 'small']),
-    theme: PropTypes.oneOf(['core', 'plain']),
+    size: PropTypes.oneOf([ 'regular', 'small' ]),
+    theme: PropTypes.oneOf([ 'core', 'plain' ]),
 
     isChecked: PropTypes.bool,
     isDisabled: PropTypes.bool,
@@ -35,7 +35,7 @@ export default class Check extends PureComponent {
     label: PropTypes.any,
     name: PropTypes.string,
     value: PropTypes.any,
-    className: PropTypes.string,
+    className: PropTypes.string
   }
 
   static defaultProps = {
@@ -46,7 +46,7 @@ export default class Check extends PureComponent {
     className: '',
 
     onChange: () => null,
-    onToggle: () => null,
+    onToggle: () => null
   }
 
   static getDerivedStateFromProps (props, { prevProps, isChecked }) {
@@ -88,14 +88,14 @@ export default class Check extends PureComponent {
     const { isDisabled, readOnly } = this
 
     return (
-      <StyledLabel
+      <StyledCheck
         className={trimList([
           theme === 'core' ? 'CoreCheck' : 'Check',
           size,
           className,
           isChecked && 'is-checked',
           isDisabled && 'is-disabled',
-          readOnly && 'readonly',
+          readOnly && 'readonly'
         ])}
       >
         <input
@@ -107,8 +107,7 @@ export default class Check extends PureComponent {
         />
         <span className="Check-state"><SVG name="check" /></span>
         <span className="Check-label">{ label }</span>
-
-      </StyledLabel>
+      </StyledCheck>
     )
   }
 }
@@ -121,13 +120,13 @@ export class CheckGroup extends PureComponent {
 
   state = {
     prevProps: this.props,
-    valueList: convertValueListToSet(this.props.valueList),
+    valueList: convertValueListToSet(this.props.valueList)
   }
 
   static propTypes = {
     name: PropTypes.string,
-    size: PropTypes.oneOf(['regular', 'small']),
-    theme: PropTypes.oneOf(['core', 'plain']),
+    size: PropTypes.oneOf([ 'regular', 'small' ]),
+    theme: PropTypes.oneOf([ 'core', 'plain' ]),
     className: PropTypes.string,
 
     onChange: PropTypes.func.isRequired,
@@ -140,19 +139,19 @@ export class CheckGroup extends PureComponent {
         PropTypes.shape({
           label: PropTypes.any,
           value: PropTypes.any,
-          isDisabled: PropTypes.bool,
-        }),
+          isDisabled: PropTypes.bool
+        })
       ])
     ).isRequired,
 
     valueList: PropTypes.oneOfType([
       PropTypes.instanceOf(Set),
-      PropTypes.array,
+      PropTypes.array
     ]),
 
     isDisabled: PropTypes.bool,
     disabled: PropTypes.bool,
-    readOnly: PropTypes.bool,
+    readOnly: PropTypes.bool
   }
 
   static defaultProps = {
@@ -162,7 +161,7 @@ export class CheckGroup extends PureComponent {
     optionList: [],
     onChange: () => null,
     onToggle: () => null,
-    isDisabled: false,
+    isDisabled: false
   }
 
   static getDerivedStateFromProps (props, { prevProps, valueList }) {
@@ -203,7 +202,7 @@ export class CheckGroup extends PureComponent {
     const optionValue = getOptionValue(opt)
 
     const toggleAction = resultValueList.has(optionValue) ? 'delete' : 'add'
-    resultValueList[toggleAction](optionValue)
+    resultValueList[ toggleAction ](optionValue)
 
     const nextValueList = Array.from(resultValueList)
     const nextIdxList = nextValueList.map(v => optionList.findIndex(o => getOptionValue(o) === v))
@@ -224,11 +223,11 @@ export class CheckGroup extends PureComponent {
       size,
       className,
       isDisabled && 'is-disabled',
-      readOnly && 'readonly',
+      readOnly && 'readonly'
     ])
 
     return (
-      <StyledSpan className={klass}>
+      <StyledCheckGroup className={klass}>
         {
           optionList.map((opt, idx) => opt && (
             <Check
@@ -251,7 +250,7 @@ export class CheckGroup extends PureComponent {
             />
           ))
         }
-      </StyledSpan>
+      </StyledCheckGroup>
     )
   }
 }

@@ -11,7 +11,7 @@ import Ellipsis from '../ellipsis'
 import { preventScrollingPropagation, trimList, $, $$, preparePortal, SVG as UITL_SVG,
   getOptionLabel, getOptionValue, checkOptionByValue } from '../util'
 import { positionMenu } from '../dropdown'
-import { StyledSelectLabel, StyledSelectMenu } from './styled'
+import { StyledSelectLabel, StyledSelectMenuBase, StyledSelectMenu } from './styled'
 
 const MENU_ROOT_ID = 'IBOT_SELECT_MENU_ROOT'
 
@@ -385,8 +385,8 @@ export class SelectMenu extends PureComponent {
     ])
 
     return (
-      <StyledSelectMenu ref={this.menuBaseRef} className="SelectMenuBase">
-        <ul className={klass} onTransitionEnd={this.onTransitionEnd}>
+      <StyledSelectMenuBase ref={this.menuBaseRef} className="SelectMenuBase">
+        <StyledSelectMenu className={klass} onTransitionEnd={this.onTransitionEnd}>
           {
             isEmpty
               ? <li className="SelectOption empty-msg">{ emptyMsg }</li>
@@ -426,52 +426,9 @@ export class SelectMenu extends PureComponent {
               onScroll={withOptions(this.position, { capture: true })}
             />
           )}
-        </ul>
+        </StyledSelectMenu>
 
-      </StyledSelectMenu>
-      // <div ref={this.menuBaseRef} className="SelectMenuBase">
-      //   <ul className={klass} onTransitionEnd={this.onTransitionEnd}>
-      //     {
-      //       isEmpty
-      //         ? <li className="SelectOption empty-msg">{ emptyMsg }</li>
-      //         : (
-      //           optionList
-      //             .map((option, idx) => (
-      //               isArray(option)
-      //                 ? <Group
-      //                   key={idx}
-      //                   menuTheme={menuTheme}
-      //                   optionList={option}
-      //                   value={value}
-      //                   onChange={this.onChange}
-      //                 />
-      //                 : <Option
-      //                   key={idx}
-      //                   menuTheme={menuTheme}
-      //                   isActive={checkOptionByValue(option, value)}
-      //                   option={option}
-      //                   isDisabled={option.isDisabled}
-      //                   onChange={this.onChange}
-      //                 />
-      //             ))
-      //         )
-      //     }
-      //
-      //     { isOpen && (
-      //       <EventListener
-      //         target={document}
-      //         onClick={this.onClickOutside}
-      //       />
-      //     )}
-      //
-      //     { isOpen && (
-      //       <EventListener
-      //         target={document}
-      //         onScroll={withOptions(this.position, { capture: true })}
-      //       />
-      //     )}
-      //   </ul>
-      // </div>
+      </StyledSelectMenuBase>
     )
   }
 }

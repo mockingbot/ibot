@@ -1,21 +1,15 @@
 import styled from 'styled-components'
 
-export const StyledLabel = styled.label`
-  &.Radio,
-  &.CoreRadio,
-  &.Check,
-  &.CoreCheck {
-    position: relative;
-    display: inline-flex;
-    align-items: baseline;
-    line-height: 1.5;
-    cursor: pointer;
-    color: #5b6b73;
-    > input[type=radio],
-    > input[type=checkbox] {
-      position: absolute;
-      opacity: 0;
-    }
+export const StyledCheck = styled.label`
+  position: relative;
+  display: inline-flex;
+  align-items: baseline;
+  line-height: 1.5;
+  cursor: pointer;
+  color: #5b6b73;
+  > input[type=checkbox] {
+    position: absolute;
+    opacity: 0;
   }
   &.regular {
     font-size: 14px;
@@ -23,7 +17,7 @@ export const StyledLabel = styled.label`
   &.small {
     font-size: 12px;
     .Check-state {
-      transform: translateY(2px)
+      transform: translateY(2px);
     }
   }
   &.readonly {
@@ -31,15 +25,15 @@ export const StyledLabel = styled.label`
   }
   &.is-disabled {
     cursor: not-allowed;
-  }
-  &.is-disabled:after {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(255,255,255,0.5);
+    &:after {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255,255,255,0.5);
+    }
   }
   .Check-state {
     position: relative;
@@ -62,7 +56,7 @@ export const StyledLabel = styled.label`
       opacity: 0;
     }
   }
-  .Check-state.small{
+  &.small .Check-state {
     transform: translateY(2px);
   }
   &.is-checked {
@@ -77,14 +71,11 @@ export const StyledLabel = styled.label`
       }
     }
   }
-
   &:not(.is-checked) .Check-state .icon{
     speak: none;
     opacity: 0;
   }
-
-  &.CoreCheck,
-  &.CoreRadio {
+  &.CoreCheck {
     .Check-state {
       background-color: #fff;
       border-color: #bacdd6;
@@ -93,36 +84,8 @@ export const StyledLabel = styled.label`
       background-color: #eb5648;
     }
   }
-
 `
-
-export const StyledLabelRadio = styled(StyledLabel)`
-  &.Radio,
-  &.CoreRadio {
-    .Check-state{
-      padding: 1px;
-      border-radius: 50%;
-
-      &:after {
-      content: '';
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      display: block;
-      width: 4px;
-      height: 4px;
-      background-color: #fff;
-      border-radius: 50%;
-      }
-    }
-    .is-checked .Check-state {
-      position: relative;
-    }
-  }
-`
-
-export const StyledSpan = styled.span`
+export const StyledCheckGroup = styled.span`
   &.CheckGroup,
   &.CoreCheckGroup,
   &.RadioGroup,

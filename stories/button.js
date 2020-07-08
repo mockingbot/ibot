@@ -7,7 +7,7 @@ import { CoreButton,
   PrimaryCoreButton,
   SecondaryCoreButton, RegularCoreButton,
   TertiaryCoreButton,
-  TextCoreButton,
+  TextCoreButton
 } from './components/Button'
 
 storiesOf('Button', module)
@@ -34,7 +34,7 @@ class ButtonExample extends PureComponent {
             style={{
               position: 'fixed',
               right: '1em',
-              top: '1em',
+              top: '1em'
             }}
           >
           Toggle Size

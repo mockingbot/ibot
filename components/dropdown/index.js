@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import EventListener, { withOptions } from 'react-event-listener'
 import { preventScrollingPropagation, trimList, $, preparePortal, SVG } from '../util'
 import { positionMenu } from './util'
-import { StyledDropDown, StyledDropDownMenu } from './styled'
+import { StyledDropDown, StyledDropDownMenu, StyledDropDownBase } from './styled'
 export { positionMenu }
 
 const MENU_ROOT_ID = 'IBOT_DROPDOWN_MENU_ROOT'
@@ -382,8 +382,8 @@ class DropdownMenu extends PureComponent {
     ])
 
     return (
-      <StyledDropDownMenu ref={this.menuBaseRef} className={trimList(['DropdownMenuBase', menuBaseClassName])}>
-        <div className={klass}>
+      <StyledDropDownBase ref={this.menuBaseRef} className={trimList(['DropdownMenuBase', menuBaseClassName])}>
+        <StyledDropDownMenu className={klass}>
           { arrowed && (
             <span className="arrow" dangerouslySetInnerHTML={{ __html: SVG.DROPDOWN_ARROW }} />
           )}
@@ -426,9 +426,9 @@ class DropdownMenu extends PureComponent {
               onScroll={withOptions(this.position, { capture: true })}
             />
           )}
-        </div>
+        </StyledDropDownMenu>
 
-      </StyledDropDownMenu>
+      </StyledDropDownBase>
     )
   }
 }
