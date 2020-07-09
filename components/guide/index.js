@@ -7,7 +7,7 @@ import Button from '../button'
 import SVG from '../svg'
 import { trimList, preparePortal, SVG as UTIL_SVG } from '../util'
 import { positionMenu } from '../dropdown'
-import { StyledGuid } from './styled'
+import { StyledGuidBase, StyledGuid } from './styled'
 
 const { I18N = {} } = window
 const GUIDE_ROOT_ID = 'IBOT_GUIDE_GUIDE_ROOT'
@@ -153,12 +153,12 @@ export default class GuideBase extends PureComponent {
       isOpen && 'is-open',
       isDownward ? 'is-downward' : 'is-upward',
       `x-${X}`,
-      className,
+      className
     ])
 
     return (
-      <StyledGuid className="GuideBase" ref={this.set$guide}>
-        <div className={klass}>
+      <StyledGuidBase className="GuideBase" ref={this.set$guide}>
+        <StyledGuid className={klass}>
           <span className="arrow" dangerouslySetInnerHTML={{ __html: UTIL_SVG.GUIDE_ARROW }} />
 
           <div className="content">
@@ -188,8 +188,8 @@ export default class GuideBase extends PureComponent {
               onScroll={withOptions(this.onScrollOutside, { capture: true })}
             />
           )}
-        </div>
-      </StyledGuid>
+        </StyledGuid>
+      </StyledGuidBase>
     )
   }
 }

@@ -8,7 +8,7 @@ import Switch from '../switch'
 import SVG from '../svg'
 import {
   addModalToStack, deleteModalFromStack, checkNoOpenModalInStack,
-  toggleGlobalScroll, trimList, preparePortal,
+  toggleGlobalScroll, trimList, preparePortal
 } from '../util'
 
 import { StyledOverLay, StyledOverLayMask, StyledOverLayPortal } from './styled'
@@ -21,8 +21,8 @@ const stopPropagation = e => e.stopPropagation()
 const $body = document.body
 
 const $overlayRoot = (
-  document.getElementById(OVERLAY_ROOT_ID)
-  || Object.assign(document.createElement('div'), { id: OVERLAY_ROOT_ID })
+  document.getElementById(OVERLAY_ROOT_ID) ||
+  Object.assign(document.createElement('div'), { id: OVERLAY_ROOT_ID })
 )
 
 if (!$body.contains($overlayRoot)) {
@@ -33,17 +33,17 @@ export default class Overlay extends PureComponent {
   state = {
     prevProps: this.props,
     isOpen: this.props.isOpen,
-    isVisible: false,
+    isVisible: false
   }
 
   portal = preparePortal(
     $overlayRoot,
-    trimList([OVERLAY_PORTAL_CLASS, this.props.portalClassName]),
+    trimList([ OVERLAY_PORTAL_CLASS, this.props.portalClassName ])
   )
 
   static propTypes = {
     isOpen: PropTypes.bool,
-    openerType: PropTypes.oneOf(['primary', 'regular', 'text', 'switch', 'custom', 'none']),
+    openerType: PropTypes.oneOf([ 'primary', 'regular', 'text', 'switch', 'custom', 'none' ]),
 
     portalClassName: PropTypes.string,
     maskClassName: PropTypes.string,
@@ -64,7 +64,7 @@ export default class Overlay extends PureComponent {
     cancelText: PropTypes.string,
 
     title: PropTypes.node,
-    children: PropTypes.node,
+    children: PropTypes.node
   }
 
   static defaultProps = {
@@ -76,10 +76,10 @@ export default class Overlay extends PureComponent {
     onToggle: () => null,
 
     confirmText: 'Confirm',
-    cancelText: 'Cancel',
+    cancelText: 'Cancel'
   }
 
-  static getDerivedStateFromProps(props, { prevProps, isOpen }) {
+  static getDerivedStateFromProps (props, { prevProps, isOpen }) {
     if (!isEqual(prevProps, props)) {
       const { isOpen: willBeOpen } = props
 
@@ -96,33 +96,33 @@ export default class Overlay extends PureComponent {
     return null
   }
 
-  componentDidMount() {
+  componentDidMount () {
     const { onOpen, onToggle } = this.props
     const { isOpen } = this.state
 
     if (isOpen) {
       setTimeout(() => this.setState(
         { isVisible: true },
-        this.didOpen,
+        this.didOpen
       ))
     }
   }
 
-  componentDidUpdate(_, { isOpen: wasOpen }) {
+  componentDidUpdate (_, { isOpen: wasOpen }) {
     const { onOpen, onClose, onToggle } = this.props
     const { isOpen } = this.state
 
     if (!wasOpen && isOpen) {
       setTimeout(() => this.setState(
         { isVisible: true },
-        this.didOpen,
+        this.didOpen
       ))
     } else if (wasOpen && !isOpen) {
       this.didClose()
     }
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     if (this.portal) this.portal.remove()
 
     this.didClose()
@@ -150,7 +150,7 @@ export default class Overlay extends PureComponent {
     onClose()
     onToggle(false)
 
-   setTimeout(() => {
+    setTimeout(() => {
       // Remove from the stack in the next round:
       deleteModalFromStack(this)
 
@@ -184,42 +184,42 @@ export default class Overlay extends PureComponent {
     }
   }
 
-  render() {
+  render () {
     return this.opener
   }
 
-  get opener() {
+  get opener () {
     const { opener, openerType } = this.props
     const { isOpen } = this.state
     const overlay = createPortal(this.overlay, this.portal)
 
     return (
       openerType === 'none'
-      ? overlay
+        ? overlay
 
-      : openerType === 'custom'
-      ? (
-        opener
-        ? <span onClick={this.open}>
-            { opener }
-            { overlay }
-          </span>
-        : overlay
-      )
+        : openerType === 'custom'
+          ? (
+            opener
+              ? <span onClick={this.open}>
+                { opener }
+                { overlay }
+              </span>
+              : overlay
+          )
 
-      : openerType === 'switch'
-      ? <Switch isChecked={isOpen} onChange={this.toggle}>
-          { overlay }
-        </Switch>
+          : openerType === 'switch'
+            ? <Switch isChecked={isOpen} onChange={this.toggle}>
+              { overlay }
+            </Switch>
 
-      : <Button type={openerType} onClick={this.open}>
-          { opener }
-          { overlay }
-        </Button>
+            : <Button type={openerType} onClick={this.open}>
+              { opener }
+              { overlay }
+            </Button>
     )
   }
 
-  get overlay() {
+  get overlay () {
     const {
       maskClassName,
       className,
@@ -228,7 +228,7 @@ export default class Overlay extends PureComponent {
 
       canClose, canConfirm, canCancel,
       onConfirm, onCancel,
-      confirmText, cancelText,
+      confirmText, cancelText
     } = this.props
 
     const { isVisible, isOpen } = this.state
@@ -237,9 +237,9 @@ export default class Overlay extends PureComponent {
 
     return isOpen && (
       <Fragment>
-        <StyledOverLayPortal/>
+        <StyledOverLayPortal />
         <StyledOverLayMask
-          className={trimList(['OverlayMask', isVisible && 'is-open', maskClassName])}
+          className={trimList([ 'OverlayMask', isVisible && 'is-open', maskClassName ])}
           onTransitionEnd={this.onTransitionEnd}
           onClick={stopPropagation}
         />
@@ -250,7 +250,7 @@ export default class Overlay extends PureComponent {
           </Button>
         )}
 
-        <StyledOverLay className={trimList(['Overlay', className])}>
+        <StyledOverLay className={trimList([ 'Overlay', className ])}>
           { title && <h1>{ title }</h1> }
           { children }
 

@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import isEqual from 'lodash/isEqual'
 import { getOptionLabel, getOptionValue, checkOptionByValue, trimList } from '../util'
-import { StyledLabelRadio, StyledSpan } from './styled'
+import { StyledRadio, StyledRadioGroup } from './styled'
 /**
  * <Radio>
  */
@@ -81,7 +81,7 @@ export default class Radio extends PureComponent {
     const { isDisabled, readOnly } = this
 
     return (
-      <StyledLabelRadio
+      <StyledRadio
         className={
           trimList([
             theme === 'core' ? 'CoreRadio' : 'Radio',
@@ -104,7 +104,7 @@ export default class Radio extends PureComponent {
         <span className="Check-state" />
         <span className="Check-label">{ label }</span>
 
-      </StyledLabelRadio>
+      </StyledRadio>
     )
   }
 }
@@ -210,7 +210,7 @@ export class RadioGroup extends PureComponent {
     ])
 
     return (
-      <StyledSpan className={klass}>
+      <StyledRadioGroup className={klass}>
         {
           optionList
             .map((opt, idx) => opt && (
@@ -234,7 +234,7 @@ export class RadioGroup extends PureComponent {
               />
             ))
         }
-      </StyledSpan>
+      </StyledRadioGroup>
     )
   }
 }

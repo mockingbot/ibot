@@ -1,15 +1,14 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { trimList } from '../util'
-import { StyledForm, StyledFormKey, StyledFormVal } from './styled'
+import { StyledFormDiv, StyledFormLabel, StyledFormKey, StyledFormVal } from './styled'
 
 function FormBase ({
   name: key, children: val,
-  isRequired,
+  isRequired
 }) {
   return (
-    <Fragment>
-      <StyledForm/>
+    <>
       { key && (
         <StyledFormKey className="FormEntry-Key key">
           {key}
@@ -18,54 +17,47 @@ function FormBase ({
       )}
 
       <StyledFormVal className="FormEntry-Val val">{val}</StyledFormVal>
-    </Fragment>
+    </>
   )
 }
-
 FormBase.propTypes = {
   children: PropTypes.node,
   name: PropTypes.any,
-  isRequired: PropTypes.bool,
+  isRequired: PropTypes.bool
 }
-
 /**
  * <FormDiv>
  */
-
 export function FormDiv (props) {
   const { className, type } = props
   return (
-    <div
-      className={trimList(['FormEntry', className])}
+    <StyledFormDiv
+      className={trimList([ 'FormEntry', className ])}
       type={type}
     >
       <FormBase {...props} />
-    </div>
+    </StyledFormDiv>
   )
 }
-
 FormDiv.propTypes = {
   className: PropTypes.string,
-  type: PropTypes.string,
+  type: PropTypes.string
 }
-
 /**
  * <FormLabel>
  */
-
 export function FormLabel (props) {
   const { className, type } = props
   return (
-    <label
-      className={trimList(['FormEntry', className])}
+    <StyledFormLabel
+      className={trimList([ 'FormEntry', className ])}
       type={type}
     >
       <FormBase {...props} />
-    </label>
+    </StyledFormLabel>
   )
 }
-
 FormLabel.propTypes = {
   className: PropTypes.string,
-  type: PropTypes.string,
+  type: PropTypes.string
 }

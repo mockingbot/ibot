@@ -111,13 +111,15 @@ export const StyledFooter = styled.footer`
 `
 
 export const StyledPortal = createGlobalStyle`
-  top: 0;
-  left: 0;
-  z-index: 1050;
-  padding: 3rem 1.5rem;
-  width: 100vw;
-  min-width: 64rem;
-  height: auto;
-  min-height: 100vh;
-  background-color: #fff;
+  .ModalPortal {
+    top: 0;
+    left: 0;
+    z-index: 1050;
+    padding: 3rem 1.5rem;
+    width: 100vw;
+    min-width: 64rem;
+    height: auto;
+    min-height: 100vh;
+    background-color: #fff;
+  }
 `

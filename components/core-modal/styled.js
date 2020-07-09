@@ -8,9 +8,7 @@ export const StyledCoreMask = styled.div`
   width: 100vw;
   height: 100vh;
   background-color: rgba(30,41,46, 0.5);
-
   transition: all 0.2s ease-out;
-
   &.can-close {
     cursor: pointer;
   }
@@ -37,7 +35,6 @@ export const StyledCoreModal = styled.div`
   box-shadow: 0 3px 10px 0 rgba(0,0,0,0.1);
   cursor: initial;
   transition: all 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.1);
-
   .CoreModalMask:not(.is-open) + & {
     opacity: 0;
     transform: translateY(-100%);
