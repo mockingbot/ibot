@@ -57,21 +57,17 @@ export const StyledModal = styled.div`
     background: #FFFFFF;
     box-shadow: inset 0 -1px 0 0 #E8E8E8;
     border-bottom: 0px solid #E8E8E8;
+    padding: 0 1.5em;
 
     .close-btn {
-      position: absolute;
-      top: 50%;
-      right: 0;
-      padding: 0 20px;
-      width: 54px;
-      height: 100%;
-      transform: translateY(-50%);
-      line-height: 1;
+      margin-left: auto;
+      font-size: 1em;
       color: #8d9ea7;
-    }
-
-    .close-btn:hover {
-      color: #5b6b73;
+      transition: all 0.2s ease-in;
+      &:hover {
+        color: #415058;;
+        transition-delay: 0.1s;
+      }
     }
   }
 
@@ -85,28 +81,53 @@ export const StyledFooter = styled.footer`
   justify-content: flex-end;
   align-items: center;
   height: 60px;
+  margin-top: 0;
   line-height: 1;
   background: #F7F7F7;
+  padding-right: 16px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
   font-family: PingFangSC-Regular,serif;
 
   & .cancel-btn {
-    width: 68px;
+    padding: 0px 1em;
+    min-width: 5.25rem;
     height: 32px;
-    margin-right: 10px;
-    background: #FFFFFF;
-    border: 1px solid #C8CDD0;
     border-radius: 2px;
-    //box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
+    font-size: 14px;
+    text-align: center;
+    line-height: 22px;
+    background: #fff;
+    border: 1px solid #c8cdd0;
     color: #415058;
+    margin-right: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease-out 0s;
+    &:hover{
+      background-color: #8d9ea7;
+      border: 1px solid #7d8694;
+      color: #fff;
+    }
   }
 
   & .confirm-btn {
-    width: 90px;
-    height: 32px;
-    margin-right: 16px;
-    background: #FF6161;
+    background: #ff6161;
     border-radius: 2px;
-    color: #FFFFFF;
+    font-size: 14px;
+    color: #fff;
+    text-align: center;
+    line-height: 22px;
+    height: 32px;
+    min-width: 7rem;
+    margin-right: 0.5em;
+    padding: 0px 1em;
+    cursor: pointer;
+    transition: all 0.2s ease-out 0s;
+    border-color: transparent;
+    &:hover{
+      background-color: #e04c4c;
+    }
   }
 `
 

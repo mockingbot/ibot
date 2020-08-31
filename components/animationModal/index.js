@@ -34,7 +34,7 @@ export default class Modal extends PureComponent {
 
     onOpen: PropTypes.func,
     onClose: PropTypes.func,
-    onToggle: PropTypes.func,
+    onToggle: PropTypes.func
   }
 
   static defaultProps = {
@@ -46,12 +46,12 @@ export default class Modal extends PureComponent {
 
     onOpen: () => null,
     onClose: () => null,
-    onToggle: () => null,
+    onToggle: () => null
   }
 
   portal = preparePortal(
     $modalRoot,
-    trimList([MODAL_PORTAL_CLASS, this.props.portalClassName]),
+    trimList([ MODAL_PORTAL_CLASS, this.props.portalClassName ])
   )
 
   componentDidMount () {
@@ -101,7 +101,7 @@ export default class Modal extends PureComponent {
     const { offsetHeight: h } = $modal
 
     const action = (vh <= h || ((vh - h) / 2) < (vh * 0.2)) ? 'add' : 'remove'
-    $modal.classList[action]('is-v-centered')
+    $modal.classList[ action ]('is-v-centered')
   })
 
   onClickMask = (e) => {
@@ -125,19 +125,19 @@ export default class Modal extends PureComponent {
           unmountOnExit
         >
           <StyledMask
-            className={trimList(['TransitionModalMask', maskClassName])}
+            className={trimList([ 'TransitionModalMask', maskClassName ])}
             onClick={this.onClickMask}
           />
         </CSSTransition>
 
         <CSSTransition
           in={isOpen}
-          classNames='fade'
+          classNames="fade"
           timeout={timeout}
           unmountOnExit
         >
           <StyledModal
-            className={trimList(['TransitionModal', className])}
+            className={trimList([ 'TransitionModal', className ])}
             onClick={stopPropagation}
           >
             { children }
