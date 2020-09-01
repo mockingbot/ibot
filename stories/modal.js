@@ -545,12 +545,16 @@ class ModalExample extends PureComponent {
 
   close = () => this.setState({ isOpen: false })
 
+  confirm = () => { }
+
+  cancel = () => { }
+
   render () {
     return (
       <>
         <button onClick={this.onClick}>弹窗</button>
 
-        <TransitionModal className={'myModal'} isOpen={this.state.isOpen} onClose={this.close}>
+        <TransitionModal className={'myModal'} isOpen={this.state.isOpen} onClose={this.close} onConfirm={this.confirm} onCancel={this.cancel}>
         </TransitionModal>
       </>
     )
@@ -559,7 +563,8 @@ class ModalExample extends PureComponent {
 
 class ModalExample2 extends PureComponent {
   state = {
-    isOpen: false
+    isOpen: false,
+    canCloseOnClickMask: true
   }
 
   onClick = () => this.setState({ isOpen: true })
@@ -571,7 +576,7 @@ class ModalExample2 extends PureComponent {
       <>
         <button onClick={this.onClick}>弹窗</button>
 
-        <PureTransitionModal className={'myModal'} isOpen={this.state.isOpen} onClose={this.close}>
+        <PureTransitionModal className={'myModal'} isOpen={this.state.isOpen} onClose={this.close} canCloseOnClickMask={this.state.canCloseOnClickMask}>
           <header onClick={this.close}>Im header under Modal component</header>
         </PureTransitionModal>
       </>

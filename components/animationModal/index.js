@@ -27,6 +27,7 @@ export default class Modal extends PureComponent {
     isOpen: PropTypes.bool,
     children: PropTypes.node,
     timeout: PropTypes.number,
+    canCloseOnClickMask: PropTypes.bool,
 
     className: PropTypes.string,
     maskClassName: PropTypes.string,
@@ -43,6 +44,7 @@ export default class Modal extends PureComponent {
     maskClassName: '',
     portalClassName: '',
     className: '',
+    canCloseOnClickMask: true,
 
     onOpen: () => null,
     onClose: () => null,
@@ -106,9 +108,9 @@ export default class Modal extends PureComponent {
 
   onClickMask = (e) => {
     stopPropagation(e)
-    const { onClose } = this.props
+    const { onClose, canCloseOnClickMask } = this.props
 
-    if (onClose) {
+    if (onClose && canCloseOnClickMask) {
       this.close()
     }
   }
@@ -135,6 +137,7 @@ export default class Modal extends PureComponent {
           classNames="fade"
           timeout={timeout}
           unmountOnExit
+          appear={true}
         >
           <StyledModal
             className={trimList([ 'TransitionModal', className ])}

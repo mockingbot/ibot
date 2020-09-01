@@ -175,7 +175,7 @@ export default class Modal extends PureComponent {
   renderModalDOM () {
     const { children, isOpen, timeout, className, maskClassName,
       title, canClose, isCancelDisabled, cancelText, canCloseOnClickMask,
-      isConfirmDisabled, confirmText } = this.props
+      isConfirmDisabled, confirmText, onConfirm, onCancel } = this.props
 
     return (
       <>
@@ -197,6 +197,7 @@ export default class Modal extends PureComponent {
           classNames="fade"
           timeout={timeout}
           unmountOnExit
+          appear={true}
         >
           <StyledModal
             className={trimList([ 'TransitionModal', className ])}
@@ -216,21 +217,21 @@ export default class Modal extends PureComponent {
             </div>
 
             <StyledFooter>
-              <button
+              { onCancel && (<button
                 className="cancel-btn"
                 onClick={this.onCancel}
                 disabled={isCancelDisabled}
               >
                 {cancelText}
-              </button>
+              </button>)}
 
-              <button
+              { onConfirm && (<button
                 className="confirm-btn"
                 onClick={this.onConfirm}
                 disabled={isConfirmDisabled}
               >
                 {confirmText}
-              </button>
+              </button>)}
             </StyledFooter>
           </StyledModal>
         </CSSTransition>

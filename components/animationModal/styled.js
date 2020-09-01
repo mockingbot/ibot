@@ -19,7 +19,7 @@ export const StyledMask = styled.div`
 
 export const StyledModal = styled.div`
   position: relative;
-  margin: 20vh auto auto;
+  margin: 15vh auto 3rem;
   height: -moz-fit-content;
   height: -webkit-fit-content;
   height: fit-content;
@@ -35,7 +35,7 @@ export const StyledModal = styled.div`
   &.is-v-centered {
     margin: 3rem auto;
   }
-  &.fade-enter {
+  &.fade-enter, &.fade-appear {
     opacity: 0;
     transform: translateY(-50vh);
   }
@@ -47,6 +47,7 @@ export const StyledModal = styled.div`
 
 export const StyledPortal = createGlobalStyle`
   .ModalPortal {
+    position: absolute;
     top: 0;
     left: 0;
     z-index: 1050;
@@ -55,6 +56,5 @@ export const StyledPortal = createGlobalStyle`
     min-width: 64rem;
     height: auto;
     min-height: 100vh;
-    background-color: #fff;
   }
 `

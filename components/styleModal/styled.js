@@ -10,18 +10,20 @@ export const StyledMask = styled.div`
   transition: all 0.2s ease-out;
   background-color: rgba(0, 0, 0, 0.4);
 
-  &.mask-enter {
+  .mask-enter {
     opacity: 0;
   }
 
-  &.mask-exit-active {
+  .mask-exit-active {
     opacity: 0;
   }
+
+  
 `
 
 export const StyledModal = styled.div`
   position: relative;
-  margin: 20vh auto auto;
+  margin: 15vh auto 3rem;
   height: -moz-fit-content;
   height: -webkit-fit-content;
   height: fit-content;
@@ -39,7 +41,7 @@ export const StyledModal = styled.div`
     margin: 3rem auto;
   }
 
-  &.fade-enter {
+  &.fade-enter, &.fade-appear{
     opacity: 0;
     transform: translateY(-50vh);
   }
@@ -55,8 +57,7 @@ export const StyledModal = styled.div`
     align-items: center;
     height: 60px;
     background: #FFFFFF;
-    box-shadow: inset 0 -1px 0 0 #E8E8E8;
-    border-bottom: 0px solid #E8E8E8;
+    border-bottom: 1px solid #E8E8E8;
     padding: 0 1.5em;
 
     .close-btn {
@@ -85,7 +86,6 @@ export const StyledFooter = styled.footer`
   line-height: 1;
   background: #F7F7F7;
   padding-right: 16px;
-  position: absolute;
   bottom: 0;
   width: 100%;
   font-family: PingFangSC-Regular,serif;
@@ -133,6 +133,7 @@ export const StyledFooter = styled.footer`
 
 export const StyledPortal = createGlobalStyle`
   .ModalPortal {
+    position: absolute;
     top: 0;
     left: 0;
     z-index: 1050;
@@ -141,6 +142,5 @@ export const StyledPortal = createGlobalStyle`
     min-width: 64rem;
     height: auto;
     min-height: 100vh;
-    background-color: #fff;
   }
 `
