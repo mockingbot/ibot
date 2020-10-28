@@ -51,7 +51,7 @@ export default class Modal extends PureComponent {
 
     cancelText: PropTypes.string,
     onCancel: PropTypes.func,
-    isCancelDisabled: PropTypes.bool,
+    isCancelDisabled: PropTypes.bool
   }
 
   static defaultProps = {
@@ -73,12 +73,12 @@ export default class Modal extends PureComponent {
     canConfirmOnEnter: true,
 
     cancelText: '取消',
-    confirmText: '确认删除',
+    confirmText: '确认删除'
   }
 
   portal = preparePortal(
     $modalRoot,
-    trimList([MODAL_PORTAL_CLASS, this.props.portalClassName]),
+    trimList([ MODAL_PORTAL_CLASS, this.props.portalClassName ])
   )
 
   componentDidMount () {
@@ -124,7 +124,7 @@ export default class Modal extends PureComponent {
     const {
       onConfirm,
       shouldCloseOnAction,
-      isConfirmDisabled,
+      isConfirmDisabled
     } = this.props
 
     if (typeof onConfirm === 'function' && !isConfirmDisabled) {
@@ -140,7 +140,7 @@ export default class Modal extends PureComponent {
     const {
       onCancel,
       shouldCloseOnAction,
-      isCancelDisabled,
+      isCancelDisabled
     } = this.props
 
     if (typeof onCancel === 'function' && !isCancelDisabled) {
@@ -160,7 +160,7 @@ export default class Modal extends PureComponent {
     const { offsetHeight: h } = $modal
 
     const action = (vh <= h || ((vh - h) / 2) < (vh * 0.2)) ? 'add' : 'remove'
-    $modal.classList[action]('is-v-centered')
+    $modal.classList[ action ]('is-v-centered')
   })
 
   onClickMask = (e) => {
@@ -175,7 +175,7 @@ export default class Modal extends PureComponent {
   renderModalDOM () {
     const { children, isOpen, timeout, className, maskClassName,
       title, canClose, isCancelDisabled, cancelText, canCloseOnClickMask,
-      isConfirmDisabled, confirmText } = this.props
+      isConfirmDisabled, confirmText, onConfirm, onCancel } = this.props
 
     return (
       <>
@@ -187,26 +187,27 @@ export default class Modal extends PureComponent {
           unmountOnExit
         >
           <StyledMask
-            className={trimList(['TransitionModalMask', maskClassName])}
+            className={trimList([ 'TransitionModalMask', maskClassName ])}
             onClick={canCloseOnClickMask ? this.onClickMask : null}
           />
         </CSSTransition>
 
         <CSSTransition
           in={isOpen}
-          classNames='fade'
+          classNames="fade"
           timeout={timeout}
           unmountOnExit
+          appear={true}
         >
           <StyledModal
-            className={trimList(['TransitionModal', className])}
+            className={trimList([ 'TransitionModal', className ])}
             onClick={stopPropagation}
           >
             <header className="header">
               { title }
               { canClose && (
                 <button className="close-btn" onClick={this.close}>
-                  <SVG name="close_new" label="Close the Modal" />
+                  <SVG name="times" label="Close the Modal" />
                 </button>
               )}
             </header>
@@ -216,21 +217,21 @@ export default class Modal extends PureComponent {
             </div>
 
             <StyledFooter>
-              <button
+              { onCancel && (<button
                 className="cancel-btn"
                 onClick={this.onCancel}
                 disabled={isCancelDisabled}
               >
                 {cancelText}
-              </button>
+              </button>)}
 
-              <button
+              { onConfirm && (<button
                 className="confirm-btn"
                 onClick={this.onConfirm}
                 disabled={isConfirmDisabled}
               >
                 {confirmText}
-              </button>
+              </button>)}
             </StyledFooter>
           </StyledModal>
         </CSSTransition>

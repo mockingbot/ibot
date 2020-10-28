@@ -11,8 +11,8 @@ import { RadioGroup } from '../components/radio'
 import { FormDiv, FormLabel } from '../components/formEntry'
 import Icon from './components/icon'
 import Modal from '../components/modal'
-import TransitionModal from '../components/modal-customized'
-import PureTransitionModal from '../components/modal-blank'
+import TransitionModal from '../components/styleModal'
+import PureTransitionModal from '../components/animationModal'
 
 import Switch from '../components/switch'
 import { WidgetName } from './components/Ellipsis'
@@ -97,7 +97,7 @@ storiesOf('Modal', module)
 
         <Modal
           isOpen={false}
-          opener={[<Icon key="icon" name="share" />, 'Open a Modal']}
+          opener={[ <Icon key="icon" name="share" />, 'Open a Modal' ]}
           openerType="text"
           title="Modal’s Title"
 
@@ -224,7 +224,7 @@ storiesOf('Modal', module)
               } catch (e) {
                 clearInterval(window.ccm_interval)
               }
-            }, 1000),
+            }, 1000)
           })}
 
           onToggle={action('Modal toggled, `isOpen`')}
@@ -302,10 +302,10 @@ storiesOf('Modal', module)
             <Select
               placeholder="选择一个项目"
               optionList={[
-                ['我的项目', '私ノ友達', '双十一的特价活动超强報价页面，十月底最终版'],
-                ['洋基队', 'InstaYankies', 'New York New York', 'Manhattan Project'],
-                ['巨人队', 'Taller Men', 'Shorter Giants'],
-                ['红襪队', '一个很長很長又臭又長很長很長又臭又長很長很長又臭又長又長又臭又長又臭又臭又長的项目名字'],
+                [ '我的项目', '私ノ友達', '双十一的特价活动超强報价页面，十月底最终版' ],
+                [ '洋基队', 'InstaYankies', 'New York New York', 'Manhattan Project' ],
+                [ '巨人队', 'Taller Men', 'Shorter Giants' ],
+                [ '红襪队', '一个很長很長又臭又長很長很長又臭又長很長很長又臭又長又長又臭又長又臭又臭又長的项目名字' ]
               ]}
             />
           </FormLabel>
@@ -364,7 +364,7 @@ storiesOf('Modal', module)
       <h2>Functional</h2>
       <FormLabel name="Share">
         <Modal
-          opener={[<Icon key="icon" name="share" />, 'Share']}
+          opener={[ <Icon key="icon" name="share" />, 'Share' ]}
           openerType="text"
 
           title="Share"
@@ -398,8 +398,8 @@ storiesOf('Modal', module)
                       <Input key="input" type="password" />
                     </span>
                   ),
-                  value: 'pwd',
-                },
+                  value: 'pwd'
+                }
               ]}
               value="pwd"
             />
@@ -409,9 +409,9 @@ storiesOf('Modal', module)
             <CheckGroup
               optionList={[
                 'Highlight clickable areas on the screens.',
-                'Play the app directly without showing install instructions.',
+                'Play the app directly without showing install instructions.'
               ]}
-              valueList={['Highlight clickable areas on the screens.']}
+              valueList={[ 'Highlight clickable areas on the screens.' ]}
             />
           </FormDiv>
 
@@ -421,7 +421,7 @@ storiesOf('Modal', module)
       <h2>Display</h2>
       <FormLabel name="Shortcuts">
         <Modal
-          opener={[<Icon key="icon" name="keyboard" />, 'Shortcuts']}
+          opener={[ <Icon key="icon" name="keyboard" />, 'Shortcuts' ]}
           openerType="text"
 
           type="display"
@@ -458,7 +458,7 @@ class NewMasterModal extends PureComponent {
     name: '',
     access: 'public',
     w: 300,
-    h: 50,
+    h: 50
   }
 
   onChangeName = name => this.setState({ name })
@@ -503,7 +503,7 @@ class NewMasterModal extends PureComponent {
           <RadioGroup
             optionList={[
               { label: 'Public', value: 'public' },
-              { label: 'Private', value: 'private' },
+              { label: 'Private', value: 'private' }
             ]}
             value={access}
             onChange={this.onToggleAccess}
@@ -538,19 +538,23 @@ class NewMasterModal extends PureComponent {
 
 class ModalExample extends PureComponent {
   state = {
-    isOpen: false,
+    isOpen: false
   }
 
   onClick = () => this.setState({ isOpen: true })
 
   close = () => this.setState({ isOpen: false })
 
+  confirm = () => { }
+
+  cancel = () => { }
+
   render () {
     return (
       <>
         <button onClick={this.onClick}>弹窗</button>
 
-        <TransitionModal className={'myModal'} isOpen={this.state.isOpen} onClose={this.close}>
+        <TransitionModal className={'myModal'} isOpen={this.state.isOpen} onClose={this.close} onConfirm={this.confirm} onCancel={this.cancel}>
         </TransitionModal>
       </>
     )
@@ -560,6 +564,7 @@ class ModalExample extends PureComponent {
 class ModalExample2 extends PureComponent {
   state = {
     isOpen: false,
+    canCloseOnClickMask: true
   }
 
   onClick = () => this.setState({ isOpen: true })
@@ -571,7 +576,7 @@ class ModalExample2 extends PureComponent {
       <>
         <button onClick={this.onClick}>弹窗</button>
 
-        <PureTransitionModal className={'myModal'} isOpen={this.state.isOpen} onClose={this.close}>
+        <PureTransitionModal className={'myModal'} isOpen={this.state.isOpen} onClose={this.close} canCloseOnClickMask={this.state.canCloseOnClickMask}>
           <header onClick={this.close}>Im header under Modal component</header>
         </PureTransitionModal>
       </>
