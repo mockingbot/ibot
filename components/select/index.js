@@ -33,13 +33,13 @@ export default class Select extends PureComponent {
     isOpen: false,
 
     prevProps: this.props,
-    value: this.props.value,
+    value: this.props.value
   }
 
   static propTypes = {
-    size: PropTypes.oneOf(['regular', 'small']),
-    theme: PropTypes.oneOf(['core', 'plain']),
-    menuTheme: PropTypes.oneOf(['core', 'plain', 'check']),
+    size: PropTypes.oneOf([ 'regular', 'small' ]),
+    theme: PropTypes.oneOf([ 'core', 'plain' ]),
+    menuTheme: PropTypes.oneOf([ 'core', 'plain', 'check' ]),
 
     unstyled: PropTypes.bool,
 
@@ -78,7 +78,7 @@ export default class Select extends PureComponent {
         PropTypes.shape({
           label: PropTypes.node,
           value: PropTypes.any,
-          isDisabled: PropTypes.bool,
+          isDisabled: PropTypes.bool
         }),
 
         // Option groups:
@@ -88,16 +88,16 @@ export default class Select extends PureComponent {
             PropTypes.shape({
               label: PropTypes.node,
               value: PropTypes.any,
-              isDisabled: PropTypes.bool,
-            }),
+              isDisabled: PropTypes.bool
+            })
           ])
-        ),
+        )
       ])
     ).isRequired,
 
     value: PropTypes.oneOfType([
       PropTypes.number,
-      PropTypes.string,
+      PropTypes.string
     ]),
 
     isDisabled: PropTypes.bool,
@@ -106,7 +106,9 @@ export default class Select extends PureComponent {
 
     onChange: PropTypes.func,
 
-    menuX: PropTypes.oneOf(['left', 'center', 'right']),
+    menuX: PropTypes.oneOf([ 'left', 'center', 'right' ]),
+
+    optionLabelProp: PropTypes.string
   }
 
   static defaultProps = {
@@ -124,7 +126,7 @@ export default class Select extends PureComponent {
 
     onChange: () => null,
 
-    menuX: 'left',
+    menuX: 'left'
   }
 
   static getDerivedStateFromProps (props, { prevProps, value }) {
@@ -167,7 +169,7 @@ export default class Select extends PureComponent {
     () => {
       this.close()
       this.props.onChange(value)
-    },
+    }
   )
 
   onSelect = ({ currentTarget: $opt }) => {
@@ -178,7 +180,7 @@ export default class Select extends PureComponent {
   }
 
   get displayText () {
-    const { optionList, placeholder } = this.props
+    const { optionList, placeholder, optionLabelProp } = this.props
     const { value } = this.state
 
     const group = optionList.find(g => (
@@ -189,7 +191,7 @@ export default class Select extends PureComponent {
       !isArray(o) && checkOptionByValue(o, value)
     ))
 
-    return option ? getOptionLabel(option) : placeholder
+    return option ? getOptionLabel(option, optionLabelProp) : placeholder
   }
 
   render () {
@@ -204,7 +206,7 @@ export default class Select extends PureComponent {
       className,
       isOpen && 'is-open',
       isDisabled && 'is-disabled',
-      readOnly && 'readonly',
+      readOnly && 'readonly'
     ])
 
     return (
@@ -237,7 +239,7 @@ export default class Select extends PureComponent {
 
 export class SelectMenu extends PureComponent {
   state = {
-    isDownward: true,
+    isDownward: true
   }
 
   portal = preparePortal($menuRoot, 'SelectMenuPortal')
@@ -249,11 +251,11 @@ export class SelectMenu extends PureComponent {
     canSelect: PropTypes.bool,
     onChange: PropTypes.func,
     onClose: PropTypes.func,
-    $select: PropTypes.instanceOf(Element),
+    $select: PropTypes.instanceOf(Element)
   }
 
   static defaultProps = {
-    isOpen: false,
+    isOpen: false
   }
 
   menuBaseRef = createRef()
@@ -291,7 +293,7 @@ export class SelectMenu extends PureComponent {
       $opener: $select,
 
       menuX,
-      shouldSetMaxHeight: true,
+      shouldSetMaxHeight: true
     })
 
     this.setState({ isDownward })
@@ -366,7 +368,7 @@ export class SelectMenu extends PureComponent {
       optionList,
       emptyMsg,
       value,
-      canSelect,
+      canSelect
     } = this.props
 
     const { isDownward } = this.state
@@ -381,7 +383,7 @@ export class SelectMenu extends PureComponent {
       isDownward ? 'is-downward' : 'is-upward',
       isDisabled && 'is-disabled',
       isEmpty && 'is-empty',
-      canSelect ? 'can-select' : 'cant-select',
+      canSelect ? 'can-select' : 'cant-select'
     ])
 
     return (
@@ -435,9 +437,9 @@ export class SelectMenu extends PureComponent {
 
 function Group ({
   value,
-  optionList: [title, ...optionList],
+  optionList: [ title, ...optionList ],
   menuTheme,
-  onChange,
+  onChange
 }) {
   return (
     <li className="SelectGroup">
@@ -463,10 +465,10 @@ function Group ({
 }
 
 Group.propTypes = {
-  idx: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  idx: PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
   optionList: PropTypes.array,
   onChange: PropTypes.func,
-  menuTheme: PropTypes.string,
+  menuTheme: PropTypes.string
 }
 
 function Option ({
@@ -474,12 +476,12 @@ function Option ({
   isActive,
   isDisabled,
   menuTheme,
-  onChange,
+  onChange
 }) {
   const className = trimList([
     'SelectOption',
     isActive && 'is-active',
-    isDisabled && 'is-disabled',
+    isDisabled && 'is-disabled'
   ])
 
   const label = getOptionLabel(option)
@@ -499,12 +501,12 @@ function Option ({
 }
 
 Option.propTypes = {
-  idx: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  idx: PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
   option: PropTypes.oneOfType([
     PropTypes.node,
-    PropTypes.object,
+    PropTypes.object
   ]),
   isDisabled: PropTypes.bool,
   menuTheme: PropTypes.string,
-  onChange: PropTypes.func,
+  onChange: PropTypes.func
 }

@@ -6,7 +6,7 @@ import Button from '../../components/button'
 import Select from '../../components/select'
 import Icon from '../components/icon'
 
-const MENU_THEME_LIST = ['plain', 'core', 'check']
+const MENU_THEME_LIST = [ 'plain', 'core', 'check' ]
 
 export default class SelectExample extends React.PureComponent {
   state = {
@@ -15,7 +15,7 @@ export default class SelectExample extends React.PureComponent {
     menuTheme: 'plain',
 
     forcedChangingValue: 5,
-    longerSelectValue: 'Taller Men',
+    longerSelectValue: 'Taller Men'
   }
 
   toggleSize = () => this.setState({ isSmall: !this.state.isSmall })
@@ -26,17 +26,17 @@ export default class SelectExample extends React.PureComponent {
     const { menuTheme } = prevState
     const prevIdx = MENU_THEME_LIST.indexOf(menuTheme)
 
-    return { menuTheme: MENU_THEME_LIST[prevIdx === 2 ? 0 : prevIdx + 1] }
+    return { menuTheme: MENU_THEME_LIST[ prevIdx === 2 ? 0 : prevIdx + 1 ] }
   })
 
   onChangeForcedChangingSelect = forcedChangingValue => this.setState(
     { forcedChangingValue },
-    action('Select changed')(forcedChangingValue),
+    action('Select changed')(forcedChangingValue)
   )
 
   onChangeLongerSelect = longerSelectValue => this.setState(
     { longerSelectValue },
-    action('Select changed')(longerSelectValue),
+    action('Select changed')(longerSelectValue)
   )
 
   render () {
@@ -68,7 +68,7 @@ export default class SelectExample extends React.PureComponent {
           style={{
             position: 'fixed',
             top: '1em',
-            right: '1em',
+            right: '1em'
           }}
         >
           <Button
@@ -107,58 +107,59 @@ export default class SelectExample extends React.PureComponent {
 
         <h2>Regular node options</h2>
         <p>
-          <Select {...{ size, theme, menuTheme }} placeholder="Long long long placeholder" optionList={['Apple', 'Pencil']} onChange={action('Select changed')} />
+          <Select {...{ size, theme, menuTheme }} placeholder="Long long long placeholder" optionList={[ 'Apple', 'Pencil' ]} onChange={action('Select changed')} />
           <br />
-          <Select {...{ size, theme, menuTheme }} optionList={['Apple', 'Pencil', 'Apple Pencil', 'Pineapple Pencil']} onChange={action('Select changed')} />
+          <Select {...{ size, theme, menuTheme }} optionList={[ 'Apple', 'Pencil', 'Apple Pencil', 'Pineapple Pencil' ]} onChange={action('Select changed')} />
           <br />
-          <Select {...{ size, theme, menuTheme }} optionList={['Apple', 'Pencil']} value="Apple" onChange={action('Select changed')} />
+          <Select {...{ size, theme, menuTheme }} optionList={[ 'Apple', 'Pencil' ]} value="Apple" onChange={action('Select changed')} />
           <br />
-          <Select {...{ size, theme, menuTheme }} optionList={['Apple', 'Pencil']} value="Apple" onChange={action('Select changed')} />
+          <Select {...{ size, theme, menuTheme }} optionList={[ 'Apple', 'Pencil' ]} value="Apple" onChange={action('Select changed')} />
           <br />
-          <Select {...{ size, theme, menuTheme }} optionList={['Apple', 'Pencil', { label: <span><Icon name="apple" /> Apple</span>, value: 'Apple with Icon' }]} value="Pencil" onChange={action('Select changed')} />
+          <Select {...{ size, theme, menuTheme }} optionList={[ 'Apple', 'Pencil', { label: <span><Icon name="apple" /> Apple</span>, value: 'Apple with Icon' } ]} value="Pencil" onChange={action('Select changed')} />
           <br />
-          <Select {...{ size, theme, menuTheme }} optionList={[1, 2, 3, 4, 5]} value={2} onChange={action('Select changed')} />
-          <Select {...{ size, theme, menuTheme }} optionList={[1, 2, 3, 4, 5]} value="2" onChange={action('Select changed')} />
-          <Select {...{ size, theme, menuTheme }} optionList={['1', '2', '3', '4', '5']} value={2} onChange={action('Select changed')} />
-          <Select {...{ size, theme, menuTheme }} optionList={['1', '2', '3', '4', '5']} value="2" onChange={action('Select changed')} />
+          <Select {...{ size, theme, menuTheme }} optionList={[ 1, 2, 3, 4, 5 ]} value={2} onChange={action('Select changed')} />
+          <Select {...{ size, theme, menuTheme }} optionList={[ 1, 2, 3, 4, 5 ]} value="2" onChange={action('Select changed')} />
+          <Select {...{ size, theme, menuTheme }} optionList={[ '1', '2', '3', '4', '5' ]} value={2} onChange={action('Select changed')} />
+          <Select {...{ size, theme, menuTheme }} optionList={[ '1', '2', '3', '4', '5' ]} value="2" onChange={action('Select changed')} />
           <br />
-          <Select {...{ size, theme, menuTheme }} optionList={['Apple', 'Pencil']} isDisabled={true} onChange={action('Select changed')} />
+          <Select {...{ size, theme, menuTheme }} optionList={[ 'Apple', 'Pencil' ]} isDisabled={true} onChange={action('Select changed')} />
           <br />
           <Select
             {...{ size, theme, menuTheme }}
             menuClassName="select-menu-with-icons"
             optionList={[
               { label: <span><Icon name="apple" /> Apple</span>, value: 'apple' },
-              { label: <span><Icon name="pencil" /> Pencil</span>, value: 'pencil' },
+              { label: <span><Icon name="pencil" /> Pencil</span>, value: 'pencil' }
             ]}
+            optionLabelProp="value"
             onChange={action('Select changed')}
           />
         </p>
 
         <h3>Disabled option</h3>
         <p>
-          <Select {...{ size, theme, menuTheme }} optionList={[{ label: 'Apple', value: 'apple', isDisabled: true }, 'Pencil']} onChange={action('Select changed')} />
+          <Select {...{ size, theme, menuTheme }} optionList={[ { label: 'Apple', value: 'apple', isDisabled: true }, 'Pencil' ]} onChange={action('Select changed')} />
         </p>
 
         <h2>Long lists (10+ options)</h2>
         <p>
           <Select
             {...{ size, theme, menuTheme }}
-            optionList={['Yirgacheffe', 'Harrar', 'Kenya AA', 'Antiqua Flora', 'Huehuetenango', 'Tanzania AA', 'Cerrado', 'Bucaramanga Supremo', 'Tarrazu', 'Hawaii Kona', 'Blue Mountain', 'Mandheling']}
+            optionList={[ 'Yirgacheffe', 'Harrar', 'Kenya AA', 'Antiqua Flora', 'Huehuetenango', 'Tanzania AA', 'Cerrado', 'Bucaramanga Supremo', 'Tarrazu', 'Hawaii Kona', 'Blue Mountain', 'Mandheling' ]}
             onChange={action('Select changed')}
           />
           <br />
           <Select
             {...{ size, theme, menuTheme }}
             value="Tanzania AA"
-            optionList={['Yirgacheffe', 'Harrar', 'Kenya AA', 'Antiqua Flora', 'Huehuetenango', 'Tanzania AA', 'Cerrado', 'Bucaramanga Supremo', 'Tarrazu', 'Hawaii Kona', 'Blue Mountain', 'Mandheling']}
+            optionList={[ 'Yirgacheffe', 'Harrar', 'Kenya AA', 'Antiqua Flora', 'Huehuetenango', 'Tanzania AA', 'Cerrado', 'Bucaramanga Supremo', 'Tarrazu', 'Hawaii Kona', 'Blue Mountain', 'Mandheling' ]}
             onChange={action('Select changed')}
           />
           <Select
             {...{ size, theme, menuTheme }}
             isDisabled={false}
             value="Blue Mountain"
-            optionList={['Yirgacheffe', 'Harrar', 'Kenya AA', 'Antiqua Flora', 'Huehuetenango', 'Tanzania AA', 'Cerrado', 'Bucaramanga Supremo', 'Tarrazu', 'Hawaii Kona', 'Blue Mountain', 'Mandheling']}
+            optionList={[ 'Yirgacheffe', 'Harrar', 'Kenya AA', 'Antiqua Flora', 'Huehuetenango', 'Tanzania AA', 'Cerrado', 'Bucaramanga Supremo', 'Tarrazu', 'Hawaii Kona', 'Blue Mountain', 'Mandheling' ]}
             onChange={action('Select changed')}
           />
         </p>
@@ -168,14 +169,14 @@ export default class SelectExample extends React.PureComponent {
           <Select
             {...{ size, theme, menuTheme }}
             isDisabled
-            optionList={['Yirgacheffe', 'Harrar', 'Kenya AA', 'Antiqua Flora', 'Huehuetenango', 'Tanzania AA', 'Cerrado', 'Bucaramanga Supremo', 'Tarrazu', 'Hawaii Kona', 'Blue Mountain', 'Mandheling']}
+            optionList={[ 'Yirgacheffe', 'Harrar', 'Kenya AA', 'Antiqua Flora', 'Huehuetenango', 'Tanzania AA', 'Cerrado', 'Bucaramanga Supremo', 'Tarrazu', 'Hawaii Kona', 'Blue Mountain', 'Mandheling' ]}
             onChange={action('Select changed')}
           />
           <Select
             {...{ size, theme, menuTheme }}
             readOnly
             value="Harrar"
-            optionList={['Yirgacheffe', 'Harrar', 'Kenya AA', 'Antiqua Flora', 'Huehuetenango', 'Tanzania AA', 'Cerrado', 'Bucaramanga Supremo', 'Tarrazu', 'Hawaii Kona', 'Blue Mountain', 'Mandheling']}
+            optionList={[ 'Yirgacheffe', 'Harrar', 'Kenya AA', 'Antiqua Flora', 'Huehuetenango', 'Tanzania AA', 'Cerrado', 'Bucaramanga Supremo', 'Tarrazu', 'Hawaii Kona', 'Blue Mountain', 'Mandheling' ]}
             onChange={action('Select changed')}
             onClick={action('Select clicked')}
           />
@@ -187,14 +188,14 @@ export default class SelectExample extends React.PureComponent {
             {...{ size, theme, menuTheme }}
             menuX="left"
             value="Tanzania AA"
-            optionList={['Yirgacheffe', 'Harrar', 'Kenya AA', 'Antiqua Flora', 'Huehuetenango', 'Tanzania AA', 'Cerrado', 'Bucaramanga Supremo', 'Tarrazu', 'Hawaii Kona', 'Blue Mountain', 'Mandheling']}
+            optionList={[ 'Yirgacheffe', 'Harrar', 'Kenya AA', 'Antiqua Flora', 'Huehuetenango', 'Tanzania AA', 'Cerrado', 'Bucaramanga Supremo', 'Tarrazu', 'Hawaii Kona', 'Blue Mountain', 'Mandheling' ]}
             onChange={action('Select changed')}
           />
           <Select
             {...{ size, theme, menuTheme }}
             menuX="center"
             value="Tanzania AA"
-            optionList={['Yirgacheffe', 'Harrar', 'Kenya AA', 'Antiqua Flora', 'Huehuetenango', 'Tanzania AA', 'Cerrado', 'Bucaramanga Supremo', 'Tarrazu', 'Hawaii Kona', 'Blue Mountain', 'Mandheling']}
+            optionList={[ 'Yirgacheffe', 'Harrar', 'Kenya AA', 'Antiqua Flora', 'Huehuetenango', 'Tanzania AA', 'Cerrado', 'Bucaramanga Supremo', 'Tarrazu', 'Hawaii Kona', 'Blue Mountain', 'Mandheling' ]}
             onChange={action('Select changed')}
           />
           <Select
@@ -202,7 +203,7 @@ export default class SelectExample extends React.PureComponent {
             menuX="right"
             isDisabled={false}
             value="Blue Mountain"
-            optionList={['Yirgacheffe', 'Harrar', 'Kenya AA', 'Antiqua Flora', 'Huehuetenango', 'Tanzania AA', 'Cerrado', 'Bucaramanga Supremo', 'Tarrazu', 'Hawaii Kona', 'Blue Mountain', 'Mandheling']}
+            optionList={[ 'Yirgacheffe', 'Harrar', 'Kenya AA', 'Antiqua Flora', 'Huehuetenango', 'Tanzania AA', 'Cerrado', 'Bucaramanga Supremo', 'Tarrazu', 'Hawaii Kona', 'Blue Mountain', 'Mandheling' ]}
             onChange={action('Select changed')}
           />
         </p>
@@ -212,9 +213,9 @@ export default class SelectExample extends React.PureComponent {
           <Select
             {...{ size, theme, menuTheme }}
             optionList={[
-              ['Fruit', 'Apples', 'Blackberries', 'Blueberries', 'Bananas', 'Pitayas', 'Mangos'],
-              ['Cheese', 'Blue Cheese', 'Parmesan', 'Ricotta', 'Benedictine', 'Brie', { label: 'Cheddar', value: 'cheddar' }, { label: 'Cream Cheese', isDisabled: true }],
-              'Rib Eye Steak', 'Bacon Sandwich', 'Caesar Salad',
+              [ 'Fruit', 'Apples', 'Blackberries', 'Blueberries', 'Bananas', 'Pitayas', 'Mangos' ],
+              [ 'Cheese', 'Blue Cheese', 'Parmesan', 'Ricotta', 'Benedictine', 'Brie', { label: 'Cheddar', value: 'cheddar' }, { label: 'Cream Cheese', isDisabled: true } ],
+              'Rib Eye Steak', 'Bacon Sandwich', 'Caesar Salad'
             ]}
             onChange={action('Select changed')}
           />
@@ -223,9 +224,9 @@ export default class SelectExample extends React.PureComponent {
             {...{ size, theme, menuTheme }}
             value="Blackberries"
             optionList={[
-              ['Fruit', 'Apples', 'Blackberries', 'Blueberries', 'Bananas', 'Pitayas', 'Mangos'],
-              ['Cheese', 'Blue Cheese', 'Parmesan', 'Ricotta', 'Benedictine', 'Brie', { label: 'Cheddar', value: 'cheddar' }, { label: 'Cream Cheese', isDisabled: true }],
-              'Rib Eye Steak', 'Bacon Sandwich', 'Caesar Salad',
+              [ 'Fruit', 'Apples', 'Blackberries', 'Blueberries', 'Bananas', 'Pitayas', 'Mangos' ],
+              [ 'Cheese', 'Blue Cheese', 'Parmesan', 'Ricotta', 'Benedictine', 'Brie', { label: 'Cheddar', value: 'cheddar' }, { label: 'Cream Cheese', isDisabled: true } ],
+              'Rib Eye Steak', 'Bacon Sandwich', 'Caesar Salad'
             ]}
             onChange={action('Select changed')}
           />
@@ -234,9 +235,9 @@ export default class SelectExample extends React.PureComponent {
             {...{ size, theme, menuTheme }}
             value="Brie"
             optionList={[
-              ['Fruit', 'Apples', 'Blackberries', 'Blueberries', 'Bananas', 'Pitayas', 'Mangos'],
-              ['Cheese', 'Blue Cheese', 'Parmesan', 'Ricotta', 'Benedictine', 'Brie', { label: 'Cheddar', value: 'cheddar' }, { label: 'Cream Cheese', isDisabled: true }],
-              'Rib Eye Steak', 'Bacon Sandwich', 'Caesar Salad',
+              [ 'Fruit', 'Apples', 'Blackberries', 'Blueberries', 'Bananas', 'Pitayas', 'Mangos' ],
+              [ 'Cheese', 'Blue Cheese', 'Parmesan', 'Ricotta', 'Benedictine', 'Brie', { label: 'Cheddar', value: 'cheddar' }, { label: 'Cream Cheese', isDisabled: true } ],
+              'Rib Eye Steak', 'Bacon Sandwich', 'Caesar Salad'
             ]}
             onChange={action('Select changed')}
           />
@@ -245,9 +246,9 @@ export default class SelectExample extends React.PureComponent {
             {...{ size, theme, menuTheme }}
             value="Rib Eye Steak"
             optionList={[
-              ['Fruit', 'Apples', 'Blackberries', 'Blueberries', 'Bananas', 'Pitayas', 'Mangos'],
-              ['Cheese', 'Blue Cheese', 'Parmesan', 'Ricotta', 'Benedictine', 'Brie', { label: 'Cheddar', value: 'cheddar' }, { label: 'Cream Cheese', isDisabled: true }],
-              'Rib Eye Steak', 'Bacon Sandwich', 'Caesar Salad',
+              [ 'Fruit', 'Apples', 'Blackberries', 'Blueberries', 'Bananas', 'Pitayas', 'Mangos' ],
+              [ 'Cheese', 'Blue Cheese', 'Parmesan', 'Ricotta', 'Benedictine', 'Brie', { label: 'Cheddar', value: 'cheddar' }, { label: 'Cream Cheese', isDisabled: true } ],
+              'Rib Eye Steak', 'Bacon Sandwich', 'Caesar Salad'
             ]}
             onChange={action('Select changed')}
           />
@@ -257,9 +258,9 @@ export default class SelectExample extends React.PureComponent {
             isDisabled
             value="cheddar"
             optionList={[
-              ['Fruit', 'Apples', 'Blackberries', 'Blueberries', 'Bananas', 'Pitayas', 'Mangos'],
-              ['Cheese', 'Blue Cheese', 'Parmesan', 'Ricotta', 'Benedictine', 'Brie', { label: 'Cheddar', value: 'cheddar' }, { label: 'Cream Cheese', isDisabled: true }],
-              'Rib Eye Steak', 'Bacon Sandwich', 'Caesar Salad',
+              [ 'Fruit', 'Apples', 'Blackberries', 'Blueberries', 'Bananas', 'Pitayas', 'Mangos' ],
+              [ 'Cheese', 'Blue Cheese', 'Parmesan', 'Ricotta', 'Benedictine', 'Brie', { label: 'Cheddar', value: 'cheddar' }, { label: 'Cream Cheese', isDisabled: true } ],
+              'Rib Eye Steak', 'Bacon Sandwich', 'Caesar Salad'
             ]}
             onChange={action('Select changed')}
           />
@@ -267,9 +268,9 @@ export default class SelectExample extends React.PureComponent {
             {...{ size, theme, menuTheme }}
             isDisabled
             optionList={[
-              ['Fruit', 'Apples', 'Blackberries', 'Blueberries', 'Bananas', 'Pitayas', 'Mangos'],
-              ['Cheese', 'Blue Cheese', 'Parmesan', 'Ricotta', 'Benedictine', 'Brie', { label: 'Cheddar', value: 'cheddar' }, { label: 'Cream Cheese', isDisabled: true }],
-              'Rib Eye Steak', 'Bacon Sandwich', 'Caesar Salad',
+              [ 'Fruit', 'Apples', 'Blackberries', 'Blueberries', 'Bananas', 'Pitayas', 'Mangos' ],
+              [ 'Cheese', 'Blue Cheese', 'Parmesan', 'Ricotta', 'Benedictine', 'Brie', { label: 'Cheddar', value: 'cheddar' }, { label: 'Cream Cheese', isDisabled: true } ],
+              'Rib Eye Steak', 'Bacon Sandwich', 'Caesar Salad'
             ]}
             onChange={action('Select changed')}
           />
@@ -280,7 +281,7 @@ export default class SelectExample extends React.PureComponent {
           <Select
             {...{ size, theme, menuTheme }}
             placeholder="选择一个项目"
-            optionList={[1, 2, 3, 4, 5]}
+            optionList={[ 1, 2, 3, 4, 5 ]}
             value={this.state.forcedChangingValue}
             onChange={this.onChangeForcedChangingSelect}
           />
@@ -302,11 +303,11 @@ export default class SelectExample extends React.PureComponent {
             placeholder="选择一个项目"
             value={this.state.longerSelectValue}
             optionList={[
-              ['我的项目', '私ノ友達', '双十一的特价活动超强報价页面，十月底最终版'],
-              ['洋基队', 'InstaYankies', 'New York New York', 'Manhattan Project'],
-              ['巨人队', 'Taller Men', 'Shorter Giants'],
-              ['红襪队', '一个很長很長又臭又長很長很長又臭又長很長很長又臭又長又長又臭又長又臭又臭又長的项目名字'],
-              ['队名為什麼要取得那麼地長啊，好奇怪啊，你們！队', '一个很長很長又臭又長很長很長又臭又長很長很長又臭又長又長又臭又長又臭又臭又長的项目名字'],
+              [ '我的项目', '私ノ友達', '双十一的特价活动超强報价页面，十月底最终版' ],
+              [ '洋基队', 'InstaYankies', 'New York New York', 'Manhattan Project' ],
+              [ '巨人队', 'Taller Men', 'Shorter Giants' ],
+              [ '红襪队', '一个很長很長又臭又長很長很長又臭又長很長很長又臭又長又長又臭又長又臭又臭又長的项目名字' ],
+              [ '队名為什麼要取得那麼地長啊，好奇怪啊，你們！队', '一个很長很長又臭又長很長很長又臭又長很長很長又臭又長又長又臭又長又臭又臭又長的项目名字' ]
             ]}
             onChange={this.onChangeLongerSelect}
           />
@@ -316,11 +317,11 @@ export default class SelectExample extends React.PureComponent {
             placeholder="选择一个项目"
             value={this.state.longerSelectValue}
             optionList={[
-              ['我的项目', '私ノ友達', '双十一的特价活动超强報价页面，十月底最终版'],
-              ['洋基队', 'InstaYankies', 'New York New York', 'Manhattan Project'],
-              ['巨人队', 'Taller Men', 'Shorter Giants'],
-              ['红襪队', '一个很長很長又臭又長很長很長又臭又長很長很長又臭又長又長又臭又長又臭又臭又長的项目名字'],
-              ['队名為什麼要取得那麼地長啊，好奇怪啊，你們！队', '一个很長很長又臭又長很長很長又臭又長很長很長又臭又長又長又臭又長又臭又臭又長的项目名字'],
+              [ '我的项目', '私ノ友達', '双十一的特价活动超强報价页面，十月底最终版' ],
+              [ '洋基队', 'InstaYankies', 'New York New York', 'Manhattan Project' ],
+              [ '巨人队', 'Taller Men', 'Shorter Giants' ],
+              [ '红襪队', '一个很長很長又臭又長很長很長又臭又長很長很長又臭又長又長又臭又長又臭又臭又長的项目名字' ],
+              [ '队名為什麼要取得那麼地長啊，好奇怪啊，你們！队', '一个很長很長又臭又長很長很長又臭又長很長很長又臭又長又長又臭又長又臭又臭又長的项目名字' ]
             ]}
             onChange={this.onChangeLongerSelect}
           />
