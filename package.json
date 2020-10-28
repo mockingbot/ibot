@@ -1,6 +1,6 @@
 {
   "name": "@ibot/ibot",
-  "version": "0.7.0-dev.32",
+  "version": "0.7.0-dev.33",
   "license": "MIT",
   "repository": "github:mockingbot/ibot",
   "main": "lib/index.js",
