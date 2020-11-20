@@ -19,7 +19,7 @@ const buildWithRollup = async ({ componentName, componentNameList = [] }) => {
   const externalPackageList = [
     '@babel/runtime',
     'react', 'react-dom', 'prop-types',
-    'react-router', 'react-router-dom',
+    'react-event-listener', 'react-router-dom',
     'lodash',
   ]
   const externalComponentPrefixList = componentNameList // mark cross component import as external
