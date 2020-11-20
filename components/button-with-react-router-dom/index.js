@@ -1,14 +1,14 @@
 import React, { Fragment, PureComponent } from 'react'
 import PropTypes from 'prop-types'
 
-// import { Link } from 'react-router-dom' // TODO: NOTE: do not add big dependency (CHANGE 1/2)
+import { Link } from 'react-router-dom'
 import omit from 'lodash/omit'
 
 import Icon from '../icon'
 import SVG from '../svg'
 import { trimList } from '../util'
 
-import './index.styl'
+// import '../button/index.styl' // TODO: NOTE: just use output "button/index.css", this import will be treat as external, so just comment out here
 
 const TYPE_MAP = {
   primary: 'Primary',
@@ -50,14 +50,13 @@ export default class Button extends PureComponent {
     nativeLink: false,
   }
 
-  get name () { // TODO: NOTE: do not add big dependency (CHANGE 2/2)
+  get name () {
     const { to, nativeLink } = this.props
     const { isDisabled } = this
 
-    if (to && !isDisabled && !nativeLink) console.error('wrong Button used, use "button-with-react-router-dom" for "to":', to)// for easier later tracking
     return (
       to && !isDisabled
-        ? 'a' // ? nativeLink ? 'a' : Link
+        ? nativeLink ? 'a' : Link
         : 'button'
     )
   }
