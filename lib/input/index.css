@@ -1,0 +1,164 @@
+.Input,
+.CoreInput,
+.Textarea,
+.CoreTextarea {
+  display: inline-block;
+  color: #415058;
+}
+.Input.is-readonly,
+.CoreInput.is-readonly,
+.Textarea.is-readonly,
+.CoreTextarea.is-readonly {
+  color: #8d9ea7;
+}
+.Input input,
+.CoreInput input,
+.Textarea input,
+.CoreTextarea input,
+.Input textarea,
+.CoreInput textarea,
+.Textarea textarea,
+.CoreTextarea textarea {
+  font-size: inherit;
+  color: inherit;
+}
+.Input input:disabled,
+.CoreInput input:disabled,
+.Textarea input:disabled,
+.CoreTextarea input:disabled,
+.Input textarea:disabled,
+.CoreInput textarea:disabled,
+.Textarea textarea:disabled,
+.CoreTextarea textarea:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.Input input[readonly],
+.CoreInput input[readonly],
+.Textarea input[readonly],
+.CoreTextarea input[readonly],
+.Input textarea[readonly],
+.CoreInput textarea[readonly],
+.Textarea textarea[readonly],
+.CoreTextarea textarea[readonly] {
+  color: #8d9ea7;
+}
+.Input input:focus,
+.CoreInput input:focus,
+.Textarea input:focus,
+.CoreTextarea input:focus,
+.Input textarea:focus,
+.CoreInput textarea:focus,
+.Textarea textarea:focus,
+.CoreTextarea textarea:focus {
+  outline: 0;
+}
+.Input input::placeholder,
+.CoreInput input::placeholder,
+.Textarea input::placeholder,
+.CoreTextarea input::placeholder,
+.Input textarea::placeholder,
+.CoreInput textarea::placeholder,
+.Textarea textarea::placeholder,
+.CoreTextarea textarea::placeholder {
+  color: #8d9ea7;
+}
+.Input.is-invalid input,
+.CoreInput.is-invalid input,
+.Textarea.is-invalid input,
+.CoreTextarea.is-invalid input,
+.Input.is-invalid textarea,
+.CoreInput.is-invalid textarea,
+.Textarea.is-invalid textarea,
+.CoreTextarea.is-invalid textarea,
+.Input input:not([type=email]):invalid,
+.CoreInput input:not([type=email]):invalid,
+.Textarea input:not([type=email]):invalid,
+.CoreTextarea input:not([type=email]):invalid,
+.Input textarea:invalid,
+.CoreInput textarea:invalid,
+.Textarea textarea:invalid,
+.CoreTextarea textarea:invalid {
+  border-color: #ff6161 !important;
+  box-shadow: 0 0 6px 0 rgba(255,97,97,0.5) !important;
+}
+.Input:not(.unstyled) input,
+.CoreInput:not(.unstyled) input,
+.Textarea:not(.unstyled) input,
+.CoreTextarea:not(.unstyled) input,
+.Input:not(.unstyled) textarea,
+.CoreInput:not(.unstyled) textarea,
+.Textarea:not(.unstyled) textarea,
+.CoreTextarea:not(.unstyled) textarea {
+  background-color: #f6f7f8;
+  border: 1px solid #f2f2f3;
+  border-radius: 2px;
+  caret-color: #298df8;
+  transition: 0.2s ease-out;
+  transition-property: background, border, box-shadow, opacity;
+}
+.Input:not(.unstyled) input:enabled:not([readonly]):hover,
+.CoreInput:not(.unstyled) input:enabled:not([readonly]):hover,
+.Textarea:not(.unstyled) input:enabled:not([readonly]):hover,
+.CoreTextarea:not(.unstyled) input:enabled:not([readonly]):hover,
+.Input:not(.unstyled) textarea:enabled:not([readonly]):hover,
+.CoreInput:not(.unstyled) textarea:enabled:not([readonly]):hover,
+.Textarea:not(.unstyled) textarea:enabled:not([readonly]):hover,
+.CoreTextarea:not(.unstyled) textarea:enabled:not([readonly]):hover {
+  border-color: #298df8;
+}
+.Input:not(.unstyled) input:enabled:not([readonly]):focus,
+.CoreInput:not(.unstyled) input:enabled:not([readonly]):focus,
+.Textarea:not(.unstyled) input:enabled:not([readonly]):focus,
+.CoreTextarea:not(.unstyled) input:enabled:not([readonly]):focus,
+.Input:not(.unstyled) textarea:enabled:not([readonly]):focus,
+.CoreInput:not(.unstyled) textarea:enabled:not([readonly]):focus,
+.Textarea:not(.unstyled) textarea:enabled:not([readonly]):focus,
+.CoreTextarea:not(.unstyled) textarea:enabled:not([readonly]):focus {
+  background-color: #fff;
+  border-color: #298df8;
+  box-shadow: 0 0 6px 0 rgba(41,141,248,0.5);
+}
+.Input.regular,
+.CoreInput.regular {
+  height: 34px;
+  font-size: 14px;
+}
+.Input.small,
+.CoreInput.small {
+  height: 22px;
+  font-size: 12px;
+}
+.Input input,
+.CoreInput input {
+  padding: 0 0.5em;
+  width: 100%;
+  height: 100%;
+}
+.Textarea.regular,
+.CoreTextarea.regular {
+  font-size: 14px;
+}
+.Textarea.small,
+.CoreTextarea.small {
+  font-size: 12px;
+}
+.Textarea textarea,
+.CoreTextarea textarea {
+  padding: 0.5em;
+  width: 100%;
+  min-height: 5em;
+  max-height: 10em;
+  resize: vertical;
+}
+.Textarea textarea:disabled,
+.CoreTextarea textarea:disabled,
+.Textarea textarea[readonly],
+.CoreTextarea textarea[readonly] {
+  resize: none;
+}
+.CoreInput:not(.unstyled) input,
+.CoreTextarea:not(.unstyled) textarea {
+  background-color: #fff;
+  border-color: #c8cdd1;
+}

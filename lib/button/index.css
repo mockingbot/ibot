@@ -1,0 +1,236 @@
+.PrimaryCoreButton .svg-icon.loading,
+.RegularCoreButton .svg-icon.loading,
+.SecondaryCoreButton .svg-icon.loading,
+.TertiaryCoreButton .svg-icon.loading,
+.RegularButton .svg-icon.loading,
+.PrimaryButton .svg-icon.loading,
+.TextButton .svg-icon.loading,
+.TextCoreButton .svg-icon.loading {
+  vertical-align: -0.15em;
+  animation: ibot-ani-spinning 1.5s infinite ease-out;
+}
+.PrimaryCoreButton,
+.RegularCoreButton,
+.SecondaryCoreButton,
+.TertiaryCoreButton,
+.RegularButton,
+.PrimaryButton {
+  padding: 0 0.5em;
+  height: 2.125rem;
+  font-size: 0.875rem;
+  border: 1px solid;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.2s ease-out;
+}
+.PrimaryCoreButton:not(button),
+.RegularCoreButton:not(button),
+.SecondaryCoreButton:not(button),
+.TertiaryCoreButton:not(button),
+.RegularButton:not(button),
+.PrimaryButton:not(button) {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+.PrimaryCoreButton:disabled,
+.RegularCoreButton:disabled,
+.SecondaryCoreButton:disabled,
+.TertiaryCoreButton:disabled,
+.RegularButton:disabled,
+.PrimaryButton:disabled,
+.TextButton:disabled,
+.TextCoreButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+.PrimaryCoreButton .icon,
+.RegularCoreButton .icon,
+.SecondaryCoreButton .icon,
+.TertiaryCoreButton .icon,
+.RegularButton .icon,
+.PrimaryButton .icon,
+.TextButton .icon,
+.TextCoreButton .icon {
+  margin-right: 0.125em;
+}
+.PrimaryCoreButton.small,
+.RegularCoreButton.small,
+.SecondaryCoreButton.small,
+.TertiaryCoreButton.small,
+.RegularButton.small,
+.PrimaryButton.small {
+  height: 2em;
+  font-size: 0.75rem;
+}
+.PrimaryCoreButton .svg-icon.loading,
+.RegularCoreButton .svg-icon.loading,
+.SecondaryCoreButton .svg-icon.loading,
+.TertiaryCoreButton .svg-icon.loading,
+.RegularButton .svg-icon.loading,
+.PrimaryButton .svg-icon.loading {
+  margin-right: 0.5em;
+}
+.PrimaryCoreButton,
+.RegularCoreButton,
+.SecondaryCoreButton,
+.TertiaryCoreButton {
+  padding: 0 1em;
+  height: 2.375rem;
+}
+.PrimaryCoreButton.small,
+.RegularCoreButton.small,
+.SecondaryCoreButton.small,
+.TertiaryCoreButton.small {
+  height: 2em;
+}
+.PrimaryCoreButton:disabled,
+.RegularCoreButton:disabled,
+.SecondaryCoreButton:disabled,
+.TertiaryCoreButton:disabled {
+  background-color: #f6f7f8;
+  border-color: #dedee4;
+  color: #c8cdd1;
+  opacity: 1;
+}
+.PrimaryCoreButton {
+  background-color: #eb5648;
+}
+.PrimaryCoreButton,
+.PrimaryCoreButton:link,
+.PrimaryCoreButton:visited {
+  border-color: transparent;
+  color: #fff;
+}
+.PrimaryCoreButton:enabled:hover,
+a.PrimaryCoreButton:hover {
+  background-color: #ef776c;
+  color: #fff;
+}
+.PrimaryCoreButton:enabled:active,
+a.PrimaryCoreButton:active {
+  background-color: #bc4439;
+  color: #e4b4b0;
+}
+.RegularCoreButton,
+.SecondaryCoreButton {
+  background-color: #fff;
+}
+.RegularCoreButton,
+.SecondaryCoreButton,
+.RegularCoreButton:link,
+.SecondaryCoreButton:link,
+.RegularCoreButton:visited,
+.SecondaryCoreButton:visited {
+  color: #eb5648;
+}
+.RegularCoreButton:enabled:hover,
+.SecondaryCoreButton:enabled:hover,
+a.RegularCoreButton:hover,
+a.SecondaryCoreButton:hover {
+  border-color: #ffa39e;
+  color: #ef776c;
+}
+.RegularCoreButton:enabled:active,
+.SecondaryCoreButton:enabled:active,
+a.RegularCoreButton:active,
+a.SecondaryCoreButton:active {
+  border-color: #e84030;
+  color: #bc4439;
+}
+.TertiaryCoreButton {
+  background-color: #fff;
+  border-color: #c8cdd1;
+}
+.TertiaryCoreButton,
+.TertiaryCoreButton:link,
+.TertiaryCoreButton:visited {
+  color: #415058;
+}
+.TertiaryCoreButton:enabled:hover,
+a.TertiaryCoreButton:hover {
+  background-color: #8d9ea7;
+  border-color: #7d8694;
+  color: #fff;
+}
+.TertiaryCoreButton:enabled:active,
+a.TertiaryCoreButton:active {
+  background-color: #5b6b73;
+  border-color: #415058;
+}
+.RegularButton,
+.RegularButton:link,
+.RegularButton:visited {
+  color: #8d9ea7;
+}
+.RegularButton:enabled:hover,
+a.RegularButton:hover {
+  color: #5b6b73;
+}
+.RegularButton:disabled {
+  opacity: 0.6;
+}
+.PrimaryButton {
+  background-color: #8d9ea7;
+  border-color: transparent;
+}
+.PrimaryButton,
+.PrimaryButton:link,
+.PrimaryButton:visited {
+  color: #fff;
+}
+.PrimaryButton:enabled:hover,
+a.PrimaryButton:hover {
+  background-color: #5b6b73;
+  color: #fff;
+}
+.PrimaryButton:enabled:active,
+a.PrimaryButton:active {
+  color: rgba(255,255,255,0.6);
+}
+.TextButton,
+.TextCoreButton {
+  transition: all 0.1s ease-out;
+}
+.TextButton,
+.TextCoreButton,
+.TextButton:link,
+.TextCoreButton:link,
+.TextButton:visited,
+.TextCoreButton:visited {
+  color: #298df8;
+}
+.TextButton:disabled,
+.TextCoreButton:disabled {
+  opacity: 0.6;
+}
+.TextButton:enabled:hover,
+.TextCoreButton:enabled:hover,
+a.TextButton:hover,
+a.TextCoreButton:hover {
+  color: #0d7ef7;
+  text-decoration: underline;
+}
+.TextButton .svg-icon.loading,
+.TextCoreButton .svg-icon.loading {
+  margin-right: 0.25em;
+}
+.TextButton.small,
+.TextCoreButton.small {
+  height: 2em;
+  font-size: 0.75rem;
+}
+.TextCoreButton,
+.TextCoreButton:link,
+.TextCoreButton:visited {
+  color: #eb5648;
+}
+.TextCoreButton:enabled:hover,
+a.TextCoreButton:hover {
+  color: #ef776c;
+  text-decoration: none;
+}
+.TextCoreButton:enabled:active,
+a.TextCoreButton:active {
+  color: #bc4439;
+}

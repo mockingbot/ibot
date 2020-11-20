@@ -13,7 +13,7 @@ node_modules
 **/*-gitignore*
 
 dest/
-lib/
+# lib/ # for tracking legacy change
 
 storybook-static/*
 !storybook-static/CNAME

@@ -1,0 +1,102 @@
+.Ellipsis,
+.Ellipsis[data-type=user],
+.Ellipsis[data-type=id],
+.Ellipsis[data-type=email],
+.Ellipsis[data-type=org],
+.Ellipsis[data-type=team],
+.Ellipsis[data-type=app],
+.Ellipsis[data-type=widget] {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.Ellipsis {
+  display: inline-block;
+  max-width: 100%;
+  vertical-align: bottom;
+}
+.Ellipsis.isnt-truncated {
+  display: inline;
+  max-width: initial !important;
+}
+.Ellipsis.is-truncated:before {
+  content: '';
+  display: block;
+}
+.Ellipsis[data-type=user],
+.Ellipsis[data-type=id] {
+  max-width: 10em;
+}
+.Ellipsis[data-type=email] {
+  max-width: 12em;
+}
+.Ellipsis[data-type=org] {
+  max-width: 15em;
+}
+.Ellipsis[data-type=team] {
+  max-width: 10em;
+}
+.Ellipsis[data-type=app] {
+  max-width: 15em;
+}
+.Ellipsis[data-type=widget] {
+  max-width: 12em;
+}
+.EllipsisTip {
+  hyphens: auto;
+}
+.Punctuation {
+  display: inline-flex;
+  align-items: baseline;
+}
+.Punctuation.isnt-truncated {
+  display: inline;
+}
+.Punctuation.with-period:after {
+  content: '. ';
+}
+.Punctuation.with-period:lang(zh):after {
+  content: '\3002';
+}
+.Punctuation.with-comma:after {
+  content: ', ';
+}
+.Punctuation.with-comma:lang(zh):after {
+  content: '\FF0C';
+}
+.Punctuation.with-question-mark:after {
+  content: '? ';
+}
+.Punctuation.with-question-mark:lang(zh):after {
+  content: '\FF1F';
+}
+.Punctuation.with-quote:before {
+  content: '\201C';
+}
+.Punctuation.with-quote:after {
+  content: '\201D';
+}
+.Punctuation.with-quote.with-period:after {
+  content: '\201D. ';
+}
+.Punctuation.with-quote.with-comma:after {
+  content: '\201D, ';
+}
+.Punctuation.with-quote.with-question-mark:after {
+  content: '\201D? ';
+}
+.Punctuation.with-quote:lang(zh):before {
+  content: '\300C';
+}
+.Punctuation.with-quote:lang(zh):after {
+  content: '\300D';
+}
+.Punctuation.with-quote.with-period:lang(zh):after {
+  content: '\300D\3002';
+}
+.Punctuation.with-quote.with-comma:lang(zh):after {
+  content: '\300D\FF0C';
+}
+.Punctuation.with-quote.with-question-mark:lang(zh):after {
+  content: '\300D\FF1F';
+}

@@ -1,0 +1,151 @@
+/* Style reset */
+html {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, sans-serif;
+  font-size: 16px;
+  line-height: 1.2;
+}
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  font-size: 0.875rem;
+}
+@media (max-width: 64rem) {
+  body {
+    overflow-x: auto;
+  }
+}
+body.is-content-fixed .ContentRoot {
+  position: fixed;
+  width: 100vw;
+}
+a:link,
+a:visited {
+  text-decoration: none;
+  color: #298df8;
+  transition: all 0.15s ease-out;
+}
+a:hover {
+  color: #1a70d8;
+}
+a:active {
+  color: #1a70d8;
+}
+button {
+  padding: 0;
+  font-family: inherit;
+  font-size: inherit;
+  background: none;
+  border: 0;
+  outline: 0;
+  color: inherit;
+  cursor: pointer;
+}
+input {
+  line-height: normal;
+  background: none;
+  border: 0;
+  outline: 0;
+}
+.iBotRoot {
+  padding: 1rem;
+  min-width: 64rem;
+}
+.iBotRoot h2 + p,
+.iBotRoot h3 + p,
+.iBotRoot h4 + p,
+.iBotRoot h5 + p,
+.iBotRoot h6 + p,
+.iBotRoot h2 + form,
+.iBotRoot h3 + form,
+.iBotRoot h4 + form,
+.iBotRoot h5 + form,
+.iBotRoot h6 + form,
+.iBotRoot h2 + ul,
+.iBotRoot h3 + ul,
+.iBotRoot h4 + ul,
+.iBotRoot h5 + ul,
+.iBotRoot h6 + ul,
+.iBotRoot h2 + ol,
+.iBotRoot h3 + ol,
+.iBotRoot h4 + ol,
+.iBotRoot h5 + ol,
+.iBotRoot h6 + ol {
+  margin-top: -0.75em;
+}
+.iBotRoot h2 + h3 {
+  margin-top: -0.75em;
+}
+@-moz-keyframes ibot-ani-spinning {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(359deg);
+  }
+}
+@-webkit-keyframes ibot-ani-spinning {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(359deg);
+  }
+}
+@-o-keyframes ibot-ani-spinning {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(359deg);
+  }
+}
+@keyframes ibot-ani-spinning {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(359deg);
+  }
+}
+@-moz-keyframes ibot-ani-spinning-reverse {
+  0% {
+    transform: rotate(359deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+@-webkit-keyframes ibot-ani-spinning-reverse {
+  0% {
+    transform: rotate(359deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+@-o-keyframes ibot-ani-spinning-reverse {
+  0% {
+    transform: rotate(359deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+@keyframes ibot-ani-spinning-reverse {
+  0% {
+    transform: rotate(359deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}

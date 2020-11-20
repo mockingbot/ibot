@@ -1,0 +1,275 @@
+.Select,
+.CoreSelect {
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 100%;
+  min-width: 3em;
+  height: 34px;
+  color: #5b6b73;
+  cursor: pointer;
+  transition: all 0.2s ease-out;
+}
+.Select button,
+.CoreSelect button {
+  flex: 1;
+  width: calc(100% - 2em);
+  height: 100%;
+  text-align: start;
+  cursor: inherit;
+}
+.Select .caret,
+.CoreSelect .caret {
+  margin: 0 0.75em 0 1em;
+  line-height: 0;
+  color: #8d9ea7;
+}
+.Select .caret svg,
+.CoreSelect .caret svg {
+  display: block;
+  width: 6px;
+  height: 4px;
+  fill: currentColor;
+  fill-rule: evenodd;
+  transform: rotate(180deg);
+  transition: all 0.3s ease-out;
+}
+.Select:not(.unstyled),
+.CoreSelect:not(.unstyled) {
+  padding-left: 0.5em;
+  background-color: #f6f7f8;
+  border: 1px solid #f2f2f3;
+  border-radius: 2px;
+}
+.Select.small,
+.CoreSelect.small {
+  height: 22px;
+  font-size: 12px;
+}
+.Select.small .caret,
+.CoreSelect.small .caret {
+  margin-right: 0.5em;
+}
+.Select:not(.is-disabled):not(.readonly):not(.unstyled):hover,
+.CoreSelect:not(.is-disabled):not(.readonly):not(.unstyled):hover,
+.Select:not(.unstyled).is-open,
+.CoreSelect:not(.unstyled).is-open {
+  border-color: #298df8;
+}
+.Select.is-open:not(.unstyled),
+.CoreSelect.is-open:not(.unstyled) {
+  background-color: #fff;
+  box-shadow: 0 0 6px 0 rgba(41,141,248,0.5);
+}
+.Select.is-open .caret svg,
+.CoreSelect.is-open .caret svg {
+  transform: rotate(0deg);
+}
+.Select.is-disabled,
+.CoreSelect.is-disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+.Select.readonly,
+.CoreSelect.readonly {
+  cursor: default;
+}
+.CoreSelect:not(.unstyled) {
+  background-color: #fff;
+  border: 1px solid #c8cdd1;
+}
+.SelectMenuBase {
+  position: fixed;
+  pointer-events: none;
+  z-index: 1100;
+}
+.SelectMenu,
+.CoreSelectMenu,
+.CheckSelectMenu {
+  position: absolute;
+  margin: 2px 0;
+  padding: 0;
+  display: block;
+  max-width: 20em;
+  min-width: 100%;
+  min-height: 30px;
+  max-height: 300px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  pointer-events: none;
+  font-size: 12px;
+  list-style: none;
+  background-color: #fff;
+  border-radius: 3px;
+  box-shadow: 0 2px 10px 0 rgba(39,54,78,0.08), 4px 12px 40px 0 rgba(39,54,78,0.1);
+  color: #5b6b73;
+  transition: 0.2s ease-out;
+  transition-property: transform, opacity;
+  transform-origin: 50% 0;
+}
+.SelectMenu::-webkit-scrollbar,
+.CoreSelectMenu::-webkit-scrollbar,
+.CheckSelectMenu::-webkit-scrollbar {
+  display: block;
+  width: 4px;
+  height: 4px;
+}
+.SelectMenu::-webkit-scrollbar-thumb,
+.CoreSelectMenu::-webkit-scrollbar-thumb,
+.CheckSelectMenu::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 2px;
+}
+.SelectMenu::-webkit-scrollbar-track,
+.CoreSelectMenu::-webkit-scrollbar-track,
+.CheckSelectMenu::-webkit-scrollbar-track {
+  background-color: rgba(255,255,255,0.5);
+}
+.SelectMenu.is-empty,
+.CoreSelectMenu.is-empty,
+.CheckSelectMenu.is-empty {
+  width: -moz-fit-content;
+  width: -webkit-fit-content;
+  width: fit-content;
+}
+.SelectMenu:not(.is-open),
+.CoreSelectMenu:not(.is-open),
+.CheckSelectMenu:not(.is-open) {
+  opacity: 0;
+  transform: scale(0.8);
+}
+.SelectMenu.x-center,
+.CoreSelectMenu.x-center,
+.CheckSelectMenu.x-center {
+  left: 50%;
+  transform: translateX(-50%);
+}
+.SelectMenu.x-center:not(.is-open),
+.CoreSelectMenu.x-center:not(.is-open),
+.CheckSelectMenu.x-center:not(.is-open) {
+  transform: scale(0.8) translateX(-50%);
+}
+.SelectMenu.x-right,
+.CoreSelectMenu.x-right,
+.CheckSelectMenu.x-right {
+  right: 0;
+}
+.SelectMenu.is-downward,
+.CoreSelectMenu.is-downward,
+.CheckSelectMenu.is-downward {
+  top: 100%;
+  bottom: initial;
+}
+.SelectMenu.is-upward,
+.CoreSelectMenu.is-upward,
+.CheckSelectMenu.is-upward {
+  transform-origin: 50% 100%;
+  top: initial;
+  bottom: 100%;
+}
+.SelectMenu.is-open,
+.CoreSelectMenu.is-open,
+.CheckSelectMenu.is-open {
+  opacity: 1;
+  pointer-events: initial;
+}
+.SelectMenu.cant-select .SelectOption,
+.CoreSelectMenu.cant-select .SelectOption,
+.CheckSelectMenu.cant-select .SelectOption {
+  cursor: default;
+}
+.SelectMenu .SelectGroup > .title,
+.CoreSelectMenu .SelectGroup > .title,
+.CheckSelectMenu .SelectGroup > .title {
+  padding: 0 0.75em;
+  width: 100%;
+  height: 30px;
+  line-height: 30px;
+  font-weight: bold;
+}
+.SelectMenu .SelectGroup > ul,
+.CoreSelectMenu .SelectGroup > ul,
+.CheckSelectMenu .SelectGroup > ul {
+  margin: 0;
+  padding: 0;
+}
+.SelectMenu .SelectOption,
+.CoreSelectMenu .SelectOption,
+.CheckSelectMenu .SelectOption {
+  display: flex;
+  align-items: center;
+  height: 30px;
+  line-height: 30px;
+  cursor: pointer;
+}
+.SelectMenu .SelectOption > .Ellipsis,
+.CoreSelectMenu .SelectOption > .Ellipsis,
+.CheckSelectMenu .SelectOption > .Ellipsis {
+  padding: 0 0.75em;
+}
+.SelectMenu .SelectOption > .icon,
+.CoreSelectMenu .SelectOption > .icon,
+.CheckSelectMenu .SelectOption > .icon {
+  margin-left: auto;
+  margin-right: 0.75em;
+}
+.SelectMenu .SelectOption.is-disabled,
+.CoreSelectMenu .SelectOption.is-disabled,
+.CheckSelectMenu .SelectOption.is-disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+.SelectMenu .SelectOption.is-active,
+.CoreSelectMenu .SelectOption.is-active,
+.CheckSelectMenu .SelectOption.is-active {
+  color: #298df8;
+}
+.SelectMenu .SelectOption:not(.empty-msg):not(.is-disabled):hover,
+.CoreSelectMenu .SelectOption:not(.empty-msg):not(.is-disabled):hover,
+.CheckSelectMenu .SelectOption:not(.empty-msg):not(.is-disabled):hover,
+.SelectMenu .SelectOption.is-active,
+.CoreSelectMenu .SelectOption.is-active,
+.CheckSelectMenu .SelectOption.is-active {
+  background-color: #f6f7f8;
+}
+.SelectMenu .SelectOption.empty-msg,
+.CoreSelectMenu .SelectOption.empty-msg,
+.CheckSelectMenu .SelectOption.empty-msg {
+  padding: 0 0.5em;
+  color: #8d9ea7;
+  cursor: not-allowed;
+}
+.CheckSelectMenu:not(.is-empty) {
+  padding: 6px 0;
+}
+.CheckSelectMenu .SelectOption {
+  height: 32px;
+}
+.CheckSelectMenu .SelectOption .Ellipsis {
+  padding: 0 16px;
+}
+.CheckSelectMenu .SelectOption .Ellipsis + .icon {
+  margin-right: 10px;
+}
+.CheckSelectMenu .SelectOption:hover,
+.CheckSelectMenu .SelectOption.is-active:hover {
+  color: #298df8;
+}
+.CheckSelectMenu .SelectOption.is-active {
+  background: none;
+  color: inherit;
+}
+.CoreSelectMenu {
+  margin: 4px 0;
+}
+.CoreSelectMenu:not(.is-empty) {
+  padding: 8px;
+  min-height: 48px;
+  max-height: 336px;
+}
+.CoreSelectMenu .SelectGroup > .title,
+.CoreSelectMenu .SelectOption {
+  height: 32px;
+  line-height: 32px;
+  border-radius: 2px;
+}

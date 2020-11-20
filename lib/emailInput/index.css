@@ -1,0 +1,5 @@
+.InputEmail:not(.unstyled).isnt-valid input,
+.CoreInputEmail:not(.unstyled).isnt-valid input {
+  border-color: #ff6161 !important;
+  box-shadow: 0 0 6px 0 rgba(255,97,97,0.5) !important;
+}

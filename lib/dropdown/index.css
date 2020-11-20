@@ -1,0 +1,133 @@
+.Dropdown.is-disabled {
+  opacity: 0.5;
+}
+.Dropdown.is-disabled > button {
+  cursor: not-allowed;
+}
+.DropdownMenuBase {
+  position: fixed;
+  z-index: 1100;
+  pointer-events: none;
+}
+.DropdownMenu {
+  position: absolute;
+  margin: 0.25em 0;
+  width: -moz-fit-content;
+  width: -webkit-fit-content;
+  width: fit-content;
+  min-width: 7em;
+  font-size: 12px;
+  filter: drop-shadow(0 2px 10px rgba(39,54,78,0.12)) drop-shadow(4px 12px 40px rgba(39,54,78,0.12));
+  pointer-events: none;
+  opacity: 0;
+  transition: 0.2s ease-in-out;
+  transition-property: transform, opacity;
+  transform-origin: 50% 0;
+  transform: scale(0.9);
+}
+.DropdownMenu.is-open {
+  pointer-events: initial;
+  opacity: 1;
+  transform: scale(1);
+}
+.DropdownMenu.x-left {
+  left: 0;
+}
+.DropdownMenu.x-right {
+  left: initial;
+  right: 0;
+}
+.DropdownMenu.x-center {
+  left: 50%;
+  transform: scale(0.9) translateX(-50%);
+}
+.DropdownMenu.x-center.is-open {
+  transform: scale(1) translateX(-50%);
+}
+.DropdownMenu.is-downward {
+  top: 100%;
+  bottom: initial;
+}
+.DropdownMenu.is-upward {
+  top: initial;
+  bottom: 100%;
+}
+.DropdownMenu.arrowed {
+  margin-top: 0.75em;
+  margin-bottom: 0.75em;
+}
+.DropdownMenu.arrowed.x-left.x-arrow-based {
+  left: 50%;
+  margin-left: -14px;
+}
+.DropdownMenu.arrowed.x-right.x-arrow-based {
+  left: initial;
+  right: 50%;
+  margin-right: -14px;
+}
+.DropdownMenu .arrow {
+  position: absolute;
+  top: 0;
+  left: calc(50% - 0.5em);
+  width: 1em;
+  height: 0.375em;
+  font-size: 14px;
+  line-height: 0;
+  fill: currentColor;
+  fill-rule: evenodd;
+  color: #fff;
+}
+.DropdownMenu .arrow svg {
+  position: absolute;
+  width: auto;
+  height: 5px;
+  transform: translateY(-100%);
+}
+.DropdownMenu.dark .arrow {
+  color: rgba(30,41,46,0.9);
+}
+.DropdownMenu.x-left .arrow {
+  left: 0.5em;
+  right: initial;
+}
+.DropdownMenu.x-right .arrow {
+  left: initial;
+  right: 0.5em;
+}
+.DropdownMenu.is-upward .arrow {
+  transform: rotate(180deg);
+  top: initial;
+  bottom: 0;
+}
+.DropdownMenu .content {
+  padding: 0.75em 0.5em;
+  min-height: 32px;
+  background-color: #fff;
+  border-radius: 4px;
+}
+.DropdownMenu.dark .content {
+  background-color: rgba(30,41,46,0.9);
+  color: #fff;
+}
+.DropdownMenu ul.MenuList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-align: center;
+  color: #5b6b73;
+}
+.DropdownMenu ul.MenuList li {
+  line-height: 32px;
+  border-radius: 2px;
+  cursor: pointer;
+}
+.DropdownMenu ul.MenuList li:not(.is-disabled):hover {
+  background-color: #f6f7f8;
+}
+.DropdownMenu ul.MenuList li.is-active {
+  color: #298df8;
+}
+.DropdownMenu ul.MenuList li.is-disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}

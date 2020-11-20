@@ -1,0 +1,45 @@
+.FormEntry {
+  display: flex;
+  align-items: center;
+  margin: 0.5em 0;
+  min-height: 34px;
+}
+.FormEntry .FormEntry-Key {
+  align-self: flex-start;
+  display: flex;
+  align-items: center;
+  flex-basis: 7em;
+  height: 34px;
+}
+.FormEntry .FormEntry-Val {
+  flex: 1;
+}
+.FormEntry .required-sign {
+  margin: 0 0.25em;
+  color: #eb5648;
+}
+.FormEntry .FormEntry-Val > .Input,
+.FormEntry .FormEntry-Val > .CoreInput {
+  display: block;
+  width: 100%;
+}
+.FormEntry .FormEntry-Val > .Input.small,
+.FormEntry .FormEntry-Val > .CoreInput.small {
+  margin-top: 6px;
+  margin-bottom: 6px;
+}
+.FormEntry .FormEntry-Val > .Textarea,
+.FormEntry .FormEntry-Val > .CoreTextarea {
+  display: block;
+  width: 100%;
+}
+.FormEntry .FormEntry-Val > .Check,
+.FormEntry .FormEntry-Val > .CoreCheck,
+.FormEntry .FormEntry-Val > .Radio,
+.FormEntry .FormEntry-Val > .CoreRadio,
+.FormEntry .FormEntry-Val > .CheckGroup,
+.FormEntry .FormEntry-Val > .CoreCheckGroup,
+.FormEntry .FormEntry-Val > .RadioGroup,
+.FormEntry .FormEntry-Val > .CoreRadioGroup {
+  margin-top: calc((34px - 1.5em)/2);
+}
