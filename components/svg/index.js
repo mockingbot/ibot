@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types'
 import { trimList } from '../util'
-import * as ICON_MAP from './icons'
+import { ICON_MAP } from './ICON_MAP'
 import './index.styl'
 
 function getIcon (name) {
-  const [cat, id] = /.\/./.test(name) ? name.split('/') : ['general', name]
-  return ICON_MAP[cat][id]
+  const icon = ICON_MAP[name]
+  if (!icon) console.warn('missing SVG icon:', name) // for easier later tracking
+  return icon
 }
 
 function SVG ({ name, icon = getIcon(name), className, label, ...others }) {

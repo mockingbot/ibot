@@ -9,8 +9,9 @@
     "lib"
   ],
   "scripts": {
+    "generate:svg-icon-map": "node ./components/svg/ICON_MAP.generate.js",
     "start": "node ./scripts/reset-file.js && start-storybook -p 6006",
-    "build": "node ./scripts/reset-file.js && node ./scripts/rollup.js",
+    "build": "npm run generate:svg-icon-map && node ./scripts/reset-file.js && node ./scripts/rollup.js",
     "deploy": "build-storybook && gh-pages -d storybook-static",
     "prepare": "npm run build"
   },
