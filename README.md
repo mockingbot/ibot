@@ -1,17 +1,7 @@
-## Guide
+## Legacy branch
 
-### start
-```bash
-yarn
-yarn run start
-```
+This is a maintenance branch, feature locked,
+  and only goal is try to reduce the code refactoring fraction.
 
-### publish
-````bash
-yarn publish
-````
-###
-
-### development experience
- - implement components in components folder
- - write live showcase in stories directory
+The output `lib` change is tracked in separate git commit,
+  so please find the details there.
