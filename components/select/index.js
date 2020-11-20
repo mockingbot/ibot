@@ -1,4 +1,4 @@
-import React, { createRef, PureComponent } from 'react'
+import { createRef, PureComponent } from 'react'
 import { createPortal } from 'react-dom'
 import PropTypes from 'prop-types'
 import EventListener, { withOptions } from 'react-event-listener'
@@ -8,7 +8,7 @@ import isEqual from 'lodash/isEqual'
 import isElement from 'lodash/isElement'
 import Icon from '../icon'
 import Ellipsis from '../ellipsis'
-import { preventScrollingPropagation, trimList, $, $$, preparePortal, SVG,
+import { preventScrollingPropagation, trimList, $, preparePortal, SVG,
   getOptionLabel, getOptionValue, checkOptionByValue } from '../util'
 import { positionMenu } from '../dropdown'
 import './index.styl'

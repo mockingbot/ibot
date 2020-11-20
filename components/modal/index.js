@@ -1,4 +1,4 @@
-import React, { Fragment, PureComponent } from 'react'
+import { Fragment, PureComponent } from 'react'
 import { createPortal } from 'react-dom'
 import PropTypes from 'prop-types'
 import EventListener from 'react-event-listener'

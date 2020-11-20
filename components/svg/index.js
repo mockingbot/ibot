@@ -1,4 +1,3 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import { trimList } from '../util'
 import * as ICON_MAP from './icons'

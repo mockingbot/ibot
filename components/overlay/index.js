@@ -1,4 +1,4 @@
-import React, { Fragment, PureComponent } from 'react'
+import { Fragment, PureComponent } from 'react'
 import { createPortal } from 'react-dom'
 import PropTypes from 'prop-types'
 import isBoolean from 'lodash/isBoolean'
@@ -8,7 +8,7 @@ import Switch from '../switch'
 import SVG from '../svg'
 import {
   addModalToStack, deleteModalFromStack, checkNoOpenModalInStack,
-  toggleGlobalScroll, trimList, $, preparePortal,
+  toggleGlobalScroll, trimList, preparePortal,
 } from '../util'
 
 import './index.styl'

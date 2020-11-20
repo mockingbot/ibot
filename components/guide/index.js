@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment, isValidElement, cloneElement } from 'react'
+import { PureComponent, Fragment, isValidElement, cloneElement } from 'react'
 import { createPortal } from 'react-dom'
 import PropTypes from 'prop-types'
 import EventListener, { withOptions } from 'react-event-listener'

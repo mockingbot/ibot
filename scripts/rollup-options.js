@@ -17,6 +17,7 @@ const buildWithRollup = async ({ componentName, componentNameList = [] }) => {
   const outputFileJS = fromRoot(outputRoot, 'index.js')
 
   const externalPackageList = [
+    '@babel/runtime',
     'react', 'react-dom', 'prop-types',
     'react-router', 'react-router-dom',
     'lodash',
@@ -29,7 +30,7 @@ const buildWithRollup = async ({ componentName, componentNameList = [] }) => {
     input: inputFile,
     external: (id, parent, isResolved) => {
       const isExternal = (id[ 0 ] !== '.')
-        ? externalPackageList.includes(id) // from another package (`import ... from 'react'`)
+        ? (id.includes('/') ? externalPackageList.some((name) => id.startsWith(name + '/')) : externalPackageList.includes(id)) // from another package (`import ... from 'react'`)
         : externalComponentPrefixList.some((prefix) => fromRoot(parent, '../', id).startsWith(prefix)) // from relative file (`import ... from './script.js'`)
       // console.log(JSON.stringify({ isExternal, id, parent, isResolved })) // debug id filter
       return isExternal
@@ -58,7 +59,7 @@ const buildWithRollup = async ({ componentName, componentNameList = [] }) => {
       }),
 
       json(),
-      babel({ exclude: 'node_modules/**' }),
+      babel({ exclude: 'node_modules/**', runtimeHelpers: true }),
       commonjs({
         namedExports: {
           'node_modules/react/index.js': [ 'Component', 'PureComponent', 'Children', 'createElement' ],

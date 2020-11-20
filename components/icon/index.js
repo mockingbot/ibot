@@ -1,4 +1,3 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import { trimList } from '../util'
 import duoList from 'mb-icons/dora/duo-list.json'
