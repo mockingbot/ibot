@@ -10,29 +10,19 @@ import SVG from '../svg'
 import Switch from '../switch'
 import {
   addModalToStack, deleteModalFromStack, checkNoOpenModalInStack, checkModalIndexInStack,
-  toggleGlobalScroll, trimList, $, preparePortal,
+  toggleGlobalScroll, trimList, $, preparePortal
 } from '../util'
 import { StyledCorePortal, StyledCoreModal, StyledCoreMask } from './styled'
 
 const stopPropagation = e => e.stopPropagation()
 const MODAL_ROOT_ID = 'IBOT_MODAL_ROOT'
 const MODAL_PORTAL_CLASS = 'CoreModalPortal'
-const I18N = get(window, 'I18N', {})
-const $body = document.body
-const $modalRoot = (
-  document.getElementById(MODAL_ROOT_ID) ||
-  Object.assign(document.createElement('div'), { id: MODAL_ROOT_ID })
-)
-
-if (!$body.contains($modalRoot)) {
-  $body.appendChild($modalRoot)
-}
 
 const TYPE_CLASS_MAP = {
   alert: 'AlertCoreModal',
   form: 'FormCoreModal',
   functional: 'FunctionalCoreModal',
-  display: 'DisplayCoreModal',
+  display: 'DisplayCoreModal'
 }
 
 export default class CoreModal extends PureComponent {
@@ -41,11 +31,11 @@ export default class CoreModal extends PureComponent {
     title: PropTypes.node,
     children: PropTypes.node,
 
-    modal: PropTypes.node,
-    type: PropTypes.oneOf(['alert', 'form', 'functional', 'display']),
+    // modal: PropTypes.node,
+    type: PropTypes.oneOf([ 'alert', 'form', 'functional', 'display' ]),
 
     opener: PropTypes.node,
-    openerType: PropTypes.oneOf(['primary', 'regular', 'text', 'switch', 'custom', 'none']),
+    openerType: PropTypes.oneOf([ 'primary', 'regular', 'text', 'switch', 'custom', 'none' ]),
 
     className: PropTypes.string,
     maskClassName: PropTypes.string,
@@ -68,7 +58,7 @@ export default class CoreModal extends PureComponent {
 
     onCancel: PropTypes.func,
     isCancelDisabled: PropTypes.bool,
-    cancelText: PropTypes.string,
+    cancelText: PropTypes.string
   }
 
   static defaultProps = {
@@ -83,22 +73,14 @@ export default class CoreModal extends PureComponent {
     canCloseOnClickMask: true,
     shouldCloseOnAction: true,
     canCloseOnEsc: true,
-    canConfirmOnEnter: true,
-
-    cancelText: I18N.cancel || 'Cancel',
-    confirmText: I18N.confirm || 'Confirm',
+    canConfirmOnEnter: true
   }
 
   state = {
     prevProps: this.props,
     isOpen: this.props.isOpen,
-    isVisible: false,
+    isVisible: false
   }
-
-  portal = preparePortal(
-    $modalRoot,
-    trimList([MODAL_PORTAL_CLASS, this.props.portalClassName]),
-  )
 
   maskRef = createRef()
 
@@ -120,17 +102,34 @@ export default class CoreModal extends PureComponent {
   }
 
   componentDidMount () {
-    const { onOpen, onToggle } = this.props
     const { isOpen } = this.state
-
+    this.init()
     if (isOpen) {
       setTimeout(() => this.setState(
         { isVisible: true },
-        this.didOpen,
+        this.didOpen
       ))
     }
 
     window.addEventListener('resize', this.positionY)
+  }
+
+  init = () => {
+    this.I18N = get(window, 'I18N', {})
+    const $body = document.body
+    const $modalRoot = (
+      document.getElementById(MODAL_ROOT_ID) ||
+      Object.assign(document.createElement('div'), { id: MODAL_ROOT_ID })
+    )
+
+    if (!$body.contains($modalRoot)) {
+      $body.appendChild($modalRoot)
+    }
+
+    this.portal = preparePortal(
+      $modalRoot,
+      trimList([ MODAL_PORTAL_CLASS, this.props.portalClassName ])
+    )
   }
 
   componentDidUpdate (_, { isOpen: wasOpen }) {
@@ -139,7 +138,7 @@ export default class CoreModal extends PureComponent {
     if (!wasOpen && isOpen) {
       setTimeout(() => this.setState(
         { isVisible: true },
-        this.didOpen,
+        this.didOpen
       ))
     } else if (wasOpen && !isOpen) {
       this.didClose()
@@ -155,7 +154,6 @@ export default class CoreModal extends PureComponent {
 
   didOpen = () => {
     const { onOpen, onToggle } = this.props
-    const { maskRef: { current: $mask } } = this
 
     addModalToStack(this)
 
@@ -207,7 +205,7 @@ export default class CoreModal extends PureComponent {
     const { height: h } = $modal.getBoundingClientRect()
 
     const action = (vh <= h || ((vh - h) / 2) < (vh * 0.15)) ? 'add' : 'remove'
-    $modal.classList[action]('is-v-centered')
+    $modal.classList[ action ]('is-v-centered')
   })
 
   onClickMask = e => {
@@ -247,10 +245,9 @@ export default class CoreModal extends PureComponent {
 
   onKeyDown = ({ key, target: $elmt }) => {
     const {
-      type,
       canClose, canCloseOnEsc,
       canConfirmOnEnter,
-      onConfirm, onCancel,
+      onConfirm, onCancel
     } = this.props
 
     const { isOpen } = this.state
@@ -331,14 +328,17 @@ export default class CoreModal extends PureComponent {
   }
 
   get modal () {
-    return createPortal(this.modalDOM, this.portal)
+    if (this.portal) {
+      return createPortal(this.modalDOM, this.portal)
+    }
+    return null
   }
 
   get footer () {
     const {
       onConfirm, onCancel,
       confirmText, cancelText,
-      isConfirmDisabled, isCancelDisabled,
+      isConfirmDisabled, isCancelDisabled
     } = this.props
 
     const shouldRender = onConfirm || onCancel
@@ -347,13 +347,13 @@ export default class CoreModal extends PureComponent {
       <footer>
         { onConfirm && (
           <PrimaryCoreButton onClick={this.confirm} isDisabled={isConfirmDisabled}>
-            { confirmText }
+            { confirmText || this.I18N.confirm || 'Confirm'}
           </PrimaryCoreButton>
         )}
 
         { onCancel && (
           <TertiaryCoreButton onClick={this.cancel} isDisabled={isCancelDisabled}>
-            { cancelText }
+            { cancelText || this.I18N.cancel || 'Cancel'}
           </TertiaryCoreButton>
         )}
       </footer>
@@ -369,7 +369,7 @@ export default class CoreModal extends PureComponent {
 
       children,
 
-      canClose, canCloseOnClickMask,
+      canClose, canCloseOnClickMask
     } = this.props
 
     const { isOpen, isVisible } = this.state
@@ -384,13 +384,13 @@ export default class CoreModal extends PureComponent {
             'CoreModalMask',
             maskClassName,
             isVisible && 'is-open',
-            canClose && canCloseOnClickMask ? 'can-close' : 'cant-close',
+            canClose && canCloseOnClickMask ? 'can-close' : 'cant-close'
           ])}
           onClick={this.onClickMask}
           onTransitionEnd={this.onTransitionEnd}
         />
         <StyledCoreModal
-          className={trimList(['CoreModal', TYPE_CLASS_MAP[type], className])}
+          className={trimList([ 'CoreModal', TYPE_CLASS_MAP[ type ], className ])}
           onTransitionEnd={stopPropagation}
           onClick={stopPropagation}
         >

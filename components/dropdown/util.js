@@ -17,7 +17,7 @@ const MARGIN = 9
  *  @prop {Object} style
  *  @prop {Boolean} isDownward
  */
-export function positionMenu({
+export function positionMenu ({
   $opener,
   $menuBase,
 
@@ -27,9 +27,9 @@ export function positionMenu({
   menuBaseStyle = {},
 
   inflexible = false,
-  shouldSetMaxHeight = false,
+  shouldSetMaxHeight = false
 }) {
-  if (!$opener || !$menuBase) return
+  if (!$opener || !$menuBase) return {}
 
   const $menu = $menuBase.querySelector('*')
 
@@ -48,9 +48,9 @@ export function positionMenu({
       top: rect.top,
       right: rect.right,
       bottom: rect.bottom,
-      left: rect.left,
+      left: rect.left
     },
-    menuBaseStyle,
+    menuBaseStyle
   )
 
   // Copy positioning info of $opener to $menuBase:
@@ -58,7 +58,7 @@ export function positionMenu({
     top: `${top}px`,
     left: `${left}px`,
     width: `${wOf$opener}px`,
-    height: `${hOf$opener}px`,
+    height: `${hOf$opener}px`
   })
 
   const { innerHeight: hOf$win } = window
@@ -67,20 +67,20 @@ export function positionMenu({
   const maxY = hOf$win - 10
 
   // Point deciding the position for the menu:
-  const ratio = menuY === 'top' ? 1/3 : 2/3
+  const ratio = menuY === 'top' ? 1 / 3 : 2 / 3
   const decidingPoint = hOf$win * ratio
 
   // Y middle line of the $opener:
-  const midOf$opener = top + hOf$opener/2
+  const midOf$opener = top + hOf$opener / 2
   const bottomOf$opener = top + hOf$opener
 
   // Slide downward:
   if (
     (
-      inflexible && menuY === 'bottom'
-      || !inflexible && decidingPoint >= midOf$opener
-    )
-    && (bottomOf$opener + hOf$menu + MARGIN) < hOf$win
+      inflexible && menuY === 'bottom' ||
+      !inflexible && decidingPoint >= midOf$opener
+    ) &&
+    (bottomOf$opener + hOf$menu + MARGIN) < hOf$win
   ) {
     result.isDownward = true
 

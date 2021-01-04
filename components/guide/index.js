@@ -8,28 +8,17 @@ import SVG from '../svg'
 import { trimList, preparePortal, SVG as UTIL_SVG } from '../util'
 import { positionMenu } from '../dropdown'
 import { StyledGuidBase, StyledGuid } from './styled'
+import get from 'lodash/get'
 
-const { I18N = {} } = window
 const GUIDE_ROOT_ID = 'IBOT_GUIDE_GUIDE_ROOT'
-const $guideRoot = (
-  document.getElementById(GUIDE_ROOT_ID) ||
-  Object.assign(document.createElement('div'), { id: GUIDE_ROOT_ID })
-)
-const $body = document.body
-
-if (!$body.contains($guideRoot)) {
-  $body.appendChild($guideRoot)
-}
 
 export default class GuideBase extends PureComponent {
   state = {
     prevProps: this.props,
 
     isOpen: this.props.isOpen,
-    isDownward: this.props.Y === 'bottom',
+    isDownward: this.props.Y === 'bottom'
   }
-
-  portal = preparePortal($guideRoot, 'GuidePortal')
 
   static propTypes = {
     isOpen: PropTypes.bool,
@@ -45,10 +34,10 @@ export default class GuideBase extends PureComponent {
     children: PropTypes.node,
     guide: PropTypes.any,
 
-    X: PropTypes.oneOf(['left', 'center', 'right']),
-    Y: PropTypes.oneOf(['top', 'bottom']),
+    X: PropTypes.oneOf([ 'left', 'center', 'right' ]),
+    Y: PropTypes.oneOf([ 'top', 'bottom' ]),
 
-    inflexible: PropTypes.bool,
+    inflexible: PropTypes.bool
   }
 
   static defaultProps = {
@@ -57,12 +46,11 @@ export default class GuideBase extends PureComponent {
     noCloseBtn: false,
     iKonwBtn: false,
     onClose: () => null,
-    gotItText: I18N.iknow || 'Got it!',
 
     X: 'left',
     Y: 'bottom',
 
-    inflexible: false,
+    inflexible: false
   }
 
   static getDerivedStateFromProps (props, { prevProps, isOpen }) {
@@ -75,7 +63,23 @@ export default class GuideBase extends PureComponent {
 
   componentDidMount () {
     const { isOpen } = this.state
+    this.init()
     if (isOpen) this.position()
+  }
+
+  init = () => {
+    this.I18N = get(window, 'I18N', {})
+    const $guideRoot = (
+      document.getElementById(GUIDE_ROOT_ID) ||
+      Object.assign(document.createElement('div'), { id: GUIDE_ROOT_ID })
+    )
+    const $body = document.body
+
+    if (!$body.contains($guideRoot)) {
+      $body.appendChild($guideRoot)
+    }
+
+    this.portal = preparePortal($guideRoot, 'GuidePortal')
   }
 
   componentDidUpdate (_, { isOpen: wasOpen }) {
@@ -100,7 +104,7 @@ export default class GuideBase extends PureComponent {
 
       menuX: X,
       menuY: Y,
-      inflexible,
+      inflexible
     })
 
     this.setState({ isDownward })
@@ -112,7 +116,7 @@ export default class GuideBase extends PureComponent {
 
   close = () => this.setState(
     { isOpen: false },
-    this.props.onClose,
+    this.props.onClose
   )
 
   render () {
@@ -124,7 +128,7 @@ export default class GuideBase extends PureComponent {
         : <span ref={this.set$base}>{ children }</span>
     )
 
-    const guide = createPortal(this.renderGuide(), this.portal)
+    const guide = this.portal && createPortal(this.renderGuide(), this.portal)
 
     return (
       <Fragment>
@@ -143,7 +147,7 @@ export default class GuideBase extends PureComponent {
       X,
       header,
       gotItText, gotItBtn,
-      guide,
+      guide
     } = this.props
 
     const { isOpen, isDownward } = this.state
@@ -177,7 +181,7 @@ export default class GuideBase extends PureComponent {
 
             { gotItBtn && (
               <footer>
-                <Button type="text" onClick={this.close}>{ gotItText }</Button>
+                <Button type="text" onClick={this.close}>{ gotItText || this.I18N.iknow || 'Got it!'}</Button>
               </footer>
             )}
           </div>

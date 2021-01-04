@@ -8,7 +8,7 @@ import Switch from '../switch'
 import SVG from '../svg'
 import {
   addModalToStack, deleteModalFromStack, checkNoOpenModalInStack, checkModalIndexInStack,
-  toggleGlobalScroll, trimList, $, preparePortal,
+  toggleGlobalScroll, trimList, $, preparePortal
 } from '../util'
 import { StyledMask, StyledModal, StyledModalPortal } from './styled'
 
@@ -22,8 +22,8 @@ const stopPropagation = e => e.stopPropagation()
 const $body = document.body
 
 const $modalRoot = (
-  document.getElementById(MODAL_ROOT_ID)
-  || Object.assign(document.createElement('div'), { id: MODAL_ROOT_ID })
+  document.getElementById(MODAL_ROOT_ID) ||
+  Object.assign(document.createElement('div'), { id: MODAL_ROOT_ID })
 )
 
 if (!$body.contains($modalRoot)) {
@@ -34,18 +34,18 @@ const TYPE_CLASS_MAP = {
   alert: 'AlertModal',
   form: 'FormModal',
   functional: 'FunctionalModal',
-  display: 'DisplayModal',
+  display: 'DisplayModal'
 }
 
 export default class Modal extends PureComponent {
   state = {
     prevProps: this.props,
-    isOpen: this.props.isOpen,
+    isOpen: this.props.isOpen
   }
 
   portal = preparePortal(
     $modalRoot,
-    trimList([MODAL_PORTAL_CLASS, this.props.portalClassName]),
+    trimList([ MODAL_PORTAL_CLASS, this.props.portalClassName ])
   )
 
   static propTypes = {
@@ -54,10 +54,10 @@ export default class Modal extends PureComponent {
     children: PropTypes.node,
 
     modal: PropTypes.node,
-    type: PropTypes.oneOf(['alert', 'form', 'functional', 'display']),
+    type: PropTypes.oneOf([ 'alert', 'form', 'functional', 'display' ]),
 
     opener: PropTypes.node,
-    openerType: PropTypes.oneOf(['primary', 'regular', 'text', 'switch', 'custom', 'none']),
+    openerType: PropTypes.oneOf([ 'primary', 'regular', 'text', 'switch', 'custom', 'none' ]),
 
     className: PropTypes.string,
     maskClassName: PropTypes.string,
@@ -81,7 +81,7 @@ export default class Modal extends PureComponent {
 
     onCancel: PropTypes.func,
     isCancelDisabled: PropTypes.bool,
-    cancelText: PropTypes.string,
+    cancelText: PropTypes.string
   }
 
   static defaultProps = {
@@ -105,10 +105,10 @@ export default class Modal extends PureComponent {
     canConfirmOnEnter: true,
 
     cancelText: I18N.cancel || 'Cancel',
-    confirmText: I18N.confirm || 'Confirm',
+    confirmText: I18N.confirm || 'Confirm'
   }
 
-  static getDerivedStateFromProps(props, { prevProps }) {
+  static getDerivedStateFromProps (props, { prevProps }) {
     if (!isEqual(prevProps, props)) {
       return { prevProps: props, isOpen: props.isOpen }
     }
@@ -116,14 +116,14 @@ export default class Modal extends PureComponent {
     return null
   }
 
-  componentDidMount() {
+  componentDidMount () {
     const { isOpen } = this.state
     if (isOpen) this.didOpen()
 
     window.addEventListener('resize', this.positionY)
   }
 
-  componentDidUpdate(_, { isOpen: wasOpen }) {
+  componentDidUpdate (_, { isOpen: wasOpen }) {
     const { isOpen } = this.state
 
     if (!wasOpen && isOpen) {
@@ -133,7 +133,7 @@ export default class Modal extends PureComponent {
     }
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     if (this.portal) this.portal.remove()
 
     this.didClose()
@@ -165,7 +165,6 @@ export default class Modal extends PureComponent {
     // Remove from the stack in the next round:
     deleteModalFromStack(this)
 
-
     if (checkNoOpenModalInStack()) {
       toggleGlobalScroll(false)
     }
@@ -195,7 +194,7 @@ export default class Modal extends PureComponent {
     const {
       onConfirm,
       shouldCloseOnAction,
-      isConfirmDisabled,
+      isConfirmDisabled
     } = this.props
 
     if (typeof onConfirm === 'function' && !isConfirmDisabled) {
@@ -211,11 +210,11 @@ export default class Modal extends PureComponent {
     const {
       onCancel,
       shouldCloseOnAction,
-      isCancelDisabled,
+      isCancelDisabled
     } = this.props
 
     if (typeof onCancel === 'function' && !isCancelDisabled) {
-       onCancel()
+      onCancel()
     }
 
     if (shouldCloseOnAction) {
@@ -232,8 +231,8 @@ export default class Modal extends PureComponent {
     const { innerHeight: vh } = window
     const { offsetHeight: h } = $modal
 
-    const action = (vh <= h || ((vh - h)/2) < (vh * .2)) ? 'add' : 'remove'
-    $modal.classList[action]('is-v-centered')
+    const action = (vh <= h || ((vh - h) / 2) < (vh * 0.2)) ? 'add' : 'remove'
+    $modal.classList[ action ]('is-v-centered')
   })
 
   focusOnInput = () => {
@@ -246,41 +245,41 @@ export default class Modal extends PureComponent {
       type,
       canClose, canCloseOnEsc,
       canConfirmOnEnter,
-      onConfirm,
+      onConfirm
     } = this.props
 
     const { isOpen } = this.state
     const isSelectMenuOpen = !!$('#IBOT_SELECT_MENU_ROOT .SelectMenu.is-open')
 
     if (
-      key === 'Escape'
+      key === 'Escape' &&
 
       // Not focus on form elements:
-      && !$elmt.matches('input, textarea, select') && !isSelectMenuOpen
+      !$elmt.matches('input, textarea, select') && !isSelectMenuOpen &&
 
       // Current modal is open and can close via esc:
-      && isOpen && canClose && canCloseOnEsc && !isSelectMenuOpen
+      isOpen && canClose && canCloseOnEsc && !isSelectMenuOpen &&
 
       // Only work on the toppest modal:
-      && checkModalIndexInStack(this) === 0
+      checkModalIndexInStack(this) === 0
     ) {
       this.close()
     }
 
     if (
-      key === 'Enter'
+      key === 'Enter' &&
 
       // Not focus on form elements:
-      && !$elmt.matches('textarea, button') && !isSelectMenuOpen
+      !$elmt.matches('textarea, button') && !isSelectMenuOpen &&
 
       // Current modal is open and can confirm via enter:
-      && isOpen && canConfirmOnEnter
+      isOpen && canConfirmOnEnter &&
 
       // Only work on the toppest modal:
-      && checkModalIndexInStack(this) === 0
+      checkModalIndexInStack(this) === 0 &&
 
       // Only work whilst `onConfirm` callback is provided:
-      && (!!onConfirm || type === 'alert')
+      (!!onConfirm || type === 'alert')
     ) {
       this.onConfirm()
     }
@@ -297,11 +296,11 @@ export default class Modal extends PureComponent {
     }
   }
 
-  render() {
+  render () {
     return this.renderOpener()
   }
 
-  renderOpener() {
+  renderOpener () {
     const { opener, openerType } = this.props
     const { isOpen } = this.state
 
@@ -309,36 +308,36 @@ export default class Modal extends PureComponent {
 
     return (
       openerType === 'none'
-      ? modal
+        ? modal
 
-      : openerType === 'custom'
-      ? (
-        opener
-        ? <span onClick={this.toggle}>
-            { opener }
-            { modal }
-          </span>
-        : modal
-      )
+        : openerType === 'custom'
+          ? (
+            opener
+              ? <span onClick={this.toggle}>
+                { opener }
+                { modal }
+              </span>
+              : modal
+          )
 
-      : openerType === 'switch'
-      ? <Switch isChecked={isOpen} onChange={this.toggle}>
-          { modal }
-        </Switch>
+          : openerType === 'switch'
+            ? <Switch isChecked={isOpen} onChange={this.toggle}>
+              { modal }
+            </Switch>
 
-      : <Button type={openerType} onClick={this.open}>
-          { opener }
-          { modal }
-        </Button>
+            : <Button type={openerType} onClick={this.open}>
+              { opener }
+              { modal }
+            </Button>
     )
   }
 
-  renderModal() {
+  renderModal () {
     const { modal } = this.props
     return modal || createPortal(this.renderModalDOM(), this.portal)
   }
 
-  renderModalDOM() {
+  renderModalDOM () {
     const {
       type,
       title,
@@ -356,14 +355,14 @@ export default class Modal extends PureComponent {
 
       onConfirm,
       confirmText,
-      isConfirmDisabled,
+      isConfirmDisabled
     } = this.props
 
     const { isOpen } = this.state
 
     const shouldRenderFooter = (
-      (type === 'alert' && canClose)
-      || onCancel || onConfirm
+      (type === 'alert' && canClose) ||
+      onCancel || onConfirm
     )
 
     return isOpen && (
@@ -373,13 +372,13 @@ export default class Modal extends PureComponent {
           className={trimList([
             'ModalMask',
             maskClassName,
-            canClose && canCloseOnClickMask ? 'can-close' : 'cant-close',
+            canClose && canCloseOnClickMask ? 'can-close' : 'cant-close'
           ])}
           onClick={this.onClickMask}
           onTransitionEnd={this.onTransitionEnd}
         />
         <StyledModal
-          className={trimList(['Modal', TYPE_CLASS_MAP[type], className])}
+          className={trimList([ 'Modal', TYPE_CLASS_MAP[ type ], className ])}
           onClick={stopPropagation}
           onTransitionEnd={this.onModalTransitionEnd}
         >
@@ -413,7 +412,7 @@ export default class Modal extends PureComponent {
                 </button>
               )}
 
-              { (type === "alert" || onConfirm) && (
+              { (type === 'alert' || onConfirm) && (
                 <button
                   className="confirm-btn"
                   onClick={this.onConfirm}
