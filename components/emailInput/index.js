@@ -20,16 +20,16 @@ export default class InputEmail extends PureComponent {
 
     isActive: false,
     isValid: true,
-    isFinishedTyping: checkFinishedTyping(this.props.value),
+    isFinishedTyping: checkFinishedTyping(this.props.value)
   }
 
   static propTypes = {
-    size: PropTypes.oneOf(['regular', 'small']),
-    theme: PropTypes.oneOf(['core', 'plain']),
+    size: PropTypes.oneOf([ 'regular', 'small' ]),
+    theme: PropTypes.oneOf([ 'core', 'plain' ]),
     unstyled: PropTypes.bool,
 
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    placeholder: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    value: PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    placeholder: PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
 
     isDisabled: PropTypes.bool,
     disabled: PropTypes.bool,
@@ -38,7 +38,7 @@ export default class InputEmail extends PureComponent {
     onChange: PropTypes.func.isRequired,
     onFocus: PropTypes.func,
 
-    className: PropTypes.string,
+    className: PropTypes.string
   }
 
   static defaultProps = {
@@ -53,7 +53,7 @@ export default class InputEmail extends PureComponent {
     disabled: false,
     readOnly: false,
 
-    onChange: () => null,
+    onChange: () => null
   }
 
   static getDerivedStateFromProps (props, { prevProps, value }) {
@@ -69,13 +69,13 @@ export default class InputEmail extends PureComponent {
     this.setState(
       {
         value,
-        isFinishedTyping: checkFinishedTyping(value),
+        isFinishedTyping: checkFinishedTyping(value)
       },
       () => {
         const { onChange } = this.props
         this.checkValidity()
         onChange(value.trim(), e)
-      },
+      }
     )
   }
 
@@ -107,7 +107,7 @@ export default class InputEmail extends PureComponent {
       size, theme, unstyled,
       readOnly, placeholder,
 
-      onFocus,
+      onFocus
     } = this.props
 
     const { value, isActive, isValid } = this.state
@@ -122,7 +122,7 @@ export default class InputEmail extends PureComponent {
       isActive && !isDisabled && !readOnly && 'is-active',
       isDisabled && 'is-disabled',
       readOnly && 'is-readonly',
-      isValid ? 'is-valid' : 'isnt-valid',
+      isValid ? 'is-valid' : 'isnt-valid'
     ])
 
     return (

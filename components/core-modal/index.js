@@ -10,11 +10,10 @@ import SVG from '../svg'
 import Switch from '../switch'
 import {
   addModalToStack, deleteModalFromStack, checkNoOpenModalInStack, checkModalIndexInStack,
-  toggleGlobalScroll, trimList, $, preparePortal
+  toggleGlobalScroll, trimList, $, preparePortal, stopPropagation
 } from '../util'
 import { StyledCorePortal, StyledCoreModal, StyledCoreMask } from './styled'
 
-const stopPropagation = e => e.stopPropagation()
 const MODAL_ROOT_ID = 'IBOT_MODAL_ROOT'
 const MODAL_PORTAL_CLASS = 'CoreModalPortal'
 
@@ -114,24 +113,6 @@ export default class CoreModal extends PureComponent {
     window.addEventListener('resize', this.positionY)
   }
 
-  init = () => {
-    this.I18N = get(window, 'I18N', {})
-    const $body = document.body
-    const $modalRoot = (
-      document.getElementById(MODAL_ROOT_ID) ||
-      Object.assign(document.createElement('div'), { id: MODAL_ROOT_ID })
-    )
-
-    if (!$body.contains($modalRoot)) {
-      $body.appendChild($modalRoot)
-    }
-
-    this.portal = preparePortal(
-      $modalRoot,
-      trimList([ MODAL_PORTAL_CLASS, this.props.portalClassName ])
-    )
-  }
-
   componentDidUpdate (_, { isOpen: wasOpen }) {
     const { isOpen } = this.state
 
@@ -150,6 +131,24 @@ export default class CoreModal extends PureComponent {
 
     this.didClose()
     window.removeEventListener('resize', this.positionY)
+  }
+
+  init = () => {
+    this.I18N = get(window, 'I18N', {})
+    const $body = document.body
+    const $modalRoot = (
+      document.getElementById(MODAL_ROOT_ID) ||
+      Object.assign(document.createElement('div'), { id: MODAL_ROOT_ID })
+    )
+
+    if (!$body.contains($modalRoot)) {
+      $body.appendChild($modalRoot)
+    }
+
+    this.portal = preparePortal(
+      $modalRoot,
+      trimList([ MODAL_PORTAL_CLASS, this.props.portalClassName ])
+    )
   }
 
   didOpen = () => {

@@ -3,25 +3,13 @@ import { createPortal } from 'react-dom'
 import { CSSTransition } from 'react-transition-group'
 import PropTypes from 'prop-types'
 
-import { $, trimList, preparePortal } from '../util'
+import { $, trimList, preparePortal, stopPropagation } from '../util'
 
 import { StyledMask, StyledModal, StyledPortal, StyledFooter } from './styled'
 import SVG from '../svg'
 
 const MODAL_PORTAL_CLASS = 'ModalPortal'
 const MODAL_ROOT_ID = 'IBOT_MODAL_ROOT'
-
-const $body = document.body
-
-const $modalRoot = (
-  document.getElementById(MODAL_ROOT_ID) || Object.assign(document.createElement('div'), { id: MODAL_ROOT_ID })
-)
-
-if (!$body.contains($modalRoot)) {
-  $body.appendChild($modalRoot)
-}
-
-const stopPropagation = e => e.stopPropagation()
 
 export default class Modal extends PureComponent {
   static propTypes = {
@@ -76,15 +64,10 @@ export default class Modal extends PureComponent {
     confirmText: '确认删除'
   }
 
-  portal = preparePortal(
-    $modalRoot,
-    trimList([ MODAL_PORTAL_CLASS, this.props.portalClassName ])
-  )
-
   componentDidMount () {
     const { isOpen } = this.props
+    this.init()
     if (isOpen) this.open()
-
     window.addEventListener('resize', this.positionY)
   }
 
@@ -103,6 +86,23 @@ export default class Modal extends PureComponent {
     window.removeEventListener('resize', this.positionY)
   }
 
+  init = () => {
+    const $body = document.body
+
+    this.$modalRoot = (
+      document.getElementById(MODAL_ROOT_ID) || Object.assign(document.createElement('div'), { id: MODAL_ROOT_ID })
+    )
+
+    if (!$body.contains(this.$modalRoot)) {
+      $body.appendChild(this.$modalRoot)
+    }
+
+    this.portal = preparePortal(
+      this.$modalRoot,
+      trimList([ MODAL_PORTAL_CLASS, this.props.portalClassName ])
+    )
+  }
+
   close = () => {
     const { onClose, timeout } = this.props
     onClose()
@@ -113,7 +113,7 @@ export default class Modal extends PureComponent {
     const { isOpen, onOpen } = this.props
     if (isOpen) {
       onOpen()
-      $modalRoot.appendChild(this.portal)
+      this.$modalRoot.appendChild(this.portal)
     }
 
     // // Reassign Y position of the modal:
@@ -150,6 +150,13 @@ export default class Modal extends PureComponent {
     if (shouldCloseOnAction) {
       this.close()
     }
+  }
+
+  get modal () {
+    if (this.portal) {
+      return createPortal(this.renderModalDOM(), this.portal)
+    }
+    return null
   }
 
   positionY = () => setTimeout(() => {
@@ -240,6 +247,6 @@ export default class Modal extends PureComponent {
   }
 
   render () {
-    return createPortal(this.renderModalDOM(), this.portal)
+    return this.modal
   }
 }

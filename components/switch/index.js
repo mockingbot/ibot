@@ -7,12 +7,12 @@ import { StyledSwitch } from './styled'
 export default class Switch extends PureComponent {
   state = {
     prevProps: this.props,
-    isChecked: this.props.isChecked,
+    isChecked: this.props.isChecked
   }
 
   static propTypes = {
     className: PropTypes.string,
-    size: PropTypes.oneOf(['regular', 'small']),
+    size: PropTypes.oneOf([ 'regular', 'small' ]),
 
     isChecked: PropTypes.bool,
     isDisabled: PropTypes.bool,
@@ -20,7 +20,7 @@ export default class Switch extends PureComponent {
     readOnly: PropTypes.bool,
 
     onChange: PropTypes.func,
-    children: PropTypes.any,
+    children: PropTypes.any
   }
 
   static defaultProps = {
@@ -32,7 +32,7 @@ export default class Switch extends PureComponent {
     disabled: false,
     readOnly: false,
 
-    onChange: () => null,
+    onChange: () => null
   }
 
   static getDerivedStateFromProps (props, { prevProps }) {
@@ -81,7 +81,7 @@ export default class Switch extends PureComponent {
           size,
           isChecked ? 'is-checked' : 'isnt-checked',
           isDisabled && 'is-disabled',
-          readOnly && 'readonly',
+          readOnly && 'readonly'
         ])}
       >
         <button type="button" disabled={isDisabled} onClick={this.toggle} />

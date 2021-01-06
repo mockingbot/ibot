@@ -67,6 +67,18 @@ export default class GuideBase extends PureComponent {
     if (isOpen) this.position()
   }
 
+  componentDidUpdate (_, { isOpen: wasOpen }) {
+    const { isOpen } = this.state
+
+    if (!wasOpen && isOpen) {
+      this.position()
+    }
+  }
+
+  componentWillUnmount () {
+    if (this.portal) this.portal.remove()
+  }
+
   init = () => {
     this.I18N = get(window, 'I18N', {})
     const $guideRoot = (
@@ -80,18 +92,6 @@ export default class GuideBase extends PureComponent {
     }
 
     this.portal = preparePortal($guideRoot, 'GuidePortal')
-  }
-
-  componentDidUpdate (_, { isOpen: wasOpen }) {
-    const { isOpen } = this.state
-
-    if (!wasOpen && isOpen) {
-      this.position()
-    }
-  }
-
-  componentWillUnmount () {
-    if (this.portal) this.portal.remove()
   }
 
   position = () => {

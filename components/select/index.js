@@ -15,31 +15,18 @@ import { StyledSelectLabel, StyledSelectMenuBase, StyledSelectMenu } from './sty
 
 const MENU_ROOT_ID = 'IBOT_SELECT_MENU_ROOT'
 
-const { I18N = {} } = window
-
-export const $menuRoot = (
-  document.getElementById(MENU_ROOT_ID) ||
-  Object.assign(document.createElement('div'), { id: MENU_ROOT_ID })
-)
-
-const $body = document.body
-
-if (!$body.contains($menuRoot)) {
-  $body.appendChild($menuRoot)
-}
-
 export default class Select extends PureComponent {
   state = {
     isOpen: false,
 
     prevProps: this.props,
-    value: this.props.value,
+    value: this.props.value
   }
 
   static propTypes = {
-    size: PropTypes.oneOf(['regular', 'small']),
-    theme: PropTypes.oneOf(['core', 'plain']),
-    menuTheme: PropTypes.oneOf(['core', 'plain', 'check']),
+    size: PropTypes.oneOf([ 'regular', 'small' ]),
+    theme: PropTypes.oneOf([ 'core', 'plain' ]),
+    menuTheme: PropTypes.oneOf([ 'core', 'plain', 'check' ]),
 
     unstyled: PropTypes.bool,
 
@@ -78,7 +65,7 @@ export default class Select extends PureComponent {
         PropTypes.shape({
           label: PropTypes.node,
           value: PropTypes.any,
-          isDisabled: PropTypes.bool,
+          isDisabled: PropTypes.bool
         }),
 
         // Option groups:
@@ -88,16 +75,16 @@ export default class Select extends PureComponent {
             PropTypes.shape({
               label: PropTypes.node,
               value: PropTypes.any,
-              isDisabled: PropTypes.bool,
-            }),
+              isDisabled: PropTypes.bool
+            })
           ])
-        ),
+        )
       ])
     ).isRequired,
 
     value: PropTypes.oneOfType([
       PropTypes.number,
-      PropTypes.string,
+      PropTypes.string
     ]),
 
     isDisabled: PropTypes.bool,
@@ -106,7 +93,7 @@ export default class Select extends PureComponent {
 
     onChange: PropTypes.func,
 
-    menuX: PropTypes.oneOf(['left', 'center', 'right']),
+    menuX: PropTypes.oneOf([ 'left', 'center', 'right' ])
   }
 
   static defaultProps = {
@@ -117,14 +104,12 @@ export default class Select extends PureComponent {
     className: '',
     menuClassName: '',
 
-    placeholder: I18N.select_placeholder || 'Choose one…',
-    emptyMsg: I18N.select_empty_msg || 'Nothing to display…',
     optionList: [],
     isDisabled: false,
 
     onChange: () => null,
 
-    menuX: 'left',
+    menuX: 'left'
   }
 
   static getDerivedStateFromProps (props, { prevProps, value }) {
@@ -135,7 +120,13 @@ export default class Select extends PureComponent {
   }
 
   componentDidMount () {
+    this.I18N = get(window, 'I18N', {})
     window.addEventListener('resize', this.onResizeWindow)
+    this.forceUpdate()
+  }
+
+  componentWillUnmount () {
+    window.addEventListener('resize', this.positionY)
   }
 
   get isDisabled () {
@@ -167,7 +158,7 @@ export default class Select extends PureComponent {
     () => {
       this.close()
       this.props.onChange(value)
-    },
+    }
   )
 
   onSelect = ({ currentTarget: $opt }) => {
@@ -189,10 +180,14 @@ export default class Select extends PureComponent {
       !isArray(o) && checkOptionByValue(o, value)
     ))
 
-    return option ? getOptionLabel(option) : placeholder
+    return option ? getOptionLabel(option) : (placeholder || this.I18N.select_placeholder || 'Choose one…')
   }
 
-  render () {
+  get select () {
+    if (!this.I18N) {
+      return null
+    }
+
     const { size, theme, unstyled, className, menuX } = this.props
     const { isOpen, $select, value } = this.state
     const { isDisabled, readOnly, canSelect } = this
@@ -204,7 +199,7 @@ export default class Select extends PureComponent {
       className,
       isOpen && 'is-open',
       isDisabled && 'is-disabled',
-      readOnly && 'readonly',
+      readOnly && 'readonly'
     ])
 
     return (
@@ -233,14 +228,16 @@ export default class Select extends PureComponent {
       </StyledSelectLabel>
     )
   }
+
+  render () {
+    return this.select
+  }
 }
 
 export class SelectMenu extends PureComponent {
   state = {
-    isDownward: true,
+    isDownward: true
   }
-
-  portal = preparePortal($menuRoot, 'SelectMenuPortal')
 
   static propTypes = {
     ...Select.propTypes,
@@ -249,18 +246,18 @@ export class SelectMenu extends PureComponent {
     canSelect: PropTypes.bool,
     onChange: PropTypes.func,
     onClose: PropTypes.func,
-    $select: PropTypes.instanceOf(Element),
+    $select: PropTypes.instanceOf(Element)
   }
 
   static defaultProps = {
-    isOpen: false,
+    isOpen: false
   }
 
   menuBaseRef = createRef()
 
   componentDidMount () {
-    const { menuBaseRef: { current: $menuBase } } = this
-    preventScrollingPropagation($('.SelectMenu', $menuBase))
+    this.init()
+    setTimeout(this._preventScrollingPropagation)
   }
 
   componentDidUpdate ({ isOpen: wasOpen }) {
@@ -277,6 +274,28 @@ export class SelectMenu extends PureComponent {
     if (this.portal) this.portal.remove()
   }
 
+  init = () => {
+    this.I18N = get(window, 'I18N', {})
+    this.$menuRoot = (
+      document.getElementById(MENU_ROOT_ID) ||
+      Object.assign(document.createElement('div'), { id: MENU_ROOT_ID })
+    )
+
+    const $body = document.body
+
+    if (!$body.contains(this.$menuRoot)) {
+      $body.appendChild(this.$menuRoot)
+    }
+
+    this.portal = preparePortal(this.$menuRoot, 'SelectMenuPortal')
+    this.forceUpdate()
+  }
+
+  _preventScrollingPropagation = () => {
+    const { menuBaseRef: { current: $menuBase } } = this
+    preventScrollingPropagation($('.SelectMenu', $menuBase))
+  }
+
   position = e => {
     const { $select, menuX } = this.props
     const { menuBaseRef: { current: $menuBase } } = this
@@ -291,7 +310,7 @@ export class SelectMenu extends PureComponent {
       $opener: $select,
 
       menuX,
-      shouldSetMaxHeight: true,
+      shouldSetMaxHeight: true
     })
 
     this.setState({ isDownward })
@@ -344,7 +363,7 @@ export class SelectMenu extends PureComponent {
   onClickOutside = ({ target }) => {
     const { $select } = this.props
 
-    const isOutsideMenu = !$menuRoot.contains(target)
+    const isOutsideMenu = !this.$menuRoot.contains(target)
 
     const closestLabel = target.closest('label')
     const isOwnLabel = closestLabel && closestLabel.contains($select)
@@ -355,7 +374,15 @@ export class SelectMenu extends PureComponent {
   }
 
   render () {
-    return createPortal(this.menu, this.portal)
+    return this.menuDom
+  }
+
+  get menuDom () {
+    const { portal, menu } = this
+    if (portal) {
+      return createPortal(menu, portal)
+    }
+    return null
   }
 
   get menu () {
@@ -366,7 +393,7 @@ export class SelectMenu extends PureComponent {
       optionList,
       emptyMsg,
       value,
-      canSelect,
+      canSelect
     } = this.props
 
     const { isDownward } = this.state
@@ -381,7 +408,7 @@ export class SelectMenu extends PureComponent {
       isDownward ? 'is-downward' : 'is-upward',
       isDisabled && 'is-disabled',
       isEmpty && 'is-empty',
-      canSelect ? 'can-select' : 'cant-select',
+      canSelect ? 'can-select' : 'cant-select'
     ])
 
     return (
@@ -389,7 +416,7 @@ export class SelectMenu extends PureComponent {
         <StyledSelectMenu className={klass} onTransitionEnd={this.onTransitionEnd}>
           {
             isEmpty
-              ? <li className="SelectOption empty-msg">{ emptyMsg }</li>
+              ? <li className="SelectOption empty-msg">{ emptyMsg || get(this.I18N, 'select_empty_msg', 'Nothing to display…') }</li>
               : (
                 optionList
                   .map((option, idx) => (
@@ -435,9 +462,9 @@ export class SelectMenu extends PureComponent {
 
 function Group ({
   value,
-  optionList: [title, ...optionList],
+  optionList: [ title, ...optionList ],
   menuTheme,
-  onChange,
+  onChange
 }) {
   return (
     <li className="SelectGroup">
@@ -463,10 +490,10 @@ function Group ({
 }
 
 Group.propTypes = {
-  idx: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  idx: PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
   optionList: PropTypes.array,
   onChange: PropTypes.func,
-  menuTheme: PropTypes.string,
+  menuTheme: PropTypes.string
 }
 
 function Option ({
@@ -474,12 +501,12 @@ function Option ({
   isActive,
   isDisabled,
   menuTheme,
-  onChange,
+  onChange
 }) {
   const className = trimList([
     'SelectOption',
     isActive && 'is-active',
-    isDisabled && 'is-disabled',
+    isDisabled && 'is-disabled'
   ])
 
   const label = getOptionLabel(option)
@@ -499,12 +526,13 @@ function Option ({
 }
 
 Option.propTypes = {
-  idx: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  idx: PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
   option: PropTypes.oneOfType([
     PropTypes.node,
-    PropTypes.object,
+    PropTypes.object
   ]),
+  isActive: PropTypes.bool,
   isDisabled: PropTypes.bool,
   menuTheme: PropTypes.string,
-  onChange: PropTypes.func,
+  onChange: PropTypes.func
 }

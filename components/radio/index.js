@@ -8,8 +8,8 @@ import { StyledRadio, StyledRadioGroup } from './styled'
  */
 export default class Radio extends PureComponent {
   static propTypes = {
-    size: PropTypes.oneOf(['regular', 'small']),
-    theme: PropTypes.oneOf(['core', 'plain']),
+    size: PropTypes.oneOf([ 'regular', 'small' ]),
+    theme: PropTypes.oneOf([ 'core', 'plain' ]),
     className: PropTypes.string,
 
     label: PropTypes.any,
@@ -22,7 +22,7 @@ export default class Radio extends PureComponent {
     readOnly: PropTypes.bool,
 
     onChange: PropTypes.func.isRequired,
-    onToggle: PropTypes.func.isRequired,
+    onToggle: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -34,12 +34,12 @@ export default class Radio extends PureComponent {
     className: '',
 
     onChange: () => null,
-    onToggle: () => null,
+    onToggle: () => null
   }
 
   state = {
     prevProps: this.props,
-    isChecked: this.props.isChecked,
+    isChecked: this.props.isChecked
   }
 
   static getDerivedStateFromProps (props, { prevProps, isChecked }) {
@@ -89,7 +89,7 @@ export default class Radio extends PureComponent {
             className,
             isChecked && 'is-checked',
             isDisabled && 'is-disabled',
-            readOnly && 'readonly',
+            readOnly && 'readonly'
           ])
         }
       >
@@ -117,12 +117,12 @@ export class RadioGroup extends PureComponent {
 
   state = {
     prevProps: this.props,
-    value: this.props.value,
+    value: this.props.value
   }
 
   static propTypes = {
-    size: PropTypes.oneOf(['regular', 'small']),
-    theme: PropTypes.oneOf(['core', 'plain']),
+    size: PropTypes.oneOf([ 'regular', 'small' ]),
+    theme: PropTypes.oneOf([ 'core', 'plain' ]),
     className: PropTypes.string,
 
     name: PropTypes.string,
@@ -134,14 +134,14 @@ export class RadioGroup extends PureComponent {
         PropTypes.shape({
           label: PropTypes.any,
           value: PropTypes.any,
-          isDisabled: PropTypes.bool,
-        }),
+          isDisabled: PropTypes.bool
+        })
       ])
     ).isRequired,
 
     value: PropTypes.oneOfType([
       PropTypes.number,
-      PropTypes.string,
+      PropTypes.string
     ]),
 
     isDisabled: PropTypes.bool,
@@ -149,7 +149,7 @@ export class RadioGroup extends PureComponent {
     readOnly: PropTypes.bool,
 
     onChange: PropTypes.func.isRequired,
-    onToggle: PropTypes.func.isRequired,
+    onToggle: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -160,7 +160,7 @@ export class RadioGroup extends PureComponent {
     optionList: [],
 
     onChange: () => null,
-    onToggle: () => null,
+    onToggle: () => null
   }
 
   static getDerivedStateFromProps (props, { prevProps, value }) {
@@ -206,7 +206,7 @@ export class RadioGroup extends PureComponent {
       size,
       className,
       isDisabled && 'is-disabled',
-      readOnly && 'readonly',
+      readOnly && 'readonly'
     ])
 
     return (

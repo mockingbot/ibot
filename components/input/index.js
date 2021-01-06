@@ -24,7 +24,7 @@ export default function Input ({
     size,
     unstyled && 'unstyled',
     isInvalid && 'is-invalid',
-    className,
+    className
   ])
 
   return (
@@ -41,20 +41,20 @@ export default function Input ({
 
 Input.propTypes = {
   type: PropTypes.string,
-  size: PropTypes.oneOf(['regular', 'small']),
-  theme: PropTypes.oneOf(['core', 'plain']),
+  size: PropTypes.oneOf([ 'regular', 'small' ]),
+  theme: PropTypes.oneOf([ 'core', 'plain' ]),
   unstyled: PropTypes.bool,
   isInvalid: PropTypes.bool,
   className: PropTypes.string,
   value: PropTypes.string,
-  onChange: PropTypes.func,
+  onChange: PropTypes.func
 }
 
 Input.defaultProps = {
   type: 'text',
   size: 'regular',
   theme: 'plain',
-  onChange: () => null,
+  onChange: () => null
 }
 
 /**
@@ -71,7 +71,7 @@ export function Textarea ({
     theme === 'core' ? 'CoreTextarea' : 'Textarea',
     size,
     unstyled && 'unstyled',
-    className,
+    className
   ])
 
   return (
@@ -87,15 +87,15 @@ export function Textarea ({
 
 Textarea.propTypes = {
   className: PropTypes.string,
-  size: PropTypes.oneOf(['regular', 'small']),
-  theme: PropTypes.oneOf(['core', 'plain']),
+  size: PropTypes.oneOf([ 'regular', 'small' ]),
+  theme: PropTypes.oneOf([ 'core', 'plain' ]),
   unstyled: PropTypes.bool,
   value: PropTypes.string,
-  onChange: PropTypes.func,
+  onChange: PropTypes.func
 }
 
 Textarea.defaultProps = {
   size: 'regular',
   theme: 'plain',
-  onChange: () => null,
+  onChange: () => null
 }

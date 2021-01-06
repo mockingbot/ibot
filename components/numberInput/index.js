@@ -29,8 +29,8 @@ const getStep = ({ shiftKey, metaKey }, step = 1) => (
 
 const checkSettability = value => (
   value === '' ||
-  /^0?[\+\-]0*$/.test(value) // Starting with a plus/minus
-  || /^[\+\-]?\d*\.$/.test(value) // Ending with a dot
+  /^0?[\+\-]0*$/.test(value) || // Starting with a plus/minus
+  /^[\+\-]?\d*\.$/.test(value) // Ending with a dot
 )
 
 const defaultOnFocus = ({ currentTarget: $input }) => (
@@ -44,12 +44,12 @@ export default class InputNumber extends PureComponent {
 
     isActive: false,
     isValid: true,
-    isMenuOpen: false,
+    isMenuOpen: false
   }
 
   static propTypes = {
-    size: PropTypes.oneOf(['regular', 'small']),
-    theme: PropTypes.oneOf(['core', 'plain']),
+    size: PropTypes.oneOf([ 'regular', 'small' ]),
+    theme: PropTypes.oneOf([ 'core', 'plain' ]),
     unstyled: PropTypes.bool,
 
     step: PropTypes.number,
@@ -57,12 +57,12 @@ export default class InputNumber extends PureComponent {
     formatter: PropTypes.func,
     parser: PropTypes.func,
 
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    valueForEmptyInput: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    placeholder: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    value: PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    valueForEmptyInput: PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    placeholder: PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
 
-    optionList: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
-    menuX: PropTypes.oneOf(['left', 'center']),
+    optionList: PropTypes.arrayOf(PropTypes.oneOfType([ PropTypes.string, PropTypes.number ])),
+    menuX: PropTypes.oneOf([ 'left', 'center' ]),
     dontSelectOnFocus: PropTypes.bool,
 
     title: PropTypes.node,
@@ -82,7 +82,7 @@ export default class InputNumber extends PureComponent {
     onFocus: PropTypes.func,
     onBlur: PropTypes.func,
 
-    className: PropTypes.string,
+    className: PropTypes.string
   }
 
   static defaultProps = {
@@ -107,7 +107,7 @@ export default class InputNumber extends PureComponent {
     readOnly: false,
 
     onChange: () => null,
-    onBlur: () => null,
+    onBlur: () => null
   }
 
   static getDerivedStateFromProps (props, { prevProps, value }) {
@@ -184,7 +184,7 @@ export default class InputNumber extends PureComponent {
       value: originalValue,
       parser,
       placeholder,
-      onChange,
+      onChange
     } = this.props
 
     const value = parser(v.toString()).toString()
@@ -211,9 +211,9 @@ export default class InputNumber extends PureComponent {
           this.setState(
             {
               value: finalNumber,
-              isValid: true,
+              isValid: true
             },
-            onChange(finalNumber, e),
+            onChange(finalNumber, e)
           )
         ), CORRECTION_AWAIT)
       ) })
@@ -240,7 +240,7 @@ export default class InputNumber extends PureComponent {
 
     this.setValue(
       this.correctNumber(Number(this.state.value) + step),
-      e,
+      e
     )
 
     this.focusOnInput(e)
@@ -252,13 +252,13 @@ export default class InputNumber extends PureComponent {
           steppingInterval: setInterval(
             () => this.setValue(
               this.correctNumber(Number(this.state.value) + step),
-              e,
+              e
             ),
-            LONG_PRESSED_STEPPING_INTERVAL,
-          ),
+            LONG_PRESSED_STEPPING_INTERVAL
+          )
         }),
-        LONG_PRESSED_THRESHOLD,
-      ),
+        LONG_PRESSED_THRESHOLD
+      )
     })
   }
 
@@ -279,7 +279,7 @@ export default class InputNumber extends PureComponent {
 
     this.setValue(
       this.correctNumber(Number(this.state.value) + step),
-      e,
+      e
     )
   }
 
@@ -332,7 +332,7 @@ export default class InputNumber extends PureComponent {
       dontSelectOnFocus,
       onFocus = !dontSelectOnFocus ? defaultOnFocus : undefined,
 
-      optionList, menuX,
+      optionList, menuX
     } = this.props
 
     const { value, isActive, isValid, isMenuOpen } = this.state
@@ -357,7 +357,7 @@ export default class InputNumber extends PureComponent {
       !!title && 'with-title',
       !!desc && 'with-desc',
       !!prefix && 'with-prefix',
-      !!suffix && 'with-suffix',
+      !!suffix && 'with-suffix'
     ])
 
     const hasMenu = optionList && optionList.length > 0
@@ -437,7 +437,7 @@ export class InputActionButton extends PureComponent {
     hasMenu: PropTypes.bool,
     onStep: PropTypes.func,
     onToggleMenu: PropTypes.func,
-    onRelease: PropTypes.func,
+    onRelease: PropTypes.func
   }
 
   render () {

@@ -24,8 +24,8 @@ const getStep = ({ shiftKey, metaKey }, step = 1) => (
 
 const checkSettability = value => (
   value === '' ||
-  /^0?[\+\-]0*$/.test(value) // Starting with a plus/minus
-  || /^[\+\-]?\d*\.$/.test(value) // Ending with a dot
+  /^0?[\+\-]0*$/.test(value) || // Starting with a plus/minus
+  /^[\+\-]?\d*\.$/.test(value) // Ending with a dot
 )
 
 const defaultOnFocus = ({ currentTarget: $input }) => (
@@ -41,12 +41,12 @@ export default class ConfirmInputNumber extends PureComponent {
     isActive: false,
 
     isValid: true,
-    isMenuOpen: false,
+    isMenuOpen: false
   }
 
   static propTypes = {
-    size: PropTypes.oneOf(['regular', 'small']),
-    theme: PropTypes.oneOf(['core', 'plain']),
+    size: PropTypes.oneOf([ 'regular', 'small' ]),
+    theme: PropTypes.oneOf([ 'core', 'plain' ]),
     unstyled: PropTypes.bool,
 
     step: PropTypes.number,
@@ -54,11 +54,11 @@ export default class ConfirmInputNumber extends PureComponent {
     formatter: PropTypes.func,
     parser: PropTypes.func,
 
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    placeholder: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    value: PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    placeholder: PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
 
-    optionList: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
-    menuX: PropTypes.oneOf(['left', 'center']),
+    optionList: PropTypes.arrayOf(PropTypes.oneOfType([ PropTypes.string, PropTypes.number ])),
+    menuX: PropTypes.oneOf([ 'left', 'center' ]),
     dontSelectOnFocus: PropTypes.bool,
 
     title: PropTypes.node,
@@ -78,7 +78,7 @@ export default class ConfirmInputNumber extends PureComponent {
     onConfirm: PropTypes.func.isRequired,
     shouldCorrectOnConfirm: PropTypes.bool,
 
-    className: PropTypes.string,
+    className: PropTypes.string
   }
 
   static defaultProps = {
@@ -102,7 +102,7 @@ export default class ConfirmInputNumber extends PureComponent {
     readOnly: false,
 
     onConfirm: () => null,
-    shouldCorrectOnConfirm: false,
+    shouldCorrectOnConfirm: false
   }
 
   static getDerivedStateFromProps (props, { prevProps, value }) {
@@ -117,7 +117,7 @@ export default class ConfirmInputNumber extends PureComponent {
   }
 
   componentDidUpdate ({
-    title: prevTitle, prefix: prevPrefix, suffix: prevSuffix,
+    title: prevTitle, prefix: prevPrefix, suffix: prevSuffix
   }) {
     const { title, prefix, suffix } = this.props
 
@@ -186,7 +186,7 @@ export default class ConfirmInputNumber extends PureComponent {
 
     const correctedNumber = toFixed(
       Math.min(Math.max(number, min), max),
-      precision,
+      precision
     )
 
     return isNaN(correctedNumber) ? originalValue : correctedNumber
@@ -213,7 +213,7 @@ export default class ConfirmInputNumber extends PureComponent {
       value: originalValue,
       parser,
       placeholder,
-      onConfirm,
+      onConfirm
     } = this.props
 
     const value = parser(v.toString()).toString()
@@ -230,14 +230,14 @@ export default class ConfirmInputNumber extends PureComponent {
 
     this.setState(
       { value: settingNumber, isValid },
-      callback,
+      callback
     )
   }
 
   setConfirmedValue = (v, e) => this.setValue(
     v,
     e,
-    () => this.onConfirm(e),
+    () => this.onConfirm(e)
   )
 
   onConfirm = e => {
@@ -245,7 +245,7 @@ export default class ConfirmInputNumber extends PureComponent {
       value: originalValue,
       precision,
       onConfirm,
-      shouldCorrectOnConfirm,
+      shouldCorrectOnConfirm
     } = this.props
 
     const { value } = this.state
@@ -278,9 +278,9 @@ export default class ConfirmInputNumber extends PureComponent {
     return this.setState(
       {
         value: settingNumber,
-        isValid: true,
+        isValid: true
       },
-      () => onConfirm(settingNumber, e),
+      () => onConfirm(settingNumber, e)
     )
   }
 
@@ -304,7 +304,7 @@ export default class ConfirmInputNumber extends PureComponent {
 
     this.setConfirmedValue(
       this.correctNumber(Number(this.state.value) + step),
-      e,
+      e
     )
 
     this.focusOnInput(e)
@@ -316,13 +316,13 @@ export default class ConfirmInputNumber extends PureComponent {
           steppingInterval: setInterval(
             () => this.setConfirmedValue(
               this.correctNumber(Number(this.state.value) + step),
-              e,
+              e
             ),
-            LONG_PRESSED_STEPPING_INTERVAL,
-          ),
+            LONG_PRESSED_STEPPING_INTERVAL
+          )
         }),
-        LONG_PRESSED_THRESHOLD,
-      ),
+        LONG_PRESSED_THRESHOLD
+      )
     })
   }
 
@@ -371,7 +371,7 @@ export default class ConfirmInputNumber extends PureComponent {
 
       this.setConfirmedValue(
         this.correctNumber(Number(this.state.value) + step),
-        e,
+        e
       )
     }
   }
@@ -421,7 +421,7 @@ export default class ConfirmInputNumber extends PureComponent {
       dontSelectOnFocus,
       onFocus = !dontSelectOnFocus ? defaultOnFocus : undefined,
 
-      optionList, menuX,
+      optionList, menuX
     } = this.props
 
     const { value, isHover, isActive, isValid, isMenuOpen } = this.state
@@ -447,7 +447,7 @@ export default class ConfirmInputNumber extends PureComponent {
       !!title && 'with-title',
       !!desc && 'with-desc',
       !!prefix && 'with-prefix',
-      !!suffix && 'with-suffix',
+      !!suffix && 'with-suffix'
     ])
 
     const hasMenu = optionList && optionList.length > 0

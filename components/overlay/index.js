@@ -8,7 +8,7 @@ import Switch from '../switch'
 import SVG from '../svg'
 import {
   addModalToStack, deleteModalFromStack, checkNoOpenModalInStack,
-  toggleGlobalScroll, trimList, preparePortal
+  toggleGlobalScroll, trimList, preparePortal, stopPropagation
 } from '../util'
 
 import { StyledOverLay, StyledOverLayMask, StyledOverLayPortal } from './styled'
@@ -16,30 +16,12 @@ import { StyledOverLay, StyledOverLayMask, StyledOverLayPortal } from './styled'
 const OVERLAY_ROOT_ID = 'IBOT_OVERLAY_ROOT'
 const OVERLAY_PORTAL_CLASS = 'OverlayPortal'
 
-const stopPropagation = e => e.stopPropagation()
-
-const $body = document.body
-
-const $overlayRoot = (
-  document.getElementById(OVERLAY_ROOT_ID) ||
-  Object.assign(document.createElement('div'), { id: OVERLAY_ROOT_ID })
-)
-
-if (!$body.contains($overlayRoot)) {
-  $body.appendChild($overlayRoot)
-}
-
 export default class Overlay extends PureComponent {
   state = {
     prevProps: this.props,
     isOpen: this.props.isOpen,
     isVisible: false
   }
-
-  portal = preparePortal(
-    $overlayRoot,
-    trimList([ OVERLAY_PORTAL_CLASS, this.props.portalClassName ])
-  )
 
   static propTypes = {
     isOpen: PropTypes.bool,
@@ -97,9 +79,8 @@ export default class Overlay extends PureComponent {
   }
 
   componentDidMount () {
-    const { onOpen, onToggle } = this.props
     const { isOpen } = this.state
-
+    this.init()
     if (isOpen) {
       setTimeout(() => this.setState(
         { isVisible: true },
@@ -126,6 +107,25 @@ export default class Overlay extends PureComponent {
     if (this.portal) this.portal.remove()
 
     this.didClose()
+  }
+
+  init = () => {
+    const $body = document.body
+
+    this.$overlayRoot = (
+      document.getElementById(OVERLAY_ROOT_ID) ||
+      Object.assign(document.createElement('div'), { id: OVERLAY_ROOT_ID })
+    )
+
+    if (!$body.contains(this.$overlayRoot)) {
+      $body.appendChild(this.$overlayRoot)
+    }
+
+    this.portal = preparePortal(
+      this.$overlayRoot,
+      trimList([ OVERLAY_PORTAL_CLASS, this.props.portalClassName ])
+    )
+    this.forceUpdate()
   }
 
   open = () => this.setState({ isOpen: true })
@@ -191,7 +191,7 @@ export default class Overlay extends PureComponent {
   get opener () {
     const { opener, openerType } = this.props
     const { isOpen } = this.state
-    const overlay = createPortal(this.overlay, this.portal)
+    const overlay = this.overlayDom
 
     return (
       openerType === 'none'
@@ -217,6 +217,13 @@ export default class Overlay extends PureComponent {
               { overlay }
             </Button>
     )
+  }
+
+  get overlayDom () {
+    if (this.portal) {
+      return createPortal(this.overlay, this.portal)
+    }
+    return null
   }
 
   get overlay () {

@@ -10,27 +10,16 @@ import { trimList, getOtherProps, $, SVG } from '../util'
 
 import { StyledToolTip, StyledToolTipSpan } from './styled'
 
-const EVENT_NAME_LIST = ['hover', 'click']
+const EVENT_NAME_LIST = [ 'hover', 'click' ]
 
 const TIP_ROOT_ID = 'IBOT_TOOLTIP_ROOT'
-
-const $tipRoot = (
-  document.getElementById(TIP_ROOT_ID) ||
-  Object.assign(document.createElement('div'), { id: TIP_ROOT_ID })
-)
-
-const $body = document.body
-
-if (!$body.contains($tipRoot)) {
-  $body.appendChild($tipRoot)
-}
 
 function parseContent (content, eventName = 'hover') {
   return (
     isString(content) || isArray(content) || isValidElement(content)
       ? content
       : EVENT_NAME_LIST.includes(eventName) && isObject(content)
-        ? content[eventName] || content.hover
+        ? content[ eventName ] || content.hover
         : null
   )
 }
@@ -39,12 +28,12 @@ export default class Tooltip extends PureComponent {
   state = {
     isOpen: false,
     isClicked: false,
-    $text: null,
+    $text: null
   }
 
   static propTypes = {
-    theme: PropTypes.oneOf(['core', 'plain']),
-    position: PropTypes.oneOf(['top', 'right', 'bottom', 'left']).isRequired,
+    theme: PropTypes.oneOf([ 'core', 'plain' ]),
+    position: PropTypes.oneOf([ 'top', 'right', 'bottom', 'left' ]).isRequired,
     arrowed: PropTypes.bool,
     inflexible: PropTypes.bool,
 
@@ -55,23 +44,23 @@ export default class Tooltip extends PureComponent {
       PropTypes.node,
       PropTypes.shape(
         EVENT_NAME_LIST.reduce(
-          (res, n) => Object.assign(res, { [n]: PropTypes.node }),
-          {},
-        ),
-      ),
+          (res, n) => Object.assign(res, { [ n ]: PropTypes.node }),
+          {}
+        )
+      )
     ]),
 
     onMouseEnter: PropTypes.func,
     onClick: PropTypes.func,
     onMouseLeave: PropTypes.func,
 
-    delay: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    duration: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    delay: PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
+    duration: PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
 
     children: PropTypes.node,
     html: PropTypes.string,
 
-    setRef: PropTypes.func,
+    setRef: PropTypes.func
   }
 
   static defaultProps = {
@@ -86,7 +75,7 @@ export default class Tooltip extends PureComponent {
     tipClassName: '',
 
     setRef: () => null,
-    onClick: () => null,
+    onClick: () => null
   }
 
   ref = React.createRef()
@@ -112,7 +101,7 @@ export default class Tooltip extends PureComponent {
   onClick = e => {
     this.setState({
       isOpen: !!parseContent(this.props.content, 'click'),
-      isClicked: true,
+      isClicked: true
     })
 
     e.persist()
@@ -123,10 +112,10 @@ export default class Tooltip extends PureComponent {
     hoverTimeout: setTimeout(
       () => this.setState(
         { isOpen: !!parseContent(this.props.content, 'hover') },
-        this.props.onMouseEnter,
+        this.props.onMouseEnter
       ),
-      this.props.delay,
-    ),
+      this.props.delay
+    )
   })
 
   onMouseLeave = () => {
@@ -134,7 +123,7 @@ export default class Tooltip extends PureComponent {
 
     this.setState(
       { isOpen: false, isClicked: false },
-      this.props.onMouseLeave,
+      this.props.onMouseLeave
     )
   }
 
@@ -146,7 +135,7 @@ export default class Tooltip extends PureComponent {
       content,
 
       html,
-      children,
+      children
     } = this.props
 
     const { isOpen, isClicked } = this.state
@@ -155,7 +144,7 @@ export default class Tooltip extends PureComponent {
       'Tooltip',
       className,
       isOpen ? 'is-open' : '',
-      isClicked ? 'is-clicked' : '',
+      isClicked ? 'is-clicked' : ''
     ])
 
     const eventName = isClicked ? 'click' : 'hover'
@@ -196,7 +185,7 @@ class Tip extends PureComponent {
     prevProps: this.props,
 
     isOpen: this.props.isOpen,
-    position: this.props.position,
+    position: this.props.position
   }
 
   static propTypes = {
@@ -205,12 +194,12 @@ class Tip extends PureComponent {
     eventName: PropTypes.oneOf(EVENT_NAME_LIST),
     $text: PropTypes.instanceOf(Element),
 
-    theme: PropTypes.oneOf(['plain', 'core']),
-    position: PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
+    theme: PropTypes.oneOf([ 'plain', 'core' ]),
+    position: PropTypes.oneOf([ 'top', 'right', 'bottom', 'left' ]),
     inflexible: PropTypes.bool,
     arrowed: PropTypes.bool,
 
-    children: PropTypes.node,
+    children: PropTypes.node
   }
 
   static getDerivedStateFromProps (props, { prevProps }) {
@@ -218,13 +207,18 @@ class Tip extends PureComponent {
       return {
         prevProps: props,
         isOpen: props.isOpen,
-        position: props.position,
+        position: props.position
       }
     }
     return null
   }
 
   ref = React.createRef()
+
+  componentDidMount () {
+    this.init()
+    this.forceUpdate()
+  }
 
   componentDidUpdate ({ isOpen: wasOpen }) {
     const { isOpen } = this.props
@@ -235,6 +229,19 @@ class Tip extends PureComponent {
       if (this.$tip) {
         this.$tip.classList.remove('is-open')
       }
+    }
+  }
+
+  init = () => {
+    this.$tipRoot = (
+      document.getElementById(TIP_ROOT_ID) ||
+      Object.assign(document.createElement('div'), { id: TIP_ROOT_ID })
+    )
+
+    const $body = document.body
+
+    if (!$body.contains(this.$tipRoot)) {
+      $body.appendChild(this.$tipRoot)
     }
   }
 
@@ -253,8 +260,8 @@ class Tip extends PureComponent {
     if (!$text || !$tipBase || !$tip) return
 
     const flexible = !inflexible
-    const [minX, minY] = [10, 10]
-    const [maxX, maxY] = [window.innerWidth - 10, window.innerHeight - 10]
+    const [ minX, minY ] = [ 10, 10 ]
+    const [ maxX, maxY ] = [ window.innerWidth - 10, window.innerHeight - 10 ]
 
     const { top, right, bottom, left } = $text.getBoundingClientRect()
     const { offsetWidth: wOf$text, offsetHeight: hOf$text } = $text
@@ -272,7 +279,7 @@ class Tip extends PureComponent {
       top: `${top}px`,
       left: `${left}px`,
       width: `${wOf$text}px`,
-      height: `${hOf$text}px`,
+      height: `${hOf$text}px`
     })
 
     // Main-axis position adjustment:
@@ -347,7 +354,15 @@ class Tip extends PureComponent {
   }
 
   render () {
-    return createPortal(this.tip, $tipRoot)
+    return this.tipDom
+  }
+
+  get tipDom () {
+    const { $tipRoot } = this
+    if ($tipRoot) {
+      return createPortal(this.tip, $tipRoot)
+    }
+    return null
   }
 
   get tip () {
@@ -359,7 +374,7 @@ class Tip extends PureComponent {
       className,
       `on-${position}`,
       inflexible && 'inflexible',
-      arrowed && 'arrowed',
+      arrowed && 'arrowed'
     ])
 
     return isOpen && (

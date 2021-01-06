@@ -93,6 +93,8 @@ export function preventScrollingPropagation ($elmt) {
   )
 }
 
+export const stopPropagation = e => e.stopPropagation()
+
 export function toggleGlobalScroll (expected) {
   const $root = document.documentElement
   const $body = document.body

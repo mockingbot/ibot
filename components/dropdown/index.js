@@ -10,15 +10,6 @@ import { StyledDropDown, StyledDropDownMenu, StyledDropDownBase } from './styled
 export { positionMenu }
 
 const MENU_ROOT_ID = 'IBOT_DROPDOWN_MENU_ROOT'
-const $menuRoot = (
-  document.getElementById(MENU_ROOT_ID) ||
-  Object.assign(document.createElement('div'), { id: MENU_ROOT_ID })
-)
-const $body = document.body
-
-if (!$body.contains($menuRoot)) {
-  $body.appendChild($menuRoot)
-}
 
 export default class Dropdown extends PureComponent {
   state = {
@@ -26,20 +17,18 @@ export default class Dropdown extends PureComponent {
     isOpen: this.props.isOpen,
 
     $opener: null,
-    currentMenuListItemIdx: this.props.currentMenuListItemIdx,
+    currentMenuListItemIdx: this.props.currentMenuListItemIdx
   }
 
   leaveTimeoutList = []
 
-  static positionMenu = positionMenu
-
   static propTypes = {
     isOpen: PropTypes.bool,
 
-    mode: PropTypes.oneOf(['light', 'dark']),
+    mode: PropTypes.oneOf([ 'light', 'dark' ]),
 
     opener: PropTypes.node,
-    openerType: PropTypes.oneOf(['button', 'custom']),
+    openerType: PropTypes.oneOf([ 'button', 'custom' ]),
     className: PropTypes.string,
 
     portalClassName: PropTypes.string,
@@ -52,7 +41,7 @@ export default class Dropdown extends PureComponent {
       bottom: PropTypes.number,
 
       width: PropTypes.number,
-      height: PropTypes.number,
+      height: PropTypes.number
     }),
 
     menu: PropTypes.node,
@@ -63,27 +52,27 @@ export default class Dropdown extends PureComponent {
         PropTypes.shape({
           label: PropTypes.node,
           value: PropTypes.any,
-          isDisabled: PropTypes.bool,
-        }),
-      ]),
+          isDisabled: PropTypes.bool
+        })
+      ])
     ),
 
     currentMenuListItemIdx: PropTypes.oneOfType([
       PropTypes.number,
-      PropTypes.string,
+      PropTypes.string
     ]),
 
     shouldPreventScrollingPropagation: PropTypes.bool,
     shouldOpenOnHover: PropTypes.bool,
     shouldCloseOnClickOutside: PropTypes.bool,
-    hoverDelay: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    hoverCloseDelay: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    hoverDelay: PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
+    hoverCloseDelay: PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
 
     arrowed: PropTypes.bool,
     inflexible: PropTypes.bool,
 
-    menuX: PropTypes.oneOf(['left', 'center', 'right']),
-    menuY: PropTypes.oneOf(['top', 'bottom']),
+    menuX: PropTypes.oneOf([ 'left', 'center', 'right' ]),
+    menuY: PropTypes.oneOf([ 'top', 'bottom' ]),
     menuBasedX: PropTypes.bool,
 
     isDisabled: PropTypes.bool,
@@ -94,7 +83,7 @@ export default class Dropdown extends PureComponent {
 
     onOpen: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
-    onToggle: PropTypes.func.isRequired,
+    onToggle: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -117,7 +106,7 @@ export default class Dropdown extends PureComponent {
 
     onOpen: () => null,
     onClose: () => null,
-    onToggle: () => null,
+    onToggle: () => null
   }
 
   static getDerivedStateFromProps (props, { prevProps, isOpen }) {
@@ -146,7 +135,7 @@ export default class Dropdown extends PureComponent {
   }
 
   toggle = willBeOpen => this.setState(
-    { isOpen: isBoolean(willBeOpen) ? willBeOpen : !this.state.isOpen },
+    { isOpen: isBoolean(willBeOpen) ? willBeOpen : !this.state.isOpen }
   )
 
   open = () => this.toggle(true)
@@ -162,8 +151,8 @@ export default class Dropdown extends PureComponent {
     Object.assign(this, {
       hoverTimeout: setTimeout(
         this.open,
-        this.props.hoverDelay,
-      ),
+        this.props.hoverDelay
+      )
     })
   }
 
@@ -192,7 +181,7 @@ export default class Dropdown extends PureComponent {
       Object.assign(this, { leaveTimeoutList: [] })
     } else if (isOutsideOpener && isOutsideMenu) {
       this.leaveTimeoutList.push(
-        setTimeout(this.close, hoverCloseDelay !== undefined ? hoverCloseDelay : Math.max(hoverDelay, 300)),
+        setTimeout(this.close, hoverCloseDelay !== undefined ? hoverCloseDelay : Math.max(hoverDelay, 300))
       )
     }
   }
@@ -205,7 +194,7 @@ export default class Dropdown extends PureComponent {
     if (typeof onSelect !== 'function') return
 
     const idx = currentTarget.dataset.idx
-    const item = menuList[idx]
+    const item = menuList[ idx ]
     const value = typeof item === 'string' ? item : (item && item.value)
 
     onSelect(idx, value)
@@ -225,14 +214,14 @@ export default class Dropdown extends PureComponent {
       'Dropdown',
       isOpen && 'is-open',
       isDisabled && 'is-disabled',
-      className,
+      className
     ])
 
     const openerAttr = {
       onClick: this.toggle,
       onMouseEnter: this.onMouseEnter,
       onMouseLeave: this.onMouseLeave,
-      disabled: isDisabled,
+      disabled: isDisabled
     }
 
     return (
@@ -271,32 +260,27 @@ export default class Dropdown extends PureComponent {
 class DropdownMenu extends PureComponent {
   state = { isDownward: this.props.position === 'bottom' }
 
-  portal = preparePortal(
-    $menuRoot,
-    trimList(['DropdownMenuPortal', this.props.portalClassName]),
-  )
-
   static propTypes = {
     ...Dropdown.propTypes,
     isOpen: PropTypes.bool,
     $opener: PropTypes.instanceOf(Element),
     onSelect: PropTypes.func,
-    onClose: PropTypes.func,
+    onClose: PropTypes.func
   }
 
   componentDidMount () {
     const { isOpen, shouldPreventScrollingPropagation } = this.props
-    const { menuBaseRef: { current: $menuBase } } = this
-
+    this.init()
     if (isOpen) {
       setTimeout(this.position)
     }
 
     if (shouldPreventScrollingPropagation) {
-      preventScrollingPropagation($('.content', $menuBase))
+      setTimeout(this._preventScrollingPropagation)
     }
 
     window.addEventListener('resize', this.onResizeWindow)
+    this.forceUpdate()
   }
 
   componentDidUpdate ({ isOpen: wasOpen }) {
@@ -316,6 +300,28 @@ class DropdownMenu extends PureComponent {
 
   menuBaseRef = createRef()
 
+  init = () => {
+    this.$menuRoot = (
+      document.getElementById(MENU_ROOT_ID) ||
+      Object.assign(document.createElement('div'), { id: MENU_ROOT_ID })
+    )
+    const $body = document.body
+
+    if (!$body.contains(this.$menuRoot)) {
+      $body.appendChild(this.$menuRoot)
+    }
+
+    this.portal = preparePortal(
+      this.$menuRoot,
+      trimList([ 'DropdownMenuPortal', this.props.portalClassName ])
+    )
+  }
+
+  _preventScrollingPropagation = () => {
+    const { menuBaseRef: { current: $menuBase } } = this
+    preventScrollingPropagation($('.content', $menuBase))
+  }
+
   onResizeWindow = () => this.props.isOpen && this.position()
 
   onClickOutside = ({ target }) => {
@@ -323,7 +329,7 @@ class DropdownMenu extends PureComponent {
 
     if (!shouldCloseOnClickOutside) return
 
-    const isOutsideMenu = !$menuRoot.contains(target)
+    const isOutsideMenu = !this.$menuRoot.contains(target)
 
     const closestLabel = target.closest('label')
     const isOwnLabel = closestLabel && closestLabel.contains($opener)
@@ -344,15 +350,22 @@ class DropdownMenu extends PureComponent {
       menuX,
       menuY,
       menuBaseStyle,
-      inflexible,
+      inflexible
     })
 
     this.setState({ isDownward })
   }
 
-  render () {
+  get menuDom () {
     const { portal, menu } = this
-    return createPortal(menu, portal)
+    if (portal) {
+      return createPortal(menu, portal)
+    }
+    return null
+  }
+
+  render () {
+    return this.menuDom
   }
 
   get menu () {
@@ -366,9 +379,8 @@ class DropdownMenu extends PureComponent {
       menu, menuList,
       arrowed, menuX, menuY, menuBasedX,
       currentMenuListItemIdx,
-      onSelect,
+      onSelect
     } = this.props
-
     const { isDownward } = this.state
 
     const klass = trimList([
@@ -378,11 +390,11 @@ class DropdownMenu extends PureComponent {
       isDownward ? 'is-downward' : 'is-upward',
       `x-${menuX}`,
       arrowed && `arrowed ${menuBasedX ? 'x-menu-based' : 'x-arrow-based'}`,
-      menuClassName,
+      menuClassName
     ])
 
     return (
-      <StyledDropDownBase ref={this.menuBaseRef} className={trimList(['DropdownMenuBase', menuBaseClassName])}>
+      <StyledDropDownBase ref={this.menuBaseRef} className={trimList([ 'DropdownMenuBase', menuBaseClassName ])}>
         <StyledDropDownMenu className={klass}>
           { arrowed && (
             <span className="arrow" dangerouslySetInnerHTML={{ __html: SVG.DROPDOWN_ARROW }} />
@@ -400,7 +412,7 @@ class DropdownMenu extends PureComponent {
                         data-idx={idx}
                         className={trimList([
                           it.isDisabled && 'is-disabled',
-                          idx === Number(currentMenuListItemIdx) && 'is-active',
+                          idx === Number(currentMenuListItemIdx) && 'is-active'
                         ])}
                         onClick={it.isDisabled ? undefined : onSelect}
                       >
@@ -427,7 +439,6 @@ class DropdownMenu extends PureComponent {
             />
           )}
         </StyledDropDownMenu>
-
       </StyledDropDownBase>
     )
   }

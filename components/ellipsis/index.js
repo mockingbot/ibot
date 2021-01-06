@@ -10,10 +10,10 @@ export default class Ellipsis extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
 
-    theme: PropTypes.oneOf(['core', 'plain']),
-    type: PropTypes.oneOf(['user', 'id', 'email', 'org', 'team', 'app', 'widget']),
-    max: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    display: PropTypes.oneOf(['inline-block', 'block']),
+    theme: PropTypes.oneOf([ 'core', 'plain' ]),
+    type: PropTypes.oneOf([ 'user', 'id', 'email', 'org', 'team', 'app', 'widget' ]),
+    max: PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    display: PropTypes.oneOf([ 'inline-block', 'block' ]),
 
     lang: PropTypes.string,
 
@@ -27,12 +27,12 @@ export default class Ellipsis extends PureComponent {
     withQuote: PropTypes.bool,
     withComma: PropTypes.bool,
     withPeriod: PropTypes.bool,
-    withQuestionMark: PropTypes.bool,
+    withQuestionMark: PropTypes.bool
   }
 
   static defaultProps = {
     lang: 'en',
-    theme: 'core',
+    theme: 'core'
   }
 
   componentDidMount () {
@@ -92,7 +92,7 @@ export default class Ellipsis extends PureComponent {
         withQuote && 'with-quote',
         withPeriod && 'with-period',
         withComma && 'with-comma',
-        withQuestionMark && 'with-question-mark',
+        withQuestionMark && 'with-question-mark'
       ]),
 
       href: to,
@@ -101,7 +101,7 @@ export default class Ellipsis extends PureComponent {
 
       style: {
         display,
-        maxWidth: isFinite(max) ? `${max}em` : max,
+        maxWidth: isFinite(max) ? `${max}em` : max
       },
 
       content: (withTooltip || isTruncated && !noTooltip) && <div lang={lang} className="EllipsisTip" {...contentProp} />,
@@ -110,7 +110,7 @@ export default class Ellipsis extends PureComponent {
       children,
       setRef: this.set$ellipsis,
 
-      ...others,
+      ...others
     }
 
     const tooltip = <Tooltip {...tooltipProps} />
@@ -123,7 +123,7 @@ export default class Ellipsis extends PureComponent {
             withPeriod && 'with-period',
             withComma && 'with-comma',
             withQuestionMark && 'with-question-mark',
-            truncationClassName,
+            truncationClassName
           ])}
         >
           { tooltip }

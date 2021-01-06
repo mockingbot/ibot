@@ -3,32 +3,18 @@ import { createPortal } from 'react-dom'
 import PropTypes from 'prop-types'
 import EventListener from 'react-event-listener'
 import isEqual from 'lodash/isEqual'
+import get from 'lodash/get'
 import Button from '../button'
 import Switch from '../switch'
 import SVG from '../svg'
 import {
   addModalToStack, deleteModalFromStack, checkNoOpenModalInStack, checkModalIndexInStack,
-  toggleGlobalScroll, trimList, $, preparePortal
+  toggleGlobalScroll, trimList, $, preparePortal, stopPropagation
 } from '../util'
 import { StyledMask, StyledModal, StyledModalPortal } from './styled'
 
-const { I18N = {} } = window
-
 const MODAL_ROOT_ID = 'IBOT_MODAL_ROOT'
 const MODAL_PORTAL_CLASS = 'ModalPortal'
-
-const stopPropagation = e => e.stopPropagation()
-
-const $body = document.body
-
-const $modalRoot = (
-  document.getElementById(MODAL_ROOT_ID) ||
-  Object.assign(document.createElement('div'), { id: MODAL_ROOT_ID })
-)
-
-if (!$body.contains($modalRoot)) {
-  $body.appendChild($modalRoot)
-}
 
 const TYPE_CLASS_MAP = {
   alert: 'AlertModal',
@@ -40,13 +26,9 @@ const TYPE_CLASS_MAP = {
 export default class Modal extends PureComponent {
   state = {
     prevProps: this.props,
-    isOpen: this.props.isOpen
+    isOpen: this.props.isOpen,
+    isVisible: false
   }
-
-  portal = preparePortal(
-    $modalRoot,
-    trimList([ MODAL_PORTAL_CLASS, this.props.portalClassName ])
-  )
 
   static propTypes = {
     isOpen: PropTypes.bool,
@@ -76,12 +58,10 @@ export default class Modal extends PureComponent {
     canConfirmOnEnter: PropTypes.bool,
 
     onConfirm: PropTypes.func,
-    confirmText: PropTypes.string,
     isConfirmDisabled: PropTypes.bool,
 
     onCancel: PropTypes.func,
-    isCancelDisabled: PropTypes.bool,
-    cancelText: PropTypes.string
+    isCancelDisabled: PropTypes.bool
   }
 
   static defaultProps = {
@@ -102,10 +82,7 @@ export default class Modal extends PureComponent {
     canCloseOnClickMask: true,
     canCloseOnEsc: true,
     shouldCloseOnAction: true,
-    canConfirmOnEnter: true,
-
-    cancelText: I18N.cancel || 'Cancel',
-    confirmText: I18N.confirm || 'Confirm'
+    canConfirmOnEnter: true
   }
 
   static getDerivedStateFromProps (props, { prevProps }) {
@@ -118,9 +95,30 @@ export default class Modal extends PureComponent {
 
   componentDidMount () {
     const { isOpen } = this.state
-    if (isOpen) this.didOpen()
-
+    this.init()
+    if (isOpen) {
+      setTimeout(this.didOpen)
+    }
     window.addEventListener('resize', this.positionY)
+  }
+
+  init = () => {
+    this.I18N = get(window, 'I18N', {})
+    const $body = document.body
+
+    this.$modalRoot = (
+      document.getElementById(MODAL_ROOT_ID) ||
+      Object.assign(document.createElement('div'), { id: MODAL_ROOT_ID })
+    )
+
+    if (!$body.contains(this.$modalRoot)) {
+      $body.appendChild(this.$modalRoot)
+    }
+
+    this.portal = preparePortal(
+      this.$modalRoot,
+      trimList([ MODAL_PORTAL_CLASS, this.props.portalClassName ])
+    )
   }
 
   componentDidUpdate (_, { isOpen: wasOpen }) {
@@ -148,6 +146,7 @@ export default class Modal extends PureComponent {
   )
 
   didOpen = () => {
+    this.forceUpdate()
     const { portal } = this
 
     // Store in the modal stack to monitor:
@@ -334,7 +333,10 @@ export default class Modal extends PureComponent {
 
   renderModal () {
     const { modal } = this.props
-    return modal || createPortal(this.renderModalDOM(), this.portal)
+    if (this.portal) {
+      return modal || createPortal(this.renderModalDOM(), this.portal)
+    }
+    return null
   }
 
   renderModalDOM () {
@@ -350,11 +352,9 @@ export default class Modal extends PureComponent {
       canCloseOnClickMask,
 
       onCancel,
-      cancelText,
       isCancelDisabled,
 
       onConfirm,
-      confirmText,
       isConfirmDisabled
     } = this.props
 
@@ -408,7 +408,7 @@ export default class Modal extends PureComponent {
                   onClick={this.onCancel}
                   disabled={isCancelDisabled}
                 >
-                  {cancelText}
+                  {this.I18N.cancel || 'Cancel'}
                 </button>
               )}
 
@@ -418,7 +418,7 @@ export default class Modal extends PureComponent {
                   onClick={this.onConfirm}
                   disabled={isConfirmDisabled}
                 >
-                  {confirmText}
+                  {this.I18N.confirm || 'Confirm'}
                 </button>
               )}
             </footer>
