@@ -19,7 +19,7 @@ export function checkNoOpenModalInStack () {
 }
 
 export function addModalToStack (modal) {
-  return Object.assign(IBOT, { OPEN_MODAL_STACK: [modal, ...IBOT.OPEN_MODAL_STACK] })
+  return Object.assign(IBOT, { OPEN_MODAL_STACK: [ modal, ...IBOT.OPEN_MODAL_STACK ] })
 }
 
 export function deleteModalFromStack (modal) {
@@ -34,12 +34,12 @@ export function getOtherProps ({ propTypes = {} }, props) {
   const propKeyList = Object.keys(propTypes)
 
   return Object.entries(props).reduce(
-    (result, [key, val]) => (
+    (result, [ key, val ]) => (
       !propKeyList.includes(key)
-        ? Object.assign(result, { [key]: val })
+        ? Object.assign(result, { [ key ]: val })
         : result
     ),
-    {},
+    {}
   )
 }
 
@@ -54,7 +54,7 @@ export function $$ (selector, context = document) {
 export function preparePortal ($root, className) {
   const $portal = Object.assign(
     document.createElement('div'),
-    { className },
+    { className }
   )
 
   $root.appendChild($portal)
@@ -89,7 +89,7 @@ export function preventScrollingPropagation ($elmt) {
         $elmt.scrollTop = 0
         return prevent()
       }
-    },
+    }
   )
 }
 
@@ -102,7 +102,7 @@ export function toggleGlobalScroll (expected) {
   const is = isBoolean(expected) ? expected : $body.classList.toggle('is-content-fixed')
 
   if (isBoolean(expected)) {
-    $body.classList[expected ? 'add' : 'remove']('is-content-fixed')
+    $body.classList[ expected ? 'add' : 'remove' ]('is-content-fixed')
   }
 
   if (!$content) return is
@@ -113,24 +113,24 @@ export function toggleGlobalScroll (expected) {
 
     window.scrollTo(
       Math.max(($root.scrollWidth - vw) / 2, 0),
-      0,
+      0
     )
   } else {
     window.scrollTo(
       Math.abs(parseInt($content.style.left, 10)),
-      Math.abs(parseInt($content.style.top, 10)),
+      Math.abs(parseInt($content.style.top, 10))
     )
   }
 
   return is
 }
 
-export function getOptionLabel (it) {
+export function getOptionLabel (it, optionLabelProp) {
   return (
     isString(it) || isNumber(it) || isValidElement(it)
       ? it
-      : it.label || it.value
-        ? it.label || it.value
+      : it[ optionLabelProp || 'label' || 'value' ]
+        ? it[ optionLabelProp || 'label' || 'value' ]
         : undefined
   )
 }
