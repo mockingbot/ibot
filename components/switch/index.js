@@ -70,7 +70,7 @@ export default class Switch extends PureComponent {
   }
 
   render () {
-    const { size, readOnly, children } = this.props
+    const { size, readOnly, className, children } = this.props
     const { isChecked } = this.state
     const { isDisabled } = this
 
@@ -82,6 +82,7 @@ export default class Switch extends PureComponent {
           isChecked ? 'is-checked' : 'isnt-checked',
           isDisabled && 'is-disabled',
           readOnly && 'readonly',
+          className,
         ])}
       >
         <button type="button" disabled={isDisabled} onClick={this.toggle} />
