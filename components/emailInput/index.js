@@ -20,25 +20,26 @@ export default class InputEmail extends PureComponent {
 
     isActive: false,
     isValid: true,
-    isFinishedTyping: checkFinishedTyping(this.props.value),
+    isFinishedTyping: checkFinishedTyping(this.props.value)
   }
 
   static propTypes = {
-    size: PropTypes.oneOf(['regular', 'small']),
-    theme: PropTypes.oneOf(['core', 'plain']),
+    size: PropTypes.oneOf([ 'regular', 'small' ]),
+    theme: PropTypes.oneOf([ 'core', 'plain' ]),
     unstyled: PropTypes.bool,
 
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    placeholder: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    value: PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    placeholder: PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
 
     isDisabled: PropTypes.bool,
     disabled: PropTypes.bool,
     readOnly: PropTypes.bool,
+    isAutoFocus: PropTypes.bool,
 
     onChange: PropTypes.func.isRequired,
     onFocus: PropTypes.func,
 
-    className: PropTypes.string,
+    className: PropTypes.string
   }
 
   static defaultProps = {
@@ -52,8 +53,9 @@ export default class InputEmail extends PureComponent {
     isDisabled: false,
     disabled: false,
     readOnly: false,
+    isAutoFocus: false,
 
-    onChange: () => null,
+    onChange: () => null
   }
 
   static getDerivedStateFromProps (props, { prevProps, value }) {
@@ -69,13 +71,13 @@ export default class InputEmail extends PureComponent {
     this.setState(
       {
         value,
-        isFinishedTyping: checkFinishedTyping(value),
+        isFinishedTyping: checkFinishedTyping(value)
       },
       () => {
         const { onChange } = this.props
         this.checkValidity()
         onChange(value.trim(), e)
-      },
+      }
     )
   }
 
@@ -108,6 +110,7 @@ export default class InputEmail extends PureComponent {
       readOnly, placeholder,
 
       onFocus,
+      isAutoFocus
     } = this.props
 
     const { value, isActive, isValid } = this.state
@@ -122,7 +125,7 @@ export default class InputEmail extends PureComponent {
       isActive && !isDisabled && !readOnly && 'is-active',
       isDisabled && 'is-disabled',
       readOnly && 'is-readonly',
-      isValid ? 'is-valid' : 'isnt-valid',
+      isValid ? 'is-valid' : 'isnt-valid'
     ])
 
     return (
@@ -134,9 +137,9 @@ export default class InputEmail extends PureComponent {
           type="email"
           value={value}
           placeholder={placeholder}
-
           disabled={isDisabled}
           readOnly={readOnly}
+          autoFocus={isAutoFocus}
 
           onChange={this.onChange}
           onFocus={onFocus}
