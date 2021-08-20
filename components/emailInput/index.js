@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { createRef, PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import EventListener from 'react-event-listener'
 import isEqual from 'lodash/isEqual'
@@ -103,14 +103,20 @@ export default class InputEmail extends PureComponent {
     }
   }
 
+  componentDidMount () {
+    const { isAutoFocus } = this.props
+    isAutoFocus && this.$inputRef.focus()
+  }
+
+  $inputRef = createRef()
+
   render () {
     const {
       className,
       size, theme, unstyled,
       readOnly, placeholder,
 
-      onFocus,
-      isAutoFocus
+      onFocus
     } = this.props
 
     const { value, isActive, isValid } = this.state
@@ -139,7 +145,7 @@ export default class InputEmail extends PureComponent {
           placeholder={placeholder}
           disabled={isDisabled}
           readOnly={readOnly}
-          autoFocus={isAutoFocus}
+          ref={this.$inputRef}
 
           onChange={this.onChange}
           onFocus={onFocus}

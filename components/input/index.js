@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { trimList } from '../util'
 import { StyledInputLabel } from './styled'
@@ -28,13 +28,19 @@ export default function Input ({
     className
   ])
 
+  const inputRef = useRef(null)
+
+  useEffect(() => {
+    isAutoFocus && inputRef.current.focus()
+  }, [ isAutoFocus ])
+
   return (
     <StyledInputLabel className={klass}>
       <input
         type={type}
         value={value}
         onChange={createOnChangeHandler(onChange)}
-        autoFocus={isAutoFocus}
+        ref={inputRef}
         {...others}
       />
     </StyledInputLabel>
